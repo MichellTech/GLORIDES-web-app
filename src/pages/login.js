@@ -40,8 +40,8 @@ function Login() {
   })
   return (
     <>
-      <section className='min-h-screen flex-col flex justify-center items-center backedground py-20'>
-        <div className=' space-y-10 lg:space-y-12 px-6 flex flex-col justify-center items-center w-full'>
+      <section className='min-h-screen flex-col flex justify-center items-center backedground py-10 lg:py-14'>
+        <div className=' space-y-8 lg:space-y-10 px-6 flex flex-col justify-center items-center w-full'>
           {/* logo */}
           <Link href='/'>
             <div className='w-28 md:w-32 lg:w-40'>
@@ -56,7 +56,7 @@ function Login() {
             </div>
           </Link>
           {/* form */}
-          <div className='px-2 sm:px-6 md:px-12 lg:px-16 py-6 bg-white rounded-md max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg w-full '>
+          <div className='px-2 sm:px-6 md:px-12 lg:px-16 py-6 bg-white rounded-md max-w-sm sm:max-w-sm md:max-w-md lg:max-w-lg w-full   shadow-white shadow'>
             {/* header */}
             <div className='space-y-1 lg:space-y-2'>
               <h1 className=' font-bold text-babypurple text-2xl lg:text-3xl text-center  mx-auto '>
