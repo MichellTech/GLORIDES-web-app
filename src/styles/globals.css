@@ -87,3 +87,15 @@
   transform: rotate(-45deg) translateY(6px) translateX(-6px);
   background-color: #fff;
 }
+
+select,
+option {
+  background: url('/images/dropdown.svg') no-repeat 100% 75%;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  /* below you can add your style */
+  height: 10px;
+  width: 100px;
+  padding: 10px;
+}

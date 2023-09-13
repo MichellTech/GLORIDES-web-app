@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { ImSpinner } from 'react-icons/im'
+import { AiOutlineDown } from 'react-icons/ai'
+
 import Link from 'next/link'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -98,18 +99,19 @@ function Search() {
                         </div> */}
                       </div>
                       {/* country*/}
-                      <div>
+                      <div className=''>
                         <Field
                           as='select'
                           type='selectOption'
                           name='country'
                           className={`${
                             formik.errors.country
-                              ? ' bg-white  py-2 xl:py-3   px-1 border  md:border-2 border-softRed text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base text-center h-full '
-                              : ' bg-[#D9D9D9]  py-2 xl:py-3   px-1 text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base text-center h-full outline-none '
+                              ? ' bg-white  py-2 xl:py-3   px-3 border  md:border-2 border-softRed text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base text-left h-full '
+                              : ' bg-[#D9D9D9]  py-2 xl:py-3   px-3 text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base text-left h-full outline-none  '
                           }`}
                         >
                           <option value=''>select option</option>
+
                           {usergender?.map((item, index) => {
                             return (
                               <option key={index} value={item}>
@@ -117,6 +119,7 @@ function Search() {
                               </option>
                             )
                           })}
+                          {/* <AiOutlineDown className='' /> */}
                         </Field>
                         {/* <div className='text-softRed text-xs mt-1 px-4'>
                           <ErrorMessage name='country' />
