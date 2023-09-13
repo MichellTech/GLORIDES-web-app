@@ -33,7 +33,7 @@ function Navbar() {
                     alt='logo'
                     width={100}
                     height={100}
-                    className='object-cover  '
+                    className='object-cover w-20 sm:w-full  '
                   />
                 </div>
                 {/* <p className='font-black text-xl md:text-2xl lg:text-3xl text-babyblue'>
@@ -51,7 +51,7 @@ function Navbar() {
                     alt='logo'
                     width={100}
                     height={100}
-                    className='object-cover  '
+                    className='object-cover w-20 sm:w-full  '
                   />
                 </div>
                 {/* <p className='font-black text-xl md:text-2xl lg:text-3xl text-babyblue'>
