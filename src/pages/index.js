@@ -224,7 +224,7 @@ function index() {
               Ready to forge a partnership with us?
             </h2>
             {/* paragraph */}
-            <p className='text-babyblack  text-sm text-center max-w-xs sm:text-base sm:max-w-sm   md:text-left xl:text-lg xl:max-w-sm'>
+            <p className='text-babyblack  text-sm text-center max-w-xs sm:text-base sm:max-w-sm   md:text-left xl:text-lg xl:max-w-md'>
               Then we welocme you join forces with us today, Whether you are
               registering your car amongst our fleet or you want to come onboard
               as one of the directors , there's enough milk to go round. Get in
@@ -276,7 +276,7 @@ function index() {
               Book your rides with ease
             </h2>
             {/* paragraph */}
-            <p className='text-babyblack text-sm text-center w-full  sm:text-base md:text-left lg:text-lg lg:max-w-sm xl:text-xl xl:max-w-md'>
+            <p className='text-babyblack text-sm text-center w-full  sm:text-base md:text-left lg:text-lg lg:max-w-sm  xl:max-w-md'>
               Start enjoying faster and seamless booking experience when you
               download and use the GLO RIDE mobile application. The GLORIDES app
               is available on all your favourite mobile app stores
