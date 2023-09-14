@@ -2,6 +2,10 @@ import React from 'react'
 import Link from 'next/link'
 import Navbar from '../components/Navigation/Navbar'
 import Search from '../components/Search'
+import Image from 'next/image'
+import { MdLocationOn } from 'react-icons/md'
+import { FaSearchLocation } from 'react-icons/fa'
+import { BsFillCarFrontFill } from 'react-icons/bs'
 
 function index() {
   return (
@@ -37,6 +41,83 @@ function index() {
           <Navbar />
         </div>
       </div>
+      {/* how to get started */}
+      <section className='section-center space-y-10'>
+        {/* header */}
+        <div className='flex justify-center items-center mx-auto'>
+          <div className='  space-y-2 md:space-y-3 xl:space-y-4'>
+            <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl py-4 text-center  text-babyblack   '>
+              How to{' '}
+              <span className="bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  hover:bg-top duration-1000 ">
+                Get Started
+              </span>{' '}
+            </h1>
+            <p className='text-sm text-center sm:text-base max-w-sm sm:max-w-sm md:text-lg md:max-w-md text-babyblack lg:text-xl lg:max-w-lg xl:text-2xl xl:max-w-xl'>
+              Renting your first car is as easy and straightforward as these 3
+              steps
+            </p>
+          </div>
+        </div>
+        {/* content */}
+        <div className='relative space-y-6 sm:space-y-10 md:space-y-0 '>
+          {/* image */}
+          <div className='  relative  md:flex md:justify-end'>
+            <Image
+              src={'/images/startcar.png'}
+              alt='photo'
+              width={1000}
+              height={1000}
+              className='object-cover w-full md:max-w-md lg:max-w-2xl'
+            />
+          </div>
+          {/* text */}
+          <div className=' md:absolute  md:top-1/2 md:left-60 md:transform md:-translate-x-1/2 md:-translate-y-1/2 sm:max-w-md md:max-w-sm space-y-6 sm:space-y-8 md:space-y-4 w-full'>
+            {/* one */}
+            <div className='bg-white shadow-md px-4 py-4 rounded-sm flex items-center w-full gap-4  sm:px-6  sm:py-6   md:py-4'>
+              {/* icon */}
+              <div className='bg-[#FFF2FE] w-20 h-10 shadow-md flex justify-center items-center rounded sm:h-14'>
+                <MdLocationOn className='text-babypurple text-2xl sm:text-3xl' />
+              </div>
+              <div className='text-babyblack space-y-1'>
+                <h1 className='font-bold text-sm'>Choose a Location</h1>
+                <p className='text-xs'>
+                  Choose your desired location to reveal cars available for
+                  rental in that location
+                </p>
+              </div>
+            </div>
+            {/* two */}
+            <div className='bg-white shadow-md px-4 py-4 rounded-sm flex items-center w-full gap-4  sm:px-6  sm:py-6   md:py-4 '>
+              {/* icon */}
+              <div className='bg-[#FFF2FE] w-20 h-10 shadow-md flex justify-center items-center rounded sm:h-14'>
+                <FaSearchLocation className='text-babypurple text-2xl sm:text-3xl' />
+              </div>
+              <div className='text-babyblack space-y-1'>
+                <h1 className='font-bold text-sm'>Browse and Select</h1>
+                <p className='text-xs'>
+                  Filter through our garage and select the car that matches your
+                  destination & budget
+                </p>
+              </div>
+            </div>
+            {/* three */}
+
+            <div className='bg-white shadow-md px-4 py-4 rounded-sm flex items-center w-full gap-4  sm:px-6  sm:py-6   md:py-4 '>
+              {/* icon */}
+              <div className='bg-[#FFF2FE] w-20 h-10 shadow-md flex justify-center items-center rounded sm:h-14'>
+                <BsFillCarFrontFill className='text-babypurple text-2xl sm:text-3xl' />
+              </div>
+              <div className='text-babyblack space-y-1'>
+                <h1 className='font-bold text-sm'>Book and Confirm</h1>
+                <p className='text-xs'>
+                  Choose your desired location to reveal cars available for
+                  rental in that location
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   )
 }

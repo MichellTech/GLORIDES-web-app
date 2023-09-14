@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
+
 // import { Link } from 'react-scroll'
 
 import Link from 'next/link'
