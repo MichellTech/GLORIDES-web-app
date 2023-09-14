@@ -150,14 +150,14 @@ function Completeregistration() {
                 return (
                   <Form className='  text-babyblack space-y-10 font-sans px-6 py-8 md:px-0 '>
                     <div className=' space-y-6 md:space-y-8 '>
-                      <div className='flex items-start gap-4'>
+                      <div className='flex items-start gap-x-10 justify-between  w-full'>
                         {/* dob */}
-                        <div>
-                          <Field name='dob' className='w-96'>
+                        <div className=''>
+                          <Field name='dob' className=''>
                             {({ field, form }) => {
                               return (
                                 <DatePicker
-                                  className='bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm '
+                                  className='bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm w-36 sm:w-32 md:w-44'
                                   id='dob'
                                   {...field}
                                   selected={field.value}
@@ -175,12 +175,12 @@ function Completeregistration() {
                         </div>
 
                         {/* gender */}
-                        <div>
+                        <div className='w-full'>
                           <Field
                             as='select'
                             type='selectOption'
                             name='gender'
-                            className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm '
+                            className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm  h-max w-full'
                           >
                             <option value=''>select option</option>
                             {usergender?.map((item, index) => {
@@ -212,7 +212,7 @@ function Completeregistration() {
                       <div className='flex items-start gap-4'>
                         {/* city */}
 
-                        <div>
+                        <div className='w-1/3'>
                           <Field
                             type='text'
                             name='city'
@@ -225,7 +225,7 @@ function Completeregistration() {
                         </div>
                         {/* state */}
 
-                        <div>
+                        <div className='w-1/3'>
                           <Field
                             type='text'
                             name='state'
@@ -237,12 +237,12 @@ function Completeregistration() {
                           </div>
                         </div>
                         {/* country*/}
-                        <div>
+                        <div className='w-1/3'>
                           <Field
                             as='select'
                             type='selectOption'
                             name='country'
-                            className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm '
+                            className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm  h-max w-full'
                           >
                             <option value=''>select option</option>
                             {usergender?.map((item, index) => {
