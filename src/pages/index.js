@@ -7,6 +7,7 @@ import { MdLocationOn } from 'react-icons/md'
 import { FaSearchLocation } from 'react-icons/fa'
 import { BsFillCarFrontFill } from 'react-icons/bs'
 import { FiArrowUpRight } from 'react-icons/fi'
+import Footer from '../components/Navigation/Footer'
 
 function index() {
   return (
@@ -318,6 +319,8 @@ function index() {
           </div>
         </div>
       </section>
+      {/* footer */}
+      <Footer />
     </>
   )
 }
