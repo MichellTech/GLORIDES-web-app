@@ -43,7 +43,7 @@ function Footer() {
               </h1>
             </Link>
             <Link href='/partnerwithus'>
-              <h1 className='text-xs font-bold sm:text-sm lg:text-base xl:text-lg'>
+              <h1 className='hidden sm:block text-xs font-bold sm:text-sm lg:text-base xl:text-lg'>
                 Enlist you Car
               </h1>
             </Link>
@@ -53,7 +53,7 @@ function Footer() {
               </h1>
             </Link>
             <Link href='/contactus'>
-              <h1 className='text-xs sm:text-sm font-bold lg:text-base xl:text-lg'>
+              <h1 className=' hidden sm:block text-xs sm:text-sm font-bold lg:text-base xl:text-lg'>
                 Contact us
               </h1>
             </Link>
