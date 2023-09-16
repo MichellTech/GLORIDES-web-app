@@ -77,9 +77,9 @@ function contactus() {
           {/* navbar */}
           <Navbar />
           {/* text and form */}
-          <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full  bottom-0 space-y-6 sm:space-y-8  md:space-y-10  xl:space-y-12 '>
+          <div className='absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full  bottom-0 space-y-6 sm:space-y-8  md:space-y-10  xl:space-y-12  '>
             {/* text */}
-            <div className='text-center mx-auto max-w-xs space-y-4 sm:space-y-5 md:space-y-5 xl:space-y-6 text-white sm:max-w-md md:max-w-xl px-6 lg:max-w-3xl xl:max-w-4xl'>
+            <div className='text-center mx-auto max-w-sm space-y-4 sm:space-y-5 md:space-y-5 xl:space-y-6 text-white sm:max-w-md md:max-w-xl px-6 lg:max-w-3xl xl:max-w-4xl '>
               <h1 className=' font-mono text-2xl w-full sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl'>
                 {' '}
                 Let’s help answer any Questions you might Have !
@@ -91,7 +91,7 @@ function contactus() {
             </div>
 
             {/*Form  */}
-            <div className='px-6 md:px-12 lg:px-16 py-6 bg-white rounded-md max-w-sm sm:max-w-md md:max-w-xl lg:max-w-2xl  xl:max-w-3xl w-full shadow-md flex flex-col justify-center items-center mx-auto   '>
+            <div className='px-3 sm:px-6 md:px-10 lg:px-14 py-6 bg-white rounded-md max-w-xs sm:max-w-md md:max-w-xl lg:max-w-2xl  xl:max-w-3xl w-full shadow-md flex flex-col justify-center items-center mx-auto   '>
               {/* form */}
               <Formik
                 initialValues={initialValues}

@@ -10,7 +10,7 @@ function aboutus() {
     <>
       <Navbar />
       {/* hero */}
-      <section className='section-center space-y-10 sm:space-y-16 md:space-y-0 md:flex md:justify-between md:items-center md:gap-6 lg:gap-10'>
+      <section className='mb-16 mt-10 md:my-20 xl:my-24 max-w-xs sm:max-w-md mx-auto font-sans md:max-w-4xl lg:max-w-5xl xl:max-w-7xl  px-4 md:px-6  lg:px-8  space-y-10 sm:space-y-16 md:space-y-0 md:flex md:justify-between md:items-center md:gap-6 lg:gap-10'>
         {/* text */}
         <div
           className='
