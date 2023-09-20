@@ -73,7 +73,7 @@ function Navbar() {
             <Link href='/aboutus'>About us</Link>
           </ul>
           <ul className='text-xs md:text-sm cursor-pointer xl:text-base '>
-            <Link href='/allcars'>Rent a Car</Link>
+            <Link href='/rentacar'>Rent a Car</Link>
           </ul>
           <ul className='text-xs md:text-sm xl:text-base cursor-pointer'>
             <Link href='/partnerwithus'>Partner with Us</Link>
@@ -155,7 +155,7 @@ function Navbar() {
           </div>
           <div className='w-full py-3 text-center'>
             <ul className='text-sm md:text-sm cursor-pointer'>
-              <Link href='/allcars'>Rent a Car</Link>
+              <Link href='/rentacar'>Rent a Car</Link>
             </ul>
           </div>
           <div className='w-full py-3 text-center'>

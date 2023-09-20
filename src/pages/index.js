@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Navbar from '../components/Navigation/Navbar'
-import Search from '../components/Search'
+import Search from '../components/Rentcomp/Search'
 import Image from 'next/image'
 import { MdLocationOn } from 'react-icons/md'
 import { FaSearchLocation } from 'react-icons/fa'

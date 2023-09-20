@@ -37,7 +37,7 @@ function Footer() {
         <div className='space-y-6 sm:space-y-8 md:space-y-0 md:flex md:justify-between md:items-center'>
           {/* links */}
           <div className='flex justify-between items-center md:gap-6 lg:gap-8 xl:gap-10'>
-            <Link href='/allcars'>
+            <Link href='/rentacar'>
               <h1 className='text-xs sm:text-sm font-bold lg:text-base xl:text-lg'>
                 Rent a Car
               </h1>
