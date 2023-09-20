@@ -8,7 +8,7 @@ import { GiGearStickPattern, GiCarSeat, GiRoundStar } from 'react-icons/gi'
 import { FaFileInvoiceDollar } from 'react-icons/fa'
 
 function allcars() {
-  const [isFIlter, setIsFilter] = useState(true)
+  const [isFIlter, setIsFilter] = useState(false)
   return (
     <>
       <Navbar />
