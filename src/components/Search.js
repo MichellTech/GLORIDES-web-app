@@ -1,24 +1,32 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { FaRegAddressCard } from 'react-icons/fa'
-
+import { BiCalendar } from 'react-icons/bi'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 import Link from 'next/link'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { MdOutlineAddAPhoto } from 'react-icons/md'
+import { MdLocationPin } from 'react-icons/md'
 import { useRouter } from 'next/router'
 
 function Search() {
   const [loading, setLoading] = useState(false)
-  const [usergender, setUsergender] = useState(['Nigeria', 'USA', 'England'])
+  const [usebg, setUsebg] = useState(false)
 
   const router = useRouter()
+  useEffect(() => {
+    if (router.pathname === '/') {
+      setUsebg(false)
+    } else {
+      setUsebg(true)
+    }
+  }, [router.pathname])
 
   const initialValues = {
     city: '',
-    state: '',
+    date: new Date(),
   }
 
   const onSubmit = (values, onSubmitProps) => {
@@ -40,18 +48,22 @@ function Search() {
     city: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No value provided'),
-    state: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No value provided'),
+    date: Yup.date().required('Required'),
     country: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No country value provided'),
   })
   return (
     <>
-      <div className=' px-4 h-full max-w-md sm:max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl '>
+      <div className=' px-6  '>
         {/* form */}
-        <div className='  py-4 md:py-5 md:px-6 bg-white   '>
+        <div
+          className={`${
+            !usebg
+              ? ' px-4 py-4 md:py-5 md:px-6 bg-white max-w-md sm:w-[34rem] sm:max-w-full md:w-[44rem] md:max-w-full  lg:w-[56rem] xl:w-[64rem]    '
+              : ' px-4 py-4 md:py-5 md:px-6 bg-softpurple max-w-md sm:w-[34rem] sm:max-w-full md:w-[44rem] md:max-w-full  lg:w-[56rem] xl:w-[64rem]     '
+          }`}
+        >
           {/* form */}
           <Formik
             initialValues={initialValues}
@@ -60,44 +72,57 @@ function Search() {
           >
             {(formik) => {
               return (
-                <Form className=' space-y-3 sm:space-y-4 px-3 md:flex items-center md:space-y-0 gap-4 '>
-                  {/* city,state,country */}
-                  <div className=' flex items-center w-full gap-4 '>
-                    {/* city */}
+                <Form className='grid grid-cols-2 gap-4  rounded md:grid-cols-3 lg:gap-8 w-full justify-center items-center mx-auto'>
+                  {/* city */}
+                  <div className=' relative  w-auto'>
                     <Field
                       type='text'
                       name='city'
                       placeholder='Your City'
                       className={`${
-                        formik.errors.city && formik.touched.city
-                          ? 'bg-white border border-softRed px-2 text-center w-1/3 py-2 outline-none text-xs sm:h-12 md:h-14 lg:rounded-sm xl:rounded-md h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs '
-                          : 'bg-softpurple px-2 text-center w-1/3 py-2 outline-none text-xs sm:h-12 md:h-14 lg:rounded-sm xl:rounded-md placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack'
+                        formik.errors.city && formik.touched.city && !usebg
+                          ? 'bg-softpurple border border-softRed px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
+                          : 'bg-white px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
                       }`}
                     />
-                    {/* state */}
-
-                    <Field
-                      type='text'
-                      name='state'
-                      placeholder='Your State'
-                      className={`${
-                        formik.errors.state && formik.touched.state
-                          ? 'bg-white border border-softRed px-2 text-center w-1/3 py-2 outline-none text-xs sm:h-12 md:h-14 lg:rounded-sm xl:rounded-md h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs '
-                          : 'bg-softpurple px-2 text-center w-1/3 py-2 outline-none text-xs sm:h-12 md:h-14 lg:rounded-sm xl:rounded-md placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack'
-                      }`}
-                    />
-                    {/* country*/}
-                    <div className='bg-softpurple px-2 text-center text-babyblack w-1/3 py-2 sm:h-12 mx-auto flex justify-center h-10 items-center md:h-14  lg:rounded-sm xl:rounded-md'>
-                      <h1 className='font-bold sm:hidden text-xs'>USA</h1>
-                      <h1 className='font-bold hidden sm:block text-xs'>
-                        United States of America
-                      </h1>
-                    </div>
+                    <MdLocationPin className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl' />
+                  </div>
+                  {/* date */}
+                  <div
+                    className={`${
+                      formik.errors.date && formik.touched.date && !usebg
+                        ? 'relative bg-softpurple  w-auto'
+                        : 'relative bg-white  w-auto'
+                    }`}
+                  >
+                    <Field name='date'>
+                      {({ field, form }) => {
+                        return (
+                          <DatePicker
+                            className={`${
+                              formik.errors.date &&
+                              formik.touched.date &&
+                              !usebg
+                                ? 'bg-softpurple border border-softRed px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
+                                : 'bg-white px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full'
+                            }`}
+                            id='date'
+                            {...field}
+                            selected={field.value}
+                            dateFormat={'dd/MM/yyyy'}
+                            onChange={(date) =>
+                              form.setFieldValue(field.name, date)
+                            }
+                          />
+                        )
+                      }}
+                    </Field>
+                    <BiCalendar className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg lg:text-xl xl:text-2xl' />
                   </div>
 
                   <button
                     type='submit'
-                    className='bg-babypurple w-full md:w-40 py-2 shadow-md font-bold sm:h-12 md:h-14 lg:w-60 xl:w-64 rounded lg:rounded-sm xl:rounded-md h-10'
+                    className='bg-babypurple w-full  py-2 shadow-md font-bold sm:h-12 md:h-14  rounded lg:rounded-sm xl:rounded-md h-10 col-span-2 md:col-span-1'
                   >
                     search
                   </button>
