@@ -24,42 +24,40 @@ function allcars() {
         onClick={() => setIsFilter(true)}
         className='fixed bottom-8 left-1/2 right-1/2  flex items-center justify-center w-max  bg-white   cursor-pointer -translate-x-1/2 md:hidden   '
       >
-        <div className='w-max  flex items-center justify-center gap-4 shadow-lg px-6 py-2'>
+        <div className='w-max  flex items-center justify-center gap-4 shadow-lg px-6 py-3'>
           <h1 className='text-sm sm:text-base'>Filter cars</h1>
           <MdOutlineFilterAlt className=' text-lg' />
         </div>
       </div>
       {/* filter */}
       {isFIlter && (
-        <div className='fixed top-0 left-0 right-0 bottom-0 md:hidden bg-white z-50 py-6 overflow-y-auto  space-y-12'>
+        <div className='fixed top-0 left-0 right-0 bottom-0 md:hidden bg-white z-50 py-6 overflow-y-auto  space-y-4'>
           {/* header */}
           <div className='border-b'>
-            <div className='flex justify-between items-center border-b  py-3 px-6  '>
+            <div className='flex justify-between items-center border-b  pb-6 px-6  '>
               {/* close */}
-              <div
-                onClick={() => setIsFilter(false)}
-                className=' flex gap-4 items-center cursor-pointer'
-              >
-                <MdCloseFullscreen className='text-2xl' />
-                <h1 className='text-xl'>Filters</h1>
+              <div className=' cursor-pointer'>
+                <h1 className='text-xl font-bold'> All Filters</h1>
               </div>
               {/* remove all */}
-              <div className='border border-babyblack px-3 py-1 cursor-pointer'>
-                <h1>Clear All </h1>
+              <div
+                onClick={() => setIsFilter(false)}
+                className='borde  px-3 py-1 cursor-pointer'
+              >
+                <MdCloseFullscreen className='text-2xl' />
               </div>
             </div>
           </div>
-          {/* filter parameters */}
-          <div className='px-8 space-y-10'>
-            {/* cardoor */}
-            <div className='space-y-6'>
+          {/* cardoor */}
+          <div className='border-b'>
+            <div className='space-y-6 px-6 py-3'>
               {/* header */}
               <div className='flex items-center gap-4'>
                 <BiSolidCarGarage className='text-2xl sm:text-3xl ' />
                 <h1 className=' text-lg  sm:text-xl '>Car Doors</h1>
               </div>
               {/* params */}
-              <div className='grid grid-cols-4 gap-4'>
+              <div className='grid grid-cols-2 gap-4'>
                 {/* one */}
                 <div className='border border-babyblack px-2 py-1 cursor-pointer text-center rounded-sm text-sm'>
                   <h1>Two Doors </h1>
@@ -70,15 +68,18 @@ function allcars() {
                 </div>
               </div>
             </div>
-            {/* fuel type */}
-            <div className='space-y-6'>
+          </div>
+
+          {/* fuel type */}
+          <div className='border-b'>
+            <div className='space-y-6 px-6 py-3'>
               {/* header */}
               <div className='flex items-center gap-4'>
                 <LuFuel className='text-2xl sm:text-3xl ' />
                 <h1 className=' text-lg  sm:text-xl '>Fuel Type</h1>
               </div>
               {/* params */}
-              <div className='grid grid-cols-4 gap-4'>
+              <div className='grid grid-cols-2 gap-4'>
                 {/* one */}
                 <div className='border border-babyblack px-2 py-1 cursor-pointer text-center rounded-sm text-sm'>
                   <h1>Diesel </h1>
@@ -89,15 +90,18 @@ function allcars() {
                 </div>
               </div>
             </div>
-            {/* gear */}
-            <div className='space-y-6'>
+          </div>
+
+          {/* gear */}
+          <div className='border-b'>
+            <div className='space-y-6 px-6 py-3'>
               {/* header */}
               <div className='flex items-center gap-4'>
                 <GiGearStickPattern className='text-2xl sm:text-3xl ' />
                 <h1 className=' text-lg  sm:text-xl '>Gear Type</h1>
               </div>
               {/* params */}
-              <div className='grid grid-cols-4 gap-4'>
+              <div className='grid grid-cols-2 gap-4'>
                 {/* one */}
                 <div className='border border-babyblack px-2 py-1 cursor-pointer text-center rounded-sm text-sm'>
                   <h1>Manual </h1>
@@ -108,8 +112,11 @@ function allcars() {
                 </div>
               </div>
             </div>
-            {/* seats */}
-            <div className='space-y-6'>
+          </div>
+
+          {/* seats */}
+          <div className='border-b'>
+            <div className='space-y-6 px-6 py-3'>
               {/* header */}
               <div className='flex items-center gap-4'>
                 <GiCarSeat className='text-2xl sm:text-3xl ' />
@@ -135,8 +142,11 @@ function allcars() {
                 </div>
               </div>
             </div>
-            {/* rationgs */}
-            <div className='space-y-6'>
+          </div>
+
+          {/* rationgs */}
+          <div className='border-b'>
+            <div className='space-y-6 px-6 py-3'>
               {/* header */}
               <div className='flex items-center gap-4'>
                 <GiRoundStar className='text-2xl sm:text-3xl ' />
@@ -154,8 +164,11 @@ function allcars() {
                 </div>
               </div>
             </div>
-            {/* pricing*/}
-            <div className='space-y-6'>
+          </div>
+
+          {/* pricing*/}
+          <div className='border-b'>
+            <div className='space-y-6 px-6 py-3'>
               {/* header */}
               <div className='flex items-center gap-4'>
                 <FaFileInvoiceDollar className='text-2xl sm:text-3xl ' />
@@ -171,6 +184,19 @@ function allcars() {
                 <div className='border border-babyblack px-2 py-1 cursor-pointer text-center rounded-sm text-sm  '>
                   <h1>Lowest to Highest </h1>
                 </div>
+              </div>
+            </div>
+          </div>
+          {/* footer */}
+          <div className=''>
+            <div className='grid grid-cols-2 justify-between items-center gap-4   py-3 px-6  '>
+              {/* APPly all */}
+              <div className='border  px-3 py-2 cursor-pointer bg-babypurple text-center text-white rounded'>
+                <h1>Apply Filter </h1>
+              </div>
+              {/* remove all */}
+              <div className='border  px-3 py-2 cursor-pointer text-center bg-slate-500 rounded text-white font-light'>
+                <h1>Clear All </h1>
               </div>
             </div>
           </div>

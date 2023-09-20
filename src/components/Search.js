@@ -80,9 +80,11 @@ function Search() {
                       name='city'
                       placeholder='Your City'
                       className={`${
-                        formik.errors.city && formik.touched.city && !usebg
+                        formik.errors.city && formik.touched.city
                           ? 'bg-softpurple border border-softRed px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
-                          : 'bg-white px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
+                          : usebg
+                          ? 'bg-white px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
+                          : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
                       }`}
                     />
                     <MdLocationPin className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl' />
@@ -90,9 +92,11 @@ function Search() {
                   {/* date */}
                   <div
                     className={`${
-                      formik.errors.date && formik.touched.date && !usebg
-                        ? 'relative bg-softpurple  w-auto'
-                        : 'relative bg-white  w-auto'
+                      formik.errors.date && formik.touched.date
+                        ? 'relative bg-softpurple border-softRed border  w-auto'
+                        : usebg
+                        ? 'relative bg-white  w-auto'
+                        : 'relative bg-[#D9D9D9]  w-auto'
                     }`}
                   >
                     <Field name='date'>
@@ -100,11 +104,11 @@ function Search() {
                         return (
                           <DatePicker
                             className={`${
-                              formik.errors.date &&
-                              formik.touched.date &&
-                              !usebg
-                                ? 'bg-softpurple border border-softRed px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
-                                : 'bg-white px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full'
+                              formik.errors.date && formik.touched.date
+                                ? 'bg-softpurple   px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
+                                : usebg
+                                ? 'bg-white px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
+                                : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
                             }`}
                             id='date'
                             {...field}

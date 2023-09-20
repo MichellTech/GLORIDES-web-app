@@ -16,7 +16,7 @@ function partnerwithus() {
         <div className=' space-y-14 sm:space-y-16 md:flex justify-between items-center md:gap-4 '>
           {/* text */}
           <div className=' space-y-4 md:w-1/2 lg:space-y-6 xl:space-y-8'>
-            <h1 className='font-black  font-mono text-center md:text-left text-3xl  max-w-sm mx-auto sm:text-4xl sm:max-w-full md:mx-0 text-babyblack leading-10 md:text-4xl md:w-full sm:leading-[2.8rem] md:leading-[3rem] lg:text-5xl lg:leading-[4rem] xl:text-6xl xl:max-w-full xl:leading-[5rem]'>
+            <h1 className='font-black  font-mono text-center md:text-left text-3xl  max-w-md mx-auto sm:text-4xl sm:max-w-full md:mx-0 text-babyblack leading-10 md:text-4xl md:w-full sm:leading-[2.8rem] md:leading-[3rem] lg:text-5xl lg:leading-[4rem] xl:text-6xl xl:max-w-full xl:leading-[5rem]'>
               Ready to embark on an exciting journey to success?
             </h1>
             <p className='text-center text-sm md:text-left max-w-xs mx-auto md:mx-0 text-babyblack leading-5 font-medium sm:text-sm sm:max-w-full md:text-base lg:max-w-md lg:text-lg xl:max-w-lg xl:text-xl'>
