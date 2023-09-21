@@ -83,7 +83,7 @@ function Search() {
                         formik.errors.city && formik.touched.city
                           ? 'bg-softpurple border border-softRed px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
                           : usebg
-                          ? 'bg-white px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
+                          ? 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full rounded md:rounded-sm xl:rounded-md'
                           : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
                       }`}
                     />
@@ -95,7 +95,7 @@ function Search() {
                       formik.errors.date && formik.touched.date
                         ? 'relative bg-softpurple border-softRed border  w-auto'
                         : usebg
-                        ? 'relative bg-white  w-auto'
+                        ? 'relative bg-[#D9D9D9]  w-auto rounded md:rounded-sm xl:rounded-md'
                         : 'relative bg-[#D9D9D9]  w-auto'
                     }`}
                   >
@@ -107,7 +107,7 @@ function Search() {
                               formik.errors.date && formik.touched.date
                                 ? 'bg-softpurple   px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
                                 : usebg
-                                ? 'bg-white px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
+                                ? 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full rounded-l md:rounded-l-sm xl:rounded-l-md'
                                 : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
                             }`}
                             id='date'

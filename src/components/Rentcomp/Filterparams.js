@@ -4,11 +4,13 @@ import { BiSolidCarGarage } from 'react-icons/bi'
 import { LuFuel } from 'react-icons/lu'
 import { GiGearStickPattern, GiCarSeat, GiRoundStar } from 'react-icons/gi'
 import { FaFileInvoiceDollar } from 'react-icons/fa'
-
+import { useSelector, useDispatch } from 'react-redux'
+import { closeFilter } from '@/features/rental/filterSlice'
 function Filterparams() {
+  const dispatch = useDispatch()
   return (
-    <div className='bg-white h-[90vh]  relative  overflow-y-auto lg:h-full lg:my-20'>
-      <div className='py-6 space-y-4 '>
+    <div className='bg-white h-[95vh]  relative  overflow-y-auto lg:h-full lg:my-20'>
+      <div className='pt-6 pb-20  space-y-4 '>
         {/* header */}
         <div className='border-b'>
           <div className='flex justify-between items-center border-b  pb-6 px-8 lg:px-0  '>
@@ -18,7 +20,7 @@ function Filterparams() {
             </div>
             {/* remove all */}
             <div
-              // onClick={() => setIsFilter(false)}
+              onClick={() => dispatch(closeFilter())}
               className='borde  px-3 py-1 cursor-pointer'
             >
               <MdCloseFullscreen className='text-2xl' />

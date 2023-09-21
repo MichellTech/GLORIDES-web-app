@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { BiSolidCarGarage } from 'react-icons/bi'
 import { LuFuel } from 'react-icons/lu'
 import { GiGearStickPattern, GiCarSeat, GiRoundStar } from 'react-icons/gi'
 import { TbClockSearch } from 'react-icons/tb'
 import { MdOutlineFilterAlt } from 'react-icons/md'
+import { useSelector, useDispatch } from 'react-redux'
+import { openFilter } from '@/features/rental/filterSlice'
+
 function Allcars() {
+  const { isFiltering } = useSelector((store) => store.rental)
+
+  const dispatch = useDispatch()
+
   return (
     <div className='space-y-6 md:space-y-10 xl:space-y-16'>
       <div className='md:flex md:justify-between md:items-center'>
@@ -14,10 +21,15 @@ function Allcars() {
           <span className='font-bold underline'>All Cars</span>{' '}
         </h1>
         {/* filter */}
-        <div className='hidden md:flex md:justify-between md:items-center bg-softpurple px-6 cursor-pointer py-2  gap-1 rounded lg:px-8 lg:py-3'>
-          <h1 className='xl:text-lg  '>Filter</h1>
-          <MdOutlineFilterAlt className='xl:text-lg ' />
-        </div>
+        {!isFiltering && (
+          <div
+            onClick={() => dispatch(openFilter())}
+            className='hidden md:flex md:justify-between md:items-center bg-softpurple px-6 cursor-pointer py-2  gap-1 rounded lg:px-8 lg:py-3'
+          >
+            <h1 className='xl:text-lg  '>Filter</h1>
+            <MdOutlineFilterAlt className='xl:text-lg ' />
+          </div>
+        )}
       </div>
 
       <div className='space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-10 lg:gap-x-4 md:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'>
