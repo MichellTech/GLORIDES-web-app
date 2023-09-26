@@ -61,7 +61,7 @@ function Search() {
           className={`${
             !usebg
               ? ' px-4 py-4 md:py-5 md:px-6 bg-white max-w-md sm:w-[34rem] sm:max-w-full md:w-[44rem] md:max-w-full  lg:w-[56rem] xl:w-[64rem]    '
-              : ' px-4 py-4 md:py-5 md:px-6 bg-softpurple max-w-md sm:w-[34rem] sm:max-w-full md:w-[44rem] md:max-w-full  lg:w-[56rem] xl:w-[64rem]     '
+              : ' px-4 py-4 md:py-5 md:px-6 bg-white max-w-md sm:w-[34rem] sm:max-w-full md:w-[44rem] md:max-w-full  lg:w-[56rem] xl:w-[64rem]     '
           }`}
         >
           {/* form */}

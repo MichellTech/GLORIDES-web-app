@@ -14,17 +14,17 @@ function Allcars() {
   const dispatch = useDispatch()
 
   return (
-    <div className='space-y-6 md:space-y-10 xl:space-y-16'>
+    <div className='space-y-6 md:space-y-10 lg:py-10'>
       <div className='md:flex md:justify-between md:items-center'>
-        <h1 className=' text-base text-center sm:text-lg md:text-left lg:text-xl xl:text-2xl'>
-          Showing results for :{' '}
-          <span className='font-bold underline'>All Cars</span>{' '}
+        <h1 className=' text-base text-center sm:text-lg md:text-left lg:text-xl'>
+          Showing results for all cars in :{' '}
+          <span className='font-bold underline'>Texas</span>{' '}
         </h1>
         {/* filter */}
         {!isFiltering && (
           <div
             onClick={() => dispatch(openFilter())}
-            className='hidden md:flex md:justify-between md:items-center bg-softpurple px-6 cursor-pointer py-2  gap-1 rounded lg:px-8 lg:py-3'
+            className='hidden md:flex md:justify-between md:items-center bg-softpurple px-6 cursor-pointer py-2  gap-1 rounded  '
           >
             <h1 className='xl:text-lg  '>Filter</h1>
             <MdOutlineFilterAlt className='xl:text-lg ' />
@@ -32,7 +32,13 @@ function Allcars() {
         )}
       </div>
 
-      <div className='space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-10 lg:gap-x-4 md:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'>
+      <div
+        className={`${
+          isFiltering
+            ? 'space-y-10 md:space-y-0 sm:grid sm:grid-cols-2 md:gap-x-10 lg:gap-x-8 md:gap-y-10 lg:grid-cols-3 xl:grid-cols-3'
+            : 'space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-10 lg:gap-x-4 sm:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'
+        }`}
+      >
         {/* car 1 */}
         <div className='bg-white shadow-md h-[24rem] rounded-xl px-1 py-2 space-y-4 max-w-xs'>
           {/* image */}

@@ -88,14 +88,13 @@
   background-color: #fff;
 }
 
-select,
-option {
-  background: url('/images/dropdown.svg') no-repeat 100% 75%;
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  appearance: none;
-  /* below you can add your style */
-  height: 10px;
-  width: 100px;
-  padding: 10px;
+/* Hide scrollbar for Chrome, Safari and Opera */
+.example::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.example {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

@@ -11,44 +11,47 @@ import { openFilter, closeFilter } from '@/features/rental/filterSlice'
 function allcars() {
   const { isFiltering } = useSelector((store) => store.rental)
   const dispatch = useDispatch()
-  const [isIntersecting, setIsIntersecting] = useState(false)
-  const ref = useRef(null)
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsIntersecting(entry.isIntersecting)
-      },
-      { rootMargin: '-30%' }
-    )
-    console.log(isIntersecting)
-    observer.observe(ref.current)
+  // useEffect(() => {
+  //   const observer = new IntersectionObserver(
+  //     ([entry]) => {
+  //       setIsIntersecting(entry.isIntersecting)
+  //     },
+  //     { rootMargin: '-30%' }
+  //   )
+  //   console.log(isIntersecting)
+  //   observer.observe(ref.current)
 
-    return () => observer.disconnect()
-  }, [isIntersecting])
+  //   return () => observer.disconnect()
+  // }, [isIntersecting])
 
   return (
     <>
-      <main>
+      <main className='example '>
         <Navbar />
         {/* search */}
-        <div className=' flex  justify-center items-center mx-auto w-full text-white bg-softpurple   md:py-2'>
+        <div className=' flex  justify-center items-center mx-auto w-full text-white bg-white  border-b border-t border-[#D9D9D9]  md:py-2 xl:py-4'>
           <Search />
         </div>
 
         {/* All cars and filters */}
-        <section className=' my-16 lg:my-0 max-w-xs sm:max-w-md mx-auto font-sans md:max-w-2xl lg:max-w-full xl:max-w-full  px-4 md:px-6  lg:px-8 lg:flex lg:justify-center lg:items-start w-full  lg:gap-4   '>
+        <section className=' my-16 lg:my-0 max-w-xs sm:max-w-full mx-auto font-sans md:max-w-2xl lg:max-w-full xl:max-w-full  px-4 sm:px-6  lg:px-8 lg:flex lg:justify-center lg:items-start w-full example  '>
           {/* Sidebar */}
           {isFiltering && (
-            <div className='hidden lg:block lg:w-1/6 border-r lg:pr-4'>
+            <div className='hidden lg:block lg:w-1/6 border-r  lg:h-[100vh]  lg:gap-4  lg:overflow-y-hidden  '>
               <Filterparams />
             </div>
           )}
           {/* all cars */}
-          <div className=' flex justify-center items-center mx-auto lg:w-5/6 lg:pl-4 lg:my-24'>
+          <div
+            className={`${
+              isFiltering
+                ? ' flex justify-center items-center mx-auto lg:w-5/6 lg:pl-4 lg:my-2 lg:items-start lg:h-[100vh]  lg:gap-4  lg:overflow-y-auto example '
+                : ' flex justify-center items-center mx-auto lg:w-6/6 lg:pl-4 lg:my-2 lg:items-start lg:h-[100vh]  lg:gap-4  lg:overflow-y-auto example '
+            }`}
+          >
             <Allcars />
           </div>
-          <div ref={ref}></div>
         </section>
 
         {/* floating filter */}
@@ -85,8 +88,8 @@ function allcars() {
             </div>
           </div>
         )}
-
-        <Footer />
+        {/* 
+        <Footer /> */}
       </main>
     </>
   )
