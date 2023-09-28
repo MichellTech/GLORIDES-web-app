@@ -314,11 +314,11 @@ function Navbar() {
                   className='text-2xl lg:text-3xl cursor-pointer'
                 />
               </div>
-              <div className='flex flex-col justify-center items-center mx-auto h-60 md:h-52 px-6 md:px-8  lg:px-10 space-y-2 '>
+              <div className='flex flex-col justify-center items-center mx-auto h-60 md:h-52 px-6 md:px-8  lg:px-10 space-y-1 md:space-y-2 '>
                 <div className='bg-babygrey px-2 py-2 rounded-full cursor-pointer '>
                   <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
                 </div>
-                <h1 className='font-bold text-sm lg:text-base'>
+                <h1 className='font-bold text-sm text-center lg:text-base'>
                   No Notifications to show yet
                 </h1>
                 <p className='text-xs text-center '>
