@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
-import { openDropDown, closeDropDown } from '@/features/userpersona/userSlice'
+import {
+  openDropDown,
+  closeDropDown,
+  closeNotifications,
+  openNotifications,
+} from '@/features/userpersona/userSlice'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai'
 import { FiUser } from 'react-icons/fi'
@@ -11,10 +16,12 @@ import { HiOutlineDocumentText } from 'react-icons/hi'
 import { BiMessageSquareEdit } from 'react-icons/bi'
 import { TfiSettings } from 'react-icons/tfi'
 import { MdAdsClick } from 'react-icons/md'
+import { GrFormClose } from 'react-icons/gr'
 
 import Link from 'next/link'
 function Navbar() {
-  const { isUserLogedin, dropDown } = useSelector((store) => store.userpersona)
+  const { isUserLogedin, dropDown, notifications, notificationscontent } =
+    useSelector((store) => store.userpersona)
   const [pannel, setPannel] = useState(false)
   const [menubutton, setMenubutton] = useState(false)
   const [bg, setBg] = useState(true)
@@ -127,7 +134,12 @@ function Navbar() {
           {isUserLogedin && (
             <div className='flex justify-center items-center gap-4 lg:gap-6 xl:gap-8 relative'>
               {/* notification */}
-              <div className='bg-babygrey px-2 py-2 rounded-full'>
+              <div
+                onClick={() => {
+                  dispatch(openNotifications()), dispatch(closeDropDown())
+                }}
+                className='bg-babygrey px-2 py-2 rounded-full cursor-pointer'
+              >
                 <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
               </div>
               {/* userimage drop */}
@@ -155,7 +167,9 @@ function Navbar() {
                     />
                   ) : (
                     <AiOutlineCaretDown
-                      onClick={() => dispatch(openDropDown())}
+                      onClick={() => {
+                        dispatch(closeNotifications()), dispatch(openDropDown())
+                      }}
                       className='text-lg lg:text-2xl xl:text-3xl'
                     />
                   )}
@@ -168,7 +182,11 @@ function Navbar() {
             <button
               id='menu-btn'
               className='z-30 open block md:hidden focus:outline-none hamburger'
-              onClick={() => setPannel(!pannel)}
+              onClick={() => {
+                setPannel(!pannel),
+                  dispatch(closeDropDown()),
+                  dispatch(closeNotifications())
+              }}
             >
               <span className='hamburger-top'></span>
               <span className='hamburger-middle'></span>
@@ -193,7 +211,7 @@ function Navbar() {
             </button>
           )}
           {/* display control */}
-          {dropDown && (
+          {dropDown && !notifications && (
             <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-64 lg:w-72 xl:w-[20rem]  bg-white shadow-md rounded-sm md:rounded-md  xl:rounded-lg  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
               {/* profil */}
               <div className='flex justify-between items-center gap-4 px-4 lg:px-6'>
@@ -283,6 +301,30 @@ function Navbar() {
                   <MdAdsClick className='text-xl lg:text-2xl ' />
                   <h1 className='text-xs lg:text-sm '>Logout</h1>
                 </Link>
+              </div>
+            </div>
+          )}
+          {/* notifications */}
+          {notifications && !dropDown && (
+            <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-72 lg:w-80 h-80  bg-white shadow-md rounded-sm md:rounded-md  xl:rounded-lg  pb-4 lg:pb-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
+              <div className='bg-babygrey flex justify-between items-center px-4 lg:px-6 py-2 md:py-3 '>
+                <h1 className='text-sm lg:text-base'>Notifications</h1>
+                <GrFormClose
+                  onClick={() => dispatch(closeNotifications())}
+                  className='text-2xl lg:text-3xl cursor-pointer'
+                />
+              </div>
+              <div className='flex flex-col justify-center items-center mx-auto h-60 md:h-52 px-6 md:px-8  lg:px-10 space-y-2 xl:space-y-3'>
+                <div className='bg-babygrey px-2 py-2 rounded-full cursor-pointer '>
+                  <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
+                </div>
+                <h1 className='font-bold text-sm lg:text-base'>
+                  No Notifications to show yet
+                </h1>
+                <p className='text-xs text-center '>
+                  You will see useful notifications here soon. Please check back
+                  regularly
+                </p>
               </div>
             </div>
           )}
