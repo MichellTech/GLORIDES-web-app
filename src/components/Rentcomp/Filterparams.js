@@ -13,7 +13,7 @@ function Filterparams() {
       <div className='pt-6 pb-20  space-y-4 '>
         {/* header */}
         <div className='border-b'>
-          <div className='flex justify-between items-center border-b  pb-6 px-6 lg:px-0  lg:pr-4 '>
+          <div className='flex justify-between items-center border-b  pb-6 px-6 lg:px-0  '>
             {/* close */}
             <div className=' cursor-pointer'>
               <h1 className='text-2xl lg:text-base font-bold'> All Filters</h1>

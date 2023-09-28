@@ -27,6 +27,7 @@ module.exports = {
         babypurple: 'hsl(301, 96%, 33%)',
         softpurple: 'hsl(305, 100%, 94%)',
         babyblack: 'hsl(222, 48%, 11%)',
+        babygrey: 'hsl(0, 0%, 85%)',
         softRed: 'hsl(358, 79%, 66%)',
       },
       fontFamily: {
