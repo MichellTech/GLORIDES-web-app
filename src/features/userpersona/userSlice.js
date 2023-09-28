@@ -5,6 +5,7 @@ const initialState = {
   dropDown: false,
   notifications: false,
   notificationscontent: 0,
+  hosting: false,
 }
 
 const userSlice = createSlice({
@@ -26,6 +27,12 @@ const userSlice = createSlice({
     closeNotifications: (state) => {
       state.notifications = false
     },
+    switchToHost: (state) => {
+      state.hosting = true
+    },
+    returnToUser: (state) => {
+      state.hosting = false
+    },
   },
 })
 export const {
@@ -34,5 +41,7 @@ export const {
   closeDropDown,
   closeNotifications,
   openNotifications,
+  switchToHost,
+  returnToUser,
 } = userSlice.actions
 export default userSlice.reducer
