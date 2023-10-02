@@ -14,7 +14,7 @@ function View() {
         {/* profile information */}
         <div className='flex flex-col justify-center items-center px-6  py-10 md:pt-14 lg:pt-16 xl:pt-20 space-y-10 md:space-y-0 md:flex-row md:items-start lg:justify-center md:gap-6 lg:max-w-4xl xl:max-w-5xl mx-auto'>
           {/* profile data */}
-          <div className='bg-white rounded shadow-md px-6 py-4 flex flex-col justify-center items-center mx-auto space-y-4 w-72 sm:w-80'>
+          <div className='bg-white rounded shadow-md px-6 py-4 md:py-6  xl:w-96 flex flex-col justify-center items-center mx-auto space-y-4 w-72 sm:w-80'>
             {/* image */}
             <div className='  relative '>
               <Image
@@ -40,12 +40,6 @@ function View() {
                   <div className='flex  justify-center items-center gap-3 border-babypurple border  px-4 py-2 text-babyblack rounded transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-babypurple duration-300 hover:border-none hover:text-white  '>
                     <BiLockOpenAlt className='' />
                     <h1 className='text-xs '>Passwords</h1>
-                  </div>
-                </Link>
-                <Link href='/Userprofile/notificiations' className=' '>
-                  <div className='flex  justify-center items-center gap-3 border-babypurple border  px-4 py-2 text-babyblack rounded  transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-babypurple duration-300 hover:border-none hover:text-white '>
-                    <AiOutlineBell className='' />
-                    <h1 className='text-xs '>Notifications</h1>
                   </div>
                 </Link>
               </div>
