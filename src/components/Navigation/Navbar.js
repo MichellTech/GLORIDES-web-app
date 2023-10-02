@@ -424,7 +424,7 @@ function Navbar() {
               <Link href='/Host/leasehistory'>Lease History</Link>
             </ul>
             <ul className='text-xs md:text-sm cursor-pointer xl:text-base '>
-              <Link href='Host/fleet'>FLeet</Link>
+              <Link href='Host/fleet'>Fleet</Link>
             </ul>
           </div>
 
