@@ -56,8 +56,8 @@ function View() {
             {/* profile information */}
             <div className='bg-white space-y-4 '>
               {/* header */}
-              <div className='bg-babygrey px-3 py-2'>
-                <h1 className='text-base font-bold'>Profile Information</h1>
+              <div className='bg-softpurple px-3 py-2'>
+                <h1 className='text-sm font-bold'>Profile Information</h1>
               </div>
               {/* fullname*/}
               <div className='space-y-2 px-3 border-b pb-2'>
@@ -88,8 +88,8 @@ function View() {
             {/* ADDress */}
             <div className='bg-white  space-y-4'>
               {/* header */}
-              <div className='bg-babygrey px-3 py-2'>
-                <h1 className='text-base font-bold'>Location</h1>
+              <div className='bg-softpurple px-3 py-2'>
+                <h1 className='text-sm font-bold'>Location</h1>
               </div>
               {/* Address*/}
               <div className='space-y-2 px-3 border-b pb-2'>
@@ -120,8 +120,8 @@ function View() {
             {/* Driving information */}
             <div className='bg-white  space-y-4 '>
               {/* header */}
-              <div className='bg-babygrey px-3 py-2'>
-                <h1 className='text-base font-bold'>Driving Information</h1>
+              <div className='bg-softpurple px-3 py-2'>
+                <h1 className='text-sm font-bold'>Driving Information</h1>
               </div>
               {/* Driving license no*/}
               <div className='space-y-2 px-3 border-b pb-2'>
@@ -146,8 +146,8 @@ function View() {
             {/* insurance information */}
             <div className='bg-white  space-y-4 '>
               {/* header */}
-              <div className='bg-babygrey px-3 py-2'>
-                <h1 className='text-base font-bold'>Insurance Information</h1>
+              <div className='bg-softpurple px-3 py-2'>
+                <h1 className='text-sm font-bold'>Insurance Information</h1>
               </div>
               {/* Driving license no*/}
               <div className='space-y-2 px-3 border-b pb-2'>
