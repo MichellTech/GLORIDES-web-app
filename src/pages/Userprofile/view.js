@@ -26,10 +26,8 @@ function View() {
               />
             </div>
             {/* text */}
-            <div className='space-y-4'>
-              <h1 className='text-center font-bold'>
-                Welcome to your profile page
-              </h1>
+            <div className='space-y-4 w-full'>
+              <h1 className='text-center font-bold'>Hello Michell Okwu</h1>
               {/* button */}
               <div className='flex flex-col gap-3'>
                 <Link href='/Userprofile/edit' className=' '>
