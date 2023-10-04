@@ -94,7 +94,7 @@ function Index() {
                               pathname: `/Renthistory/${item.id}`,
                             })
                           }}
-                          className='bg-white px-2 lg:px-3 py-3 lg:py-3 xl:py-4 w-64  shadow-lg rounded-lg space-y-4  cursor-pointer hover:shadow-babypurple hover:shadow-sm'
+                          className='bg-white px-2 lg:px-3 py-3 lg:py-3 xl:py-4 w-64  shadow-lg rounded-lg space-y-4  cursor-pointer  hover:shadow-xl'
                         >
                           {/* image */}
                           <div className='  relative rounded-md    '>
@@ -108,7 +108,7 @@ function Index() {
                           </div>
                           {/* text */}
                           <div className='px-2 space-y-2      text-xs  lg:text-sm'>
-                            <h1 className=' font-bold text-sm md:text-base lg:text-lg  text-babypurple'>
+                            <h1 className=' font-bold text-sm md:text-base lg:text-lg  text-babyblack'>
                               {item.carname}
                             </h1>
                             <h1 className=''>

@@ -56,20 +56,20 @@ export default class SimpleSlider extends Component {
       nextArrow: <SampleNextArrow />,
       prevArrow: <SamplePrevArrow />,
       responsive: [
-        {
-          breakpoint: 1700,
-          settings: {
-            slidesToShow: 5,
-            slidesToScroll: 3,
-            infinite: true,
-            dots: true,
-          },
-        },
+        // {
+        //   breakpoint: 1700,
+        //   settings: {
+        //     slidesToShow: 5,
+        //     slidesToScroll: 3,
+        //     infinite: true,
+        //     dots: true,
+        //   },
+        // },
         {
           breakpoint: 1500,
           settings: {
-            slidesToShow: 4,
-            slidesToScroll: 2,
+            slidesToShow: 3,
+            slidesToScroll: 1,
             infinite: true,
             dots: true,
           },
@@ -77,21 +77,14 @@ export default class SimpleSlider extends Component {
         {
           breakpoint: 1300,
           settings: {
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            initialSlide: 3,
-          },
-        },
-        {
-          breakpoint: 790,
-          settings: {
             slidesToShow: 2,
-            slidesToScroll: 1,
-            dots: true,
+            slidesToScroll: 2,
+            initialSlide: 2,
           },
         },
+
         {
-          breakpoint: 650,
+          breakpoint: 890,
           settings: {
             slidesToShow: 1,
             slidesToScroll: 1,
@@ -102,19 +95,22 @@ export default class SimpleSlider extends Component {
     }
 
     return (
-      <div className='w-full relative pb-2   '>
+      <div className='w-full relative pb-6   '>
         <Slider {...settings}>
           {cars.map((item) => {
             return (
-              <div key={item.id} className='pt-5   md:pt-7 '>
-                <div className='  relative rounded-md  mx-2    '>
+              <div
+                key={item.id}
+                className='pt-5 pb-4   md:pt-7 lg:pb-4 lg:pt-10 '
+              >
+                <div className='  relative rounded-md  mx-2     '>
                   <Image
                     src={item.image}
                     alt={item.carname}
                     width={1000}
                     height={1000}
                     priority
-                    className='object-cover rounded-md  w-full h-40 sm:h-44 '
+                    className='object-cover rounded-md  w-full h-48 sm:h-52 '
                   />
                 </div>
               </div>
