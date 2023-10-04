@@ -102,11 +102,11 @@ export default class SimpleSlider extends Component {
     }
 
     return (
-      <div className='w-full relative   '>
+      <div className='w-full relative pb-2   '>
         <Slider {...settings}>
           {cars.map((item) => {
             return (
-              <div key={item.id} className='py-6 md:py-7 '>
+              <div key={item.id} className='pt-5   md:pt-7 '>
                 <div className='  relative rounded-md  mx-2    '>
                   <Image
                     src={item.image}
