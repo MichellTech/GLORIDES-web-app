@@ -45,7 +45,7 @@ function Index() {
                   placeholder='Please select a brand'
                   value={params}
                   onChange={(e) => setParams(e.target.value)}
-                  className='py-2 lg:py-3 px-3 flex justify-between items-center   outline-none  mx-auto text-xs sm:text-sm  md:text-base  '
+                  className='py-2 lg:py-3 px-3 flex justify-between items-center   outline-none  mx-auto text-xs sm:text-sm  md:text-base bg-white  '
                 >
                   <option value=''>Filter by Status</option>
                   <option value='active'> Active</option>
