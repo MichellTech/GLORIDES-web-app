@@ -12,6 +12,8 @@ import { ImSpinner } from 'react-icons/im'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { FileUploader } from 'react-drag-drop-files'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function Edit() {
   const [loading, setLoading] = useState(false)
@@ -127,7 +129,7 @@ function Edit() {
                   alt='logo'
                   width={1000}
                   height={1000}
-                  className='object-cover w-36 rounded-full '
+                  className='object-cover w-36 h-36 rounded-full '
                 />
               ) : (
                 <Image
@@ -135,7 +137,7 @@ function Edit() {
                   alt='logo'
                   width={1000}
                   height={1000}
-                  className='object-cover w-36 rounded-full '
+                  className='object-cover w-36 h-36 rounded-full '
                 />
               )}
               <div className='bg-babypurple rounded-full flex justify-center items-center w-10 h-10  absolute top-0 right-0'>

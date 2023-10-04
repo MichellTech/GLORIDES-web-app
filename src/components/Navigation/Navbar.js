@@ -306,7 +306,7 @@ function Navbar() {
                   </Link>
                   {/* rent history */}
                   <Link
-                    href='/renthistory'
+                    href='/Renthistory'
                     className='flex  items-center gap-4 '
                   >
                     <HiOutlineDocumentText className='lg:text-2xl ' />
