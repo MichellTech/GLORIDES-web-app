@@ -44,6 +44,7 @@ function Navbar() {
     }
 
     dispatch(closeDropDown())
+    dispatch(closeNotifications())
   }, [router.pathname])
   return (
     <nav className=' relative mx-auto font-sans px-1 md:px-4 lg:px-10 py-2 md:py-2 '>
@@ -341,7 +342,7 @@ function Navbar() {
             )}
             {/* notifications */}
             {notifications && !dropDown && (
-              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-72 lg:w-80 h-80  bg-white shadow-md rounded-sm md:rounded-md  xl:rounded-lg  pb-4 lg:pb-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
+              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-64 md:w-72 lg:w-80  h-96  bg-white shadow-lg rounded-sm md:rounded-md  xl:rounded-lg  pb-4 lg:pb-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
                 <div className='bg-babygrey flex justify-between items-center px-4 lg:px-6 py-2 md:py-3 '>
                   <h1 className='text-sm lg:text-base'>Notifications</h1>
                   <GrFormClose
@@ -350,7 +351,7 @@ function Navbar() {
                   />
                 </div>
                 {!Notificationdata ? (
-                  <div className='flex flex-col justify-center items-center mx-auto h-60 md:h-52  space-y-1 md:space-y-2 '>
+                  <div className='flex flex-col justify-center items-center mx-auto h-64 md:h-56  space-y-1 md:space-y-2 '>
                     <div className='bg-babygrey px-2 py-2 rounded-full cursor-pointer '>
                       <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
                     </div>
@@ -366,25 +367,36 @@ function Navbar() {
                   <div className=' flex flex-col justify-center   items-center max-w-sm px-2   '>
                     {Notificationdata.slice(0, 4).map((item, index) => {
                       return (
-                        <div key={index} className='flex  gap-2 '>
+                        <div key={index} className='flex  gap-2 lg:gap-3 '>
                           {/* circle */}
                           <div className='w-max  relative   md:flex md:justify-center md:items-start  '>
-                            <div className='bg-gradient-to-r from-babypurple to-softRed w-4 h-4  rounded-full relative  '>
+                            <div className='bg-gradient-to-r from-babypurple to-softRed w-2 h-2 xl:w-4 xl:h-4  rounded-full relative  '>
                               {/* circle */}
-                              <div className='bg-white w-2 h-2 rounded-full absolute top-1/2 bottom-1/2  -translate-x-1/2 -translate-y-1/2 left-1/2 right-1/2 flex justify-center items-center '></div>
+                              <div className='bg-white  w-1 h-1 xl:w-2 xl:h-2 rounded-full absolute top-1/2 bottom-1/2  -translate-x-1/2 -translate-y-1/2 left-1/2 right-1/2 flex justify-center items-center '></div>
                             </div>
                             {/* line */}
                             {index ===
                             Notificationdata.slice(0, 4).length - 1 ? null : (
-                              <div className='absolute  w-1 h-full top-0 bottom-0 -translate-x-1/2   left-1/2 bg-gradient-to-r from-babypurple to-softRed -z-10 '></div>
+                              <div className='absolute  w-[0.1rem] xl:w-[0.2rem] h-full top-0 bottom-0 -translate-x-1/2   left-1/2 bg-gradient-to-r from-babypurple to-softRed -z-10 '></div>
                             )}
                           </div>
                           {/* text */}
-                          <div className=' truncate w-44 md:w-56 xl:w-60  '>
+                          <div className=' truncate w-48 md:w-56 lg:w-60   '>
                             {/* text */}
                             <div className='space-y-1 mb-6 cursor-pointer '>
-                              {/* Header */}
-                              <h1 className='text-xs  '>{item.title}</h1>
+                              <div className='flex justify-between items-start gap-4'>
+                                {/* Header */}
+                                <h1 className='text-xs truncate w-32 xl:w-40  '>
+                                  {item.title}
+                                </h1>
+                                <p
+                                  className='text-[0.5rem] bg-softpurple
+                                 text-babypurple px-2 py-1 rounded-xl   '
+                                >
+                                  {item.time}
+                                </p>
+                              </div>
+
                               {/* desc */}
                               <p className='text-[0.6rem]  '>
                                 {item.description}
@@ -394,6 +406,17 @@ function Navbar() {
                         </div>
                       )
                     })}
+
+                    {/* viewall */}
+
+                    <Link href='/Notifications'>
+                      <div
+                        onClick={() => dispatch(closeNotifications())}
+                        className='bg-babypurple rounded-sm px-6 py-2 lg:px-8 text-center text-white text-xs'
+                      >
+                        <h1>View All</h1>
+                      </div>
+                    </Link>
                   </div>
                 )}
               </div>
