@@ -1,7 +1,7 @@
 import React from 'react'
 
 function savedvehicles() {
-  return <div>savedvehicles</div>
+  return <div></div>
 }
 
 export default savedvehicles

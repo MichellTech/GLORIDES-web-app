@@ -83,16 +83,16 @@ function Index() {
             <div className='bg-white hidden md:block w-2/3 xl:w-3/4  md:h-[100vh] md:overflow-y-auto shadow-lg'>
               {textid === null ? (
                 <div className='flex flex-col justify-center items-center h-[90vh] max-w-xs lg:max-w-sm mx-auto space-y-5 lg:space-y-7 py-6 px-2'>
-                  <div className='bg-babygrey px-2 py-2 rounded-full cursor-pointer '>
-                    <IoIosNotificationsOutline className='text-3xl ' />
+                  <div className='bg-babygrey px-2 py-2 rounded-full cursor-pointer animate-pulse duration-1000 '>
+                    <IoIosNotificationsOutline className='text-3xl  ' />
                   </div>
                   <div className='space-y-1 lg:space-y-2'>
                     <h1 className='font-bold  text-center text-lg lg:text-xl px-4 md:px-8  lg:px-10'>
                       No Notifications to show yet
                     </h1>
                     <p className='text-xs lg:text-sm text-center px-6 md:px-8  lg:px-10 '>
-                      You will see useful notifications here soon. Please check
-                      back regularly
+                      Click on a notification you would like to read on the left
+                      side of the screen
                     </p>
                   </div>
                 </div>
