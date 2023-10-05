@@ -38,7 +38,7 @@ function Index() {
           <div
             className={`${
               mobileview
-                ? 'md:flex md:items-start md:justify-center md:gap-4 relative  h-[100vh] overflow-y-hidden'
+                ? 'md:flex md:items-start md:justify-center md:gap-4 relative  h-[60vh] overflow-y-hidden'
                 : 'md:flex md:items-start md:justify-center md:gap-4 relative  '
             }`}
           >
