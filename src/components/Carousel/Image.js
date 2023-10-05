@@ -11,7 +11,7 @@ function SampleNextArrow(props) {
   const { className, style, onClick } = props
   return (
     <div
-      className='w-6 h-6 absolute -right-1   rounded-full flex justify-center items-center bg-white z-20 cursor-pointer  shadow-md'
+      className='w-6 h-6 absolute -right-1   rounded-full flex justify-center items-center bg-white z-10 cursor-pointer  shadow-md'
       style={{
         ...style,
         display: 'flex',
@@ -29,7 +29,7 @@ function SamplePrevArrow(props) {
   const { className, style, onClick } = props
   return (
     <div
-      className='w-6 h-6 absolute -left-1 rounded-full flex justify-center items-center bg-white z-20 cursor-pointer shadow-md'
+      className='w-6 h-6 absolute -left-1 rounded-full flex justify-center items-center bg-white z-10 cursor-pointer shadow-md'
       style={{
         ...style,
         display: 'flex',

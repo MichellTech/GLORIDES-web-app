@@ -78,7 +78,8 @@ function Footer() {
         <div className='bg-babyblack bg-opacity-60 w-full h-[1px] md:h-[2px]'></div>
         {/* copyright */}
         <h1 className='text-xs text-center sm:text-sm mx-auto font-bold lg:text-base'>
-          copyright @ 2022-2023 Glo Rides. All Rights Reserved
+          copyright &copy; Glo Rides 2022-{new Date().getFullYear()} . All
+          Rights Reserved
         </h1>
       </div>
       {/* picture */}

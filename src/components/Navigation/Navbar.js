@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
+import Notificationdata from '../../utilis/Notifications'
 import {
   openDropDown,
   closeDropDown,
@@ -348,18 +349,53 @@ function Navbar() {
                     className='text-2xl lg:text-3xl cursor-pointer'
                   />
                 </div>
-                <div className='flex flex-col justify-center items-center mx-auto h-60 md:h-52  space-y-1 md:space-y-2 '>
-                  <div className='bg-babygrey px-2 py-2 rounded-full cursor-pointer '>
-                    <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
+                {!Notificationdata ? (
+                  <div className='flex flex-col justify-center items-center mx-auto h-60 md:h-52  space-y-1 md:space-y-2 '>
+                    <div className='bg-babygrey px-2 py-2 rounded-full cursor-pointer '>
+                      <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
+                    </div>
+                    <h1 className='font-bold text-sm text-center lg:text-base px-4 md:px-8  lg:px-10'>
+                      No Notifications to show yet
+                    </h1>
+                    <p className='text-xs text-center px-6 md:px-8  lg:px-10 '>
+                      You will see useful notifications here soon. Please check
+                      back regularly
+                    </p>
                   </div>
-                  <h1 className='font-bold text-sm text-center lg:text-base px-4 md:px-8  lg:px-10'>
-                    No Notifications to show yet
-                  </h1>
-                  <p className='text-xs text-center px-6 md:px-8  lg:px-10 '>
-                    You will see useful notifications here soon. Please check
-                    back regularly
-                  </p>
-                </div>
+                ) : (
+                  <div className=' flex flex-col justify-center   items-center max-w-sm px-2   '>
+                    {Notificationdata.slice(0, 4).map((item, index) => {
+                      return (
+                        <div key={index} className='flex  gap-2 '>
+                          {/* circle */}
+                          <div className='w-max  relative   md:flex md:justify-center md:items-start  '>
+                            <div className='bg-gradient-to-r from-babypurple to-softRed w-4 h-4  rounded-full relative  '>
+                              {/* circle */}
+                              <div className='bg-white w-2 h-2 rounded-full absolute top-1/2 bottom-1/2  -translate-x-1/2 -translate-y-1/2 left-1/2 right-1/2 flex justify-center items-center '></div>
+                            </div>
+                            {/* line */}
+                            {index ===
+                            Notificationdata.slice(0, 4).length - 1 ? null : (
+                              <div className='absolute  w-1 h-full top-0 bottom-0 -translate-x-1/2   left-1/2 bg-gradient-to-r from-babypurple to-softRed -z-10 '></div>
+                            )}
+                          </div>
+                          {/* text */}
+                          <div className=' truncate w-44 md:w-56 xl:w-60  '>
+                            {/* text */}
+                            <div className='space-y-1 mb-6 cursor-pointer '>
+                              {/* Header */}
+                              <h1 className='text-xs  '>{item.title}</h1>
+                              {/* desc */}
+                              <p className='text-[0.6rem]  '>
+                                {item.description}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
               </div>
             )}
           </div>
