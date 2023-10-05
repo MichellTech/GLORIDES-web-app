@@ -139,7 +139,7 @@ function Rentedcar() {
               </div>
             </div>
             {/* second */}
-            <div className='md:w-1/3 lg:w-3/4'>
+            <div className='md:w-1/3 lg:w-1/4'>
               {/* summary */}
               <div className='bg-white px-4 py-4 rounded-lg space-y-3  md:space-y-4 lg:space-y-5 shadow-md'>
                 <h1 className='font-bold text-base sm:text-base md:text-base lg:text-lg border-b border-babyblack pb-2'>
