@@ -40,7 +40,7 @@ function Booking() {
           >
             <MdKeyboardBackspace className='lg:text-2xl' />
             <h1 className='text-sm  lg:text-base font-bold'>
-              View car specifications
+              View Car Specifications
             </h1>
           </div>
 
@@ -48,10 +48,10 @@ function Booking() {
           <div className='space-y-5 md:space-y-0  w-full md:flex md:items-start  md:gap-6  '>
             {/* first */}
             <div className='space-y-5 md:space-y-6 lg:space-y-8 md:w-2/3 lg:w-3/4'>
-              {/* image */}
+              {/* extra services */}
               <div className='bg-white px-4 py-4 rounded-lg shadow-md lg:py-6'>
                 <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
-                  Insuarnce
+                  Extra Services
                 </h1>
                 {/* img */}
                 <div className='w-full bg-white '>{/* <Carousel /> */}</div>

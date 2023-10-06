@@ -46,8 +46,8 @@ function SamplePrevArrow(props) {
 export default class SimpleSlider extends Component {
   render() {
     const settings = {
-      dots: true,
-      infinite: false,
+      dots: false,
+      infinite: true,
       autoplay: false,
       speed: 2000,
       autoplaySpeed: 5000,
@@ -71,7 +71,7 @@ export default class SimpleSlider extends Component {
             slidesToShow: 3,
             slidesToScroll: 1,
             infinite: true,
-            dots: true,
+            dots: false,
           },
         },
         {
@@ -88,7 +88,7 @@ export default class SimpleSlider extends Component {
           settings: {
             slidesToShow: 1,
             slidesToScroll: 1,
-            dots: true,
+            dots: false,
           },
         },
       ],
@@ -99,10 +99,7 @@ export default class SimpleSlider extends Component {
         <Slider {...settings}>
           {cars.map((item) => {
             return (
-              <div
-                key={item.id}
-                className='pt-5 pb-4   md:pt-7 lg:pb-4 lg:pt-10 '
-              >
+              <div key={item.id} className='pt-5    md:pt-7  lg:pt-10 '>
                 <div className='  relative rounded-md  mx-2     '>
                   <Image
                     src={item.image}

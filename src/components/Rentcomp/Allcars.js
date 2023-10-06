@@ -17,7 +17,7 @@ function Allcars() {
   const dispatch = useDispatch()
 
   return (
-    <div className='space-y-6 md:space-y-10 lg:py-10 '>
+    <div className='space-y-10 lg:py-10 '>
       <div className='md:flex md:justify-between md:items-center'>
         <h1 className=' text-base text-center xl:text-lg md:text-left '>
           Showing results for all cars in :{' '}
@@ -56,9 +56,6 @@ function Allcars() {
                 <div className='px-4 w-full '>
                   {/* first part */}
                   <div className='space-y-2 border-b-2 pb-3'>
-                    {/* <div className='border border-babygrey rounded-md px-2 py-1 w-max'>
-                      <h1 className='text-xs'>2020</h1>
-                    </div> */}
                     {/* carname */}
                     <h1 className='font-bold text-sm line-clamp-1'>
                       {item.carname}
@@ -105,7 +102,7 @@ function Allcars() {
                           pathname: `/rentacar/${item.id}`,
                         })
                       }}
-                      className='bg-babypurple px-2 py-2 w-full text-xs text-white rounded-md cursor-pointer hover:shadow-lg'
+                      className='bg-babypurple px-2 py-2 lg:py-3 w-full text-xs text-white rounded-md cursor-pointer hover:shadow-lg'
                     >
                       Rent Now
                     </button>

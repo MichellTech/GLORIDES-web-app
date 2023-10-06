@@ -6,7 +6,7 @@ import Feedback from '../../utilis/Carfeedback'
 import Notificationdata from '../../utilis/Notifications'
 import { IoIosArrowBack } from 'react-icons/io'
 import { IoIosArrowForward } from 'react-icons/io'
-
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 function SampleNextArrow(props) {
   const { className, style, onClick } = props
   return (
@@ -46,7 +46,7 @@ function SamplePrevArrow(props) {
 export default class SimpleSlider extends Component {
   render() {
     const settings = {
-      dots: true,
+      dots: false,
       infinite: false,
       autoplay: false,
       speed: 2000,
@@ -61,8 +61,8 @@ export default class SimpleSlider extends Component {
           settings: {
             slidesToShow: 3,
             slidesToScroll: 1,
-            infinite: false,
-            dots: true,
+            infinite: true,
+            dots: false,
           },
         },
         {
@@ -71,7 +71,7 @@ export default class SimpleSlider extends Component {
             slidesToShow: 2,
             slidesToScroll: 1,
             initialSlide: 2,
-            infinite: false,
+            infinite: true,
           },
         },
         {
@@ -79,15 +79,15 @@ export default class SimpleSlider extends Component {
           settings: {
             slidesToShow: 1,
             slidesToScroll: 1,
-            dots: true,
-            infinite: false,
+            dots: false,
+            infinite: true,
           },
         },
       ],
     }
 
     return (
-      <div className='w-full relative pb-10  '>
+      <div className='w-full relative   '>
         <Slider {...settings}>
           {Feedback?.map((item, index) => {
             return (
@@ -98,19 +98,34 @@ export default class SimpleSlider extends Component {
                 >
                   <div className='relative bg-white rounded-md shadow-md px-4 py-4 w-72 h-44 flex flex-col justify-center items-center  mx-2  '>
                     {/* text */}
-                    <div className='flex flex-col justify-center items-center space-y-3 text-center'>
-                      {/* boddy */}
-                      <p className='text-xs text-center'>{item.description}</p>
+                    <div className=' space-y-3 '>
                       {/* header */}
-                      <div className='space-y-1'>
-                        <h1 className='text-sm font-bold text-babyblack'>
-                          {item.name}
-                        </h1>
+                      <div className='space-y-2'>
+                        {/* rating */}
+                        <div className='flex items-center gap-2 text-xs text-babypurple'>
+                          <AiFillStar />
+                          <AiFillStar />
+                          <AiFillStar />
+                          <AiOutlineStar />
+                          <AiOutlineStar />
+                        </div>
+                        {/* name */}
+                        <div className='flex items-center gap-2'>
+                          <h1 className='text-sm font-bold text-babyblack'>
+                            {item.name}
+                          </h1>
+                          <h1 className='text-[0.6rem]  text-babyblack'>
+                            Sept 26,2023
+                          </h1>
+                        </div>
+
                         <h2 className='text-xs font-medium text-babyblack'>
                           {' '}
                           {item.location}
                         </h2>
                       </div>
+                      {/* boddy */}
+                      <p className='text-xs text-left'>{item.description}</p>
                     </div>
                   </div>
                 </div>
