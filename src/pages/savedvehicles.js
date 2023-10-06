@@ -16,7 +16,7 @@ function savedvehicles() {
   return (
     <>
       <Navbar />
-      <section className=' mt-10 max-w-sm sm:max-w-xl mx-auto font-sans md:max-w-xl lg:max-w-4xl xl:max-w-6xl  px-4 md:px-6  lg:px-8 space-y-20  pb-10   '>
+      <section className=' mt-10 max-w-xl sm:max-w-xl mx-auto font-sans md:max-w-xl lg:max-w-4xl xl:max-w-6xl  px-4 md:px-6  lg:px-8 space-y-20  pb-10   '>
         {/* title */}
         <div className='flex justify-between items-center gap-2 px-6'>
           {/* amount */}
