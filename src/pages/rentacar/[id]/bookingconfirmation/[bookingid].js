@@ -34,10 +34,10 @@ function Booking() {
     extraservices: [],
     address: 'hostaddress',
     myaddress: '',
-    pickupd: '',
-    pickupt: '',
-    dropoffd: '',
-    dropofft: '',
+    pickupd: new Date(),
+    pickupt: new Date(),
+    dropoffd: new Date(),
+    dropofft: new Date(),
   }
   // .toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
 
@@ -399,12 +399,20 @@ function Booking() {
                       {/* two */}
                       <div className='w-full  flex justify-between items-center gap-2   border-b pb-4'>
                         <h1 className='text-xs xl:text-sm '>Insurance Cost</h1>
-                        <h1 className='text-xs  xl:text-sm font-bold'>$ 10</h1>
+                        <h1 className='text-xs  xl:text-sm font-bold'>
+                          {formik.values.extraservices.includes('insurance')
+                            ? '$24'
+                            : '0'}
+                        </h1>
                       </div>
                       {/* one */}
                       <div className='w-full  flex justify-between items-center gap-2  border-b pb-4 border-babyblack '>
-                        <h1 className='text-xs xl:text-sm'>Child Seat</h1>
-                        <h1 className='text-xs xl:text-sm  font-bold'>$ 10</h1>
+                        <h1 className='text-xs xl:text-sm'>Tank Filling</h1>
+                        <h1 className='text-xs xl:text-sm  font-bold'>
+                          {formik.values.extraservices.includes('tank')
+                            ? '$30'
+                            : '0'}
+                        </h1>
                       </div>
                       {/* one */}
                       <div className='w-full  flex justify-between items-center gap-2 border-b  border-babyblack pb-4 '>
@@ -424,6 +432,11 @@ function Booking() {
                           Confirm Booking
                         </button>
                         <button
+                          onClick={() => {
+                            router.push({
+                              pathname: `/rentacar`,
+                            })
+                          }}
                           type='reset'
                           className='border-babypurple w-full border px-5 py-3 md:px-2 text-xs text-babyblack rounded-sm transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white'
                         >
