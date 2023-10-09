@@ -1,16 +1,22 @@
 import React, { useMemo } from 'react'
 import { useRouter } from 'next/router'
-import { cars } from '../../utilis/Cardata'
+import { cars } from '../../../utilis/Cardata'
 import Navbar from '@/components/Navigation/Navbar'
 import Footer from '@/components/Navigation/Footer'
 import Image from 'next/image'
-import Carousel from '../../components/Carousel/Image'
-import { MdKeyboardBackspace, MdOutlineLocationSearching } from 'react-icons/md'
+import Carousel from '../../../components/Carousel/Image'
+import {
+  MdKeyboardBackspace,
+  MdOutlineLocationSearching,
+  MdOutlineBluetoothConnected,
+  MdGpsFixed,
+  MdChildFriendly,
+} from 'react-icons/md'
 import Link from 'next/link'
 import { BiSolidCarGarage, BiCurrentLocation } from 'react-icons/bi'
-import { LuFuel } from 'react-icons/lu'
+import { LuFuel, LuCalendarClock } from 'react-icons/lu'
 import { GiGearStickPattern, GiCarSeat } from 'react-icons/gi'
-import { TbClockSearch } from 'react-icons/tb'
+import { TbClockSearch, TbCameraCheck } from 'react-icons/tb'
 
 function Rentedcar() {
   const router = useRouter()
@@ -68,50 +74,55 @@ function Rentedcar() {
                   Car Features
                 </h1>
                 {/* features */}
-                <div className='w-full grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 justify-center items-center gap-x-1 sm:gap-x-3 md:gap-x-3 gap-y-3 sm:w-max lg:gap-x-3'>
+                <div className='flex flex-wrap gap-2 '>
                   {/* one */}
-                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-28 rounded-sm'>
+                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
                     <LuFuel className='text-xl' />
-                    <div className='space-y-1'>
-                      <h1 className='text-xs font-bold'>Diesel</h1>
-                      <p className='text-xs'>Fuel Engine</p>
-                    </div>
+                    <h1 className='text-xs'>Diesel</h1>
                   </div>
                   {/* two */}
-                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-28 rounded-sm'>
+                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
                     <BiSolidCarGarage className='text-xl' />
-                    <div className='space-y-1'>
-                      <h1 className='text-xs font-bold'>Doors</h1>
-                      <p className='text-xs'>4 Doors</p>
-                    </div>
+                    <h1 className='text-xs '>Doors</h1>
                   </div>
                   {/* three */}
-                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-28 rounded-sm'>
+                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2 w-max rounded-sm lg:rounded-md'>
                     <GiCarSeat className='text-xl' />
-                    <div className='space-y-1'>
-                      <h1 className='text-xs font-bold'>Seat</h1>
-                      <p className='text-xs'>4 Seater</p>
-                    </div>
+                    <p className='text-xs'>4 Seater</p>
                   </div>
                   {/* four */}
-                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-28 rounded-sm'>
+                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max  rounded-sm lg:rounded-md'>
                     <GiGearStickPattern className='text-xl' />
-                    <div className='space-y-1'>
-                      <h1 className='text-xs font-bold'>Gear</h1>
-                      <p className='text-xs'>Automatic</p>
-                    </div>
+                    <p className='text-xs'>Automatic</p>
                   </div>
                   {/* five */}
-                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-28 rounded-sm'>
+                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
                     <TbClockSearch className='text-xl' />
-                    <div className='space-y-1'>
-                      <h1 className='text-xs font-bold'>Miles</h1>
-                      <p className='text-xs'>2400</p>
-                    </div>
+                    <p className='text-xs'>2400</p>
+                  </div>
+                  {/* six */}
+                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
+                    <MdOutlineBluetoothConnected className='text-xl' />
+                    <p className='text-xs'>Bluetooth</p>
+                  </div>
+                  {/* seven*/}
+                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
+                    <MdGpsFixed className='text-xl' />
+                    <p className='text-xs'>GPS</p>
+                  </div>
+                  {/* eight*/}
+                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
+                    <MdChildFriendly className='text-xl' />
+                    <p className='text-xs'>Child Seat</p>
+                  </div>
+                  {/* eight*/}
+                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
+                    <TbCameraCheck className='text-xl' />
+                    <p className='text-xs'>Camera</p>
                   </div>
                 </div>
               </div>
-              {/* pickup */}
+              {/* pickup location */}
               <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
                 <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
                   Pickup Location
@@ -124,7 +135,7 @@ function Rentedcar() {
                   </h1>
                 </div>
               </div>
-              {/* drop off */}
+              {/* drop off  location*/}
               <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
                 <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
                   Drop Off Location
@@ -134,6 +145,32 @@ function Rentedcar() {
                   <MdOutlineLocationSearching className='lg:text-xl' />
                   <h1 className='text-xs lg:text-sm'>
                     No 6 rumola road Aba, Abia State
+                  </h1>
+                </div>
+              </div>
+              {/* pickup date */}
+              <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
+                <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
+                  Pickup Date
+                </h1>
+                {/* img */}
+                <div className='flex items-center gap-2'>
+                  <LuCalendarClock className='lg:text-xl' />
+                  <h1 className='text-xs lg:text-sm'>
+                    10:00 AM Tuesday October 10th ,2023
+                  </h1>
+                </div>
+              </div>
+              {/* drop off  date*/}
+              <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
+                <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
+                  Drop Off Date
+                </h1>
+                {/* img */}
+                <div className='flex items-center gap-2'>
+                  <LuCalendarClock className='lg:text-xl' />
+                  <h1 className='text-xs lg:text-sm'>
+                    10:00 AM Wednesday October 11th ,2023
                   </h1>
                 </div>
               </div>
@@ -157,7 +194,7 @@ function Rentedcar() {
                 </div>
                 {/* one */}
                 <div className='w-full  flex justify-between items-center gap-2  border-b pb-4 border-babyblack '>
-                  <h1 className='text-xs xl:text-sm'>Child Seat</h1>
+                  <h1 className='text-xs xl:text-sm'>Tank Filling</h1>
                   <h1 className='text-xs xl:text-sm  font-bold'>$ 10</h1>
                 </div>
                 {/* one */}
@@ -171,7 +208,14 @@ function Rentedcar() {
                 </div>
                 {/* settings*/}
                 <div className='w-full  space-y-4 py-4'>
-                  <button className='bg-babypurple px-5 py-3 w-full text-xs md:px-2 text-white rounded-sm transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white'>
+                  <button
+                    onClick={() => {
+                      router.push({
+                        pathname: `/Renthistory/${singlecar.id}/returnvehicle/${singlecar.id}`,
+                      })
+                    }}
+                    className='bg-babypurple px-5 py-3 w-full text-xs md:px-2 text-white rounded-sm transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white'
+                  >
                     Return Vehicle
                   </button>
                   <button className='border-babypurple w-full border px-5 py-3 md:px-2 text-xs text-babyblack rounded-sm transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white'>

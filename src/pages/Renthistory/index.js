@@ -8,6 +8,12 @@ import Footer from '@/components/Navigation/Footer'
 import { cars } from '../../utilis/Cardata'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
+import { BiSolidCarGarage } from 'react-icons/bi'
+import { LuFuel, LuUser } from 'react-icons/lu'
+import { GiGearStickPattern, GiCarSeat, GiRoundStar } from 'react-icons/gi'
+import { AiOutlineHeart, AiFillHeart, AiFillStar } from 'react-icons/ai'
+import { TbClockSearch } from 'react-icons/tb'
+import { MdOutlineFilterAlt } from 'react-icons/md'
 
 function Index() {
   const [query, setQuery] = useState('')
@@ -87,50 +93,101 @@ function Index() {
                 <div className=' space-y-10 md:space-y-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-between items-center mx-auto md:gap-y-12 md:gap-x-8'>
                   {carhistory.map((item) => {
                     return (
-                      <div key={item.id} className='  mx-auto'>
-                        <div
-                          onClick={() => {
-                            router.push({
-                              pathname: `/Renthistory/${item.id}`,
-                            })
-                          }}
-                          className='bg-white px-2 lg:px-3 py-3 lg:py-3 xl:py-4 w-64  shadow-lg rounded-lg space-y-4  cursor-pointer  hover:shadow-xl'
-                        >
+                      <div key={item.id}>
+                        {/* car 1 */}
+                        <div className='bg-white shadow-lg h-[22rem] rounded-xl  pb-2 space-y-4 max-w-xs  relative w-full '>
                           {/* image */}
-                          <div className='  relative rounded-md    '>
+                          <div className='   relative '>
                             <Image
                               src={item.image}
-                              alt={item.carname}
+                              alt='footer'
                               width={1000}
                               height={1000}
-                              className='object-cover rounded-md w-full h-32 '
+                              className='object-cover w-full h-40 rounded-tl-lg rounded-tr-lg rounded-br-none  rounded-bl-none '
                             />
                           </div>
-                          {/* text */}
-                          <div className='px-2 space-y-2      text-xs  lg:text-sm'>
-                            <h1 className=' font-bold text-sm md:text-base lg:text-lg  text-babyblack'>
-                              {item.carname}
-                            </h1>
-                            <h1 className=''>
-                              Cost:{' '}
-                              <span className='font-bold'>$ {item.cost}</span>
-                            </h1>
-                            <h1 className=''>
-                              Order Date:{' '}
-                              <span className='font-bold'>{item.date}</span>
-                            </h1>
-                            <h1 className=''>
-                              Status:{' '}
-                              <span
-                                className={`${
-                                  item.status === 'Active'
-                                    ? 'font-bold text-[#029468]'
-                                    : 'font-bold text-red-600'
-                                }`}
+
+                          {/*text */}
+                          <div className='px-4 w-full '>
+                            {/* first part */}
+                            <div className='space-y-2 border-b-2 pb-3'>
+                              {/* carname */}
+                              <h1 className='font-bold text-sm line-clamp-1'>
+                                {item.carname}
+                              </h1>
+                              {/* owner and cost */}
+                              <div className='flex items-center justify-between  '>
+                                <div className='flex justify-center items-center gap-2'>
+                                  <LuUser className='text-sm' />
+                                  <h1 className='text-xs truncate w-24'>
+                                    Olamide Oluwale
+                                  </h1>
+                                </div>
+                                <h1 className='font-bold text-sm text-babypurple'>
+                                  ${item.cost}
+                                </h1>
+                              </div>
+                            </div>
+                            {/* second */}
+                            <div className='pt-6 space-y-4'>
+                              {/* params */}
+                              <div className=' grid grid-cols-3 gap-x-1 gap-y-6 justify-center items-center mx-auto'>
+                                {/* two */}
+                                <div className='flex items-center gap-2'>
+                                  <LuFuel className='text-base' />
+                                  <h1 className='text-[0.6rem]'>Petrol</h1>
+                                </div>
+                                {/* three */}
+                                <div className='flex items-center gap-2'>
+                                  <GiGearStickPattern className='text-base' />
+                                  <h1 className='text-[0.6rem]'>Manual</h1>
+                                </div>
+
+                                {/* six */}
+                                <div className='flex items-center gap-2'>
+                                  <TbClockSearch className='text-base' />
+                                  <h1 className='text-[0.6rem]'> 2.4k Miles</h1>
+                                </div>
+                              </div>
+                              {/* button */}
+                              <button
+                                onClick={() => {
+                                  router.push({
+                                    pathname: `/Renthistory/${item.id}`,
+                                  })
+                                }}
+                                className='bg-babypurple px-2 py-2 lg:py-3 w-full text-xs text-white rounded-md cursor-pointer hover:shadow-lg'
                               >
-                                {item.status}
-                              </span>
-                            </h1>
+                                View Details
+                              </button>
+                            </div>
+                          </div>
+                          {/* buttons top */}
+                          <div className=' absolute -top-2 left-2 right-2 '>
+                            <div className='flex justify-between items-center gap-2 mx-auto w-full'>
+                              {/* ratings */}
+                              <div className='flex justify-center items-center gap-1 rounded-md bg-white px-2 py-1'>
+                                {item.status === 'Active' ? (
+                                  <h1 className='text-xs text-green-500'>
+                                    Active
+                                  </h1>
+                                ) : (
+                                  <h1 className='text-xs text-red-500'>
+                                    Closed
+                                  </h1>
+                                )}
+                              </div>
+                              {/* datw */}
+                              {item.status === 'Active' ? (
+                                ''
+                              ) : (
+                                <div className='flex justify-center items-center gap-1 rounded-md bg-white px-2 py-1'>
+                                  <h1 className='text-xs text-babyblack'>
+                                    {item.date}
+                                  </h1>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </div>

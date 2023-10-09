@@ -17,7 +17,7 @@ import { FiUser } from 'react-icons/fi'
 import { BsBookmark, BsQuestionCircle } from 'react-icons/bs'
 import { HiOutlineDocumentText } from 'react-icons/hi'
 import { BiMessageSquareEdit } from 'react-icons/bi'
-import { TfiSettings } from 'react-icons/tfi'
+
 import { MdAdsClick } from 'react-icons/md'
 import { GrFormClose } from 'react-icons/gr'
 
@@ -319,11 +319,7 @@ function Navbar() {
                     <BiMessageSquareEdit className=' lg:text-2xl ' />
                     <h1 className='text-xs lg:text-sm '>Messages</h1>
                   </Link>
-                  {/* settings */}
-                  <Link href='/settings' className='flex  items-center gap-4 '>
-                    <TfiSettings className=' lg:text-2xl ' />
-                    <h1 className='text-xs lg:text-sm '>Settings</h1>
-                  </Link>
+
                   {/* suport */}
                   <Link href='/support' className='flex  items-center gap-4 '>
                     <BsQuestionCircle className='lg:text-2xl ' />
@@ -651,11 +647,7 @@ function Navbar() {
                     <BiMessageSquareEdit className=' lg:text-2xl ' />
                     <h1 className='text-xs lg:text-sm '>Messages</h1>
                   </Link>
-                  {/* settings */}
-                  <Link href='/settings' className='flex  items-center gap-4 '>
-                    <TfiSettings className=' lg:text-2xl ' />
-                    <h1 className='text-xs lg:text-sm '>Settings</h1>
-                  </Link>
+
                   {/* suport */}
                   <Link href='/support' className='flex  items-center gap-4 '>
                     <BsQuestionCircle className='lg:text-2xl ' />

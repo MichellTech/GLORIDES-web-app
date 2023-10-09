@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { MdOutlineAddAPhoto } from 'react-icons/md'
 import { BiLockOpenAlt, BiUser } from 'react-icons/bi'
-import { AiOutlineBell } from 'react-icons/ai'
+import { MdOutlinePayments } from 'react-icons/md'
 import Footer from '@/components/Navigation/Footer'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -167,6 +167,12 @@ function Edit() {
                   <div className='flex  justify-center items-center gap-3 border-babypurple border  px-4 py-2 text-babyblack rounded transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-babypurple duration-300 hover:border-none hover:text-white  '>
                     <BiLockOpenAlt className='' />
                     <h1 className='text-xs '>Passwords</h1>
+                  </div>
+                </Link>
+                <Link href='/Userprofile/payment' className=' '>
+                  <div className='flex  justify-center items-center gap-3 border-babypurple border  px-4 py-2 text-babyblack rounded transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-babypurple duration-300 hover:border-none hover:text-white  '>
+                    <MdOutlinePayments className='' />
+                    <h1 className='text-xs '>Payment</h1>
                   </div>
                 </Link>
               </div>
