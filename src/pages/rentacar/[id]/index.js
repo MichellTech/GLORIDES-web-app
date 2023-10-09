@@ -21,13 +21,6 @@ import { TbClockSearch, TbCameraCheck } from 'react-icons/tb'
 import { AiFillCar } from 'react-icons/ai'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { useRouter } from 'next/router'
-import { BiSolidCarGarage } from 'react-icons/bi'
-import { LuFuel, LuUser } from 'react-icons/lu'
-import { GiGearStickPattern, GiCarSeat, GiRoundStar } from 'react-icons/gi'
-import { AiOutlineHeart, AiFillHeart, AiFillStar } from 'react-icons/ai'
-import { TbClockSearch } from 'react-icons/tb'
-import { MdOutlineFilterAlt } from 'react-icons/md'
 
 function Viewcar() {
   const router = useRouter()
