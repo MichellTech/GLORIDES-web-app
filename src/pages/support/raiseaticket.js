@@ -227,7 +227,7 @@ function Raiseaticket() {
                               return (
                                 <div
                                   key={index}
-                                  className='border border-babyblack   w-60 md:w-80 xl:w-96  relative'
+                                  className='border border-babyblack   w-52 md:w-80 xl:w-96  relative'
                                 >
                                   <label>
                                     <span className='sr-only text-xs '>
