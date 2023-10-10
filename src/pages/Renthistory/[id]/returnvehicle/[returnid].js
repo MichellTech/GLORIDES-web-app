@@ -121,7 +121,7 @@ function Returnvehicle() {
                   {/* first */}
                   <div className='space-y-5 md:space-y-6 lg:space-y-8'>
                     {/* car photos*/}
-                    <div className='bg-white px-4 py-4 rounded-lg shadow-md lg:py-6'>
+                    <div className='bg-white px-4 py-4 rounded-lg shadow-md lg:px-8 lg:py-6'>
                       <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
                         Car Photos
                       </h1>
@@ -571,7 +571,7 @@ function Returnvehicle() {
                       </div>
                     </div>
                     {/* rate car */}
-                    <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
+                    <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 lg:px-8 shadow-md lg:py-6'>
                       <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
                         Car Ratings
                       </h1>
@@ -638,7 +638,7 @@ function Returnvehicle() {
                       )}
                     </div>
                     {/* comment */}
-                    <div className='bg-white px-4 py-4 rounded-lg space-y-4 lg:space-y-4 shadow-md lg:py-6'>
+                    <div className='bg-white px-4 py-4 rounded-lg space-y-4 lg:space-y-4 lg:px-8 shadow-md lg:py-6'>
                       <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
                         Comment
                       </h1>
@@ -667,7 +667,7 @@ function Returnvehicle() {
                   </div>
                 </div>
                 {/* button */}
-                <div className='flex items-center gap-4 pt-6 lg:pt-10 lg:gap-10'>
+                <div className='flex items-center gap-4 pt-6 lg:pt-10 lg:gap-10  max-w-sm mx-auto'>
                   <button
                     type='submit'
                     className='bg-babypurple text-white px-4 py-3   rounded-md w-full md:py-4   text-sm lg:text-base transition ease-in-out delay-150  hover:-translate-y-1  hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '
@@ -681,7 +681,14 @@ function Returnvehicle() {
                       'Return vehicle'
                     )}
                   </button>
-                  <button className=' text-babyblack border border-babyblack px-4 py-3 md:py-4   rounded-md w-full  text-sm lg:text-base transition ease-in-out delay-150  hover:-translate-y-1   hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '>
+                  <button
+                    onClick={() => {
+                      router.push({
+                        pathname: `/support`,
+                      })
+                    }}
+                    className=' text-babyblack border border-babyblack px-4 py-3 md:py-4   rounded-md w-full  text-sm lg:text-base transition ease-in-out delay-150  hover:-translate-y-1   hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '
+                  >
                     Report Issue
                   </button>
                 </div>
