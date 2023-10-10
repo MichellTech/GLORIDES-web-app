@@ -10,7 +10,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Footer from '../components/Navigation/Footer'
 function contactus() {
-  const [seepassword, setSeepassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const initialValues = {

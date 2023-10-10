@@ -109,7 +109,11 @@ function Navbar() {
               <Link href='/partnerwithus'>Partner with Us</Link>
             </ul>
             <ul className='text-xs md:text-sm cursor-pointer xl:text-base '>
-              <Link href='/contactus'>Contact Us</Link>
+              {isUserLogedin ? (
+                <Link href='/support'>Support</Link>
+              ) : (
+                <Link href='/contactus'>Contact Us</Link>
+              )}
             </ul>
           </div>
           {/* signup button web */}
@@ -320,11 +324,6 @@ function Navbar() {
                     <h1 className='text-xs lg:text-sm '>Messages</h1>
                   </Link>
 
-                  {/* suport */}
-                  <Link href='/support' className='flex  items-center gap-4 '>
-                    <BsQuestionCircle className='lg:text-2xl ' />
-                    <h1 className='text-xs lg:text-sm '>Support</h1>
-                  </Link>
                   {/* logout */}
                   <Link
                     href='/Auth/login'
@@ -719,7 +718,11 @@ function Navbar() {
           </div>
           <div className='w-full py-3 text-center'>
             <ul className='text-sm md:text-sm cursor-pointer'>
-              <Link href='/contactus'>Contact us</Link>
+              {isUserLogedin ? (
+                <Link href='/support'>Support</Link>
+              ) : (
+                <Link href='/contactus'>Contact us</Link>
+              )}
             </ul>
           </div>
           {!isUserLogedin && (

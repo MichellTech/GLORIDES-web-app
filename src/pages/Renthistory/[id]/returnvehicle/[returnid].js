@@ -9,20 +9,10 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { MdOutlineAddAPhoto } from 'react-icons/md'
 
-import { AiOutlineStar, AiFillStar } from 'react-icons/ai'
+import { FaStar } from 'react-icons/fa'
 
-import {
-  MdKeyboardBackspace,
-  MdOutlineLocationSearching,
-  MdOutlineBluetoothConnected,
-  MdGpsFixed,
-  MdChildFriendly,
-} from 'react-icons/md'
+import { MdKeyboardBackspace } from 'react-icons/md'
 import Link from 'next/link'
-import { BiSolidCarGarage, BiCurrentLocation } from 'react-icons/bi'
-import { LuFuel, LuCalendarClock } from 'react-icons/lu'
-import { GiGearStickPattern, GiCarSeat } from 'react-icons/gi'
-import { TbClockSearch, TbCameraCheck } from 'react-icons/tb'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { ImSpinner } from 'react-icons/im'
@@ -44,6 +34,8 @@ function Returnvehicle() {
   const [imagetouploadtwo, setImagetouploadtwo] = useState(null)
   const [imageerror, setImageerror] = useState('')
   const [imageerrortwo, setImageerrortwo] = useState('')
+  const [rating, setRating] = useState(null)
+  const [hover, setHover] = useState(null)
 
   const fileTypes = ['JPG', 'JPEG', 'PNG']
   // drivers
@@ -67,7 +59,7 @@ function Returnvehicle() {
   }
 
   const initialValues = {
-    rating: 0,
+    comment: '',
   }
 
   const onSubmit = (values, onSubmitProps) => {
@@ -87,20 +79,11 @@ function Returnvehicle() {
     //  })
     //  console.log(values)
   }
-  // validation
-
-  // const validateRating= (value) {
-
-  //   let error;
-  //   if (!value || value === 0) {
-  //       error = 'Required';
-  //   }
-  //   return error;
 
   const validationSchema = Yup.object().shape({
-    rating: Yup.object().shape({
-      rating: Yup.number().required('Please rate this vehicle.'),
-    }),
+    comment: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No Comment Provided'),
   })
   return (
     <>
@@ -189,7 +172,7 @@ function Returnvehicle() {
                                 name='file'
                                 types={fileTypes}
                                 children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2  mx-auto'>
+                                  <div className='px-6 py-6 border-2 border-babypurple rounded-md  lg:rounded-lg border-dotted flex flex-col justify-center items-center space-y-2  mx-auto'>
                                     <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
                                     <p className='text-xs text-center'>
                                       Upload digital copy of your driver's
@@ -243,7 +226,7 @@ function Returnvehicle() {
                                 name='file'
                                 types={fileTypes}
                                 children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2  mx-auto'>
+                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center rounded-md  lg:rounded-lg items-center space-y-2  mx-auto'>
                                     <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
                                     <p className='text-xs text-center'>
                                       Upload digital copy of your driver's
@@ -297,7 +280,7 @@ function Returnvehicle() {
                                 name='file'
                                 types={fileTypes}
                                 children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2  mx-auto'>
+                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2  rounded-md  lg:rounded-lg mx-auto'>
                                     <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
                                     <p className='text-xs text-center'>
                                       Upload digital copy of your driver's
@@ -351,7 +334,7 @@ function Returnvehicle() {
                                 name='file'
                                 types={fileTypes}
                                 children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2  mx-auto'>
+                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col rounded-md  lg:rounded-lg justify-center items-center space-y-2  mx-auto'>
                                     <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
                                     <p className='text-xs text-center'>
                                       Upload digital copy of your driver's
@@ -405,7 +388,7 @@ function Returnvehicle() {
                                 name='file'
                                 types={fileTypes}
                                 children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2  mx-auto'>
+                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2 rounded-md  lg:rounded-lg mx-auto'>
                                     <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
                                     <p className='text-xs text-center'>
                                       Upload digital copy of your driver's
@@ -459,7 +442,7 @@ function Returnvehicle() {
                                 name='file'
                                 types={fileTypes}
                                 children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2  mx-auto'>
+                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2 rounded-md  lg:rounded-lg mx-auto'>
                                     <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
                                     <p className='text-xs text-center'>
                                       Upload digital copy of your driver's
@@ -513,7 +496,7 @@ function Returnvehicle() {
                                 name='file'
                                 types={fileTypes}
                                 children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2  mx-auto'>
+                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2 rounded-md  lg:rounded-lg  mx-auto'>
                                     <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
                                     <p className='text-xs text-center'>
                                       Upload digital copy of your driver's
@@ -567,7 +550,7 @@ function Returnvehicle() {
                                 name='file'
                                 types={fileTypes}
                                 children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2  mx-auto'>
+                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2 rounded-md  lg:rounded-lg  mx-auto'>
                                     <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
                                     <p className='text-xs text-center'>
                                       Upload digital copy of your driver's
@@ -592,144 +575,118 @@ function Returnvehicle() {
                       <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
                         Car Ratings
                       </h1>
-                      {/* img */}
-                      <div className='w-full space-y-4'>
-                        <h1 className='text-xs lg:text-sm'>
-                          Don’t Forget to rate your experience with this vehicle
-                          as it helps you and other user alike make an informed
-                          decision on our platform.
+                      {/* ratings */}
+                      <h1 className='text-xs pb-2 lg:text-sm  xl:text-base md:text-center lg:pb-3'>
+                        Don’t Forget to rate your experience with this vehicle
+                        as it helps you and other user alike make an informed
+                        decision on our platform.
+                      </h1>
+                      <div className=' justify-center flex items-center gap-4 lg:gap-8'>
+                        <h1 className='text-xs font-bold lg:text-sm xl:text-base '>
+                          Very bad
                         </h1>
-                        <div class='flex flex-row-reverse justify-center p-10'>
-                          <AiFillStar className='text-babyblack peer peer-hover:text-babypurple hover:text-babypurple w-12 h-12 mx-2 cursor-pointer ' />
-                          <AiFillStar className='text-babyblack peer peer-hover:text-babypurple hover:text-babypurple w-12 h-12 mx-2  cursor-pointer ' />
-                          <AiFillStar className='text-babyblack peer peer-hover:text-babypurple hover:text-babypurple w-12 h-12 mx-2 cursor-pointer  ' />
-                          <AiFillStar className='text-babyblack peer peer-hover:text-babypurple hover:text-babypurple w-12 h-12 mx-2 cursor-pointer  ' />
-                          <AiFillStar className='text-babyblack peer peer-hover:text-babypurple hover:text-babypurple w-12 h-12 mx-2 cursor-pointer ' />
+                        <div className='flex items-center gap-2 justify-center'>
+                          {[...Array(5)].map((star, index) => {
+                            const currentRating = index + 1
+                            return (
+                              <label key={index} className=''>
+                                <input
+                                  type='radio'
+                                  name='rating'
+                                  value={currentRating}
+                                  className='hidden'
+                                  onClick={() => setRating(currentRating)}
+                                />
+
+                                <FaStar
+                                  className='flex items-center cursor-pointer text-xl md:text-2xl lg:text-3xl xl:text-5xl'
+                                  color={
+                                    currentRating <= (hover || rating)
+                                      ? '#A303A0'
+                                      : '#e4e5e9'
+                                  }
+                                  onMouseEnter={() => setHover(currentRating)}
+                                  onMouseLeave={() => setHover(null)}
+                                />
+                              </label>
+                            )
+                          })}
                         </div>
-                      </div>
-                    </div>
-                    {/* car features */}
-                    <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
-                      <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
-                        Car Features
-                      </h1>
-                      {/* features */}
-                      <div className='flex flex-wrap gap-2 '>
-                        {/* one */}
-                        <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
-                          <LuFuel className='text-xl' />
-                          <h1 className='text-xs'>Diesel</h1>
-                        </div>
-                        {/* two */}
-                        <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
-                          <BiSolidCarGarage className='text-xl' />
-                          <h1 className='text-xs '>Doors</h1>
-                        </div>
-                        {/* three */}
-                        <div className='flex items-center gap-2 border border-babyblack px-2 py-2 w-max rounded-sm lg:rounded-md'>
-                          <GiCarSeat className='text-xl' />
-                          <p className='text-xs'>4 Seater</p>
-                        </div>
-                        {/* four */}
-                        <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max  rounded-sm lg:rounded-md'>
-                          <GiGearStickPattern className='text-xl' />
-                          <p className='text-xs'>Automatic</p>
-                        </div>
-                        {/* five */}
-                        <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
-                          <TbClockSearch className='text-xl' />
-                          <p className='text-xs'>2400</p>
-                        </div>
-                        {/* six */}
-                        <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
-                          <MdOutlineBluetoothConnected className='text-xl' />
-                          <p className='text-xs'>Bluetooth</p>
-                        </div>
-                        {/* seven*/}
-                        <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
-                          <MdGpsFixed className='text-xl' />
-                          <p className='text-xs'>GPS</p>
-                        </div>
-                        {/* eight*/}
-                        <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
-                          <MdChildFriendly className='text-xl' />
-                          <p className='text-xs'>Child Seat</p>
-                        </div>
-                        {/* eight*/}
-                        <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
-                          <TbCameraCheck className='text-xl' />
-                          <p className='text-xs'>Camera</p>
-                        </div>
-                      </div>
-                    </div>
-                    {/* pickup location */}
-                    <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
-                      <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
-                        Pickup Location
-                      </h1>
-                      {/* img */}
-                      <div className='flex items-center gap-2'>
-                        <BiCurrentLocation className='lg:text-xl' />
-                        <h1 className='text-xs lg:text-sm'>
-                          No 6 rumola road Aba, Abia State
+                        <h1 className='text-xs font-bold lg:text-sm xl:text-base '>
+                          Excellent
                         </h1>
                       </div>
-                    </div>
-                    {/* drop off  location*/}
-                    <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
-                      <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
-                        Drop Off Location
-                      </h1>
-                      {/* img */}
-                      <div className='flex items-center gap-2'>
-                        <MdOutlineLocationSearching className='lg:text-xl' />
-                        <h1 className='text-xs lg:text-sm'>
-                          No 6 rumola road Aba, Abia State
+                      {rating && (
+                        <h1 className='text-xs text-center lg:text-sm  pt-2 lg:pt-3 text-babyblack'>
+                          {' '}
+                          You have rated your experience with this vehicle as{' '}
+                          {rating > 4 ? 'an' : 'a'}{' '}
+                          <span className='font-bold'>
+                            {' '}
+                            {rating === 1
+                              ? 'very bad'
+                              : rating === 2
+                              ? 'bad'
+                              : rating === 3
+                              ? 'good'
+                              : rating === 4
+                              ? 'very good'
+                              : 'Excellent'}{' '}
+                          </span>
+                          one !
                         </h1>
-                      </div>
+                      )}
                     </div>
-                    {/* pickup date */}
-                    <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
+                    {/* comment */}
+                    <div className='bg-white px-4 py-4 rounded-lg space-y-4 lg:space-y-4 shadow-md lg:py-6'>
                       <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
-                        Pickup Date
+                        Comment
                       </h1>
-                      {/* img */}
-                      <div className='flex items-center gap-2'>
-                        <LuCalendarClock className='lg:text-xl' />
+                      {/* comment */}
+                      <div className='space-y-4'>
                         <h1 className='text-xs lg:text-sm'>
-                          10:00 AM Tuesday October 10th ,2023
+                          Share your exprience while using this vehicle
                         </h1>
-                      </div>
-                    </div>
-                    {/* drop off  date*/}
-                    <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
-                      <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
-                        Drop Off Date
-                      </h1>
-                      {/* img */}
-                      <div className='flex items-center gap-2'>
-                        <LuCalendarClock className='lg:text-xl' />
-                        <h1 className='text-xs lg:text-sm'>
-                          10:00 AM Wednesday October 11th ,2023
-                        </h1>
+                        <div className='flex  relative justify-between items-center w-full md:col-span-2 '>
+                          <Field
+                            as='textarea'
+                            type='text'
+                            id='comment'
+                            name='comment'
+                            cols={20}
+                            rows={10}
+                            placeholder='Input your comment here'
+                            className=' rounded-md bg-white border-babygrey border w-full py-3 px-4 outline-babypurple  text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base lg:rounded-lg '
+                          />
+                        </div>
+                        <div className='text-softRed text-xs mt-1 px-4'>
+                          <ErrorMessage name='comment' />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
+                {/* button */}
+                <div className='flex items-center gap-4 pt-6 lg:pt-10 lg:gap-10'>
+                  <button
+                    type='submit'
+                    className='bg-babypurple text-white px-4 py-3   rounded-md w-full md:py-4   text-sm lg:text-base transition ease-in-out delay-150  hover:-translate-y-1  hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '
+                  >
+                    {loading ? (
+                      <div className='flex justify-center gap-2 items-center'>
+                        <ImSpinner className='animate animate-spin' />
+                        Updating...
+                      </div>
+                    ) : (
+                      'Return vehicle'
+                    )}
+                  </button>
+                  <button className=' text-babyblack border border-babyblack px-4 py-3 md:py-4   rounded-md w-full  text-sm lg:text-base transition ease-in-out delay-150  hover:-translate-y-1   hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '>
+                    Report Issue
+                  </button>
+                </div>
               </div>
-              <button
-                type='submit'
-                className='bg-babypurple text-white px-4 py-3   rounded-md w-full  text-sm lg:text-base transition ease-in-out delay-150  hover:-translate-y-1  hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '
-              >
-                {loading ? (
-                  <div className='flex justify-center gap-2 items-center'>
-                    <ImSpinner className='animate-spin' />
-                    Updating...
-                  </div>
-                ) : (
-                  'Save Card'
-                )}
-              </button>
+
               <Footer />
             </Form>
           )
