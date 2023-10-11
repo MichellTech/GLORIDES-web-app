@@ -49,11 +49,11 @@ function index() {
               {/* table */}
               <div className='w-full overflow-x-auto'>
                 <table className='min-w-max w-full divide-y  overflow-x-auto relative divide-gray-1 table-auto '>
-                  <thead className='text-xs  overflow-x-scroll text-left text-babyblack  w-max'>
+                  <thead className='text-xs  overflow-x-scroll text-left text-babyblack   w-max'>
                     <tr>
                       <th
                         scope='col'
-                        className='pl-3 pr-2  text-left font-medium text-babyblack'
+                        className='pr-4   text-left font-medium text-babyblack'
                       >
                         <div className='flex items-center gap-4 mb-6'>
                           <h2 className='text-base lg:text-lg xl:text-xl font-semibold '>
@@ -63,7 +63,7 @@ function index() {
                       </th>
                       <th
                         scope='col'
-                        className='pl-3 pr-2  text-left text-sm font-medium text-babyblack'
+                        className=' pr-4   text-left text-sm font-medium text-babyblack'
                       >
                         <div className='flex items-center justify-start gap-4 mb-6'>
                           <h2 className='text-base font-semibold lg:text-lg xl:text-xl  '>
@@ -73,7 +73,7 @@ function index() {
                       </th>
                       <th
                         scope='col'
-                        className='pl-3 pr-2  text-left text-sm font-medium text-babyblack'
+                        className=' pr-4   text-left text-sm font-medium text-babyblack'
                       >
                         <div className='flex items-center gap-4 mb-6'>
                           <h2 className='text-base font-semibold lg:text-lg xl:text-xl  '>
@@ -83,7 +83,7 @@ function index() {
                       </th>
                       <th
                         scope='col'
-                        className='pl-3 pr-2  text-left font-medium text-babyblack'
+                        className='pr-4   text-left font-medium text-babyblack'
                       >
                         <div className='flex items-center gap-4 mb-6'>
                           <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
@@ -93,7 +93,7 @@ function index() {
                       </th>
                       <th
                         scope='col'
-                        className='pl-3 pr-2  text-left font-medium text-babyblack'
+                        className='pr-4   text-left font-medium text-babyblack'
                       >
                         <div className='flex items-center gap-4 mb-6'>
                           <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
@@ -115,22 +115,22 @@ function index() {
                           key={index}
                           className='hover:bg-softpurple text-xs md:text-sm '
                         >
-                          <td className='px-2 py-4   '>{item.title}</td>
-                          <td className='px-2 py-4 '>{item.referencecode}</td>
+                          <td className=' pr-4  py-4   '>{item.title}</td>
+                          <td className=' py-4 '>{item.referencecode}</td>
 
                           <td
                             className={`${
                               item.status === 'open'
-                                ? 'px-2  py-4  text-left text-babypurple font-normal'
-                                : 'px-2  py-4  text-left text-green-500 font-normal'
+                                ? 'pr-4   py-4  text-left text-babypurple font-normal'
+                                : 'pr-4   py-4  text-left text-green-500 font-normal'
                             }`}
                           >
                             {item.status}
                           </td>
-                          <td className='px-2  py-4  text-left '>
+                          <td className='pr-4   py-4  text-left '>
                             {item.lastupdated}
                           </td>
-                          <td className='px-2  py-4  text-left '>
+                          <td className='pr-4   py-4  text-left '>
                             {item.priority}
                           </td>
                         </tr>

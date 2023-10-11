@@ -23,7 +23,7 @@ function Viewticket() {
       {/* bodey */}
       <section className='bg-[#F5F5F5]'>
         {/* file */}
-        <div className='pt-10 lg:pt-14 xl:pt-16 max-w-lg mx-auto font-sans sm:max-w-xl md:max-w-3xl  lg:max-w-5xl xl:max-w-7xl  px-6 md:px-6  lg:px-8 s '>
+        <div className='pt-10 lg:pt-14 xl:pt-16 max-w-lg mx-auto font-sans sm:max-w-xl md:max-w-4xl  lg:max-w-5xl xl:max-w-7xl  px-6 md:px-6  lg:px-8 s '>
           <div
             onClick={() => {
               router.push({
@@ -78,12 +78,12 @@ function Viewticket() {
                 )}
               </div>
               {/* reply from operator */}
-              <div className='bg-white shadow-lg py-3 rounded-md space-y-4 md:py-4 border-l-4  lg:border-l-[6px] border-babypurple'>
+              <div className='bg-white shadow-lg py-3 rounded-md space-y-4 md:py-4 border-l-4  lg:border-l-[6px] border-babypurple w-full'>
                 {/* title */}
                 <div className='flex justify-between items-center gap-2 px-6'>
-                  <div className='flex items-center gap-3'>
+                  <div className='flex items-center gap-2 sm:gap-3 justify-center '>
                     <FiUser className=' lg:text-xl' />
-                    <h1 className='text-sm lg:text-base'>Miriam Ezeobi</h1>
+                    <h1 className='text-sm lg:text-base'>Miriam</h1>
                     <h1 className='px-4 py-2 text-xs rounded-md border-babygrey bg-softpurple lg:text-sm lg:px-6'>
                       Operator
                     </h1>

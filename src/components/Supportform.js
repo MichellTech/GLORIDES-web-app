@@ -63,7 +63,7 @@ function Supportform() {
                 <Form className='  text-babyblack space-y-10 font-sans w-full pb-6 md:px-0 '>
                   <div className=' space-y-8  md:space-y-10 lg:space-y-12 px-2 py-4'>
                     {/* name and emails */}
-                    <div className='flex items-center justify-between gap-4 lg:gap-10 '>
+                    <div className=' space-y-8  md:space-y-0 md:flex md:items-center md:justify-between md:gap-4 lg:gap-10 '>
                       {/* name */}
                       <div className='space-y-3 w-full'>
                         <h1 className='text-xs lg:text-sm'> Name</h1>

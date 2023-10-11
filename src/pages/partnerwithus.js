@@ -131,6 +131,23 @@ function partnerwithus() {
           </div>
         </div>
       </section>
+      {/* how to get started */}
+      <section className='section-center space-y-10 md:space-y-16'>
+        {/* header */}
+        <div className='flex justify-center items-center mx-auto'>
+          <div className='  space-y-2 md:space-y-3 xl:space-y-4'>
+            <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl py-4 text-center  text-babyblack   '>
+              How to{' '}
+              <span className="bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4   ">
+                Get Started
+              </span>{' '}
+            </h1>
+            <p className='text-sm text-center sm:text-base max-w-sm sm:max-w-sm md:text-lg md:max-w-md text-babyblack lg:text-xl lg:max-w-lg xl:text-2xl xl:max-w-xl'>
+              Start generating passive income on the go
+            </p>
+          </div>
+        </div>
+      </section>
       {/* partner with us */}
       <section className='section-center space-y-10 md:space-y-16'>
         {/* header */}
