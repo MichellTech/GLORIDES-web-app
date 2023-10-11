@@ -4,7 +4,9 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Businessdata from '../utilis/Businessdata'
 import Footer from '../components/Navigation/Footer'
-
+import { RiEditFill } from 'react-icons/ri'
+import { BsFillBriefcaseFill } from 'react-icons/bs'
+import { BiUserPlus } from 'react-icons/bi'
 function partnerwithus() {
   const [info, setInfo] = useState(Businessdata)
   return (
@@ -133,21 +135,101 @@ function partnerwithus() {
       </section>
       {/* how to get started */}
       <section className='section-center space-y-10 md:space-y-16'>
-        {/* header */}
-        <div className='flex justify-center items-center mx-auto'>
-          <div className='  space-y-2 md:space-y-3 xl:space-y-4'>
-            <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl py-4 text-center  text-babyblack   '>
+        <div
+          data-aos='zoom-in-down'
+          data-aos-duration='2000'
+          data-aos-delay='100'
+          className=' section-center my-20 space-y-10 md:flex md:justify-between md:items-center md:space-y-0 md:gap-6 overflow-x-hidden'
+        >
+          {/* image */}
+          <div className='  relative md:w-1/2'>
+            <Image
+              src={'/images/howto.png'}
+              alt='logo'
+              width={1000}
+              height={1000}
+              className='w-60  sm:w-80 lg:w-full max-w-xs sm:max-w-sm xl:max-w-sm mx-auto '
+            />
+          </div>
+          {/* text */}
+          <div className='font-sans flex flex-col justify-center items-center mx-auto md:mx-0 md:items-start space-y-4 md:w-1/2 '>
+            {/* headline */}
+            <h1 className='text-babyblack font-extrabold relative w-max sm:text-2xl md:text-xl lg:text-2xl  xl:text-3xl'>
               How to{' '}
               <span className="bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4   ">
                 Get Started
               </span>{' '}
+              <span>
+                <div className='bg-babyorange w-full h-4  absolute -bottom-1  left-0 -z-20'></div>
+              </span>
             </h1>
-            <p className='text-sm text-center sm:text-base max-w-sm sm:max-w-sm md:text-lg md:max-w-md text-babyblack lg:text-xl lg:max-w-lg xl:text-2xl xl:max-w-xl'>
-              Start generating passive income on the go
+            {/* top */}
+            <h2 className='text-center text-babyblack  font-bold sm:text-xl  md:text-left xl:text-3xl md:max-w-xs xl:max-w-md font-mono'>
+              Become a host and start your car sharing business
+            </h2>
+            {/* paragraph */}
+            <p className='text-babyblack text-xs text-center leading-6 sm:text-sm sm:leading-7 md:text-left md:leading-6 xl:text-base xl:max-w-md'>
+              We've gone the extra mile to document these following onboarding
+              steps to ensure you have a smooth experience while registering
+              your vehicle on our platform
             </p>
+            {/* details */}
+            <div className='md:max-w-xs xl:max-w-sm space-y-4'>
+              {/* one */}
+              <div className='bg-white shadow-md  flex gap-4 items-start px-4 py-5 md:hover:translate-x-6 hover:shadow-xl duration-1000'>
+                {/* icon */}
+                <div className='p-2 bg-softpurple w-max rounded-sm '>
+                  <BiUserPlus className='text-babypurple' />
+                </div>
+                {/* text */}
+                <div className='space-y-1'>
+                  <h1 className=' text-sm font-bold'>
+                    Signup on our platform{' '}
+                  </h1>
+                  <p className='text-xs'>
+                    Sign up on the GLORIDE website or on our mobile
+                    application.The GLORIDE mobile application is available on
+                    your favourite mobile application stores
+                  </p>
+                </div>
+              </div>
+              {/* two */}
+              <div className='bg-white shadow-md shadow-babygreen flex gap-4 items-start px-4 py-5 md:hover:translate-x-6 hover:shadow-xl duration-1000 '>
+                {/* icon */}
+                <div className='p-2 bg-softpurple w-max rounded-sm '>
+                  <RiEditFill className='text-babypurple' />
+                </div>
+                {/* text */}
+                <div className='space-y-1'>
+                  <h1 className=' text-sm font-bold'>Enlist your vehicle </h1>
+                  <p className='text-xs'>
+                    Switch to the hosting service on our platform,enlist your
+                    fleet of vehicles whilist setting their prices and rules
+                    their rules of engagement as your deem fit
+                  </p>
+                </div>
+              </div>
+              {/* three */}
+              <div className='bg-white shadow-md  flex gap-4 items-start px-4 py-5 md:hover:translate-x-6 hover:shadow-xl duration-1000'>
+                {/* icon */}
+                <div className='p-2 bg-softpurple w-max rounded-sm '>
+                  <BsFillBriefcaseFill className='text-babypurple' />
+                </div>
+                {/* text */}
+                <div className='space-y-1'>
+                  <h1 className=' text-sm font-bold'>Sit back and Earn </h1>
+                  <p className='text-xs'>
+                    We will handle the rest by promoting your vehicles to our
+                    numerous customers who are constantly in demand for vehicles
+                    , while you get paid directly to your account{' '}
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
       {/* partner with us */}
       <section className='section-center space-y-10 md:space-y-16'>
         {/* header */}
