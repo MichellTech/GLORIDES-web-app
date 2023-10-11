@@ -11,23 +11,6 @@ function Raiseaticket() {
   const [userpriority, setUserpriority] = useState(['High', 'Medium', 'Low'])
   const [userimage, setUserimage] = useState([{ id: 1, file: null }])
 
-  // const handleadd = () => {
-  //   const imagelist = [...userimage, []]
-  //   setUserimage(imagelist)
-  // }
-
-  // const handldelete = (i) => {
-  //   const detVal = [...userimage]
-  //   detVal.splice(i, 1)
-  //   setUserimage(detVal)
-  // }
-
-  // const handleChange = (onchangevalue, i) => {
-  //   const inputdata = [...userimage]
-  //   inputdata[i] = onchangevalue.target.value
-  //   setUserimage(inputdata)
-  // }
-
   const initialValues = {
     subject: '',
     message: '',
@@ -81,26 +64,26 @@ function Raiseaticket() {
             {(formik) => {
               return (
                 <Form className='  text-babyblack space-y-10 font-sans w-full px-6 py-4 md:px-0 '>
-                  <div className=' space-y-6 sm:space-y-7 md:space-y-10 lg:space-y-14 xl:space-y-16 '>
+                  <div className=' space-y-8 sm:space-y-9 md:space-y-14 lg:space-y-16  '>
                     {/* ticket INFORmation */}
-                    <div className='space-y-6'>
-                      <h1 className='sm:text-lg md:text-xl xl:text-2xl '>
+                    <div className='space-y-3 lg:space-y-5'>
+                      <h1 className='md:text-lg lg:text-xl xl:text-2xl  '>
                         Ticket Information
                       </h1>
-                      <div className='w-full bg-white shadow-md rounded-lg px-6 py-6 lg:px-10 lg:py-10 space-y-6 lg:space-y-10'>
+                      <div className='w-full bg-white shadow-md rounded-lg px-6 py-6 lg:px-10 lg:py-10 space-y-6 lg:space-y-10 xl:space-y-12'>
                         {/* name and emails */}
-                        <div className='space-y-6  md:flex md:items-center md:justify-between md:gap-6 md:space-y-0'>
+                        <div className='space-y-6  md:flex md:items-center md:justify-between md:gap-6 xl:gap-10 md:space-y-0'>
                           {/* name */}
                           <div className='space-y-3 w-full'>
                             <h1 className='text-xs lg:text-sm'> Name</h1>
-                            <p className='bg-softpurple border-babyblack border w-full py-2  px-4 text-xs  md:text-sm   rounded-sm'>
+                            <p className='bg-softpurple border-babyblack border w-full py-2 lg:py-3  px-4 text-xs  md:text-sm   rounded-sm'>
                               Okwu Chiedozie Michell
                             </p>
                           </div>
                           {/* email */}
                           <div className='space-y-3  w-full'>
                             <h1 className='text-xs lg:text-sm'> Email</h1>
-                            <p className='bg-softpurple border-babyblack border w-full py-2  px-4 text-xs  md:text-sm rounded-sm'>
+                            <p className='bg-softpurple border-babyblack border w-full py-2 lg:py-3  px-4 text-xs  md:text-sm rounded-sm'>
                               OkwuChiedozie@gmail.com
                             </p>
                           </div>
@@ -114,7 +97,7 @@ function Raiseaticket() {
                               type='text'
                               name='subject'
                               placeholder='Input your Subject title here'
-                              className=' bg-white border-babyblack border w-full py-2  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm rounded-sm '
+                              className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm rounded-sm '
                             />
                             <div className='text-softRed text-xs mt-1 px-4'>
                               <ErrorMessage name='subject' />
@@ -128,7 +111,7 @@ function Raiseaticket() {
                                 as='select'
                                 type='selectOption'
                                 name='service'
-                                className=' bg-white border-babyblack border w-full py-2 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm rounded-sm cursor-pointer '
+                                className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm rounded-sm cursor-pointer '
                               >
                                 <option value=''>Select Service Type</option>
                                 {userservice?.map((item, index) => {
@@ -156,7 +139,7 @@ function Raiseaticket() {
                                 as='select'
                                 type='selectOption'
                                 name='priority'
-                                className=' bg-white border-babyblack border w-full py-2 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm  rounded-sm cursor-pointer   '
+                                className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm  rounded-sm cursor-pointer   '
                               >
                                 <option className=' ' value=''>
                                   select Priority
@@ -187,8 +170,8 @@ function Raiseaticket() {
                     </div>
 
                     {/* message*/}
-                    <div className='space-y-6'>
-                      <h1 className='sm:text-lg md:text-xl xl:text-2xl '>
+                    <div className='space-y-3 lg:space-y-5'>
+                      <h1 className='md:text-lg lg:text-xl xl:text-2xl '>
                         Message
                       </h1>
                       <div className='w-full bg-white shadow-md rounded-lg px-6 py-6 space-y-6 lg:px-10 lg:py-10  '>
@@ -215,8 +198,8 @@ function Raiseaticket() {
 
                     {/* photo */}
 
-                    <div className='space-y-6'>
-                      <h1 className='sm:text-lg md:text-xl xl:text-2xl'>
+                    <div className='space-y-3 lg:space-y-5'>
+                      <h1 className='md:text-lg lg:text-xl xl:text-2xl'>
                         Atttachments
                       </h1>
                       <div className='w-full bg-white shadow-md rounded-lg px-6 py-6 lg:px-10 lg:py-10 space-y-3 lg:space-y-6 '>
@@ -249,7 +232,7 @@ function Raiseaticket() {
                                           })
                                         )
                                       }}
-                                      className='block   w-40 lg:w-64 xl:w-80 text-xs text-babyblack file:mr-4 file:py-2 file:px-4 file:border-l-0 file:border-t-0 file:border-b-0 file:border-babygrey file:border-r file:border file:text-xs file:font-semibold file:text-babyblack cursor-pointer file:cursor-pointer file:bg-white md:file:text-sm md:file:py-3 xl:file:text-base lg:text-sm xl:text-base truncate 
+                                      className='block   w-40 md:w-64 xl:w-80 text-xs text-babyblack file:mr-4 file:py-2 file:px-4 file:border-l-0 file:border-t-0 file:border-b-0 file:border-babygrey file:border-r file:border file:text-xs file:font-semibold file:text-babyblack cursor-pointer file:cursor-pointer file:bg-white md:file:text-sm md:file:py-3 xl:file:text-base lg:text-sm xl:text-base truncate 
       '
                                     />
                                   </label>
@@ -295,10 +278,10 @@ function Raiseaticket() {
                     </div>
                   </div>
                   {/* button */}
-                  <div className='flex justify-between items-center gap-6 lg:gap-10 pt-6 max-w-sm mx-auto'>
+                  <div className='flex justify-between items-center gap-6 lg:gap-8 xl:gap-10 pt-6 lg:pt-10  xl:pt-12 max-w-sm mx-auto'>
                     <button
                       type='submit'
-                      className='bg-babypurple text-white px-4 py-2 md:py-3   rounded-md w-full  text-base lg:text-lg shadow-md transition ease-in-out delay-150  hover:-translate-y-1  hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '
+                      className='bg-babypurple text-white px-4 py-2 lg:py-3   rounded-md w-full  text-base lg:text-lg shadow-md transition ease-in-out delay-150  hover:-translate-y-1  hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '
                     >
                       {loading ? (
                         <div className='flex justify-center gap-2 items-center'>
@@ -311,7 +294,7 @@ function Raiseaticket() {
                     </button>
                     <Link
                       href='/support'
-                      className='border-babyblack text-babyblack border px-4 py-2 md:py-3   rounded-md w-full  text-base lg:text-lg shadow-md transition ease-in-out delay-150  hover:-translate-y-1  hover:bg-indigo-500 duration-300 hover:border-none hover:text-white text-center '
+                      className='border-babyblack text-babyblack border px-4 py-2 lg:py-3   rounded-md w-full  text-base lg:text-lg shadow-md transition ease-in-out delay-150  hover:-translate-y-1  hover:bg-indigo-500 duration-300 hover:border-none hover:text-white text-center '
                     >
                       Cancel
                     </Link>
@@ -321,6 +304,7 @@ function Raiseaticket() {
             }}
           </Formik>
         </div>
+        <Footer />
       </section>
     </>
   )

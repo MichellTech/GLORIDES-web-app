@@ -3,8 +3,10 @@ import Navbar from '@/components/Navigation/Navbar'
 import Link from 'next/link'
 import Footer from '@/components/Navigation/Footer'
 import { TbMessagesOff } from 'react-icons/tb'
-
+import Ticketdata from '../../utilis/tickets'
+import { useRouter } from 'next/router'
 function index() {
+  const router = useRouter()
   return (
     <>
       <Navbar />
@@ -24,23 +26,121 @@ function index() {
             </Link>
           </div>
           {/* content */}
-          <div className='bg-white w-full min-h-[60vh] lg:min-h-[70vh] shadow-lg flex flex-col justify-center items-center rounded-md lg:rounded-lg px-4 space-y-5'>
-            {/* icon */}
-            <div className='flex justify-center items-center p-4 rounded-full bg-babygrey'>
-              <TbMessagesOff className='text-2xl md:text-3xl xl:text-4xl text-babyblack' />
+          {!Ticketdata ? (
+            <div className='bg-white  w-full min-h-[60vh] lg:min-h-[70vh] shadow-lg flex flex-col justify-center items-center rounded-md lg:rounded-lg px-6 space-y-5'>
+              {/* icon */}
+              <div className='flex justify-center items-center p-4 rounded-full bg-babygrey'>
+                <TbMessagesOff className='text-2xl md:text-3xl xl:text-4xl text-babyblack' />
+              </div>
+              <div className='text-center mx-auto space-y-2 md:space-y-4'>
+                <h1 className='font-bold text-lg md:text-2xl xl:text-3xl'>
+                  No Tickets Found
+                </h1>
+                <p className='text-xs max-w-xs md:text-sm md:max-w-md xl:text-base xl:max-w-xl'>
+                  You haven't raised any issues lately, please click the button
+                  above to raise an issue if you have noticed or encountered any
+                  abuse, mistreatement or need to speak to our customer servive
+                  urgently
+                </p>
+              </div>
             </div>
-            <div className='text-center mx-auto space-y-2 md:space-y-4'>
-              <h1 className='font-bold text-lg md:text-2xl xl:text-3xl'>
-                No Tickets Found
-              </h1>
-              <p className='text-xs max-w-xs md:text-sm md:max-w-md xl:text-base xl:max-w-xl'>
-                You haven't raised any issues lately, please click the button
-                above to raise an issue if you have noticed or encountered any
-                abuse, mistreatement or need to speak to our customer servive
-                urgently
-              </p>
+          ) : (
+            <div className='bg-white  w-full  shadow-lg rounded-md lg:rounded-lg px-6 py-8'>
+              {/* table */}
+              <div className='w-full overflow-x-auto'>
+                <table className='min-w-max w-full divide-y  overflow-x-auto relative divide-gray-1 table-auto '>
+                  <thead className='text-xs  overflow-x-scroll text-left text-babyblack  w-max'>
+                    <tr>
+                      <th
+                        scope='col'
+                        className='pl-3 pr-2  text-left font-medium text-babyblack'
+                      >
+                        <div className='flex items-center gap-4 mb-6'>
+                          <h2 className='text-base lg:text-lg xl:text-xl font-semibold '>
+                            Subject
+                          </h2>
+                        </div>
+                      </th>
+                      <th
+                        scope='col'
+                        className='pl-3 pr-2  text-left text-sm font-medium text-babyblack'
+                      >
+                        <div className='flex items-center justify-start gap-4 mb-6'>
+                          <h2 className='text-base font-semibold lg:text-lg xl:text-xl  '>
+                            Reference Code
+                          </h2>
+                        </div>
+                      </th>
+                      <th
+                        scope='col'
+                        className='pl-3 pr-2  text-left text-sm font-medium text-babyblack'
+                      >
+                        <div className='flex items-center gap-4 mb-6'>
+                          <h2 className='text-base font-semibold lg:text-lg xl:text-xl  '>
+                            Status
+                          </h2>
+                        </div>
+                      </th>
+                      <th
+                        scope='col'
+                        className='pl-3 pr-2  text-left font-medium text-babyblack'
+                      >
+                        <div className='flex items-center gap-4 mb-6'>
+                          <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
+                            Last Updated
+                          </h2>
+                        </div>
+                      </th>
+                      <th
+                        scope='col'
+                        className='pl-3 pr-2  text-left font-medium text-babyblack'
+                      >
+                        <div className='flex items-center gap-4 mb-6'>
+                          <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
+                            Priority
+                          </h2>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className=' py-5 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
+                    {Ticketdata.map((item, index) => {
+                      return (
+                        <tr
+                          onClick={() => {
+                            router.push({
+                              pathname: `/support/${item.id}`,
+                            })
+                          }}
+                          key={index}
+                          className='hover:bg-softpurple text-xs md:text-sm '
+                        >
+                          <td className='px-2 py-4   '>{item.title}</td>
+                          <td className='px-2 py-4 '>{item.referencecode}</td>
+
+                          <td
+                            className={`${
+                              item.status === 'open'
+                                ? 'px-2  py-4  text-left text-babypurple font-normal'
+                                : 'px-2  py-4  text-left text-green-500 font-normal'
+                            }`}
+                          >
+                            {item.status}
+                          </td>
+                          <td className='px-2  py-4  text-left '>
+                            {item.lastupdated}
+                          </td>
+                          <td className='px-2  py-4  text-left '>
+                            {item.priority}
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <Footer />
       </section>
