@@ -30,7 +30,7 @@ function Transactionhistory() {
               </h1>
               <Link
                 href='/Host/withdraw'
-                className='bg-babypurple px-6 py-2 lg:py-3 text-white rounded-md text-xs lg:text-sm shadow-md transition ease-in-out delay-150    hover:bg-indigo-500 duration-300 hover:border-none hover:text-white w-max '
+                className='bg-babypurple hidden md:block px-6 py-2 lg:py-3 text-white rounded-md text-xs lg:text-sm shadow-md transition ease-in-out delay-150    hover:bg-indigo-500 duration-300 hover:border-none hover:text-white w-max '
               >
                 Make a Withdrawal
               </Link>
@@ -93,6 +93,15 @@ function Transactionhistory() {
                 {/* text */}
                 <h1 className='font-bold text-2xl lg:text-3xl'>4,000</h1>
               </div>
+            </div>
+            {/* mobile withdrawa */}
+            <div className='w-full'>
+              <Link
+                href='/Host/withdraw'
+                className='bg-babypurple md:hidden px-6 py-2 sm:py-3 text-white rounded-md text-xs lg:text-sm shadow-md transition ease-in-out delay-150    hover:bg-indigo-500 duration-300 hover:border-none hover:text-white w-full flex justify-center items-center '
+              >
+                Make a Withdrawal
+              </Link>
             </div>
           </div>
 
