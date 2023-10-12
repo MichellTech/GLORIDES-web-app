@@ -39,7 +39,7 @@ function Leasehistory() {
               {/* title */}
               <div className='flex justify-between items-center gap-2'>
                 <h1 className='text-xs sm:text-sm md:text-base font-bold lg:text-lg'>
-                  Michell, keep track of your transactions
+                  Michell, Here's your lease history so far !
                 </h1>
                 <Link
                   href='/Host/withdraw'
