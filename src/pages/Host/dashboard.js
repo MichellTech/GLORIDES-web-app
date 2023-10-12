@@ -4,6 +4,11 @@ import Footer from '../../components/Navigation/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 import { TbWallet } from 'react-icons/tb'
+import {
+  MdOutlineDirectionsCar,
+  MdOutlineElectricCar,
+  MdOutlineCarRepair,
+} from 'react-icons/md'
 
 function Dashboard() {
   return (
@@ -11,7 +16,7 @@ function Dashboard() {
       <Navbar />
       <section className='mt-6 sm:mt-10 max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-10'>
         {/* title */}
-        <div className='border w-full rounded-md pt-4 xl:pt-6 px-6 md:flex md:justify-between md:items-end md:gap-10'>
+        <div className='border w-full rounded-md pt-4 xl:pt-6 px-6 md:flex md:justify-between md:items-end md:gap-10 '>
           {/* text */}
           <div className='flex flex-col justify-center items-center md:justify-start md:items-start md:mx-0 space-y-4 lg:space-y-5 xl:space-y-6 mx-auto md:w-4/6  '>
             <h1 className='text-lg font-bold   lg:text-xl'>
@@ -51,54 +56,62 @@ function Dashboard() {
           </div>
         </div>
         {/* statistics */}
-        <div className='flex  flex-wrap  justify-between   gap-4 '>
+        <div className='flex gap-4 flex-wrap  w-full  '>
           {/* one */}
-          <div className='border  rounded-md px-4 py-4  space-y-2 w-full '>
+          <div className='border  rounded-md px-4 py-4  space-y-2 lg:space-y-3 w-max grow hover:shadow-md '>
             {/* header */}
             <div className='flex justify-between items-center gap-2'>
-              <h1 className='text-xs'>Available Balance</h1>
+              <h1 className='text-xs lg:text-sm xl:text-base'>
+                Available Balance
+              </h1>
               <div className='flex justify-center items-center p-2 bg-babygrey rounded-full '>
-                <TbWallet className='' />
+                <TbWallet className='lg:text-2xl xl:text-3xl' />
               </div>
             </div>
             {/* text */}
-            <h1 className='font-bold text-2xl'>$24,000</h1>
+            <h1 className='font-bold text-2xl lg:text-3xl'>$24,000</h1>
           </div>
           {/* two */}
-          <div className='border  rounded-md px-4 py-4 space-y-2 w-full '>
+          <div className='border  rounded-md px-4 py-4 space-y-2 hover:shadow-md  lg:space-y-3 w-max  grow '>
             {/* header */}
             <div className='flex justify-between items-center gap-2'>
-              <h1 className='text-xs'>Available Balance</h1>
-              <div className='flex justify-center items-center p-2 bg-babygrey rounded-full '>
-                <TbWallet className='' />
+              <h1 className='text-xs lg:text-sm xl:text-base'>
+                Number of Vehicles
+              </h1>
+              <div className='flex justify-center items-center p-2 bg-indigo-400 bg-opacity-50 rounded-full '>
+                <MdOutlineDirectionsCar className='lg:text-2xl xl:text-3xl' />
               </div>
             </div>
             {/* text */}
-            <h1 className='font-bold text-2xl'>$24,000</h1>
+            <h1 className='font-bold text-2xl lg:text-3xl'>24</h1>
           </div>
           {/* three */}
-          <div className='border  rounded-md px-4 py-4  space-y-2  w-full'>
+          <div className='border  rounded-md px-4 py-4  space-y-2 lg:space-y-3  w-max grow hover:shadow-md '>
             {/* header */}
             <div className='flex justify-between items-center gap-2'>
-              <h1 className='text-xs'>Available Balance</h1>
-              <div className='flex justify-center items-center p-2 bg-babygrey rounded-full '>
-                <TbWallet className='' />
+              <h1 className='text-xs lg:text-sm xl:text-base'>
+                Active Vehicles
+              </h1>
+              <div className='flex justify-center items-center p-2 bg-green-500 bg-opacity-50  rounded-full '>
+                <MdOutlineElectricCar className='lg:text-2xl xl:text-3xl' />
               </div>
             </div>
             {/* text */}
-            <h1 className='font-bold text-2xl'>$24,000</h1>
+            <h1 className='font-bold text-2xl lg:text-3xl'>20</h1>
           </div>
           {/* four */}
-          <div className='border  rounded-md px-4 py-4 space-y-2 w-full'>
+          <div className='border  rounded-md px-4 py-4 space-y-2 lg:space-y-3  w-max  grow hover:shadow-md'>
             {/* header */}
             <div className='flex justify-between items-center gap-2'>
-              <h1 className='text-xs'>Available Balance</h1>
-              <div className='flex justify-center items-center p-2 bg-babygrey rounded-full '>
-                <TbWallet className='' />
+              <h1 className='text-xs lg:text-sm xl:text-base'>
+                Delisted Vehicles
+              </h1>
+              <div className='flex justify-center items-center p-2 bg-softpurple rounded-full '>
+                <MdOutlineCarRepair className='lg:text-2xl xl:text-3xl' />
               </div>
             </div>
             {/* text */}
-            <h1 className='font-bold text-2xl'>$24,000</h1>
+            <h1 className='font-bold text-2xl lg:text-3xl'>4</h1>
           </div>
         </div>
       </section>
