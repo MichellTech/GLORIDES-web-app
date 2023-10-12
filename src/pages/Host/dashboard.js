@@ -17,7 +17,7 @@ function Dashboard() {
   return (
     <>
       <Navbar />
-      <section className='my-6 sm:my-10 max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-10'>
+      <section className='my-6 sm:my-10 md:pb-6 max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-10'>
         {/* title */}
         <div className='border w-full rounded-md pt-4 xl:pt-6 px-6 md:flex md:justify-between md:items-end md:gap-10 '>
           {/* text */}
@@ -43,7 +43,7 @@ function Dashboard() {
                 className='px-6 py-2  bg-babypurple rounded-md text-xs lg:text-sm text-white tracking-wide transition ease-in-out delay-150  hover:scale-110 hover:bg-indigo-500 duration-300 '
               >
                 {' '}
-                Withdrawl
+                Withdraw
               </Link>
             </div>
           </div>
@@ -154,7 +154,7 @@ function Dashboard() {
                   {leasehistory.map((item, index) => {
                     return (
                       <div key={index}>
-                        <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:px-2 lg:hover:px-4 cursor-pointer '>
+                        <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:bg-opacity-50 hover:px-2 lg:hover:px-4 cursor-pointer '>
                           {/* icona nd descripiton */}
                           <div className='flex items-center gap-4'>
                             {/* icon */}
@@ -181,7 +181,7 @@ function Dashboard() {
                                 item.status === 'Successfull'
                                   ? 'text-[0.5rem] lg:text-xs text-green-500'
                                   : item.status === 'Canceled'
-                                  ? 'text-[0.5rem] lg:text-xs text-red-500'
+                                  ? 'text-[0.5rem] lg:text-xs text-red-600'
                                   : 'text-[0.5rem] lg:text-xs text-orange-500'
                               }
                             >
@@ -231,7 +231,7 @@ function Dashboard() {
                   {transactionhistory.map((item, index) => {
                     return (
                       <div key={index}>
-                        <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:px-2 lg:hover:px-4 cursor-pointer '>
+                        <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:bg-opacity-50 hover:px-2 lg:hover:px-4 cursor-pointer '>
                           {/* icona nd descripiton */}
                           <div className='flex items-center gap-4'>
                             {/* icon */}
@@ -262,7 +262,7 @@ function Dashboard() {
                                 item.status === 'Successfull'
                                   ? 'text-[0.5rem] lg:text-xs text-green-500'
                                   : item.status === 'Failed'
-                                  ? 'text-[0.5rem] lg:text-xs text-red-500'
+                                  ? 'text-[0.5rem] lg:text-xs text-red-600'
                                   : 'text-[0.5rem] lg:text-xs text-orange-500'
                               }
                             >
@@ -279,6 +279,7 @@ function Dashboard() {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   )
 }
