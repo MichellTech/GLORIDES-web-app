@@ -92,3 +92,46 @@ export const cars = [
     status: 'Closed',
   },
 ]
+
+export const transactionhistory = [
+  {
+    id: 1,
+    type: 'incoming',
+    amount: '24,000',
+    description: `Withdrawal to personal Account`,
+    date: '20 September,2023',
+    status: 'Successfull',
+  },
+  {
+    id: 2,
+    type: 'incoming',
+    amount: '240',
+    description: `BMW X5 series Lease payment`,
+    date: '15 September,2023',
+    status: 'Successfull',
+  },
+  {
+    id: 3,
+    type: 'outgoing',
+    amount: '100',
+    description: `Withdrawal to personal Account`,
+    date: '5 September,2023',
+    status: 'Pending',
+  },
+  {
+    id: 4,
+    type: 'incoming',
+    amount: '200',
+    description: `Cash Reversal for withdrawals made`,
+    date: '1 September,2023',
+    status: 'Successfull',
+  },
+  {
+    id: 5,
+    type: 'outgoing',
+    amount: '200',
+    description: `Withdrawal to personal Account`,
+    date: '25 August,2023',
+    status: 'Failed',
+  },
+]
