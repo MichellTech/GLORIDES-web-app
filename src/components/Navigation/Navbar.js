@@ -14,12 +14,19 @@ import {
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai'
 import { FiUser } from 'react-icons/fi'
-import { BsBookmark, BsQuestionCircle } from 'react-icons/bs'
+import {
+  BsBookmark,
+  BsQuestionCircle,
+  BsBriefcase,
+  BsChatSquareDots,
+} from 'react-icons/bs'
 import { HiOutlineDocumentText } from 'react-icons/hi'
-import { BiMessageSquareEdit } from 'react-icons/bi'
-
+import { BiMessageSquareEdit, BiSupport, BiCar } from 'react-icons/bi'
+import { RiHome3Line, RiInformationLine } from 'react-icons/ri'
+import { TbActivity } from 'react-icons/tb'
+import { GiReceiveMoney } from 'react-icons/gi'
 import { MdAdsClick } from 'react-icons/md'
-import { GrFormClose } from 'react-icons/gr'
+import { GrFormClose, GrTransaction } from 'react-icons/gr'
 
 import Link from 'next/link'
 function Navbar() {
@@ -144,15 +151,28 @@ function Navbar() {
             </div>
           )}
           {/* cotrols and menu  */}
-          <div className='flex justify-center items-center gap-6 relative'>
+          <div
+            className={`${
+              isUserLogedin
+                ? 'flex justify-center items-center gap-6 relative '
+                : 'flex justify-center items-center gap-6 relative md:hidden'
+            }`}
+          >
             {isUserLogedin && (
               <div className='flex justify-center items-center gap-4 lg:gap-6 xl:gap-8 relative'>
+                {/* notification */}
+                <Link href='/messages'>
+                  <div className='bg-babygrey px-2 py-2 lg:px-3 lg:py-3 rounded-full cursor-pointer'>
+                    <BsChatSquareDots className='text-xs lg:text-base xl:text-xl ' />
+                  </div>
+                </Link>
+
                 {/* notification */}
                 <div
                   onClick={() => {
                     dispatch(openNotifications()), dispatch(closeDropDown())
                   }}
-                  className='bg-babygrey px-2 py-2 rounded-full cursor-pointer'
+                  className='bg-babygrey px-2 py-2 rounded-full lg:px-3 lg:py-3 cursor-pointer'
                 >
                   <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
                 </div>
@@ -218,26 +238,33 @@ function Navbar() {
                 <span className='hamburger-bottom'></span>
               </button>
             ) : (
-              <button
-                id='menu-btn'
-                className='z-30 block md:hidden focus:outline-none hamburger'
-                onClick={() => setPannel(!pannel)}
-              >
-                <span
-                  className={`${bg ? 'phamburger-top' : 'hamburger-top'}`}
-                ></span>
+              !isUserLogedin &&
+              !pannel && (
+                <button
+                  id='menu-btn'
+                  className='z-30 block md:hidden focus:outline-none hamburger'
+                  onClick={() => setPannel(!pannel)}
+                >
+                  <span
+                    className={`${bg ? 'phamburger-top' : 'hamburger-top'}`}
+                  ></span>
 
-                <span
-                  className={`${bg ? 'phamburger-middle' : 'hamburger-middle'}`}
-                ></span>
-                <span
-                  className={`${bg ? 'phamburger-bottom' : 'hamburger-bottom'}`}
-                ></span>
-              </button>
+                  <span
+                    className={`${
+                      bg ? 'phamburger-middle' : 'hamburger-middle'
+                    }`}
+                  ></span>
+                  <span
+                    className={`${
+                      bg ? 'phamburger-bottom' : 'hamburger-bottom'
+                    }`}
+                  ></span>
+                </button>
+              )
             )}
             {/* display control */}
             {dropDown && !notifications && (
-              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-64 lg:w-72 xl:w-[20rem]  bg-white shadow-md rounded-sm md:rounded-md  xl:rounded-lg  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
+              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-64 lg:w-72 xl:w-[19rem]  bg-white shadow-xl rounded-sm md:rounded-md  xl:rounded-lg  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
                 {/* profil */}
                 <div className='flex justify-between items-center gap-4 px-4 lg:px-6'>
                   {/* image */}
@@ -304,6 +331,46 @@ function Navbar() {
                   </div>
                   {/* saved vehicles */}
                   <Link
+                    href='/'
+                    className='flex  items-center gap-4 md:hidden '
+                  >
+                    <RiHome3Line className='lg:text-2xl ' />
+                    <h1 className='text-xs lg:text-sm '>Home</h1>
+                  </Link>
+                  {/* saved vehicles */}
+                  <Link
+                    href='/aboutus'
+                    className='flex  items-center gap-4  md:hidden'
+                  >
+                    <RiInformationLine className='lg:text-2xl ' />
+                    <h1 className='text-xs lg:text-sm '>About Us</h1>
+                  </Link>
+                  {/* saved vehicles */}
+                  <Link
+                    href='/rentacar'
+                    className=' md:hidden flex  items-center gap-4  '
+                  >
+                    <GrTransaction className='lg:text-2xl ' />
+                    <h1 className='text-xs lg:text-sm '>Rent a Car</h1>
+                  </Link>
+                  {/* saved vehicles */}
+                  <Link
+                    href='/partnerwithus'
+                    className='flex md:hidden  items-center gap-4 '
+                  >
+                    <BsBriefcase className='lg:text-2xl ' />
+                    <h1 className='text-xs lg:text-sm '>Partner with Us</h1>
+                  </Link>
+                  {/* saved vehicles */}
+                  <Link
+                    href='/support'
+                    className='flex  items-center gap-4  md:hidden'
+                  >
+                    <BiSupport className='lg:text-2xl ' />
+                    <h1 className='text-xs lg:text-sm '>Support</h1>
+                  </Link>
+                  {/* saved vehicles */}
+                  <Link
                     href='/savedvehicles'
                     className='flex  items-center gap-4 '
                   >
@@ -319,10 +386,10 @@ function Navbar() {
                     <h1 className='text-xs lg:text-sm '>Rent History</h1>
                   </Link>
                   {/* Messages */}
-                  <Link href='/messages' className='flex  items-center gap-4 '>
+                  {/* <Link href='/messages' className='flex  items-center gap-4 '>
                     <BiMessageSquareEdit className=' lg:text-2xl ' />
                     <h1 className='text-xs lg:text-sm '>Messages</h1>
-                  </Link>
+                  </Link> */}
 
                   {/* logout */}
                   <Link
@@ -335,7 +402,7 @@ function Navbar() {
                 </div>
               </div>
             )}
-            {/* notifications */}
+            {/* display notifications */}
             {notifications && !dropDown && (
               <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-64 md:w-72 lg:w-80  h-96  bg-white shadow-lg rounded-sm md:rounded-md  xl:rounded-lg  pb-4 lg:pb-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
                 <div className='bg-babygrey flex justify-between items-center px-4 lg:px-6 py-2 md:py-3 '>
@@ -472,7 +539,7 @@ function Navbar() {
               <Link href='/Host/dashboard'>Dashboard</Link>
             </ul>
             <ul className='text-xs md:text-sm cursor-pointer xl:text-base '>
-              <Link href='/Host/transactionhisory'>Transaction History</Link>
+              <Link href='/Host/transactionhistory'>Transaction History</Link>
             </ul>
             <ul className='text-xs md:text-sm xl:text-base cursor-pointer'>
               <Link href='/Host/leasehistory'>Lease History</Link>
@@ -486,12 +553,18 @@ function Navbar() {
           <div className='flex justify-center items-center gap-6 relative'>
             {isUserLogedin && (
               <div className='flex justify-center items-center gap-4 lg:gap-6 xl:gap-8 relative'>
+                {/* messages */}
+                <Link href='/messages'>
+                  <div className='bg-babygrey px-2 py-2 lg:px-3 lg:py-3 rounded-full cursor-pointer'>
+                    <BsChatSquareDots className='text-xs lg:text-base xl:text-xl ' />
+                  </div>
+                </Link>
                 {/* notification */}
                 <div
                   onClick={() => {
                     dispatch(openNotifications()), dispatch(closeDropDown())
                   }}
-                  className='bg-babygrey px-2 py-2 rounded-full cursor-pointer'
+                  className='bg-babygrey px-2 py-2 rounded-full cursor-pointer lg:px-3 lg:py-3'
                 >
                   <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
                 </div>
@@ -541,39 +614,7 @@ function Navbar() {
                 </div>
               </div>
             )}
-            {/* <!-- Hamburger Button --> */}
-            {pannel ? (
-              <button
-                id='menu-btn'
-                className='z-30 open block md:hidden focus:outline-none hamburger'
-                onClick={() => {
-                  setPannel(!pannel),
-                    dispatch(closeDropDown()),
-                    dispatch(closeNotifications())
-                }}
-              >
-                <span className='hamburger-top'></span>
-                <span className='hamburger-middle'></span>
-                <span className='hamburger-bottom'></span>
-              </button>
-            ) : (
-              <button
-                id='menu-btn'
-                className='z-30 block md:hidden focus:outline-none hamburger'
-                onClick={() => setPannel(!pannel)}
-              >
-                <span
-                  className={`${bg ? 'phamburger-top' : 'hamburger-top'}`}
-                ></span>
 
-                <span
-                  className={`${bg ? 'phamburger-middle' : 'hamburger-middle'}`}
-                ></span>
-                <span
-                  className={`${bg ? 'phamburger-bottom' : 'hamburger-bottom'}`}
-                ></span>
-              </button>
-            )}
             {/* display control */}
             {dropDown && !notifications && (
               <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-64 lg:w-72 xl:w-[20rem]  bg-white shadow-md rounded-sm md:rounded-md  xl:rounded-lg  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
@@ -641,10 +682,34 @@ function Navbar() {
                       </button>
                     )}
                   </div>
-                  {/* Messages */}
-                  <Link href='/messages' className='flex  items-center gap-4 '>
-                    <BiMessageSquareEdit className=' lg:text-2xl ' />
-                    <h1 className='text-xs lg:text-sm '>Messages</h1>
+                  {/* dashboard */}
+                  <Link
+                    href='/Host/dashboard'
+                    className='flex md:hidden items-center gap-4 '
+                  >
+                    <TbActivity className=' lg:text-2xl ' />
+                    <h1 className='text-xs lg:text-sm '>Dashboard</h1>
+                  </Link>
+                  <Link
+                    href='/Host/transactionhistory'
+                    className='flex md:hidden items-center gap-4 '
+                  >
+                    <GiReceiveMoney className=' lg:text-2xl ' />
+                    <h1 className='text-xs lg:text-sm '>Transaction History</h1>
+                  </Link>
+                  <Link
+                    href='/Host/leasehistory'
+                    className='flex md:hidden items-center gap-4 '
+                  >
+                    <GrTransaction className=' lg:text-2xl ' />
+                    <h1 className='text-xs lg:text-sm '>Lease History</h1>
+                  </Link>
+                  <Link
+                    href='/Host/fleet'
+                    className='flex  md:hidden items-center gap-4 '
+                  >
+                    <BiCar className=' lg:text-2xl ' />
+                    <h1 className='text-xs lg:text-sm '>Fleet</h1>
                   </Link>
 
                   {/* suport */}

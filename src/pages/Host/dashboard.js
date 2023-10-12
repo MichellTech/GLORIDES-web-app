@@ -17,9 +17,9 @@ function Dashboard() {
   return (
     <>
       <Navbar />
-      <section className='my-6 sm:my-10 md:pb-6 max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-10'>
+      <section className='my-6 sm:my-10 md:pb-6 max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-10 md:space-y-12 xl:space-y-14'>
         {/* title */}
-        <div className='border w-full rounded-md pt-4 xl:pt-6 px-6 md:flex md:justify-between md:items-end md:gap-10 '>
+        <div className='border  shadow-sm w-full rounded-md pt-4 xl:pt-6 px-6 md:flex md:justify-between md:items-end md:gap-10 '>
           {/* text */}
           <div className='flex flex-col justify-center items-center md:justify-start md:items-start md:mx-0 space-y-4 lg:space-y-5 xl:space-y-6 mx-auto md:w-4/6  '>
             <h1 className='text-lg font-bold   lg:text-xl'>
@@ -61,7 +61,7 @@ function Dashboard() {
         {/* statistics */}
         <div className='flex gap-4 flex-wrap  w-full  '>
           {/* one */}
-          <div className='border  rounded-md px-4 py-4  space-y-2 lg:space-y-3 w-max grow hover:shadow-md '>
+          <div className='border shadow-sm  rounded-md px-4 py-4  space-y-2 lg:space-y-3 w-max grow hover:shadow-md '>
             {/* header */}
             <div className='flex justify-between items-center gap-2'>
               <h1 className='text-xs lg:text-sm xl:text-base'>
@@ -75,7 +75,7 @@ function Dashboard() {
             <h1 className='font-bold text-2xl lg:text-3xl'>$24,000</h1>
           </div>
           {/* two */}
-          <div className='border  rounded-md px-4 py-4 space-y-2 hover:shadow-md  lg:space-y-3 w-max  grow '>
+          <div className='border  shadow-sm  rounded-md px-4 py-4 space-y-2 hover:shadow-md  lg:space-y-3 w-max  grow '>
             {/* header */}
             <div className='flex justify-between items-center gap-2'>
               <h1 className='text-xs lg:text-sm xl:text-base'>
@@ -89,7 +89,7 @@ function Dashboard() {
             <h1 className='font-bold text-2xl lg:text-3xl'>24</h1>
           </div>
           {/* three */}
-          <div className='border  rounded-md px-4 py-4  space-y-2 lg:space-y-3  w-max grow hover:shadow-md '>
+          <div className='border  shadow-sm  rounded-md px-4 py-4  space-y-2 lg:space-y-3  w-max grow hover:shadow-md '>
             {/* header */}
             <div className='flex justify-between items-center gap-2'>
               <h1 className='text-xs lg:text-sm xl:text-base'>
@@ -103,7 +103,7 @@ function Dashboard() {
             <h1 className='font-bold text-2xl lg:text-3xl'>20</h1>
           </div>
           {/* four */}
-          <div className='border  rounded-md px-4 py-4 space-y-2 lg:space-y-3  w-max  grow hover:shadow-md'>
+          <div className='border   shadow-sm rounded-md px-4 py-4 space-y-2 lg:space-y-3  w-max  grow hover:shadow-md'>
             {/* header */}
             <div className='flex justify-between items-center gap-2'>
               <h1 className='text-xs lg:text-sm xl:text-base'>
@@ -118,9 +118,9 @@ function Dashboard() {
           </div>
         </div>
         {/* lease history and transaction history */}
-        <div className='space-y-10 md:space-y-0 md:flex  md:items-center md:gap-6 w-full'>
+        <div className='space-y-10 md:space-y-0 md:flex  md:items-center md:gap-6 w-full md:h-[75vh] lg:h-[85vh]'>
           {/* leasehistory */}
-          <div className='border px-4 py-4 min-h-[40vh]    md:min-h-[50vh] w-full flex justify-center  hover:shadow-md rounded-md'>
+          <div className='border px-4 py-4 h-full  shadow-sm    w-full flex justify-center  hover:shadow-md rounded-md'>
             {/* nofound */}
             {!leasehistory ? (
               <div className='flex justify-center items-center flex-col space-y-2 xl:space-y-3'>
@@ -197,7 +197,7 @@ function Dashboard() {
             )}
           </div>
           {/* transhistory */}
-          <div className='border px-4 py-4 min-h-[40vh]    md:min-h-[50vh] w-full flex justify-center  hover:shadow-md rounded-md'>
+          <div className='border px-4 py-4 h-full shadow-sm     w-full flex justify-center  hover:shadow-md rounded-md'>
             {/* nofound */}
             {!transactionhistory ? (
               <div className='flex justify-center items-center flex-col space-y-2 xl:space-y-3'>
@@ -222,9 +222,12 @@ function Dashboard() {
                   <h1 className='font-bold text-sm lg:text-base'>
                     Transactional Records
                   </h1>
-                  <button className='px-4 py-1 rounded-full border text-xs hover:bg-softpurple hover:border-none lg:text-sm'>
+                  <Link
+                    href='/Host/transactionhistory'
+                    className='px-4 py-1 rounded-full border text-xs hover:bg-softpurple hover:border-none lg:text-sm'
+                  >
                     View All
-                  </button>
+                  </Link>
                 </div>
                 {/* content */}
                 <div className='pt-6 space-y-5 '>

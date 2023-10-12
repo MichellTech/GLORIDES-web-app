@@ -170,7 +170,7 @@ export const leasehistory = [
     status: 'Pending',
   },
   {
-    id: 1,
+    id: 5,
     carname: 'BMX Series ',
     amount: '150',
     renter: `Miriam Ezeobi`,
