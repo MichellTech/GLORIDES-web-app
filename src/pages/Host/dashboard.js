@@ -10,10 +10,10 @@ import {
   MdOutlineCarRepair,
   MdOutlineCarRental,
 } from 'react-icons/md'
-import { FaCarBurst } from 'react-icons/fa'
-import { transactionhistory } from '../../utilis/Cardata'
+import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
+import { transactionhistory, leasehistory } from '../../utilis/Cardata'
 function Dashboard() {
-  console.log(transactionhistory)
+  // console.log(transactionhistory)
   return (
     <>
       <Navbar />
@@ -120,42 +120,162 @@ function Dashboard() {
         {/* lease history and transaction history */}
         <div className='space-y-10 md:space-y-0 md:flex  md:items-center md:gap-6 w-full'>
           {/* leasehistory */}
-          <div className='border px-4 py-4 min-h-[50vh] w-full flex justify-center items-center hover:shadow-md rounded-md'>
+          <div className='border px-4 py-4 min-h-[40vh]    md:min-h-[50vh] w-full flex justify-center  hover:shadow-md rounded-md'>
             {/* nofound */}
-            <div className='flex justify-center items-center flex-col space-y-2 xl:space-y-3'>
-              {/* icon */}
-              <div className='flex justify-center items-center p-3 bg-opacity-50 bg-babygrey rounded-full'>
-                <MdOutlineCarRental className='text-2xl xl:text-3xl' />
+            {!leasehistory ? (
+              <div className='flex justify-center items-center flex-col space-y-2 xl:space-y-3'>
+                {/* icon */}
+                <div className='flex justify-center items-center p-3 bg-opacity-50 bg-babygrey rounded-full'>
+                  <MdOutlineCarRental className='text-2xl xl:text-3xl' />
+                </div>
+                <h1 className='text-sm xl:text-base font-bold'>
+                  {' '}
+                  No Lease History Found
+                </h1>
+                <p className='text-xs xl:text-sm xl:max-w-sm max-w-xs text-center'>
+                  We couldn't find your lease history records. This could be as
+                  a result of server downtime or you haven't made any sales in
+                  the last year{' '}
+                </p>
               </div>
-              <h1 className='text-sm xl:text-base font-bold'>
-                {' '}
-                No Lease History Found
-              </h1>
-              <p className='text-xs xl:text-sm xl:max-w-sm max-w-xs text-center'>
-                We couldn't find your lease history records. This could be as a
-                result of server downtime or you haven't made any sales in the
-                last year{' '}
-              </p>
-            </div>
+            ) : (
+              <div className='w-full '>
+                {/* header */}
+                <div className='flex justify-between items-center gap-2 border-b pb-6 '>
+                  <h1 className='font-bold text-sm lg:text-base'>
+                    Lease History
+                  </h1>
+                  <button className='px-4 py-1 rounded-full border text-xs hover:bg-softpurple hover:border-none lg:text-sm'>
+                    View All
+                  </button>
+                </div>
+                {/* content */}
+                <div className='pt-6 space-y-5 '>
+                  {leasehistory.map((item, index) => {
+                    return (
+                      <div key={index}>
+                        <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:px-2 lg:hover:px-4 cursor-pointer '>
+                          {/* icona nd descripiton */}
+                          <div className='flex items-center gap-4'>
+                            {/* icon */}
+                            <div className='bg-babygrey flex justify-center items-center  rounded-full bg-opacity-70 h-max w-max p-2 lg:p-3 '>
+                              <MdOutlineDirectionsCar className='text-sm lg:text-base' />
+                            </div>
+                            {/* first text */}
+                            <div className='space-y-1'>
+                              <h1 className='text-xs lg:text-[0.8rem] font-bold'>
+                                {item.renter}
+                              </h1>
+                              <h1 className='text-[0.5rem] lg:text-xs'>
+                                {item.date}
+                              </h1>
+                            </div>
+                          </div>
+                          {/* amount and status */}
+                          <div className='space-y-1 lg:space-y-2 flex flex-col items-end'>
+                            <h1 className='text-xs lg:text-sm font-bold'>
+                              $ {item.amount}
+                            </h1>
+                            <h1
+                              className={
+                                item.status === 'Successfull'
+                                  ? 'text-[0.5rem] lg:text-xs text-green-500'
+                                  : item.status === 'Canceled'
+                                  ? 'text-[0.5rem] lg:text-xs text-red-500'
+                                  : 'text-[0.5rem] lg:text-xs text-orange-500'
+                              }
+                            >
+                              {item.status}
+                            </h1>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
           </div>
           {/* transhistory */}
-          <div className='border px-4 py-4 min-h-[50vh] w-full flex justify-center items-center hover:shadow-md rounded-md'>
+          <div className='border px-4 py-4 min-h-[40vh]    md:min-h-[50vh] w-full flex justify-center  hover:shadow-md rounded-md'>
             {/* nofound */}
-            <div className='flex justify-center items-center flex-col space-y-2 xl:space-y-3'>
-              {/* icon */}
-              <div className='flex justify-center items-center p-3 bg-opacity-50 bg-babygrey rounded-full'>
-                <TbCashBanknoteOff className='text-2xl xl:text-3xl' />
+            {!transactionhistory ? (
+              <div className='flex justify-center items-center flex-col space-y-2 xl:space-y-3'>
+                {/* icon */}
+                <div className='flex justify-center items-center p-3 bg-opacity-50 bg-babygrey rounded-full'>
+                  <TbCashBanknoteOff className='text-2xl xl:text-3xl' />
+                </div>
+                <h1 className='text-sm xl:text-base font-bold'>
+                  {' '}
+                  No Transactional Records Found
+                </h1>
+                <p className='text-xs xl:text-sm xl:max-w-sm max-w-xs text-center'>
+                  We couldn't find your transactional records. This could be as
+                  a result of server downtime or you haven't conducted any
+                  transactions in the last year{' '}
+                </p>
               </div>
-              <h1 className='text-sm xl:text-base font-bold'>
-                {' '}
-                No Transactional Records Found
-              </h1>
-              <p className='text-xs xl:text-sm xl:max-w-sm max-w-xs text-center'>
-                We couldn't find your transactional records. This could be as a
-                result of server downtime or you haven't conducted any
-                transactions in the last year{' '}
-              </p>
-            </div>
+            ) : (
+              <div className='w-full '>
+                {/* header */}
+                <div className='flex justify-between items-center gap-2 border-b pb-6 '>
+                  <h1 className='font-bold text-sm lg:text-base'>
+                    Transactional Records
+                  </h1>
+                  <button className='px-4 py-1 rounded-full border text-xs hover:bg-softpurple hover:border-none lg:text-sm'>
+                    View All
+                  </button>
+                </div>
+                {/* content */}
+                <div className='pt-6 space-y-5 '>
+                  {transactionhistory.map((item, index) => {
+                    return (
+                      <div key={index}>
+                        <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:px-2 lg:hover:px-4 cursor-pointer '>
+                          {/* icona nd descripiton */}
+                          <div className='flex items-center gap-4'>
+                            {/* icon */}
+                            <div className='bg-babygrey flex justify-center items-center  rounded-full bg-opacity-70 h-max w-max p-2 lg:p-3 '>
+                              {item.type === 'incoming' ? (
+                                <BsArrowDown className='text-sm lg:text-base' />
+                              ) : (
+                                <BsArrowUp className='text-sm lg:text-base ' />
+                              )}
+                            </div>
+                            {/* first text */}
+                            <div className='space-y-1'>
+                              <h1 className='text-xs lg:text-[0.8rem] font-bold'>
+                                {item.description}
+                              </h1>
+                              <h1 className='text-[0.5rem] lg:text-xs'>
+                                {item.date}
+                              </h1>
+                            </div>
+                          </div>
+                          {/* amount and status */}
+                          <div className='space-y-1 lg:space-y-2 flex flex-col items-end'>
+                            <h1 className='text-xs lg:text-sm font-bold'>
+                              $ {item.amount}
+                            </h1>
+                            <h1
+                              className={
+                                item.status === 'Successfull'
+                                  ? 'text-[0.5rem] lg:text-xs text-green-500'
+                                  : item.status === 'Failed'
+                                  ? 'text-[0.5rem] lg:text-xs text-red-500'
+                                  : 'text-[0.5rem] lg:text-xs text-orange-500'
+                              }
+                            >
+                              {item.status}
+                            </h1>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

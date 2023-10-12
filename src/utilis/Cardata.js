@@ -97,7 +97,7 @@ export const transactionhistory = [
   {
     id: 1,
     type: 'incoming',
-    amount: '24,000',
+    amount: '400',
     description: `Withdrawal to personal Account`,
     date: '20 September,2023',
     status: 'Successfull',
@@ -133,5 +133,48 @@ export const transactionhistory = [
     description: `Withdrawal to personal Account`,
     date: '25 August,2023',
     status: 'Failed',
+  },
+]
+
+export const leasehistory = [
+  {
+    id: 1,
+    carname: 'BMX Series ',
+    amount: '210',
+    renter: `Olamide Oluwalet`,
+    date: '20 September,2023',
+    status: 'Successfull',
+  },
+  {
+    id: 2,
+    carname: 'BMX Series ',
+    amount: '110',
+    renter: `Ibrahim Isaac`,
+    date: '10 September,2023',
+    status: 'canceled',
+  },
+  {
+    id: 3,
+    carname: 'Honda Civie ',
+    amount: '210',
+    renter: `Micheal Scofield`,
+    date: '8 September,2023',
+    status: 'Successfull',
+  },
+  {
+    id: 4,
+    carname: 'BMX Series ',
+    amount: '300',
+    renter: `Okwu Chiedozie`,
+    date: '6 September,2023',
+    status: 'Pending',
+  },
+  {
+    id: 1,
+    carname: 'BMX Series ',
+    amount: '150',
+    renter: `Miriam Ezeobi`,
+    date: '2 September,2023',
+    status: 'Canceled',
   },
 ]
