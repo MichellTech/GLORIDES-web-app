@@ -49,7 +49,7 @@ function Transactionhistory() {
                   </div>
                 </div>
                 {/* text */}
-                <h1 className='font-bold text-2xl lg:text-3xl'>240,000</h1>
+                <h1 className='font-bold text-2xl lg:text-3xl'>$240,000</h1>
               </div>
               {/* three */}
               <div className='border bg-white  shadow-sm  rounded-md px-4 py-4  space-y-2 lg:space-y-3  w-max grow hover:shadow-md '>
@@ -63,7 +63,7 @@ function Transactionhistory() {
                   </div>
                 </div>
                 {/* text */}
-                <h1 className='font-bold text-2xl lg:text-3xl'>200,000</h1>
+                <h1 className='font-bold text-2xl lg:text-3xl'>$200,000</h1>
               </div>
               {/* one */}
               <div className='border bg-white shadow-sm  rounded-md px-4 py-4  space-y-2 lg:space-y-3 w-max grow hover:shadow-md '>
@@ -91,7 +91,7 @@ function Transactionhistory() {
                   </div>
                 </div>
                 {/* text */}
-                <h1 className='font-bold text-2xl lg:text-3xl'>4,000</h1>
+                <h1 className='font-bold text-2xl lg:text-3xl'>$4,000</h1>
               </div>
             </div>
             {/* mobile withdrawa */}

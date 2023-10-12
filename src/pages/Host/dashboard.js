@@ -154,7 +154,7 @@ function Dashboard() {
                   {leasehistory.map((item, index) => {
                     return (
                       <div key={index}>
-                        <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:bg-opacity-50 hover:px-2 lg:hover:px-4 cursor-pointer '>
+                        <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:bg-opacity-50 hover:duration-1000 hover:px-2 lg:hover:px-4 cursor-pointer '>
                           {/* icona nd descripiton */}
                           <div className='flex items-center gap-4'>
                             {/* icon */}
@@ -234,7 +234,7 @@ function Dashboard() {
                   {transactionhistory.map((item, index) => {
                     return (
                       <div key={index}>
-                        <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:bg-opacity-50 hover:px-2 lg:hover:px-4 cursor-pointer '>
+                        <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:bg-opacity-50 hover:px-2 lg:hover:px-4 hover:duration-1000 cursor-pointer '>
                           {/* icona nd descripiton */}
                           <div className='flex items-center gap-4'>
                             {/* icon */}
