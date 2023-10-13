@@ -113,7 +113,11 @@ function Navbar() {
               <Link href='/rentacar'>Rent a Car</Link>
             </ul>
             <ul className='text-xs md:text-sm xl:text-base cursor-pointer'>
-              <Link href='/partnerwithus'>Partner with Us</Link>
+              {isUserLogedin ? (
+                <Link href='/Renthistory'>Rent History</Link>
+              ) : (
+                <Link href='/partnerwithus'>Partner with Us</Link>
+              )}
             </ul>
             <ul className='text-xs md:text-sm cursor-pointer xl:text-base '>
               {isUserLogedin ? (
@@ -356,7 +360,7 @@ function Navbar() {
                   {/* saved vehicles */}
                   <Link
                     href='/partnerwithus'
-                    className='flex md:hidden  items-center gap-4 '
+                    className='flex   items-center gap-4 '
                   >
                     <BsBriefcase className='lg:text-2xl ' />
                     <h1 className='text-xs lg:text-sm '>Partner with Us</h1>
@@ -380,7 +384,7 @@ function Navbar() {
                   {/* rent history */}
                   <Link
                     href='/Renthistory'
-                    className='flex  items-center gap-4 '
+                    className='flex md:hidden  items-center gap-4 '
                   >
                     <HiOutlineDocumentText className='lg:text-2xl ' />
                     <h1 className='text-xs lg:text-sm '>Rent History</h1>
@@ -544,8 +548,8 @@ function Navbar() {
             <ul className='text-xs md:text-sm xl:text-base cursor-pointer'>
               <Link href='/Host/leasehistory'>Lease History</Link>
             </ul>
-            <ul className='text-xs md:text-sm cursor-pointer xl:text-base '>
-              <Link href='Host/fleet'>Fleet</Link>
+            <ul className='text-xs md:text-sm xl:text-base cursor-pointer'>
+              <Link href='/Host/fleet'>Fleet</Link>
             </ul>
           </div>
 
