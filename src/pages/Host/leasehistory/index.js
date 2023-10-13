@@ -41,7 +41,7 @@ function Leasehistory() {
             <div className='border  shadow-sm w-full rounded-md pt-4 xl:pt-6 px-6 md:flex md:justify-between md:items-end md:gap-10 bg-white '>
               {/* text */}
               <div className='flex flex-col justify-center items-center md:justify-start md:items-start md:mx-0 space-y-4 lg:space-y-5 xl:space-y-6 mx-auto md:w-4/6  '>
-                <h1 className='text-lg font-bold   lg:text-xl'>
+                <h1 className='text-lg text-center md:text-left font-bold   lg:text-xl'>
                   Michell, Here's your lease history so far !
                 </h1>
                 <p className='text-xs text-center md:text-left max-w-xs md:max-w-full lg:text-sm  xl:text-base '>
