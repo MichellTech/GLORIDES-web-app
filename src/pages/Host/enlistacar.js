@@ -543,7 +543,7 @@ function Enlistacar() {
                       </p>
                       {/* photos */}
                       <div className='flex justify-between items-start gap-4 pt-4 px-4 sm:px-6 md:px-8 '>
-                        <div className='flex flex-wrap  gap-3 md:gap-4 lg:gap-5  items-center'>
+                        <div className='flex flex-wrap  gap-6  lg:gap-5  items-center'>
                           {userimage.map((item, index) => {
                             return (
                               <div key={index} className='col-span-full'>
@@ -675,7 +675,7 @@ function Enlistacar() {
                       </p>
                       {/* photos */}
                       <div className='flex justify-between items-start gap-4 pt-4 px-4 sm:px-6 md:px-8 '>
-                        <div className='flex flex-wrap  gap-3 md:gap-4 lg:gap-5  items-center'>
+                        <div className='flex flex-wrap  gap-6 lg:gap-5  items-center'>
                           {userimage2.map((item, index) => {
                             return (
                               <div key={index} className='col-span-full'>
