@@ -15,7 +15,7 @@ import { transactionhistory, leasehistory } from '../../utilis/Cardata'
 import Paymentcomp from '@/components/Paymentcomp'
 function Dashboard() {
   // console.log(transactionhistory)
-  const [isWithdrawing, setIsWithdrawing] = useState(true)
+  const [isWithdrawing, setIsWithdrawing] = useState(false)
   return (
     <>
       <main
@@ -293,9 +293,11 @@ function Dashboard() {
           </section>
           <Footer />
         </div>
-        <div className='absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-40  px-6 flex justify-center items-center mx-auto  '>
-          <Paymentcomp />
-        </div>
+        {isWithdrawing && (
+          <div className='absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-40  px-6 flex justify-center items-center mx-auto  '>
+            <Paymentcomp />
+          </div>
+        )}
       </main>
     </>
   )
