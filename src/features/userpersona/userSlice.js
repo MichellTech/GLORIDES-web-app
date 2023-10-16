@@ -6,6 +6,7 @@ const initialState = {
   notifications: false,
   notificationscontent: 0,
   hosting: false,
+  isWithdrawing: false,
 }
 
 const userSlice = createSlice({
@@ -33,6 +34,12 @@ const userSlice = createSlice({
     returnToUser: (state) => {
       state.hosting = false
     },
+    withdrawmoney: (state) => {
+      state.isWithdrawing = true
+    },
+    cancelwithdraw: (state) => {
+      state.isWithdrawing = false
+    },
   },
 })
 export const {
@@ -43,5 +50,7 @@ export const {
   openNotifications,
   switchToHost,
   returnToUser,
+  withdrawmoney,
+  cancelwithdraw,
 } = userSlice.actions
 export default userSlice.reducer

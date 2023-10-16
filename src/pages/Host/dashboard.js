@@ -3,6 +3,7 @@ import Navbar from '@/components/Navigation/Navbar'
 import Footer from '../../components/Navigation/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useSelector, useDispatch } from 'react-redux'
 import { TbWallet, TbCashBanknoteOff } from 'react-icons/tb'
 import {
   MdOutlineDirectionsCar,
@@ -13,9 +14,11 @@ import {
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
 import { transactionhistory, leasehistory } from '../../utilis/Cardata'
 import Paymentcomp from '@/components/Paymentcomp'
+import { withdrawmoney } from '@/features/userpersona/userSlice'
 function Dashboard() {
   // console.log(transactionhistory)
-  const [isWithdrawing, setIsWithdrawing] = useState(false)
+  const { isWithdrawing } = useSelector((store) => store.userpersona)
+  const dispatch = useDispatch()
   return (
     <>
       <main
@@ -47,13 +50,13 @@ function Dashboard() {
                     {' '}
                     Enlist a car
                   </Link>
-                  <Link
-                    href='/Host/enlistacar'
+                  <button
+                    onClick={() => dispatch(withdrawmoney())}
                     className='px-6 py-2  bg-babypurple rounded-md text-xs lg:text-sm text-white tracking-wide transition ease-in-out delay-150  hover:scale-110 hover:bg-indigo-500 duration-300 '
                   >
                     {' '}
                     Withdraw
-                  </Link>
+                  </button>
                 </div>
               </div>
               {/* image */}
