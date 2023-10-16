@@ -7,7 +7,7 @@ function Profilecomp() {
   return (
     <>
       {/* small screen */}
-      <div className='relative example  overflow-y-auto w-max px-6 '>
+      <div className='relative example  overflow-y-auto w-max sm:w-full px-6 '>
         <div className='flex space-x-10 text-sm '>
           <Link
             href='/Userprofile/view'

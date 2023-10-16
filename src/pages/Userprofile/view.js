@@ -3,38 +3,45 @@ import Navbar from '@/components/Navigation/Navbar'
 import Profilecomp from '@/components/Profilecomp'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FiUserPlus } from 'react-icons/fi'
-import { BiLockOpenAlt } from 'react-icons/bi'
-import { MdOutlinePayments } from 'react-icons/md'
+
 import Footer from '@/components/Navigation/Footer'
+import Profilecompbig from '@/components/Profilecompbig'
 function view() {
   return (
     <>
-      <div className='sticky top-0 left-0 right-0 bg-white z-50 '>
+      {/* small nav */}
+      <div className='sticky  md:fixed top-0 left-0 right-0 bg-white z-50  '>
         <Navbar />
-        <div className='example overflow-y-auto '>
+        <div className='example md:hidden  overflow-y-auto w-full '>
           <Profilecomp />
         </div>
       </div>
 
       {/* body */}
-      {/* profile information */}
-      <div className='bg-[#F5F5F5] bg-opacity-50 pt-8'>
-        <div className=' px-6   space-y-10'>
+      <div className='bg-[#F5F5F5] md:bg-white bg-opacity-50 pt-8  md:pt-0 md:px-6  md:flex md:justify-between md:items-start md:gap-4 w-full md:relative  '>
+        {/* bg-nave links */}
+        <div className='hidden md:block md:w-1/4 fixed top-32  md:pr-10       '>
+          <Profilecompbig />
+        </div>
+        {/* information */}
+        <div className=' px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20  '>
           {/* welcom picture */}
-          <div className='bg-white w-full flex justify-center items-center flex-col border px-6 py-4 rounded-md space-y-4 shadow-md'>
-            <div className='  relative '>
+          <div className='bg-white w-full flex justify-center items-center flex-col border px-6 py-4 sm:px-8 sm:py-6 rounded-md space-y-4 shadow-md md:flex-row md:space-y-0 md:w-full md:gap-4'>
+            <div className='  relative max-w-xs '>
               <Image
                 src={'/images/avatar.png'}
                 alt='logo'
                 width={1000}
                 height={1000}
-                className='object-cover w-28 rounded-full '
+                className='object-cover w-28 xl:w-32 rounded-full '
               />
             </div>
-            <div className='space-y-2'>
-              <h1 className='font-bold text-sm text-center'> Hello Michell </h1>
-              <h1 className='text-xs text-center'>
+            <div className='space-y-2 md:w-full'>
+              <h1 className='font-bold text-base text-center sm:text-lg md:text-base md:text-left'>
+                {' '}
+                Hello Michell{' '}
+              </h1>
+              <h1 className='text-xs text-center sm:text-sm md:text-left md:text-xs '>
                 Welcome to your profile page! Here, you have the power to
                 customize your experience. Edit your profile, enhance your
                 security settings, and manage your payments effortlessly.Make
@@ -170,7 +177,8 @@ function view() {
             </div>
           </div>
         </div>
-        <Footer />
+
+        {/* <Footer /> */}
       </div>
     </>
   )
