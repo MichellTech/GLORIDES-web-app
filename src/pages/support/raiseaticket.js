@@ -53,7 +53,7 @@ function Raiseaticket() {
   return (
     <>
       <Navbar />
-      <section className='bg-[#F5F5F5]'>
+      <section className='bg-[#F5F5F5]   bg-opacity-50 '>
         <div className='py-16 xl:py-24 max-w-md sm:max-w-xl mx-auto font-sans md:max-w-3xl lg:max-w-4xl xl:max-w-6xl  px-4 md:px-6  lg:px-8'>
           {/* form */}
           <Formik

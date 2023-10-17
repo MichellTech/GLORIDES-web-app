@@ -3,20 +3,11 @@ import { useRouter } from 'next/router'
 import { cars } from '../../../../utilis/Cardata'
 import Navbar from '@/components/Navigation/Navbar'
 import Footer from '@/components/Navigation/Footer'
-import Image from 'next/image'
 import Carousel from '../../../../components/Carousel/Image'
-import {
-  MdKeyboardBackspace,
-  MdOutlineLocationSearching,
-  MdOutlineBluetoothConnected,
-  MdGpsFixed,
-  MdChildFriendly,
-} from 'react-icons/md'
+import { MdKeyboardBackspace, MdOutlineLocationSearching } from 'react-icons/md'
 import Link from 'next/link'
-import { BiSolidCarGarage, BiCurrentLocation } from 'react-icons/bi'
-import { LuFuel, LuCalendarClock } from 'react-icons/lu'
-import { GiGearStickPattern, GiCarSeat } from 'react-icons/gi'
-import { TbClockSearch, TbCameraCheck } from 'react-icons/tb'
+import { BiCurrentLocation } from 'react-icons/bi'
+import { LuCalendarClock } from 'react-icons/lu'
 
 function Rentedcar() {
   const router = useRouter()
