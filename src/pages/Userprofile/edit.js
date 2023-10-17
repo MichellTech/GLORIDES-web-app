@@ -63,8 +63,6 @@ function Editprofile() {
   }
   // validation
   const validationSchema = Yup.object().shape({
-    firstname: Yup.string().required('No first name provided'),
-    lastname: Yup.string().required('No last name provided'),
     email: Yup.string()
       .email('No email provided')
       .matches(
@@ -73,8 +71,6 @@ function Editprofile() {
       )
       .required('No email Provided'),
     phone: Yup.string().required('No phone number provided'),
-    dob: Yup.date().required('No date provided'),
-    gender: Yup.string().required('No gender provided'),
     address: Yup.string().required('No address provided'),
     city: Yup.string().required('No city provided'),
     state: Yup.string().required('No state provided'),
@@ -147,6 +143,61 @@ function Editprofile() {
                         Profile Information
                       </h1>
                     </div>
+                    {/* dob and gender and image */}
+                    <div className=' md:flex md:justify-between  md:items-center  md:gap-4  lg:gap-10 xl:gap-14   md:space-y-0  space-y-4 md:pb-4'>
+                      {/* image */}
+                      <div className='  relative w-32 lg:w-40 w-  '>
+                        {userimage ? (
+                          <Image
+                            src={userimage}
+                            alt='logo'
+                            width={1000}
+                            height={1000}
+                            className='object-cover   w-32  lg:w-40  h-32  lg:h-40 rounded-full'
+                          />
+                        ) : (
+                          <Image
+                            src={'/images/avatar.png'}
+                            alt='logo'
+                            width={1000}
+                            height={1000}
+                            className='object-cover  w-32  lg:w-40   h-32  lg:h-40 rounded-full'
+                          />
+                        )}
+                        <div className='bg-babypurple rounded-full flex justify-center items-center w-7 h-7 lg:w-8 lg:h-8  absolute top-0 lg:top-0 right-0 '>
+                          <FileUploader
+                            classes=' '
+                            handleChange={handleupload}
+                            name='file'
+                            types={fileTypes}
+                            children={
+                              <MdOutlineAddAPhoto className=' lg:text-lg text-white cursor-pointer' />
+                            }
+                          />
+                        </div>
+                      </div>
+                      {/* Dob */}
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/3 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
+                          Date of Birth
+                        </h1>
+                        <p className='  border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
+                          {' '}
+                          25-August 2023
+                        </p>
+                      </div>
+                      {/* gender*/}
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/3 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm  '>
+                          Gender
+                        </h1>
+                        {/* firstnmae */}
+                        <p className='  border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
+                          {' '}
+                          Male
+                        </p>
+                      </div>
+                    </div>
                     {/* name */}
                     <div className=' md:flex md:justify-between md:items-center md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4'>
                       <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
@@ -177,10 +228,17 @@ function Editprofile() {
                         <h1 className='text-xs text-slate-500  lg:text-sm '>
                           Email
                         </h1>
-                        <p className='  border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
-                          {' '}
-                          michellokwu@gmail.com
-                        </p>
+                        <div>
+                          <Field
+                            type='text'
+                            name='email'
+                            placeholder='Email'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                          />
+                          <div className='text-softRed text-xs mt-1 px-4'>
+                            <ErrorMessage name='email' />
+                          </div>
+                        </div>
                       </div>
                       {/* phone*/}
                       <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2  '>
@@ -197,54 +255,6 @@ function Editprofile() {
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='phone' />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {/* dob and gender */}
-                    <div className=' md:flex md:justify-between md:flex-row-reverse md:items-start  md:gap-4  lg:gap-10 xl:gap-14   md:space-y-0  space-y-4 md:pb-4'>
-                      {/* Dob */}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm '>
-                          Date of Birth
-                        </h1>
-                        <div className=''>
-                          <Field name='dob' className='w-full'>
-                            {({ field, form }) => {
-                              return (
-                                <DatePicker
-                                  className='border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                                  id='dob'
-                                  {...field}
-                                  selected={field.value}
-                                  dateFormat={'dd/MM/yyyy'}
-                                  onChange={(date) =>
-                                    form.setFieldValue(field.name, date)
-                                  }
-                                />
-                              )
-                            }}
-                          </Field>
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='dob' />
-                          </div>
-                        </div>
-                      </div>
-                      {/* gender*/}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm  '>
-                          Gender
-                        </h1>
-                        {/* firstnmae */}
-                        <div>
-                          <Field
-                            type='text'
-                            name='gender'
-                            placeholder='Gender'
-                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='gender' />
                           </div>
                         </div>
                       </div>

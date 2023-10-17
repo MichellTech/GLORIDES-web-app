@@ -68,7 +68,7 @@ function Payment() {
         <div className=' px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20 min-h-[70vh]  '>
           {/* form */}
           {!cardexists ? (
-            <div className='bg-white shadow-md h-[50vh] md:h-[60vh] w-72  sm:w-80 md:w-full  flex flex-col justify-center items-center px-6 py-4 mx-auto space-y-6 '>
+            <div className='bg-white shadow-md h-[50vh] md:h-[60vh] w-full  flex flex-col justify-center items-center px-6 py-4 mx-auto space-y-6 '>
               <div className='bg-babygrey flex justify-center items-center p-4 rounded-full '>
                 <CiCreditCardOff className='text-2xl lg:text-3xl' />
               </div>
