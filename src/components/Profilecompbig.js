@@ -13,78 +13,78 @@ function Profilecompbig() {
           href='/Userprofile/view'
           className={`${
             router.pathname === '/Userprofile/view'
-              ? 'bg-softpurple border-r-2  border-babypurple py-3 font-bold text-babyblack px-4'
-              : '  rounded-sm  py-3 px-4 first-of-type: '
+              ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
+              : '  rounded-sm  py-3 px-4  '
           }`}
         >
           <div className='flex items-center gap-4 '>
             <FiUser className='text-xl' />
-            <h1 className='text-base '>My Profile</h1>
+            <h1 className='text-sm  xl:text-base'>My Profile</h1>
           </div>
         </Link>
         <Link
-          href='/Userprofile/view'
+          href='/Userprofile/edit'
           className={`${
             router.pathname === '/Userprofile/edit'
-              ? 'bg-softpurple border-r-2  border-babypurple py-3 font-bold text-babyblack px-4'
-              : '  rounded-sm  py-3 px-4 first-of-type: '
+              ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
+              : '  rounded-sm  py-3 px-4  '
           }`}
         >
           <div className='flex items-center gap-4 '>
             <FiUserPlus className='text-xl' />
-            <h1 className='text-base '>Edit Profile</h1>
+            <h1 className='text-sm  xl:text-base'>Edit Profile</h1>
           </div>
         </Link>
         <Link
-          href='/Userprofile/view'
+          href='/Userprofile/payment'
           className={`${
             router.pathname === '/Userprofile/payment'
-              ? 'bg-softpurple border-r-2  border-babypurple py-3 font-bold text-babyblack px-4'
-              : '  rounded-sm  py-3 px-4 first-of-type: '
+              ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
+              : '  rounded-sm  py-3 px-4 '
           }`}
         >
           <div className='flex items-center gap-4 '>
             <MdOutlinePayments className='text-xl' />
-            <h1 className='text-base '>Payment Cards</h1>
+            <h1 className='text-sm  xl:text-base '>Payment Cards</h1>
           </div>
         </Link>
         <Link
-          href='/Userprofile/view'
+          href='/Userprofile/password'
           className={`${
             router.pathname === '/Userprofile/password'
-              ? 'bg-softpurple border-r-2  border-babypurple py-3 font-bold text-babyblack px-4'
-              : '  rounded-sm  py-3 px-4 first-of-type: '
+              ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
+              : '  rounded-sm  py-3 px-4 '
           }`}
         >
           <div className='flex items-center gap-4 '>
             <BiLockOpenAlt className='text-xl' />
-            <h1 className='text-base '>Passwords</h1>
+            <h1 className='text-sm  xl:text-base'>Passwords</h1>
           </div>
         </Link>
         <Link
-          href='/Userprofile/view'
+          href='/Userprofile/pin'
           className={`${
             router.pathname === '/Userprofile/pin'
-              ? 'bg-softpurple border-r-2  border-babypurple py-3 font-bold text-babyblack px-4'
-              : '  rounded-sm  py-3 px-4 first-of-type: '
+              ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
+              : '  rounded-sm  py-3 px-4 '
           }`}
         >
           <div className='flex items-center gap-4 '>
             <MdPassword className='text-xl' />
-            <h1 className='text-base '>Pin</h1>
+            <h1 className='text-sm  xl:text-base'>Pin</h1>
           </div>
         </Link>
         <Link
-          href='/Userprofile/view'
+          href='/Userprofile/accounts'
           className={`${
             router.pathname === '/Userprofile/accounts'
-              ? 'bg-softpurple border-r-2  border-babypurple py-3 font-bold text-babyblack px-4'
-              : '  rounded-sm  py-3 px-4 first-of-type: '
+              ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
+              : '  rounded-sm  py-3 px-4  '
           }`}
         >
           <div className='flex items-center gap-4 '>
             <MdManageAccounts className='text-xl' />
-            <h1 className='text-base '>Accounts</h1>
+            <h1 className='text-sm  xl:text-base'>Accounts</h1>
           </div>
         </Link>
       </div>

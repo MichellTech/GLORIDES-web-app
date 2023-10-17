@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import Navbar from '@/components/Navigation/Navbar'
+import Profilecomp from '@/components/Profilecomp'
 import Image from 'next/image'
-import Link from 'next/link'
+import Profilecompbig from '@/components/Profilecompbig'
 import { MdOutlineAddAPhoto } from 'react-icons/md'
 import { BiLockOpenAlt, BiUser } from 'react-icons/bi'
 import { MdOutlinePayments } from 'react-icons/md'
@@ -14,8 +15,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { FileUploader } from 'react-drag-drop-files'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
-function Edit() {
+function Editprofile() {
   const [loading, setLoading] = useState(false)
   const [userimage, setUserimage] = useState(null)
   const [imagetoupload, setImagetoupload] = useState(null)
@@ -103,7 +103,6 @@ function Edit() {
       setImagetouploadtwo(uploadedcontent)
     }
   }
-
   // insurance
   const handleuploadthree = (uploadedcontent) => {
     if (uploadedcontent.size > 1000000) {
@@ -115,70 +114,22 @@ function Edit() {
   }
   return (
     <>
-      <Navbar />
-      <section className='bg-[#F5F5F5]  w-full overflow-x-hidden  '>
-        {/* profile information */}
-        <div className='flex flex-col justify-center items-center px-6  py-10 md:pt-14 lg:pt-16 xl:pt-20 space-y-10 md:space-y-0 md:flex-row md:items-start lg:justify-center md:gap-6 lg:max-w-5xl xl:max-w-6xl mx-auto'>
-          {/* profile data */}
-          <div className='bg-white rounded shadow-md px-6 py-4 md:py-6 flex flex-col justify-center items-center mx-auto space-y-4 w-72 sm:w-80 xl:w-[22rem]'>
-            {/* image */}
-            <div className='  relative '>
-              {userimage ? (
-                <Image
-                  src={userimage}
-                  alt='logo'
-                  width={1000}
-                  height={1000}
-                  className='object-cover w-36 h-36 rounded-full '
-                />
-              ) : (
-                <Image
-                  src={'/images/avatar.png'}
-                  alt='logo'
-                  width={1000}
-                  height={1000}
-                  className='object-cover w-36 h-36 rounded-full '
-                />
-              )}
-              <div className='bg-babypurple rounded-full flex justify-center items-center w-10 h-10  absolute top-0 right-0'>
-                <FileUploader
-                  classes=' '
-                  handleChange={handleupload}
-                  name='file'
-                  types={fileTypes}
-                  children={
-                    <MdOutlineAddAPhoto className='text-xl  lg:text-2xl text-white cursor-pointer' />
-                  }
-                />
-              </div>
-            </div>
-            {/* text */}
-            <div className='space-y-4 w-full'>
-              <h1 className='text-center font-bold'>Hello Michell Okwu</h1>
-              {/* button */}
-              <div className='flex flex-col gap-3'>
-                <Link href='/Userprofile/view' className=' '>
-                  <div className='flex  justify-center items-center gap-3 border-babypurple border  px-4 py-2 text-babyblack rounded transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-babypurple duration-300 hover:border-none hover:text-white  '>
-                    <BiUser className='' />
-                    <h1 className='text-xs '>View Profile</h1>
-                  </div>
-                </Link>
-                <Link href='/Userprofile/password' className=' '>
-                  <div className='flex  justify-center items-center gap-3 border-babypurple border  px-4 py-2 text-babyblack rounded transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-babypurple duration-300 hover:border-none hover:text-white  '>
-                    <BiLockOpenAlt className='' />
-                    <h1 className='text-xs '>Passwords</h1>
-                  </div>
-                </Link>
-                <Link href='/Userprofile/payment' className=' '>
-                  <div className='flex  justify-center items-center gap-3 border-babypurple border  px-4 py-2 text-babyblack rounded transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-babypurple duration-300 hover:border-none hover:text-white  '>
-                    <MdOutlinePayments className='' />
-                    <h1 className='text-xs '>Payment</h1>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </div>
-          {/* text */}
+      {/* small nav */}
+      <div className='sticky  md:fixed top-0 left-0 right-0 bg-white z-50  '>
+        <Navbar />
+        <div className='example md:hidden  overflow-y-auto w-full '>
+          <Profilecomp />
+        </div>
+      </div>
+
+      {/* body */}
+      <div className='bg-[#F5F5F5] md:bg-white bg-opacity-50 pt-8  md:pt-0 md:px-6  md:flex md:justify-between md:items-start md:gap-4 w-full md:relative  '>
+        {/* bg-nave links */}
+        <div className='hidden md:block md:w-1/4 fixed top-32  md:pr-10       '>
+          <Profilecompbig />
+        </div>
+        {/* information */}
+        <div className=' px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20  '>
           {/* form */}
           <Formik
             initialValues={initialValues}
@@ -187,54 +138,62 @@ function Edit() {
           >
             {(formik) => {
               return (
-                <Form className='  space-y-10 lg:space-y-14  w-72  sm:w-80 md:w-full '>
+                <Form className='  space-y-10 lg:space-y-14 w-full overflow-x-hidden '>
                   {/* profile information */}
-                  <div className='bg-white space-y-4 lg:space-y-6 shadow-md pb-4 '>
+                  <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6 '>
                     {/* header */}
-                    <div className='bg-softpurple px-3 md:px-5 lg:px-6  py-2'>
-                      <h1 className='text-sm font-bold lg:text-base '>
+                    <div className='border-b   pb-4 '>
+                      <h1 className='text-lg font-bold lg:text-xl'>
                         Profile Information
                       </h1>
                     </div>
                     {/* name */}
-                    <div className=' md:flex md:justify-between md:items-center md:gap-2 md:space-y-0  space-y-4'>
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6  pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs lg:text-sm  '>First Name</h1>
-                        <p className='  border-babyblack border w-full py-2  px-4 outline-babypurple text-xs placeholder:text-xs bg-softpurple md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
+                    <div className=' md:flex md:justify-between md:items-center md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4'>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
+                          First Name
+                        </h1>
+                        <p className='  border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
                           {' '}
                           Michell
                         </p>
                       </div>
                       {/* last*/}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6   pb-2 lg:pb-3  md:w-1/2 '>
-                        <h1 className='text-xs lg:text-sm  '>Last Name</h1>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2'>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
+                          Last Name
+                        </h1>
                         {/* lastnmae */}
-                        <p className='  border-babyblack border w-full py-2  px-4 outline-babypurple text-xs placeholder:text-xs bg-softpurple md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
+                        <p className='   border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
                           {' '}
                           Okwu
                         </p>
                       </div>
                     </div>
                     {/* email and phone no */}
-                    <div className=' md:flex md:justify-between md:items-start md:gap-2 md:space-y-0  space-y-4'>
+                    <div className=' md:flex md:justify-between md:items-start md:gap-4  lg:gap-10  xl:gap-14  md:space-y-0  space-y-4'>
                       {/* email*/}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6   pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs lg:text-sm  '>Email</h1>
-                        <p className='  border-babyblack border w-full py-2  px-4 outline-babypurple text-xs placeholder:text-xs bg-softpurple md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
+                          Email
+                        </h1>
+                        <p className='  border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
                           {' '}
-                          Michellokwu@Gmail.com
+                          michellokwu@gmail.com
                         </p>
                       </div>
                       {/* phone*/}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6   pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs lg:text-sm  '>Phone Number</h1>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2  '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
+                          Phone Number
+                        </h1>
                         {/* phone */}
                         <div>
                           <Field
                             type='text'
                             name='phone'
                             placeholder='Phone Number'
-                            className=' bg-white border-babyblack border w-full py-2   px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='phone' />
@@ -243,16 +202,18 @@ function Edit() {
                       </div>
                     </div>
                     {/* dob and gender */}
-                    <div className=' md:flex md:justify-between md:flex-row-reverse md:items-start  md:gap-2 md:space-y-0  space-y-4 md:pb-4'>
+                    <div className=' md:flex md:justify-between md:flex-row-reverse md:items-start  md:gap-4  lg:gap-10 xl:gap-14   md:space-y-0  space-y-4 md:pb-4'>
                       {/* Dob */}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6  pb-2 lg:pb-3 md:w-1/2'>
-                        <h1 className='text-xs  lg:text-sm '>Date of Birth</h1>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
+                          Date of Birth
+                        </h1>
                         <div className=''>
                           <Field name='dob' className='w-full'>
                             {({ field, form }) => {
                               return (
                                 <DatePicker
-                                  className='bg-white border-babyblack border  py-2  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm w-max'
+                                  className='border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
                                   id='dob'
                                   {...field}
                                   selected={field.value}
@@ -270,15 +231,17 @@ function Edit() {
                         </div>
                       </div>
                       {/* gender*/}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6   pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs lg:text-sm  '>Gender</h1>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm  '>
+                          Gender
+                        </h1>
                         {/* firstnmae */}
                         <div>
                           <Field
                             type='text'
                             name='gender'
                             placeholder='Gender'
-                            className=' bg-white border-babyblack border w-full py-2   px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='gender' />
@@ -288,25 +251,25 @@ function Edit() {
                     </div>
                   </div>
                   {/* ADDress */}
-                  <div className='bg-white  space-y-4 lg:space-y-6  shadow-md pb-4'>
+                  <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6 '>
                     {/* header */}
-                    <div className='bg-softpurple px-3 md:px-5 lg:px-6  py-2 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                      <h1 className='text-sm font-bold lg:text-base'>
-                        Location
-                      </h1>
+                    <div className='border-b   pb-4'>
+                      <h1 className='text-lg font-bold lg:text-xl'>Location</h1>
                     </div>
                     {/* zip and city */}
-                    <div className=' md:flex md:justify-between md:items-start  md:gap-2 md:space-y-0  space-y-4'>
+                    <div className=' md:flex md:justify-between md:flex-row-reverse md:items-start  md:gap-4  lg:gap-10 xl:gap-14   md:space-y-0  space-y-4 md:pb-4'>
                       {/* Zip code */}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6   pb-2 lg:pb-3  md:w-1/2'>
-                        <h1 className='text-xs lg:text-sm '>Zip Code</h1>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
+                          Zip Code
+                        </h1>
                         {/* firstnmae */}
                         <div>
                           <Field
                             type='text'
                             name='zip'
                             placeholder='Zip Code'
-                            className=' bg-white border-babyblack border w-full py-2    px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className='border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='zip' />
@@ -315,15 +278,17 @@ function Edit() {
                       </div>
 
                       {/* city */}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6  pb-2 lg:pb-3 md:w-1/2'>
-                        <h1 className='text-xs  lg:text-sm '>city</h1>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
+                          city
+                        </h1>
                         {/* city */}
                         <div>
                           <Field
                             type='text'
                             name='city'
                             placeholder='City'
-                            className=' bg-white border-babyblack border w-full py-2  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='city' />
@@ -332,17 +297,19 @@ function Edit() {
                       </div>
                     </div>
                     {/* state and country */}
-                    <div className=' md:flex md:justify-between md:items-start  md:gap-2 md:space-y-0  space-y-4'>
+                    <div className=' md:flex md:justify-between md:flex-row-reverse md:items-start  md:gap-4  lg:gap-10 xl:gap-14   md:space-y-0  space-y-4 md:pb-4'>
                       {/* state */}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6  pb-2 lg:pb-3  md:w-1/2'>
-                        <h1 className='text-xs lg:text-sm '>State</h1>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
+                          State
+                        </h1>
                         {/* state */}
                         <div>
                           <Field
                             type='text'
                             name='state'
                             placeholder='State'
-                            className=' bg-white border-babyblack border w-full py-2    px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className='border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='state' />
@@ -350,15 +317,17 @@ function Edit() {
                         </div>
                       </div>
                       {/* Country */}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6   pb-2 lg:pb-3 md:w-1/2'>
-                        <h1 className='text-xs  lg:text-sm '>Country</h1>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm  '>
+                          Country
+                        </h1>
                         {/* firstnmae */}
                         <div>
                           <Field
                             type='text'
                             name='country'
                             placeholder='Country'
-                            className=' bg-white border-babyblack border w-full py-2    px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='country' />
@@ -367,15 +336,17 @@ function Edit() {
                       </div>
                     </div>
                     {/* Address*/}
-                    <div className='space-y-2 px-3 md:px-5 lg:px-6   pb-2 lg:pb-3 '>
-                      <h1 className='text-xs  lg:text-sm '>Address</h1>
+                    <div className=' space-y-4 md:pb-4'>
+                      <h1 className='text-xs text-slate-500  lg:text-sm  '>
+                        Address
+                      </h1>
                       {/* firstnmae */}
                       <div>
                         <Field
                           type='text'
                           name='address'
                           placeholder='Address'
-                          className=' bg-white border-babyblack border w-full py-2    px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                          className='border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
                         />
                         <div className='text-softRed text-xs mt-1 px-4'>
                           <ErrorMessage name='address' />
@@ -384,15 +355,17 @@ function Edit() {
                     </div>
                   </div>
                   {/* Driving information */}
-                  <div className='bg-white  space-y-4 lg:space-y-6   shadow-md pb-4'>
+                  <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6'>
                     {/* header */}
-                    <div className='bg-softpurple px-3 md:px-5 lg:px-6  py-2'>
-                      <h1 className='text-sm font-bold'>Driving Information</h1>
+                    <div className='border-b   pb-4'>
+                      <h1 className='text-lg font-bold lg:text-xl'>
+                        Driving Information
+                      </h1>
                     </div>
-                    <div className='space-y-4 lg:space-y-0  lg:flex lg:justify-between lg:items-start lg:gap-2'>
+                    <div className=' md:flex md:justify-between md:items-start md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4'>
                       {/* Driving license no*/}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6   pb-2 lg:pb-3 lg:w-1/2 '>
-                        <h1 className='text-xs  lg:text-sm '>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
                           Driver's License Number
                         </h1>
                         {/* firstnmae */}
@@ -401,7 +374,7 @@ function Edit() {
                             type='text'
                             name='dln'
                             placeholder='Drivers License Number'
-                            className=' bg-white border-babyblack border w-full py-2    px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='dln' />
@@ -409,8 +382,8 @@ function Edit() {
                         </div>
                       </div>
                       {/* card */}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6   pb-2 lg:pb-3   lg:w-1/2'>
-                        <h1 className='text-xs  lg:text-sm '>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
                           Driver's Liciense Card
                         </h1>
                         {/* image */}
@@ -448,17 +421,17 @@ function Edit() {
                     </div>
                   </div>
                   {/* insurance information */}
-                  <div className='bg-white  space-y-4 lg:space-y-6   shadow-md pb-4'>
+                  <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6'>
                     {/* header */}
-                    <div className='bg-softpurple px-3 md:px-5 lg:px-6  py-2'>
-                      <h1 className='text-sm font-bold lg:text-sm '>
+                    <div className='border-b   pb-4'>
+                      <h1 className='text-lg font-bold lg:text-xl '>
                         Insurance Information
                       </h1>
                     </div>
-                    <div className='space-y-4 lg:space-y-0  lg:flex lg:justify-between lg:items-start lg:gap-2'>
+                    <div className=' md:flex md:justify-between md:items-start md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4 w-full'>
                       {/* Driving license no*/}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6   pb-2 lg:pb-3 lg:w-1/2 '>
-                        <h1 className='text-xs  lg:text-sm '>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2  '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm'>
                           Insurance License Number
                         </h1>
                         {/* firstnmae */}
@@ -467,7 +440,7 @@ function Edit() {
                             type='text'
                             name='iln'
                             placeholder='Insurance License Number'
-                            className=' bg-white border-babyblack border w-full py-2    px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='iln' />
@@ -475,8 +448,8 @@ function Edit() {
                         </div>
                       </div>
                       {/* card */}
-                      <div className='space-y-2 px-3 md:px-5 lg:px-6   pb-2 lg:pb-3 lg:w-1/2'>
-                        <h1 className='text-xs  lg:text-sm '>
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <h1 className='text-xs text-slate-500  lg:text-sm'>
                           Insurance Liciense Card
                         </h1>
                         {/* image */}
@@ -516,12 +489,12 @@ function Edit() {
 
                   <button
                     type='submit'
-                    className='bg-babypurple text-white px-4 py-3   rounded-md w-full  text-base lg:text-lg '
+                    className='bg-babypurple text-white px-6 py-2 lg:py-3   rounded-md flex justify-center items-center mx-auto text-sm md:w-full max-w-xs shadow-md'
                   >
                     {loading ? (
-                      <div className='flex justify-center gap-2 items-center'>
-                        <ImSpinner className='animate-spin' />
-                        Update...
+                      <div className='flex justify-center gap-2 items-center  '>
+                        <div className='spinner'></div>
+                        Updating...
                       </div>
                     ) : (
                       'Update Profile'
@@ -532,12 +505,9 @@ function Edit() {
             }}
           </Formik>
         </div>
-        <Footer />
-      </section>
+      </div>
     </>
   )
 }
 
-export default Edit
-
-// F4EAF3
+export default Editprofile

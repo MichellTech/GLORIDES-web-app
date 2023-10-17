@@ -1,196 +1,191 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '@/components/Navigation/Navbar'
+import Profilecomp from '@/components/Profilecomp'
 import Image from 'next/image'
+import Profilecompbig from '@/components/Profilecompbig'
 import Link from 'next/link'
 import { FiUserPlus } from 'react-icons/fi'
-import { BiLockOpenAlt } from 'react-icons/bi'
+import { BiUser } from 'react-icons/bi'
 import { MdOutlinePayments } from 'react-icons/md'
 import Footer from '@/components/Navigation/Footer'
-function View() {
+import { Formik, Form, Field, ErrorMessage } from 'formik'
+import * as Yup from 'yup'
+import { ImSpinner } from 'react-icons/im'
+
+function Pin() {
+  const [loading, setLoading] = useState(false)
+
+  const initialValues = {
+    opin: '1234',
+    npin: '',
+    cpin: '',
+  }
+
+  const onSubmit = (values, onSubmitProps) => {
+    onSubmitProps.setSubmitting(false)
+    setLoading(true)
+    // const payload = {
+    //   email_id: values.email,
+    //   password: values.password,
+    // }
+    // signinapi(payload)
+
+    // reset
+    // onSubmitProps.resetForm()
+    //  router.push({
+    //    pathname: '/Auth/emailverification',
+    //    //  query: response.data.data.user,
+    //  })
+    //  console.log(values)
+  }
+  // validation
+  const validationSchema = Yup.object().shape({
+    npin: Yup.string()
+      .min(8, 'pin must contain 8 or more characters')
+      .test(
+        'isValidPass',
+        ' Pin must have an Uppercase, Number and Lowercase',
+        (value, context) => {
+          const hasUpperCase = /[A-Z]/.test(value)
+          const hasLowerCase = /[a-z]/.test(value)
+          const hasNumber = /[0-9]/.test(value)
+          let validConditions = 0
+          const numberOfMustBeValidConditions = 3
+          const conditions = [hasLowerCase, hasUpperCase, hasNumber]
+          conditions.forEach((condition) =>
+            condition ? validConditions++ : null
+          )
+          if (validConditions >= numberOfMustBeValidConditions) {
+            return true
+          }
+          return false
+        }
+      )
+      .required('No pin provided.'),
+    cpin: Yup.string()
+      .oneOf([Yup.ref('npin'), ''], 'Pin must match')
+      .required('Required'),
+  })
+
   return (
     <>
-      <Navbar />
-      <section className='bg-[#F5F5F5]  w-full  '>
-        {/* profile information */}
-        <div className='flex flex-col justify-center items-center px-6  py-10 md:pt-14 lg:pt-16 xl:pt-20 space-y-10 md:space-y-0 md:flex-row md:items-start lg:justify-center md:gap-6 lg:max-w-6xl xl:max-w-[90rem] mx-auto'>
-          {/* profile data */}
-          <div className='bg-white rounded shadow-md px-6 py-4 md:py-6  xl:w-96 flex flex-col justify-center items-center mx-auto space-y-4 w-72 sm:w-80'>
-            {/* image */}
-            <div className='  relative '>
-              <Image
-                src={'/images/avatar.png'}
-                alt='logo'
-                width={1000}
-                height={1000}
-                className='object-cover w-36 rounded-full '
-              />
-            </div>
-            {/* text */}
-            <div className='space-y-4 w-full'>
-              <h1 className='text-center font-bold'>Hello Michell Okwu</h1>
-              {/* button */}
-              <div className='flex flex-col gap-3'>
-                <Link href='/Userprofile/edit' className=' '>
-                  <div className='flex  justify-center items-center gap-3 border-babypurple border  px-4 py-2 text-babyblack rounded transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-babypurple duration-300 hover:border-none hover:text-white  '>
-                    <FiUserPlus className='' />
-                    <h1 className='text-xs '>Edit Profile</h1>
-                  </div>
-                </Link>
-                <Link href='/Userprofile/password' className=' '>
-                  <div className='flex  justify-center items-center gap-3 border-babypurple border  px-4 py-2 text-babyblack rounded transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-babypurple duration-300 hover:border-none hover:text-white  '>
-                    <BiLockOpenAlt className='' />
-                    <h1 className='text-xs '>Passwords</h1>
-                  </div>
-                </Link>
-                <Link href='/Userprofile/payment' className=' '>
-                  <div className='flex  justify-center items-center gap-3 border-babypurple border  px-4 py-2 text-babyblack rounded transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-babypurple duration-300 hover:border-none hover:text-white  '>
-                    <MdOutlinePayments className='' />
-                    <h1 className='text-xs '>Payment</h1>
-                  </div>
-                </Link>
-              </div>
-            </div>
-          </div>
-          {/* text */}
-          <div className='space-y-10 lg:grid lg:grid-cols-2 lg:gap-x-6 lg:gap-y-10 lg:space-y-0  w-72  sm:w-80 md:w-full'>
-            {/* profile information */}
-            <div className='bg-white space-y-4 lg:space-y-6 shadow-md '>
-              {/* header */}
-              <div className='bg-softpurple px-3 py-2'>
-                <h1 className='text-sm font-bold lg:text-base '>
-                  Profile Information
-                </h1>
-              </div>
-              {/* fullname*/}
-              <div className='space-y-2 px-3 border-b pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs lg:text-sm  '>Full Name</h1>
-                <p className='text-xs lg:text-sm font-bold '>Michell Okwu</p>
-              </div>
-              {/* email */}
-              <div className='space-y-2 px-3 border-b pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs  lg:text-sm '>Email</h1>
-                <p className='text-xs lg:text-sm  font-bold'>
-                  MichellOkwu@gmail.com
-                </p>
-              </div>
-              {/* phnoe */}
-              <div className='space-y-2 px-3 border-b pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs  lg:text-sm '>Phone Number</h1>
-                <p className='text-xs font-bold lg:text-sm '>+2348138121986</p>
-              </div>
-              {/* Dob */}
-              <div className='space-y-2 px-3 border-b pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs  lg:text-sm '>Date of Birth</h1>
-                <p className='text-xs font-bold lg:text-sm '>25-August-1992</p>
-              </div>
-              {/* gender */}
-              <div className='space-y-2 px-3  pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs  lg:text-sm '>Gender</h1>
-                <p className='text-xs lg:text-sm font-bold '>Male</p>
-              </div>
-            </div>
-            {/* ADDress */}
-            <div className='bg-white  space-y-4 lg:space-y-6  shadow-md'>
-              {/* header */}
-              <div className='bg-softpurple px-3 py-2 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-sm font-bold lg:text-base'>Location</h1>
-              </div>
-              {/* Address*/}
-              <div className='space-y-2 px-3 border-b pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs  lg:text-sm '>Address</h1>
-                <p className='text-xs lg:text-sm font-bold '>
-                  No 2 rumola street, Ph, Nigeria
-                </p>
-              </div>
-              {/* city */}
-              <div className='space-y-2 px-3 border-b pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs  lg:text-sm '>city</h1>
-                <p className='text-xs lg:text-sm font-bold '>Port Harcourt</p>
-              </div>
-              {/* state */}
-              <div className='space-y-2 px-3 border-b pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs lg:text-sm '>State</h1>
-                <p className='text-xs lg:text-sm  font-bold '>Rivers</p>
-              </div>
-              {/* Country */}
-              <div className='space-y-2 px-3 border-b pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs  lg:text-sm '>Country</h1>
-                <p className='text-xs lg:text-sm font-bold '>Nigeria</p>
-              </div>
-              {/* Zip code */}
-              <div className='space-y-2 px-3  pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs lg:text-sm '>Zip Code</h1>
-                <p className='text-xs lg:text-sm  font-bold '>111021234</p>
-              </div>
-            </div>
-            {/* Driving information */}
-            <div className='bg-white  space-y-4 lg:space-y-6   shadow-md'>
-              {/* header */}
-              <div className='bg-softpurple px-3 py-2'>
-                <h1 className='text-sm font-bold'>Driving Information</h1>
-              </div>
-              {/* Driving license no*/}
-              <div className='space-y-2 px-3 border-b pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs  lg:text-sm '>
-                  Driver's License Number
-                </h1>
-                <p className='text-xs lg:text-sm  font-bold'>N2235on1244</p>
-              </div>
-              {/* card */}
-              <div className='space-y-2 px-3  pb-2 lg:pb-3 md:flex md:justify-between md:items-start md:gap-2 md:space-y-0'>
-                <h1 className='text-xs  lg:text-sm '>Driver's Liciense Card</h1>
-                {/* image */}
-                <div className='  relative '>
-                  <Image
-                    src={'/images/idcard.png'}
-                    alt='logo'
-                    width={1000}
-                    height={1000}
-                    className='object-cover  w-48 lg:w-60 xl:w-72'
-                  />
-                </div>
-              </div>
-            </div>
-            {/* insurance information */}
-            <div className='bg-white  space-y-4 lg:space-y-6   shadow-md'>
-              {/* header */}
-              <div className='bg-softpurple px-3 py-2'>
-                <h1 className='text-sm font-bold lg:text-sm '>
-                  Insurance Information
-                </h1>
-              </div>
-              {/* Driving license no*/}
-              <div className='space-y-2 px-3 border-b pb-2 lg:pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-                <h1 className='text-xs  lg:text-sm '>
-                  Insurance License Number
-                </h1>
-                <p className='text-xs font-bold lg:text-sm '>N2235on1244</p>
-              </div>
-              {/* card */}
-              <div className='space-y-2 px-3  pb-2 lg:pb-3 md:flex md:justify-between md:items-start md:gap-2 md:space-y-0'>
-                <h1 className='text-xs  lg:text-sm '>
-                  Insurance Liciense Card
-                </h1>
-                {/* image */}
-                <div className='  relative '>
-                  <Image
-                    src={'/images/idcard.png'}
-                    alt='logo'
-                    width={1000}
-                    height={1000}
-                    className='object-cover  w-48  lg:w-60 xl:w-72'
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* small nav */}
+      <div className='sticky  md:fixed top-0 left-0 right-0 bg-white z-50  '>
+        <Navbar />
+        <div className='example md:hidden  overflow-y-auto w-full '>
+          <Profilecomp />
         </div>
-        <Footer />
-      </section>
+      </div>
+      {/* body */}
+      <div className='bg-[#F5F5F5] md:bg-white bg-opacity-50 pt-8  md:pt-0 md:px-6  md:flex md:justify-between md:items-start md:gap-4 w-full md:relative  '>
+        {/* bg-nave links */}
+        <div className='hidden md:block md:w-1/4 fixed top-32  md:pr-10       '>
+          <Profilecompbig />
+        </div>
+        {/* information */}
+        <div className=' px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20 min-h-[70vh]  '>
+          {/* form */}
+          <Formik
+            initialValues={initialValues}
+            onSubmit={onSubmit}
+            validationSchema={validationSchema}
+          >
+            {(formik) => {
+              return (
+                <Form className='  space-y-10 lg:space-y-14 w-full overflow-x-hidden'>
+                  {/* pin */}
+                  <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6  '>
+                    {/* header */}
+                    <div className='border-b   pb-4 '>
+                      <h1 className='text-lg font-bold lg:text-xl  '>
+                        Withdrawal Pin
+                      </h1>
+                    </div>
+
+                    {/* old pin and new pin */}
+                    <div className=' md:flex md:justify-between md:items-center md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4  '>
+                      {/* old pin */}
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2'>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
+                          Old Pin
+                        </h1>
+
+                        <div>
+                          <Field
+                            type='password'
+                            name='opin'
+                            placeholder='Old Pin'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                          />
+                          <div className='text-softRed text-xs mt-1 px-4'>
+                            <ErrorMessage name='opin' />
+                          </div>
+                        </div>
+                      </div>
+                      {/* new  pin */}
+                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2'>
+                        <h1 className='text-xs text-slate-500  lg:text-sm '>
+                          New Pin
+                        </h1>
+
+                        <div>
+                          <Field
+                            type='password'
+                            name='npin'
+                            placeholder='New Pin'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                          />
+                          <div className='text-softRed text-xs mt-1 px-4'>
+                            <ErrorMessage name='npin' />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* confirm  pin*/}
+                    <div className=' space-y-3  pb-2 lg:pb-3 md:w-1/2  '>
+                      <h1 className='text-xs text-slate-500  lg:text-sm '>
+                        Confirm Pin
+                      </h1>
+
+                      <div>
+                        <Field
+                          type='password'
+                          name='cpin'
+                          placeholder='Confirm New Pin'
+                          className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                        />
+                        <div className='text-softRed text-xs mt-1 px-4'>
+                          <ErrorMessage name='cpin' />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button
+                    type='submit'
+                    className='bg-babypurple text-white px-6 py-2 lg:py-3   rounded-md flex justify-center items-center mx-auto text-sm md:w-full max-w-xs shadow-md'
+                  >
+                    {loading ? (
+                      <div className='flex justify-center gap-2 items-center  '>
+                        <div className='spinner'></div>
+                        updating...
+                      </div>
+                    ) : (
+                      'Update Pin'
+                    )}
+                  </button>
+                </Form>
+              )
+            }}
+          </Formik>
+        </div>
+      </div>
     </>
   )
 }
 
-export default View
+export default Pin
+
+// F4EAF3
 
 // F4EAF3

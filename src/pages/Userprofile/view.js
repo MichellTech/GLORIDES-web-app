@@ -26,22 +26,22 @@ function view() {
         {/* information */}
         <div className=' px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20  '>
           {/* welcom picture */}
-          <div className='bg-white w-full flex justify-center items-center flex-col border px-6 py-4 sm:px-8 sm:py-6 rounded-md space-y-4 shadow-md md:flex-row md:space-y-0 md:w-full md:gap-4'>
+          <div className='bg-white w-full flex justify-center items-center flex-col border px-6 py-4 sm:px-8 sm:py-6 rounded-md space-y-4 shadow-md md:flex-row md:space-y-0 md:w-full md:gap-4 lg:gap-6'>
             <div className='  relative max-w-xs '>
               <Image
                 src={'/images/avatar.png'}
                 alt='logo'
                 width={1000}
                 height={1000}
-                className='object-cover w-28 xl:w-32 rounded-full '
+                className='object-cover w-28 lg:w-32 rounded-full '
               />
             </div>
             <div className='space-y-2 md:w-full'>
-              <h1 className='font-bold text-base text-center sm:text-lg md:text-base md:text-left'>
+              <h1 className='font-bold text-base text-center sm:text-lg md:text-base md:text-left lg:text-lg'>
                 {' '}
                 Hello Michell{' '}
               </h1>
-              <h1 className='text-xs text-center sm:text-sm md:text-left md:text-xs '>
+              <h1 className='text-xs text-center sm:text-sm md:text-left md:text-xs  lg:text-sm'>
                 Welcome to your profile page! Here, you have the power to
                 customize your experience. Edit your profile, enhance your
                 security settings, and manage your payments effortlessly.Make
@@ -53,64 +53,72 @@ function view() {
           <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6 '>
             {/* header */}
             <div className='border-b   pb-4 '>
-              <h1 className='text-base font-bold '>Profile Information</h1>
+              <h1 className='text-lg font-bold lg:text-xl'>
+                Profile Information
+              </h1>
             </div>
             {/* fullname*/}
             <div className='space-y-2  pt-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500   '>Full Name</h1>
-              <p className='text-base '>Michell Okwu</p>
+              <h1 className='text-xs text-slate-500  lg:text-sm '>Full Name</h1>
+              <p className='text-base lg:text-lg '>Michell Okwu</p>
             </div>
             {/* email */}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500    '>Email</h1>
-              <p className='text-base'>MichellOkwu@gmail.com</p>
+              <h1 className='text-xs text-slate-500 lg:text-sm    '>Email</h1>
+              <p className='text-base lg:text-lg'>MichellOkwu@gmail.com</p>
             </div>
             {/* phnoe */}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500   '>Phone Number</h1>
-              <p className='text-base  '>+2348138121986</p>
+              <h1 className='text-xs text-slate-500  lg:text-sm  '>
+                Phone Number
+              </h1>
+              <p className='text-base  lg:text-lg'>+2348138121986</p>
             </div>
             {/* Dob */}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500   '>Date of Birth</h1>
-              <p className='text-base  '>25-August 2023</p>
+              <h1 className='text-xs text-slate-500   lg:text-sm '>
+                Date of Birth
+              </h1>
+              <p className='text-base lg:text-lg '>25-August 2023</p>
             </div>
             {/* gender */}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500   '>Gender</h1>
-              <p className='text-base  '>Male</p>
+              <h1 className='text-xs text-slate-500   lg:text-sm '>Gender</h1>
+              <p className='text-base  lg:text-lg'>Male</p>
             </div>
           </div>
           {/* ADDress */}
           <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6 '>
             {/* header */}
             <div className='border-b   pb-4 '>
-              <h1 className='text-base font-bold '>Location</h1>
+              <h1 className='text-lg  font-bold lg:text-xl'>Location</h1>
             </div>
             {/* fullname*/}
             <div className='space-y-2  pt-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500   '>Address</h1>
-              <p className='text-base '>No 2 rumola street, Ph, Nigeria</p>
+              <h1 className='text-xs text-slate-500  lg:text-sm  '>Address</h1>
+              <p className='text-base lg:text-lg'>
+                No 2 rumola street, Ph, Nigeria
+              </p>
             </div>
             {/* email */}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500    '>city</h1>
-              <p className='text-base'>Port Harcourt</p>
+              <h1 className='text-xs text-slate-500    lg:text-sm '>city</h1>
+              <p className='text-base lg:text-lg'>Port Harcourt</p>
             </div>
             {/* State*/}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500   '>State</h1>
-              <p className='text-base  '>Rivers</p>
+              <h1 className='text-xs text-slate-500   lg:text-sm '>State</h1>
+              <p className='text-base  lg:text-lg'>Rivers</p>
             </div>
             {/* Country*/}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500   '>Country</h1>
-              <p className='text-base  '>Nigeria</p>
+              <h1 className='text-xs text-slate-500   lg:text-sm '>Country</h1>
+              <p className='text-base  lg:text-lg'>Nigeria</p>
             </div>
             {/* Zip Code*/}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500   '>Zip Code</h1>
-              <p className='text-base  '>111021234</p>
+              <h1 className='text-xs text-slate-500   lg:text-sm '>Zip Code</h1>
+              <p className='text-base  lg:text-lg'>111021234</p>
             </div>
           </div>
 
@@ -118,19 +126,21 @@ function view() {
           <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6'>
             {/* header */}
             <div className='border-b   pb-4 '>
-              <h1 className='text-base font-bold '>Driving Information</h1>
+              <h1 className='text-lg  font-bold lg:text-xl'>
+                Driving Information
+              </h1>
             </div>
             {/* Driving license no*/}
 
             <div className='space-y-2  pt-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500   '>
+              <h1 className='text-xs text-slate-500  lg:text-sm  '>
                 Driver's License Number
               </h1>
-              <p className='text-base '>N2235on1244</p>
+              <p className='text-base lg:text-lg'>N2235on1244</p>
             </div>
             {/* card */}
             <div className='space-y-2  pb-2  md:flex md:justify-between md:items-start md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500  '>
+              <h1 className='text-xs text-slate-500  lg:text-sm '>
                 Driver's Liciense Card
               </h1>
               {/* image */}
@@ -149,19 +159,21 @@ function view() {
           <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6'>
             {/* header */}
             <div className='border-b   pb-4 '>
-              <h1 className='text-base font-bold '>Insurance Information</h1>
+              <h1 className='text-lg  font-bold lg:text-xl'>
+                Insurance Information
+              </h1>
             </div>
             {/*  Insurance Information*/}
 
             <div className='space-y-2  pt-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500   '>
+              <h1 className='text-xs text-slate-500  lg:text-sm '>
                 Insurance License Number
               </h1>
-              <p className='text-base '>N2235on1244</p>
+              <p className='text-base lg:text-lg'>N2235on1244</p>
             </div>
             {/* card */}
             <div className='space-y-2  pb-2  md:flex md:justify-between md:items-start md:gap-2 md:space-y-0'>
-              <h1 className='text-xs text-slate-500  '>
+              <h1 className='text-xs text-slate-500  lg:text-sm '>
                 Insurance Liciense Card
               </h1>
               {/* image */}
@@ -177,8 +189,6 @@ function view() {
             </div>
           </div>
         </div>
-
-        {/* <Footer /> */}
       </div>
     </>
   )
