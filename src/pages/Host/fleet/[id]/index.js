@@ -161,8 +161,16 @@ function index() {
             </div>
           </div>
           {/* displayinf */}
-          <div className='w-full px-4 md:px-6  py-8 bg-white lg:px-8'>
-            <Generaldetails />
+          <div className='w-full'>
+            {display === 1 ? (
+              <Generaldetails />
+            ) : display === 2 ? (
+              <Photos />
+            ) : display === 3 ? (
+              <Documentations />
+            ) : (
+              <Leasehistory />
+            )}
           </div>
         </div>
         {/*footer  */}
