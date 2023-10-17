@@ -130,12 +130,12 @@ function Dashboard() {
               </div>
             </div>
             {/* lease history and transaction history */}
-            <div className='space-y-10 md:space-y-0 md:flex   md:items-center md:gap-6 w-full md:h-[75vh] lg:h-[85vh]'>
+            <div className='space-y-10 md:space-y-0 md:flex   md:items-center md:gap-6 w-full md:h-[456px] lg:h-[517px]'>
               {/* leasehistory */}
               <div className='border px-4 py-4 h-full  bg-white shadow-md  w-full flex justify-center  hover:shadow-md rounded-md'>
                 {/* nofound */}
                 {!leasehistory ? (
-                  <div className='flex   justify-center items-center flex-col space-y-2 xl:space-y-3'>
+                  <div className='flex   justify-center items-center flex-col space-y-2 xl:space-y-3 '>
                     {/* icon */}
                     <div className='flex justify-center items-center p-3 bg-opacity-50 bg-babygrey rounded-full'>
                       <MdOutlineCarRental className='text-2xl xl:text-3xl' />
@@ -157,9 +157,12 @@ function Dashboard() {
                       <h1 className='font-bold text-sm lg:text-base'>
                         Lease History
                       </h1>
-                      <button className='px-4 py-1 rounded-full border text-xs hover:bg-softpurple hover:border-none lg:text-sm'>
+                      <Link
+                        href='/Host/leasehistory'
+                        className='px-4 py-1 rounded-full border text-xs hover:bg-softpurple hover:border-none lg:text-sm'
+                      >
                         View All
-                      </button>
+                      </Link>
                     </div>
                     {/* content */}
                     <div className='pt-6 space-y-5 '>

@@ -219,7 +219,7 @@ function Raiseaticket() {
                                     <input
                                       name=''
                                       type='file'
-                                      accept='image/png, image/jpg, image/gif, image/jpeg'
+                                      accept='image/png, image/jpg, image/gif, image/jpeg,application/pdf'
                                       // value={item?.file?.name}
                                       onChange={(e) => {
                                         setUserimage((previous) =>
@@ -268,12 +268,16 @@ function Raiseaticket() {
                             >
                               Add{' '}
                               <span className='hidden md:inline-block '>
-                                More Photos
+                                More Files
                               </span>
                             </div>
                           </div>
                         </div>
                         {/* more */}
+                        {/* more */}
+                        <h1 className='text-xs text-babypurple'>
+                          Only Images and Pdf's are allowed
+                        </h1>
                       </div>
                     </div>
                   </div>

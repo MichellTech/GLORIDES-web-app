@@ -174,12 +174,15 @@ function Supportform() {
                             >
                               Add{' '}
                               <span className='hidden lg:inline-block '>
-                                More Photos
+                                More Files
                               </span>
                             </div>
                           </div>
                         </div>
                         {/* more */}
+                        <h1 className='text-xs text-babypurple'>
+                          Only Images and Pdf's are allowed
+                        </h1>
                       </div>
                     </div>
                   </div>
