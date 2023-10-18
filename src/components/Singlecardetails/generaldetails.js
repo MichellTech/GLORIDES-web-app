@@ -28,7 +28,10 @@ function generaldetails() {
           </div>
           {/* carmodel */}
           <div className='space-y-2 w-full '>
-            <h1 htmlFor='' className='text-xs text-slate-500lg:text-sm'>
+            <h1
+              htmlFor=''
+              className='text-xs text-slate-500lg:text-sm text-slate-500'
+            >
               Car Model
             </h1>
             <div className=' bg-white  border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
