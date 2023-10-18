@@ -8,12 +8,7 @@ import { BiSolidCarMechanic, BiCurrentLocation } from 'react-icons/bi'
 import { TbCashBanknoteOff } from 'react-icons/tb'
 import Image from 'next/image'
 import { LuFuel, LuUser, LuCalendarClock } from 'react-icons/lu'
-import {
-  MdOutlineDirectionsCar,
-  MdOutlineElectricCar,
-  MdOutlineCarRepair,
-  MdOutlineCarRental,
-} from 'react-icons/md'
+import { MdOutlineCarRental } from 'react-icons/md'
 // import { TfiWallet } from 'react-icons/tf'
 import {
   PiChartLineUpLight,
