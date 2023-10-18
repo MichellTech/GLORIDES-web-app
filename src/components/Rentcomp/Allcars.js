@@ -85,7 +85,7 @@ function Allcars() {
                         <h1 className='text-[0.6rem]'>Petrol</h1>
                       </div>
                       {/* three */}
-                      <div className='flex items-center gap-2'>
+                      <div className='flex justify-center items-center gap-2'>
                         <GiGearStickPattern className='text-base' />
                         <h1 className='text-[0.6rem]'>Manual</h1>
                       </div>
