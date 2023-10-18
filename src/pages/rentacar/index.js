@@ -7,6 +7,9 @@ import Footer from '../../components/Navigation/Footer'
 import Filterparams from '../../components/Rentcomp/Filterparams'
 import { useSelector, useDispatch } from 'react-redux'
 import { openFilter, closeFilter } from '@/features/rental/filterSlice'
+import Rentform from '../../components/Rentcomp/Rentform'
+import { LuFilter } from 'react-icons/lu'
+import { BsBookmark } from 'react-icons/bs'
 
 function allcars() {
   const { isFiltering } = useSelector((store) => store.rental)
@@ -14,63 +17,51 @@ function allcars() {
 
   return (
     <>
-      <main className='example '>
+      <main
+        className={`${
+          isFiltering ? 'relative h-[100vh] overflow-y-hidden ' : 'relative '
+        }`}
+      >
         <Navbar />
         {/* search */}
-        <div className=' flex  justify-center items-center mx-auto w-full text-white bg-white  border-b border-t border-[#D9D9D9] '>
-          <Search />
+        <div className=' w-full px-6 lg:px-10  py-3 lg:py-5  sticky    top-0 left-0 right-0 bg-white  z-30  '>
+          <Rentform />
         </div>
 
-        {/* All cars and filters */}
-        <section className=' my-16 lg:my-0 max-w-xs sm:max-w-full mx-auto font-sans md:max-w-2xl lg:max-w-full xl:max-w-full  px-4 sm:px-6  lg:px-8 lg:flex lg:justify-center lg:items-start w-full example  '>
-          {/* Sidebar */}
-          {/* {isFiltering && (
-            <div className='hidden lg:block lg:w-1/4 xl:w-1/5 border-r  lg:h-[100vh]  lg:gap-4  lg:overflow-y-hidden  '>
-              <Filterparams />
-            </div>
-          )} */}
+        {/* body */}
+        {/* allcars and filter */}
+        <div className='max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8  '>
           {/* all cars */}
-          <div className=' flex justify-center items-center mx-auto lg:w-6/6 lg:pl-4 lg:my-2 lg:items-start lg:h-[100vh]  lg:gap-4  lg:overflow-y-auto example '>
+          <div className='flex justify-center items-center w-full'>
             <Allcars />
           </div>
-        </section>
+        </div>
 
-        {/* floating filter */}
-        <div
-          onClick={() => dispatch(openFilter())}
-          className='fixed bottom-8 left-1/2 right-1/2  flex items-center justify-center w-max  bg-white shadow-xl   cursor-pointer -translate-x-1/2 md:hidden   '
-        >
-          <div className='w-max  flex items-center justify-center gap-4  px-6 py-3'>
-            <h1 className='text-sm sm:text-base'>Filter cars</h1>
-            <MdOutlineFilterAlt className=' text-lg' />
+        {/* filtering comp*/}
+        {isFiltering && (
+          <div className='absolute top-0 bottom-0 left-0 right-0 bg-black  bg-opacity-50 z-50  '>
+            <Filterparams />
+          </div>
+        )}
+
+        {/* mobile */}
+        <div className='fixed bottom-2 left-0 right-0'>
+          <div className='flex justify-center flex-wrap gap-4 z-30'>
+            {/* fiter */}
+            <div
+              onClick={() => dispatch(openFilter())}
+              className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm   cursor-pointer bg-white'
+            >
+              <LuFilter className='text-sm md:text-base' />
+              <h1 className='text-xs md:text-sm'>Filter</h1>
+            </div>
+            {/* favorites */}
+            <div className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm  cursor-pointer bg-white'>
+              <BsBookmark className='text-sm md:text-base' />
+              <h1 className='text-xs md:text-sm'>Favorites (0)</h1>
+            </div>
           </div>
         </div>
-        {/* filter */}
-        {/* {isFiltering && (
-          <div className='fixed top-0 left-0 right-0 bottom-0 lg:hidden bg-babyblack bg-opacity-80 z-50  md:h-screen  '>
-            <div className='md:max-w-xs bg-white  md:shadow-md  '>
-              <Filterparams />
-            </div>
-           
-            <div className=' absolute bottom-0 left-0 right-0 bg-white w-full lg:hidden md:max-w-xs'>
-              <div className='grid grid-cols-2 justify-between items-center gap-4   py-3 px-6 lg:hidden  '>
-              
-                <div className='border  px-3 py-2 cursor-pointer bg-babypurple text-center text-white rounded'>
-                  <h1>Apply Filter </h1>
-                </div>
-              
-                <div
-                  onClick={() => dispatch(closeFilter())}
-                  className='border  px-3 py-2 cursor-pointer text-center bg-slate-500 rounded text-white font-light'
-                >
-                  <h1>Clear All </h1>
-                </div>
-              </div>
-            </div>
-          </div>
-        )} */}
-        {/* 
-        <Footer /> */}
       </main>
     </>
   )

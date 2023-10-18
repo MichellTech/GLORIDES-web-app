@@ -7,15 +7,25 @@ const Error = () => {
     <>
       <div className=' px-6 flex flex-col justify-center items-center min-h-screen space-y-4 md:space-y-8'>
         {/* image */}
-        <div className='max-w-sm md:max-w-md xl:max-w-xl h-full relative mx-auto'>
+        <div className=' relative mx-auto w-60 md:w-72 xl:w-80 '>
           <Image
-            src={'/images/error.gif'}
+            src={'/images/error1.png'}
             alt='logo'
             width={1000}
             height={100}
             priority={true}
-            className='object-cover object-center h-[40vh] xl:h-[45vh] '
+            className='object-cover  animate-[pulse_10s_ease-in-out_infinite]'
           />
+          <div className='absolute bottom-0 right-0 animate-[bounce_10s_ease-in-out_infinite] '>
+            <Image
+              src={'/images/error2.png'}
+              alt='logo'
+              width={1000}
+              height={100}
+              priority={true}
+              className='object-cover  '
+            />
+          </div>
         </div>
         <div className='space-y-8'>
           {/* text */}
@@ -27,7 +37,7 @@ const Error = () => {
           </div>
           {/* button */}
           <Link href='/' className='flex justify-center items-center mx-auto'>
-            <button className='mx-auto bg-babypurple text-white font-alata px-6 py-2 md:py-3 text-sm shadow-md rounded-md lg:text-base lg:px-8'>
+            <button className='mx-auto bg-babypurple text-white font-alata px-6 py-2 md:py-3 text-sm shadow-md rounded-md lg:text-base lg:px-8 xl:py-4'>
               Return to Hompage
             </button>
           </Link>

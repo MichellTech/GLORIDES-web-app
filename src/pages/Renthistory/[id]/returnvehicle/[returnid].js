@@ -8,9 +8,9 @@ import { FileUploader } from 'react-drag-drop-files'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { MdOutlineAddAPhoto } from 'react-icons/md'
-
+import { RiDeleteBack2Fill } from 'react-icons/ri'
 import { FaStar } from 'react-icons/fa'
-
+import { LuImagePlus } from 'react-icons/lu'
 import { MdKeyboardBackspace } from 'react-icons/md'
 import Link from 'next/link'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
@@ -27,36 +27,11 @@ function Returnvehicle() {
     [carId]
   )
   const [loading, setLoading] = useState(false)
-  const [userimage, setUserimage] = useState(null)
-  const [imagetoupload, setImagetoupload] = useState(null)
+  const [userimage, setUserimage] = useState([{ id: 1, file: null }])
+
   const [ratings, setRatings] = useState(0)
-  const [userimagetwo, setUserimagetwo] = useState(null)
-  const [imagetouploadtwo, setImagetouploadtwo] = useState(null)
-  const [imageerror, setImageerror] = useState('')
-  const [imageerrortwo, setImageerrortwo] = useState('')
   const [rating, setRating] = useState(null)
   const [hover, setHover] = useState(null)
-
-  const fileTypes = ['JPG', 'JPEG', 'PNG']
-  // drivers
-  const handleupload = (uploadedcontent) => {
-    if (uploadedcontent.size > 1000000) {
-      toast.error('file size is too large')
-    } else {
-      setUserimage(URL.createObjectURL(uploadedcontent))
-      setImagetoupload(uploadedcontent)
-    }
-  }
-
-  // insurance
-  const handleuploadtwo = (uploadedcontent) => {
-    if (uploadedcontent.size > 1000000) {
-      toast.error('file size is too large')
-    } else {
-      setUserimagetwo(URL.createObjectURL(uploadedcontent))
-      setImagetouploadtwo(uploadedcontent)
-    }
-  }
 
   const initialValues = {
     comment: '',
@@ -134,440 +109,132 @@ function Returnvehicle() {
                           help owner access the state of the vehicle on return{' '}
                         </h1>
                         {/* upload images */}
-                        <div className='space-y-6 md:grid md:grid-cols-2 md:space-y-0 md:gap-x-10 md:gap-y-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-y-8'>
-                          {/* one */}
-                          <div className='    '>
-                            <div className='relative'>
-                              {userimage && (
-                                <Image
-                                  src={userimage}
-                                  alt='drivers license photo'
-                                  width={500}
-                                  height={500}
-                                  priority={true}
-                                  className='object-cover  border border-babygreen h-32 w-full md:h-40 xl:h-48 object-center '
-                                />
-                              )}
-                              {userimage && (
-                                <div className='absolute -top-2 -right-2'>
-                                  <FileUploader
-                                    classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                    handleChange={handleupload}
-                                    name='file'
-                                    types={fileTypes}
-                                    children={
-                                      <div className=' bg-babypurple  px-2 py-2 rounded-full xl:px-3 xl:py-3 '>
-                                        <MdOutlineAddAPhoto className=' text-xl xl:text-2xl  text-white' />
-                                      </div>
-                                    }
-                                  />
-                                </div>
-                              )}
-                            </div>
 
-                            {!userimage && (
-                              <FileUploader
-                                classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                handleChange={handleupload}
-                                name='file'
-                                types={fileTypes}
-                                children={
-                                  <div className='px-6 py-6 border-2 border-babypurple rounded-md  lg:rounded-lg border-dotted flex flex-col justify-center items-center space-y-2  mx-auto'>
-                                    <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
-                                    <p className='text-xs text-center'>
-                                      Upload digital copy of your driver's
-                                      license
-                                    </p>
-                                    <p className='text-xs text-softRed '>
-                                      (Max size 5 MB)
-                                    </p>
-                                  </div>
-                                }
-                              />
-                            )}
-                            <div className='text-softRed text-xs mt-1 px-4'>
-                              <h1>{imageerror}</h1>
-                            </div>
+                        <div className='flex justify-between items-start gap-4  '>
+                          <div className='flex flex-wrap  gap-6  lg:gap-5  items-center'>
+                            {userimage.map((item, index) => {
+                              return (
+                                <div key={index} className='col-span-full'>
+                                  {!item.file ? (
+                                    <div className='mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 relative'>
+                                      <div className='text-center'>
+                                        <LuImagePlus className='text-center text-5xl mx-auto text-slate-400' />
+                                        <div className='mt-4 flex text-sm leading-6 text-gray-600'>
+                                          <label
+                                            htmlFor='file-upload'
+                                            className='relative cursor-pointer rounded-md bg-white font-semibold mx-auto text-indigo-500 focus-within:outline-none  text-center  hover:text-indigo-500'
+                                          >
+                                            Click here to upload a file
+                                            <input
+                                              id='file-upload'
+                                              name='file-upload'
+                                              type='file'
+                                              className='sr-only'
+                                              accept='image/png, image/jpg, image/gif, image/jpeg'
+                                              // value={item?.file?.name}
+                                              onChange={(e) => {
+                                                setUserimage((previous) =>
+                                                  previous.map((i) => {
+                                                    if (i.id === item.id) {
+                                                      i.file = e.target.files[0]
+                                                      // console.log(i.id, 'olamide')
+                                                      // console.log(item)
+                                                      // console.log(index)
+                                                      return i
+                                                    }
+                                                    return i
+                                                  })
+                                                )
+                                              }}
+                                            />
+                                          </label>
+                                          {/* <p className='pl-1'>or drag and drop</p> */}
+                                        </div>
+                                        <p className='text-xs leading-5 mt-1 text-gray-600'>
+                                          PNG, JPG, GIF up to 10MB
+                                        </p>
+                                      </div>
+                                      {/* delete */}
+                                      {index !== 0 && (
+                                        <div
+                                          onClick={() =>
+                                            setUserimage((previous) =>
+                                              previous.filter((i) => {
+                                                return i.id !== item.id
+                                              })
+                                            )
+                                          }
+                                          className='absolute  -top-3 -right-3 p-2 rounded-full text-babyblack  cursor-pointer font-bold md:text-lg bg-softpurple  '
+                                        >
+                                          <RiDeleteBack2Fill />
+                                        </div>
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <div className='relative'>
+                                      <img
+                                        src={URL.createObjectURL(item?.file)}
+                                        className='w-[13rem] h-[12.4rem]  rounded-md object-center object-cover'
+                                        alt='photo'
+                                      />
+                                      {/* delete */}
+                                      {index !== 0 && (
+                                        <div
+                                          onClick={() =>
+                                            setUserimage((previous) =>
+                                              previous.filter((i) => {
+                                                return i.id !== item.id
+                                              })
+                                            )
+                                          }
+                                          className='absolute  -top-3 -right-3 p-2 rounded-full text-babyblack  cursor-pointer font-bold md:text-lg bg-softpurple '
+                                        >
+                                          <RiDeleteBack2Fill />
+                                          <h1>hello</h1>
+                                        </div>
+                                      )}
+                                      {index === 0 && item.file && (
+                                        <div
+                                          onClick={() =>
+                                            setUserimage([
+                                              {
+                                                id: 1,
+                                                file: null,
+                                              },
+                                            ])
+                                          }
+                                          className='absolute  -top-3 -right-3 p-2 rounded-full text-babyblack  cursor-pointer font-bold md:text-lg bg-softpurple '
+                                        >
+                                          <RiDeleteBack2Fill />
+                                        </div>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              )
+                            })}
                           </div>
-                          {/* two */}
-                          <div className='    '>
-                            <div className='relative'>
-                              {userimage && (
-                                <Image
-                                  src={userimage}
-                                  alt='drivers license photo'
-                                  width={500}
-                                  height={500}
-                                  priority={true}
-                                  className='object-cover  border border-babygreen h-32 w-full md:h-40 xl:h-48 object-center '
-                                />
-                              )}
-                              {userimage && (
-                                <div className='absolute -top-2 -right-2'>
-                                  <FileUploader
-                                    classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                    handleChange={handleupload}
-                                    name='file'
-                                    types={fileTypes}
-                                    children={
-                                      <div className=' bg-babypurple  px-2 py-2 rounded-full xl:px-3 xl:py-3 '>
-                                        <MdOutlineAddAPhoto className=' text-xl xl:text-2xl  text-white' />
-                                      </div>
-                                    }
-                                  />
-                                </div>
-                              )}
-                            </div>
-
-                            {!userimage && (
-                              <FileUploader
-                                classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                handleChange={handleupload}
-                                name='file'
-                                types={fileTypes}
-                                children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center rounded-md  lg:rounded-lg items-center space-y-2  mx-auto'>
-                                    <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
-                                    <p className='text-xs text-center'>
-                                      Upload digital copy of your driver's
-                                      license
-                                    </p>
-                                    <p className='text-xs text-softRed '>
-                                      (Max size 5 MB)
-                                    </p>
-                                  </div>
-                                }
-                              />
-                            )}
-                            <div className='text-softRed text-xs mt-1 px-4'>
-                              <h1>{imageerror}</h1>
-                            </div>
-                          </div>
-                          {/* three */}
-                          <div className='    '>
-                            <div className='relative'>
-                              {userimage && (
-                                <Image
-                                  src={userimage}
-                                  alt='drivers license photo'
-                                  width={500}
-                                  height={500}
-                                  priority={true}
-                                  className='object-cover  border border-babygreen h-32 w-full md:h-40 xl:h-48 object-center '
-                                />
-                              )}
-                              {userimage && (
-                                <div className='absolute -top-2 -right-2'>
-                                  <FileUploader
-                                    classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                    handleChange={handleupload}
-                                    name='file'
-                                    types={fileTypes}
-                                    children={
-                                      <div className=' bg-babypurple  px-2 py-2 rounded-full xl:px-3 xl:py-3 '>
-                                        <MdOutlineAddAPhoto className=' text-xl xl:text-2xl  text-white' />
-                                      </div>
-                                    }
-                                  />
-                                </div>
-                              )}
-                            </div>
-
-                            {!userimage && (
-                              <FileUploader
-                                classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                handleChange={handleupload}
-                                name='file'
-                                types={fileTypes}
-                                children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2  rounded-md  lg:rounded-lg mx-auto'>
-                                    <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
-                                    <p className='text-xs text-center'>
-                                      Upload digital copy of your driver's
-                                      license
-                                    </p>
-                                    <p className='text-xs text-softRed '>
-                                      (Max size 5 MB)
-                                    </p>
-                                  </div>
-                                }
-                              />
-                            )}
-                            <div className='text-softRed text-xs mt-1 px-4'>
-                              <h1>{imageerror}</h1>
-                            </div>
-                          </div>
-                          {/* four */}
-                          <div className='    '>
-                            <div className='relative'>
-                              {userimage && (
-                                <Image
-                                  src={userimage}
-                                  alt='drivers license photo'
-                                  width={500}
-                                  height={500}
-                                  priority={true}
-                                  className='object-cover  border border-babygreen h-32 w-full md:h-40 xl:h-48 object-center '
-                                />
-                              )}
-                              {userimage && (
-                                <div className='absolute -top-2 -right-2'>
-                                  <FileUploader
-                                    classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                    handleChange={handleupload}
-                                    name='file'
-                                    types={fileTypes}
-                                    children={
-                                      <div className=' bg-babypurple  px-2 py-2 rounded-full xl:px-3 xl:py-3 '>
-                                        <MdOutlineAddAPhoto className=' text-xl xl:text-2xl  text-white' />
-                                      </div>
-                                    }
-                                  />
-                                </div>
-                              )}
-                            </div>
-
-                            {!userimage && (
-                              <FileUploader
-                                classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                handleChange={handleupload}
-                                name='file'
-                                types={fileTypes}
-                                children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col rounded-md  lg:rounded-lg justify-center items-center space-y-2  mx-auto'>
-                                    <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
-                                    <p className='text-xs text-center'>
-                                      Upload digital copy of your driver's
-                                      license
-                                    </p>
-                                    <p className='text-xs text-softRed '>
-                                      (Max size 5 MB)
-                                    </p>
-                                  </div>
-                                }
-                              />
-                            )}
-                            <div className='text-softRed text-xs mt-1 px-4'>
-                              <h1>{imageerror}</h1>
-                            </div>
-                          </div>
-                          {/* five */}
-                          <div className='    '>
-                            <div className='relative'>
-                              {userimage && (
-                                <Image
-                                  src={userimage}
-                                  alt='drivers license photo'
-                                  width={500}
-                                  height={500}
-                                  priority={true}
-                                  className='object-cover  border border-babygreen h-32 w-full md:h-40 xl:h-48 object-center '
-                                />
-                              )}
-                              {userimage && (
-                                <div className='absolute -top-2 -right-2'>
-                                  <FileUploader
-                                    classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                    handleChange={handleupload}
-                                    name='file'
-                                    types={fileTypes}
-                                    children={
-                                      <div className=' bg-babypurple  px-2 py-2 rounded-full xl:px-3 xl:py-3 '>
-                                        <MdOutlineAddAPhoto className=' text-xl xl:text-2xl  text-white' />
-                                      </div>
-                                    }
-                                  />
-                                </div>
-                              )}
-                            </div>
-
-                            {!userimage && (
-                              <FileUploader
-                                classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                handleChange={handleupload}
-                                name='file'
-                                types={fileTypes}
-                                children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2 rounded-md  lg:rounded-lg mx-auto'>
-                                    <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
-                                    <p className='text-xs text-center'>
-                                      Upload digital copy of your driver's
-                                      license
-                                    </p>
-                                    <p className='text-xs text-softRed '>
-                                      (Max size 5 MB)
-                                    </p>
-                                  </div>
-                                }
-                              />
-                            )}
-                            <div className='text-softRed text-xs mt-1 px-4'>
-                              <h1>{imageerror}</h1>
-                            </div>
-                          </div>
-                          {/* six */}
-                          <div className='    '>
-                            <div className='relative'>
-                              {userimage && (
-                                <Image
-                                  src={userimage}
-                                  alt='drivers license photo'
-                                  width={500}
-                                  height={500}
-                                  priority={true}
-                                  className='object-cover  border border-babygreen h-32 w-full md:h-40 xl:h-48 object-center '
-                                />
-                              )}
-                              {userimage && (
-                                <div className='absolute -top-2 -right-2'>
-                                  <FileUploader
-                                    classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                    handleChange={handleupload}
-                                    name='file'
-                                    types={fileTypes}
-                                    children={
-                                      <div className=' bg-babypurple  px-2 py-2 rounded-full xl:px-3 xl:py-3 '>
-                                        <MdOutlineAddAPhoto className=' text-xl xl:text-2xl  text-white' />
-                                      </div>
-                                    }
-                                  />
-                                </div>
-                              )}
-                            </div>
-
-                            {!userimage && (
-                              <FileUploader
-                                classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                handleChange={handleupload}
-                                name='file'
-                                types={fileTypes}
-                                children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2 rounded-md  lg:rounded-lg mx-auto'>
-                                    <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
-                                    <p className='text-xs text-center'>
-                                      Upload digital copy of your driver's
-                                      license
-                                    </p>
-                                    <p className='text-xs text-softRed '>
-                                      (Max size 5 MB)
-                                    </p>
-                                  </div>
-                                }
-                              />
-                            )}
-                            <div className='text-softRed text-xs mt-1 px-4'>
-                              <h1>{imageerror}</h1>
-                            </div>
-                          </div>
-                          {/* seven */}
-                          <div className='    '>
-                            <div className='relative'>
-                              {userimage && (
-                                <Image
-                                  src={userimage}
-                                  alt='drivers license photo'
-                                  width={500}
-                                  height={500}
-                                  priority={true}
-                                  className='object-cover  border border-babygreen h-32 w-full md:h-40 xl:h-48 object-center '
-                                />
-                              )}
-                              {userimage && (
-                                <div className='absolute -top-2 -right-2'>
-                                  <FileUploader
-                                    classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                    handleChange={handleupload}
-                                    name='file'
-                                    types={fileTypes}
-                                    children={
-                                      <div className=' bg-babypurple  px-2 py-2 rounded-full xl:px-3 xl:py-3 '>
-                                        <MdOutlineAddAPhoto className=' text-xl xl:text-2xl  text-white' />
-                                      </div>
-                                    }
-                                  />
-                                </div>
-                              )}
-                            </div>
-
-                            {!userimage && (
-                              <FileUploader
-                                classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                handleChange={handleupload}
-                                name='file'
-                                types={fileTypes}
-                                children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2 rounded-md  lg:rounded-lg  mx-auto'>
-                                    <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
-                                    <p className='text-xs text-center'>
-                                      Upload digital copy of your driver's
-                                      license
-                                    </p>
-                                    <p className='text-xs text-softRed '>
-                                      (Max size 5 MB)
-                                    </p>
-                                  </div>
-                                }
-                              />
-                            )}
-                            <div className='text-softRed text-xs mt-1 px-4'>
-                              <h1>{imageerror}</h1>
-                            </div>
-                          </div>
-                          {/* eight */}
-                          <div className='    '>
-                            <div className='relative'>
-                              {userimage && (
-                                <Image
-                                  src={userimage}
-                                  alt='drivers license photo'
-                                  width={500}
-                                  height={500}
-                                  priority={true}
-                                  className='object-cover  border border-babygreen h-32 w-full md:h-40 xl:h-48 object-center '
-                                />
-                              )}
-                              {userimage && (
-                                <div className='absolute -top-2 -right-2'>
-                                  <FileUploader
-                                    classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                    handleChange={handleupload}
-                                    name='file'
-                                    types={fileTypes}
-                                    children={
-                                      <div className=' bg-babypurple  px-2 py-2 rounded-full xl:px-3 xl:py-3 '>
-                                        <MdOutlineAddAPhoto className=' text-xl xl:text-2xl  text-white' />
-                                      </div>
-                                    }
-                                  />
-                                </div>
-                              )}
-                            </div>
-
-                            {!userimage && (
-                              <FileUploader
-                                classes='bg-babygreen  w-full   rounded-full cursor-pointer  '
-                                handleChange={handleupload}
-                                name='file'
-                                types={fileTypes}
-                                children={
-                                  <div className='px-6 py-6 border-2 border-babypurple border-dotted flex flex-col justify-center items-center space-y-2 rounded-md  lg:rounded-lg  mx-auto'>
-                                    <MdOutlineAddAPhoto className=' text-3xl text-babypurple' />
-                                    <p className='text-xs text-center'>
-                                      Upload digital copy of your driver's
-                                      license
-                                    </p>
-                                    <p className='text-xs text-softRed '>
-                                      (Max size 5 MB)
-                                    </p>
-                                  </div>
-                                }
-                              />
-                            )}
-                            <div className='text-softRed text-xs mt-1 px-4'>
-                              <h1>{imageerror}</h1>
+                          {/*add  */}
+                          <div>
+                            <div
+                              onClick={() =>
+                                setUserimage((previous, index) => [
+                                  ...previous,
+                                  { id: previous.length + 1, file: null },
+                                ])
+                              }
+                              className='px-4 py-2 md:py-3 bg-softpurple  shadow-md text-xs sm:px-6 font-bold lg:text-sm lg:px-8 cursor-pointer w-max '
+                            >
+                              Add{' '}
+                              <span className='hidden lg:inline-block '>
+                                More Photos
+                              </span>
                             </div>
                           </div>
                         </div>
+                        <h1 className='px-4 pt-4 sm:px-6 md:px-8 text-xs text-babypurple'>
+                          Only Images are allowed
+                        </h1>
                       </div>
                     </div>
                     {/* rate car */}
@@ -576,10 +243,10 @@ function Returnvehicle() {
                         Car Ratings
                       </h1>
                       {/* ratings */}
-                      <h1 className='text-xs pb-2 lg:text-sm  xl:text-base md:text-center lg:pb-3'>
-                        Don’t Forget to rate your experience with this vehicle
-                        as it helps you and other user alike make an informed
-                        decision on our platform.
+                      <h1 className='text-xs pb-2 lg:text-sm  xl:text-base r lg:pb-3'>
+                        Rate your experience with this vehicle. This information
+                        is important to us as it helps you and other user alike
+                        make an informed decision on our platform.
                       </h1>
                       <div className=' justify-center flex items-center gap-4 lg:gap-8'>
                         <h1 className='text-xs font-bold lg:text-sm xl:text-base '>

@@ -40,21 +40,33 @@ function Navbar() {
   const [pannel, setPannel] = useState(false)
   const [menubutton, setMenubutton] = useState(false)
   const [bg, setBg] = useState(true)
+  const [bgg, setBgg] = useState(false)
   const router = useRouter()
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (router.pathname === '/' || router.pathname === '/contactus') {
       setBg(true)
+      setBgg(false)
+    } else if (router.pathname === '/rentacar') {
+      setBg(false)
+      setBgg(true)
     } else {
       setBg(false)
+      setBgg(false)
     }
 
     dispatch(closeDropDown())
     dispatch(closeNotifications())
   }, [router.pathname])
   return (
-    <nav className=' relative mx-auto font-sans px-1 md:px-4 lg:px-10 py-2 md:py-2 '>
+    <nav
+      className={`${
+        bgg
+          ? ' relative mx-auto font-sans px-1 md:px-4 lg:px-10 pt-2 '
+          : ' relative mx-auto font-sans px-1 md:px-4 lg:px-10 py-2 md:py-2 '
+      }`}
+    >
       {/* <!-- Flex Container For Nav Items --> */}
       {!hosting ? (
         <div className='flex items-center justify-between px-4 sm:px-6 md:px-0 my-6 relative '>

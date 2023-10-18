@@ -240,7 +240,7 @@ function index() {
                 onClick={() => setIsDelisting(false)}
                 className='absolute top-2 right-2 md:top-4 md:right-4'
               >
-                <MdOutlineCancel className='text-babypurple text-xl md:text-2xl xl:text-3x cursor-pointerl' />
+                <MdOutlineCancel className='text-babypurple text-xl md:text-2xl xl:text-3x cursor-pointer' />
               </div>
             </div>
           </div>

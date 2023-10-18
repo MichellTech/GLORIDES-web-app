@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { openFilter } from '@/features/rental/filterSlice'
 import { cars } from '../../utilis/Cardata'
 import { useRouter } from 'next/router'
+import { GiRoad } from 'react-icons/gi'
 function Allcars() {
   const [saved, setSaved] = useState(false)
   const { isFiltering } = useSelector((store) => store.rental)
@@ -17,14 +18,14 @@ function Allcars() {
   const dispatch = useDispatch()
 
   return (
-    <div className='space-y-10 lg:py-10 '>
+    <div className='space-y-10  pb-10 '>
       <div className='md:flex md:justify-between md:items-center'>
-        <h1 className=' text-base text-center xl:text-lg md:text-left '>
+        {/* <h1 className=' text-base text-center xl:text-lg md:text-left '>
           Showing results for all cars in :{' '}
           <span className='font-bold underline'>Texas</span>{' '}
-        </h1>
+        </h1> */}
         {/* filter */}
-        {!isFiltering && (
+        {/* {!isFiltering && (
           <div
             onClick={() => dispatch(openFilter())}
             className='hidden md:flex md:justify-between md:items-center bg-softpurple px-6 cursor-pointer py-2  gap-1 rounded  '
@@ -32,10 +33,10 @@ function Allcars() {
             <h1 className='xl:text-lg  '>Filter</h1>
             <MdOutlineFilterAlt className='xl:text-lg ' />
           </div>
-        )}
+        )} */}
       </div>
       {/* display cars */}
-      <div className='space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-4 lg:gap-x-6 sm:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'>
+      <div className='space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-4 md:gap-x-6 sm:gap-y-16 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 '>
         {cars.map((item) => {
           return (
             <div key={item.id}>
@@ -64,7 +65,7 @@ function Allcars() {
                     <div className='flex items-center justify-between  '>
                       <div className='flex justify-center items-center gap-2'>
                         <LuUser className='text-sm' />
-                        <h1 className='text-xs'>Olamide Oluwale</h1>
+                        <h1 className='text-xs'>Olamide </h1>
                       </div>
                       <h1 className='font-bold text-sm text-babypurple'>
                         ${item.cost} /{' '}
@@ -77,7 +78,7 @@ function Allcars() {
                   {/* second */}
                   <div className='pt-6 space-y-4'>
                     {/* params */}
-                    <div className=' grid grid-cols-3 gap-x-1 gap-y-6 justify-center items-center mx-auto'>
+                    <div className=' grid grid-cols-3 gap-x-1 gap-y-6 justify-between items-center mx-auto'>
                       {/* two */}
                       <div className='flex items-center gap-2'>
                         <LuFuel className='text-base' />
@@ -91,8 +92,8 @@ function Allcars() {
 
                       {/* six */}
                       <div className='flex items-center gap-2'>
-                        <TbClockSearch className='text-base' />
-                        <h1 className='text-[0.6rem]'> 2.4k Miles</h1>
+                        <GiRoad className='text-base' />
+                        <h1 className='text-[0.6rem]'> 24 trips</h1>
                       </div>
                     </div>
                     {/* button */}

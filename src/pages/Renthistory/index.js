@@ -10,7 +10,12 @@ import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { BiSolidCarGarage } from 'react-icons/bi'
 import { LuFuel, LuUser } from 'react-icons/lu'
-import { GiGearStickPattern, GiCarSeat, GiRoundStar } from 'react-icons/gi'
+import {
+  GiGearStickPattern,
+  GiCarSeat,
+  GiRoundStar,
+  GiRoad,
+} from 'react-icons/gi'
 import { AiOutlineHeart, AiFillHeart, AiFillStar } from 'react-icons/ai'
 import { TbClockSearch } from 'react-icons/tb'
 import { MdOutlineFilterAlt } from 'react-icons/md'
@@ -26,11 +31,11 @@ function Index() {
     <>
       <Navbar />
       <main className='  w-full'>
-        <section className='mb-10  mt-6 xl:mt-10 max-w-xs sm:max-w-md mx-auto font-sans md:max-w-xl lg:max-w-4xl xl:max-w-6xl  px-4 md:px-6  lg:px-8 '>
+        <section className='mb-10  mt-6 xl:mt-10 max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl   px-4 md:px-6  lg:px-8 '>
           {/* body */}
           <div className='space-y-12 sm:space-y-14 md:space-y-16 lg:space-y-20 xl:space-y-24 w-full'>
             {/* search and filter */}
-            <div className='flex flex-col justify-center items-center space-y-4 md:flex-row md:space-y-0 md:justify-between md:gap-6 w-64 md:w-full mx-auto '>
+            <div className='flex flex-col justify-center items-center space-y-4 sm:flex-row sm:space-y-0 sm:justify-between sm:gap-6 w-64 sm:w-full mx-auto '>
               {/* search */}
               <div className=' max-w-xs sm:max-w-md md:max-w-md lg:max-w-xl xl:max-w-2xl w-72 sm:w-full md:w-full relative bg-white shadow-md'>
                 <form
@@ -67,7 +72,7 @@ function Index() {
             </div>
             {/* content */}
 
-            <div className='w-full'>
+            <div className='w-full flex justify-center items-center '>
               {/* not found */}
               {!carhistory ? (
                 <div className='flex flex-col justify-center items-center h-[50vh] lg:h-[70vh] space-y-4 sm:space-y-6 '>
@@ -90,12 +95,12 @@ function Index() {
                   </div>
                 </div>
               ) : (
-                <div className=' space-y-10 md:space-y-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-between items-center mx-auto md:gap-y-12 md:gap-x-8'>
+                <div className=' space-y-10 sm:space-y-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-between items-center mx-auto sm:gap-y-12 sm:gap-x-8'>
                   {carhistory.map((item) => {
                     return (
                       <div key={item.id}>
                         {/* car 1 */}
-                        <div className='bg-white shadow-lg h-[22rem] rounded-xl  pb-2 space-y-4 max-w-xs  relative w-full '>
+                        <div className='bg-white shadow-lg h-[22rem] lg:h-[23rem]  rounded-xl  pb-2 space-y-4 max-w-xs  relative w-full '>
                           {/* image */}
                           <div className='   relative '>
                             <Image
@@ -131,7 +136,7 @@ function Index() {
                             {/* second */}
                             <div className='pt-6 space-y-4'>
                               {/* params */}
-                              <div className=' grid grid-cols-3 gap-x-1 gap-y-6 justify-center items-center mx-auto'>
+                              <div className=' grid grid-cols-3 gap-x-1 gap-y-6 justify-between items-center mx-auto'>
                                 {/* two */}
                                 <div className='flex items-center gap-2'>
                                   <LuFuel className='text-base' />
@@ -145,8 +150,8 @@ function Index() {
 
                                 {/* six */}
                                 <div className='flex items-center gap-2'>
-                                  <TbClockSearch className='text-base' />
-                                  <h1 className='text-[0.6rem]'> 2.4k Miles</h1>
+                                  <GiRoad className='text-base' />
+                                  <h1 className='text-[0.6rem]'> 240 trips</h1>
                                 </div>
                               </div>
                               {/* button */}
