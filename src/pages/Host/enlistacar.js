@@ -177,14 +177,17 @@ function Enlistacar() {
                       <div className='w-full pt-2 space-y-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-4 sm:px-6 md:px-8  sm:space-y-0  sm:gap-8 md:gap-10'>
                         {/* carname */}
                         <div className='space-y-2 w-full'>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             Car Name
                           </label>
                           <Field
                             type='text'
                             name='carname'
                             placeholder='e.g Toyota Corolla'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white  border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='carname' />
@@ -192,14 +195,17 @@ function Enlistacar() {
                         </div>
                         {/* carmodel */}
                         <div className='space-y-2 w-full '>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             Car Model
                           </label>
                           <Field
                             type='text'
                             name='carmodel'
                             placeholder='e.g XLE'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='carmodel' />
@@ -207,14 +213,17 @@ function Enlistacar() {
                         </div>
                         {/* plate no */}
                         <div className='space-y-2 w-full'>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             Plate Number
                           </label>
                           <Field
                             type='text'
                             name='plateno'
                             placeholder='P3342TX'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='plateno' />
@@ -223,14 +232,17 @@ function Enlistacar() {
 
                         {/* miles */}
                         <div className='space-y-2 w-full'>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             Miles on car
                           </label>
                           <Field
                             type='text'
                             name='miles'
                             placeholder='2400'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='miles' />
@@ -239,14 +251,17 @@ function Enlistacar() {
 
                         {/* seat */}
                         <div className='space-y-2 w-full'>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             Number of Seats
                           </label>
                           <Field
                             type='number'
                             name='seats'
                             placeholder='6'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='seats' />
@@ -255,14 +270,17 @@ function Enlistacar() {
 
                         {/* pickup */}
                         <div className='space-y-2 w-full'>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             Preferred Pick Up location
                           </label>
                           <Field
                             type='text'
                             name='pickup'
                             placeholder=' e.g Airport'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='pickup' />
@@ -270,14 +288,17 @@ function Enlistacar() {
                         </div>
                         {/* drop off */}
                         <div className='space-y-2 w-full'>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             Prefered Drop Off Location
                           </label>
                           <Field
                             type='text'
                             name='dropoff'
                             placeholder='e.g. Airport'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='dropoff' />
@@ -285,14 +306,17 @@ function Enlistacar() {
                         </div>
                         {/* city */}
                         <div className='space-y-2 w-full'>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             City
                           </label>
                           <Field
                             type='text'
                             name='city'
                             placeholder='Houston'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='city' />
@@ -300,14 +324,17 @@ function Enlistacar() {
                         </div>
                         {/* state */}
                         <div className='space-y-2 w-full'>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             State
                           </label>
                           <Field
                             type='text'
                             name='state'
                             placeholder='Texas'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='state' />
@@ -330,7 +357,10 @@ function Enlistacar() {
                         </div> */}
                         {/* message */}
                         <div className='sm:col-span-2 lg:col-span-3 w-full space-y-2'>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             Car Description
                           </label>
                           <div className='flex  relative justify-between items-center w-full  '>
@@ -342,7 +372,7 @@ function Enlistacar() {
                               cols={20}
                               rows={10}
                               placeholder='Input a summarized information about this car. This message will aid the client make a good decision about this vehicle'
-                              className=' bg-white border-babyblack border w-full py-3 px-4 outline-babypurple  text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm '
+                              className=' bg-white  border w-full py-3 px-4 outline-babypurple  text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm '
                             />
                           </div>
                           <div className='text-softRed text-xs mt-1 px-4'>
@@ -356,7 +386,7 @@ function Enlistacar() {
                       <h1 className='font-bold text-sm sm:text-base  px-4  md:text-lg lg:text-xl border-b pb-2 sm:px-6 md:px-8 '>
                         Car Additional Features
                       </h1>
-                      <p className='text-xs lg:text-sm px-4 sm:px-6 md:px-8'>
+                      <p className='text-xs lg:text-sm px-4 sm:px-6 md:px-8 text-slate-500'>
                         Please check the boxes below as it applies to the
                         features present and currently working in your vehicle
                       </p>
@@ -366,7 +396,7 @@ function Enlistacar() {
                         <div className='flex flex-col space-y-3   w-max'>
                           <label
                             htmlFor='fuel'
-                            className='text-sm lg:text-base '
+                            className='text-sm lg:text-base text-slate-500 '
                           >
                             Fuel Type{' '}
                           </label>
@@ -403,7 +433,7 @@ function Enlistacar() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='doors'
-                            className='text-sm lg:text-base '
+                            className='text-sm lg:text-base text-slate-500'
                           >
                             Car Doors{' '}
                           </label>
@@ -440,7 +470,7 @@ function Enlistacar() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='gear'
-                            className='text-sm lg:text-base '
+                            className='text-sm lg:text-base  text-slate-500'
                           >
                             Gear Type{' '}
                           </label>
@@ -477,7 +507,7 @@ function Enlistacar() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='heat'
-                            className='text-sm lg:text-base '
+                            className='text-sm lg:text-base text-slate-500 '
                           >
                             Heater Availability{' '}
                           </label>
@@ -514,7 +544,7 @@ function Enlistacar() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='bluetooth'
-                            className='text-sm lg:text-base '
+                            className='text-sm lg:text-base text-slate-500'
                           >
                             Bluetooth Availability{' '}
                           </label>
@@ -551,7 +581,7 @@ function Enlistacar() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='gps'
-                            className='text-sm lg:text-base '
+                            className='text-sm lg:text-base text-slate-500'
                           >
                             GPS Availability{' '}
                           </label>
@@ -588,7 +618,7 @@ function Enlistacar() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='camera'
-                            className='text-sm lg:text-base '
+                            className='text-sm lg:text-base text-slate-500'
                           >
                             Camera Availability{' '}
                           </label>
@@ -625,7 +655,7 @@ function Enlistacar() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='child'
-                            className='text-sm lg:text-base '
+                            className='text-sm lg:text-base text-slate-500'
                           >
                             Child Seat Availability{' '}
                           </label>
@@ -665,7 +695,7 @@ function Enlistacar() {
                       <h1 className='font-bold text-sm sm:text-base  px-4  md:text-lg lg:text-xl border-b pb-2 sm:px-6 md:px-8 '>
                         Car Photos
                       </h1>
-                      <p className='text-xs lg:text-sm px-4 sm:px-6 md:px-8'>
+                      <p className='text-xs lg:text-sm px-4 sm:px-6 md:px-8 text-slate-500'>
                         Please upload at least 6 photos of your vehicle and the
                         must be pictures of its front, back, left side, right
                         side, interior and booth. This is to help users make
@@ -802,7 +832,7 @@ function Enlistacar() {
                       <h1 className='font-bold text-sm sm:text-base  px-4  md:text-lg lg:text-xl border-b pb-2 sm:px-6 md:px-8 '>
                         Car Documentations
                       </h1>
-                      <p className='text-xs lg:text-sm px-4 sm:px-6 md:px-8'>
+                      <p className='text-xs lg:text-sm px-4 sm:px-6 md:px-8 text-slate-500'>
                         Please upload any supporting documentations to certify
                         that you own this vehicle and it's road worthyness
                       </p>
@@ -889,21 +919,24 @@ function Enlistacar() {
                       <h1 className='font-bold text-sm sm:text-base  px-4  md:text-lg lg:text-xl border-b pb-2 sm:px-6 md:px-8 '>
                         Pricing
                       </h1>
-                      <p className='text-xs lg:text-sm px-4 sm:px-6 md:px-8'>
+                      <p className='text-xs lg:text-sm px-4 sm:px-6 md:px-8 text-slate-500'>
                         Please input a competive price for your car services
                       </p>
                       {/* group */}
                       <div className='w-full pt-2 space-y-4 grid grid-cols-1 sm:grid-cols-3  px-4 sm:px-6 md:px-8  sm:space-y-0  sm:gap-8 md:gap-10'>
                         {/* cost*/}
                         <div className='space-y-2 w-full'>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             Price per day
                           </label>
                           <Field
                             type='number'
                             name='cost'
                             placeholder='6'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white    border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='cost' />
@@ -911,14 +944,17 @@ function Enlistacar() {
                         </div>
                         {/* carmodel */}
                         <div className='space-y-2 w-full '>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             Tank Filling Cost
                           </label>
                           <Field
                             type='number'
                             name='tank'
                             placeholder='10'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='tank' />
@@ -926,14 +962,17 @@ function Enlistacar() {
                         </div>
                         {/* carmodel */}
                         <div className='space-y-2 w-full '>
-                          <label htmlFor='' className='text-xs lg:text-sm'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
                             Outside Location Pickup Cost
                           </label>
                           <Field
                             type='number'
                             name='outside'
                             placeholder='30'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='outside' />
