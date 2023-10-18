@@ -149,7 +149,7 @@ function Index() {
                                 </div>
 
                                 {/* six */}
-                                <div className='flex items-center gap-2'>
+                                <div className='flex items-center gap-2 justify-end '>
                                   <GiRoad className='text-base' />
                                   <h1 className='text-[0.6rem]'> 240 trips</h1>
                                 </div>

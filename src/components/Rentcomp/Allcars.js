@@ -91,7 +91,7 @@ function Allcars() {
                       </div>
 
                       {/* six */}
-                      <div className='flex items-center gap-2'>
+                      <div className='flex justify-end items-center gap-2'>
                         <GiRoad className='text-base' />
                         <h1 className='text-[0.6rem]'> 24 trips</h1>
                       </div>
