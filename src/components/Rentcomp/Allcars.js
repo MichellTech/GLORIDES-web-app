@@ -78,7 +78,7 @@ function Allcars() {
                   {/* second */}
                   <div className='pt-6 space-y-4'>
                     {/* params */}
-                    <div className=' grid grid-cols-3 gap-x-1 gap-y-6 justify-between items-center mx-auto'>
+                    <div className=' grid grid-cols-3 gap-x-1  justify-between items-center mx-auto w-full'>
                       {/* two */}
                       <div className='flex items-center gap-2'>
                         <LuFuel className='text-base' />
