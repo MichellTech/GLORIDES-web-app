@@ -197,9 +197,9 @@ function index() {
           <div className='absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-40  px-6 flex justify-center items-center mx-auto  '>
             <div className='bg-white rounded-md px-4 sm:px-10 lg:px-14 xl:px-20   pb-6 sm:pb-10 shadow-lg  flex flex-col justify-center items-center relative'>
               {/* image */}
-              <div className=''>
+              <div className='my-4'>
                 <Image
-                  src={'/images/drivings.gif'}
+                  src={'/images/drive.svg'}
                   alt='dash'
                   width={1000}
                   height={1000}

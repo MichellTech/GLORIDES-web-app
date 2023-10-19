@@ -118,20 +118,48 @@ function Navbar() {
                 : 'hidden items-center font-sans  font-bold  space-x-8 lg:space-x-12 xl:space-x-20  2xl:space-x-24 text-babyblack md:flex justify-center normal-case'
             }`}
           >
-            <ul className='text-xs md:text-sm cursor-pointer xl:text-base '>
+            <ul
+              className={`${
+                router.pathname === '/aboutus'
+                  ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
+                  : 'text-xs md:text-sm cursor-pointer xl:text-base '
+              }`}
+            >
               <Link href='/aboutus'>About us</Link>
             </ul>
-            <ul className='text-xs md:text-sm cursor-pointer xl:text-base '>
+            <ul
+              className={`${
+                router.pathname === '/rentacar'
+                  ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
+                  : 'text-xs md:text-sm cursor-pointer xl:text-base '
+              }`}
+            >
               <Link href='/rentacar'>Rent a Car</Link>
             </ul>
-            <ul className='text-xs md:text-sm xl:text-base cursor-pointer'>
+            <ul
+              className={`${
+                router.pathname === '/Renthistory' && isUserLogedin
+                  ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
+                  : router.pathname === '/partnerwithus' && !isUserLogedin
+                  ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
+                  : 'text-xs md:text-sm cursor-pointer xl:text-base '
+              }`}
+            >
               {isUserLogedin ? (
                 <Link href='/Renthistory'>Rent History</Link>
               ) : (
                 <Link href='/partnerwithus'>Partner with Us</Link>
               )}
             </ul>
-            <ul className='text-xs md:text-sm cursor-pointer xl:text-base '>
+            <ul
+              className={`${
+                router.pathname === '/support' && isUserLogedin
+                  ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
+                  : router.pathname === '/contactus' && !isUserLogedin
+                  ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started2.png')] bg-no-repeat bg-bottom  py-4  "
+                  : 'text-xs md:text-sm cursor-pointer xl:text-base '
+              }`}
+            >
               {isUserLogedin ? (
                 <Link href='/support'>Support</Link>
               ) : (
@@ -551,16 +579,40 @@ function Navbar() {
                 : 'hidden items-center font-sans  font-bold  space-x-8 lg:space-x-12 xl:space-x-20  2xl:space-x-24 text-babyblack md:flex justify-center normal-case'
             }`}
           >
-            <ul className='text-xs md:text-sm cursor-pointer xl:text-base '>
+            <ul
+              className={`${
+                router.pathname === '/Host/dashboard'
+                  ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
+                  : 'text-xs md:text-sm cursor-pointer xl:text-base '
+              }`}
+            >
               <Link href='/Host/dashboard'>Dashboard</Link>
             </ul>
-            <ul className='text-xs md:text-sm cursor-pointer xl:text-base '>
+            <ul
+              className={`${
+                router.pathname === '/Host/transactionhistory'
+                  ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
+                  : 'text-xs md:text-sm cursor-pointer xl:text-base '
+              }`}
+            >
               <Link href='/Host/transactionhistory'>Transaction History</Link>
             </ul>
-            <ul className='text-xs md:text-sm xl:text-base cursor-pointer'>
+            <ul
+              className={`${
+                router.pathname === '/Host/leasehistory'
+                  ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
+                  : 'text-xs md:text-sm cursor-pointer xl:text-base '
+              }`}
+            >
               <Link href='/Host/leasehistory'>Lease History</Link>
             </ul>
-            <ul className='text-xs md:text-sm xl:text-base cursor-pointer'>
+            <ul
+              className={`${
+                router.pathname === '/Host/fleet'
+                  ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
+                  : 'text-xs md:text-sm cursor-pointer xl:text-base '
+              }`}
+            >
               <Link href='/Host/fleet'>Fleet</Link>
             </ul>
           </div>
