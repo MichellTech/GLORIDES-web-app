@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useSelector, useDispatch } from 'react-redux'
@@ -59,8 +59,24 @@ function Navbar() {
     dispatch(closeDropDown())
     dispatch(closeNotifications())
   }, [router.pathname])
+
+  let menuRef = useRef()
+  useEffect(() => {
+    let handler = (e) => {
+      if (!menuRef.current.contains(e.target)) {
+        dispatch(closeDropDown())
+        dispatch(closeNotifications())
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => {
+      document.removeEventListener('mousedown', handler)
+    }
+  })
+
   return (
     <nav
+      ref={menuRef}
       className={`${
         bgg
           ? ' relative mx-auto font-sans px-1 md:px-4 lg:px-10 pt-2 '
