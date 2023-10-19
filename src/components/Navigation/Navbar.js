@@ -324,7 +324,7 @@ function Navbar() {
             )}
             {/* display control */}
             {dropDown && !notifications && (
-              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-64 lg:w-72 xl:w-[19rem]  bg-white shadow-xl rounded-sm md:rounded-md  xl:rounded-lg  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
+              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-64 lg:w-72 xl:w-[19rem]  bg-white shadow-xl rounded-sm md:rounded-md  xl:rounded-lg  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6  z-50'>
                 {/* profil */}
                 <div className='flex justify-between items-center gap-4 px-4 lg:px-6'>
                   {/* image */}
@@ -464,7 +464,7 @@ function Navbar() {
             )}
             {/* display notifications */}
             {notifications && !dropDown && (
-              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-64 md:w-72 lg:w-80  h-96  bg-white shadow-lg rounded-sm md:rounded-md  xl:rounded-lg  pb-4 lg:pb-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
+              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-64 md:w-72 lg:w-80  h-96  bg-white shadow-lg rounded-sm md:rounded-md  xl:rounded-lg  pb-4 lg:pb-6  space-y-4 md:space-y-5 lg:space-y-6  z-50'>
                 <div className='bg-babygrey flex justify-between items-center px-4 lg:px-6 py-2 md:py-3 '>
                   <h1 className='text-sm lg:text-base'>Notifications</h1>
                   <GrFormClose
@@ -701,7 +701,7 @@ function Navbar() {
 
             {/* display control */}
             {dropDown && !notifications && (
-              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-64 lg:w-72 xl:w-[20rem]  bg-white shadow-md rounded-sm md:rounded-md  xl:rounded-lg  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
+              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-64 lg:w-72 xl:w-[20rem]  bg-white shadow-md rounded-sm md:rounded-md  xl:rounded-lg  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6  z-50'>
                 {/* profil */}
                 <div className='flex justify-between items-center gap-4 px-4 lg:px-6'>
                   {/* image */}
@@ -814,7 +814,7 @@ function Navbar() {
             )}
             {/* notifications */}
             {notifications && !dropDown && (
-              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-72 lg:w-80 h-80  bg-white shadow-md rounded-sm md:rounded-md  xl:rounded-lg  pb-4 lg:pb-6  space-y-4 md:space-y-5 lg:space-y-6  z-10'>
+              <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-72 lg:w-80 h-80  bg-white shadow-md rounded-sm md:rounded-md  xl:rounded-lg  pb-4 lg:pb-6  space-y-4 md:space-y-5 lg:space-y-6  z-50'>
                 <div className='bg-babygrey flex justify-between items-center px-4 lg:px-6 py-2 md:py-3 '>
                   <h1 className='text-sm lg:text-base'>Notifications</h1>
                   <GrFormClose

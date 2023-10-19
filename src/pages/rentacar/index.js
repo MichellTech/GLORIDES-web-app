@@ -23,6 +23,7 @@ function allcars() {
         }`}
       >
         <Navbar />
+
         {/* search */}
         <div className=' w-full px-6 lg:px-10  py-3 lg:py-5  sticky    top-0 left-0 right-0 bg-white  z-30  '>
           <Rentform />
@@ -39,7 +40,7 @@ function allcars() {
 
         {/* filtering comp*/}
         {isFiltering && (
-          <div className='absolute top-0 bottom-0 left-0 right-0 bg-black  bg-opacity-50 z-50  '>
+          <div className='absolute top-0 bottom-0 left-0 right-0 bg-black  bg-opacity-50 z-30  '>
             <Filterparams />
           </div>
         )}
