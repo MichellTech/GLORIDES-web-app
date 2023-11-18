@@ -10,6 +10,7 @@ import {
   openNotifications,
   switchToHost,
   returnToUser,
+  logOut,
 } from '@/features/userpersona/userSlice'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai'
@@ -27,7 +28,7 @@ import { TbActivity } from 'react-icons/tb'
 import { GiReceiveMoney } from 'react-icons/gi'
 import { MdAdsClick } from 'react-icons/md'
 import { GrFormClose, GrTransaction } from 'react-icons/gr'
-
+import axios from 'axios'
 import Link from 'next/link'
 function Navbar() {
   const {
@@ -36,6 +37,7 @@ function Navbar() {
     notifications,
     notificationscontent,
     hosting,
+    userData,
   } = useSelector((store) => store.userpersona)
   const [pannel, setPannel] = useState(false)
   const [menubutton, setMenubutton] = useState(false)
@@ -43,7 +45,25 @@ function Navbar() {
   const [bgg, setBgg] = useState(false)
   const router = useRouter()
   const dispatch = useDispatch()
-
+  // navigation
+  const getallnotifications = () => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/notifications/get-notifications`,
+        {},
+        {
+          headers: {
+            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response.data.notifications)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
   useEffect(() => {
     if (router.pathname === '/' || router.pathname === '/contactus') {
       setBg(true)
@@ -60,6 +80,10 @@ function Navbar() {
     dispatch(closeNotifications())
   }, [router.pathname])
 
+  // get notifications
+  useEffect(() => {
+    getallnotifications()
+  }, [])
   let menuRef = useRef()
   useEffect(() => {
     let handler = (e) => {
@@ -228,13 +252,19 @@ function Navbar() {
                 </Link>
 
                 {/* notification */}
+
                 <div
                   onClick={() => {
                     dispatch(openNotifications()), dispatch(closeDropDown())
                   }}
-                  className='bg-babygrey px-2 py-2 rounded-full lg:px-3 lg:py-3 cursor-pointer'
+                  className='bg-babygrey px-2 py-2 rounded-full lg:px-3 lg:py-3 cursor-pointer relative'
                 >
                   <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
+                  <div className='absolute -top-2 -right-3 lg:-top-3 '>
+                    <div className='bg-babypurple rounded-full  text-white w-5 h-5 lg:w-7 lg:h-7 flex justify-center items-center'>
+                      <h1 className='text-[0.6rem] lg:text-xs'>1</h1>
+                    </div>
+                  </div>
                 </div>
                 {/* userimage drop */}
                 <div className='flex justify-center items-center gap-2 lg:gap-4 xl:gap-5'>
@@ -256,11 +286,11 @@ function Navbar() {
                   <h1
                     className={`${
                       bg
-                        ? 'text-xs xl:text-base lg:text-sm font-bold text-white '
-                        : 'text-xs text-babyblack lg:text-sm xl:text-base font-bold'
+                        ? 'text-xs xl:text-base lg:text-sm font-bold text-white truncate w-14  lg:w-16 xl:w-20'
+                        : 'text-xs text-babyblack lg:text-sm xl:text-base font-bold truncate w-14 lg:w-16 xl:w-20 '
                     }`}
                   >
-                    Michell
+                    {userData?.firstname}
                   </h1>
                   {/* dropdwon */}
                   <div className={`${bg ? 'text-white' : 'text-babyblack'}`}>
@@ -326,9 +356,9 @@ function Navbar() {
             {dropDown && !notifications && (
               <div className='absolute top-12 sm:top-14 md:top-16 lg:top-20  right-0  w-60 md:w-64 lg:w-72 xl:w-[19rem]  bg-white shadow-xl rounded-sm md:rounded-md  xl:rounded-lg  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6  z-50'>
                 {/* profil */}
-                <div className='flex justify-between items-center gap-4 px-4 lg:px-6'>
+                <div className='flex justify-between items-center gap-4 px-4 lg:px-6 '>
                   {/* image */}
-                  <div className='flex justify-center items-center gap-2'>
+                  <div className='flex justify-center items-center gap-2 '>
                     <div className='  relative '>
                       <Image
                         src={'/images/avatar.png'}
@@ -338,14 +368,17 @@ function Navbar() {
                         className='object-cover w-10 lg:w-12  xl:w-14 rounded-full border-2 border-babypurple'
                       />
                     </div>
-                    <h1 className='text-xs lg:text-sm font-bold'>Michell</h1>
+                    <h1 className='text-xs lg:text-sm font-bold truncate w-14 lg:w-16 xl:w-20'>
+                      {' '}
+                      {userData?.firstname}
+                    </h1>
                   </div>
                   {/* link */}
                   <Link
                     href='/Userprofile/view'
-                    className='bg-babypurple px-2 md:px-3 xl:px-4  py-1 md:py-2 rounded'
+                    className='bg-babypurple px-2 md:px-3   py-1 md:py-2 rounded'
                   >
-                    <h1 className='text-white text-xs xl:text-sm'>
+                    <h1 className='text-white text-xs xl:text-sm text-center w-max'>
                       View Profile
                     </h1>
                   </Link>
@@ -452,13 +485,18 @@ function Navbar() {
                   </Link> */}
 
                   {/* logout */}
-                  <Link
-                    href='/Auth/login'
-                    className='flex  items-center gap-4 '
+                  <div
+                    onClick={() => {
+                      dispatch(logOut()),
+                        router.push({
+                          pathname: '/Auth/login',
+                        })
+                    }}
+                    className='flex  items-center gap-4 cursor-pointer '
                   >
                     <MdAdsClick className=' lg:text-2xl ' />
                     <h1 className='text-xs lg:text-sm '>Logout</h1>
-                  </Link>
+                  </div>
                 </div>
               </div>
             )}
@@ -802,13 +840,18 @@ function Navbar() {
                     <h1 className='text-xs lg:text-sm '>Support</h1>
                   </Link>
                   {/* logout */}
-                  <Link
-                    href='/Auth/login'
-                    className='flex  items-center gap-4 '
+                  <div
+                    onClick={() => {
+                      dispatch(logOut()),
+                        router.push({
+                          pathname: '/Auth/login',
+                        })
+                    }}
+                    className='flex  items-center gap-4 cursor-pointer '
                   >
                     <MdAdsClick className=' lg:text-2xl ' />
                     <h1 className='text-xs lg:text-sm '>Logout</h1>
-                  </Link>
+                  </div>
                 </div>
               </div>
             )}

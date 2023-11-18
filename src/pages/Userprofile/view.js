@@ -1,12 +1,48 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/Navigation/Navbar'
 import Profilecomp from '@/components/Profilecomp'
 import Image from 'next/image'
-import Link from 'next/link'
-
-import Footer from '@/components/Navigation/Footer'
+import axios from 'axios'
 import Profilecompbig from '@/components/Profilecompbig'
+import Loadercomp from '@/components/Loadercomp'
+import moment from 'moment'
+moment().format('MMM Do YY')
 function view() {
+  const [loading, setLoading] = useState(false)
+  const [userinfo, setUserinfo] = useState(null)
+  const getuserprofile = () => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/get-user`,
+        {},
+        {
+          headers: {
+            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response.data)
+        setLoading(false)
+        setUserinfo(response.data.user)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    getuserprofile()
+  }, [])
+  console.log(userinfo)
+  if (loading) {
+    return (
+      <div className='flex justify-center items-center'>
+        <Loadercomp />
+      </div>
+    )
+  }
   return (
     <>
       {/* small nav */}
@@ -39,7 +75,7 @@ function view() {
             <div className='space-y-2 md:w-full'>
               <h1 className='font-bold text-base text-center sm:text-lg md:text-base md:text-left lg:text-lg'>
                 {' '}
-                Hello Michell{' '}
+                Hello {userinfo?.firstname}{' '}
               </h1>
               <h1 className='text-xs text-center sm:text-sm md:text-left md:text-xs  lg:text-sm'>
                 Welcome to your profile page! Here, you have the power to
@@ -60,31 +96,36 @@ function view() {
             {/* fullname*/}
             <div className='space-y-2  pt-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
               <h1 className='text-xs text-slate-500  lg:text-sm '>Full Name</h1>
-              <p className='text-base lg:text-lg '>Michell Okwu</p>
+              <p className='text-base lg:text-lg '>
+                {userinfo?.firstname} {''} {userinfo?.lastname}
+              </p>
             </div>
             {/* email */}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
               <h1 className='text-xs text-slate-500 lg:text-sm    '>Email</h1>
-              <p className='text-base lg:text-lg'>MichellOkwu@gmail.com</p>
+              <p className='text-base lg:text-lg'>{userinfo?.email}</p>
             </div>
             {/* phnoe */}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
               <h1 className='text-xs text-slate-500  lg:text-sm  '>
                 Phone Number
               </h1>
-              <p className='text-base  lg:text-lg'>+2348138121986</p>
+              <p className='text-base  lg:text-lg'>{userinfo?.phone_number}</p>
             </div>
             {/* Dob */}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
               <h1 className='text-xs text-slate-500   lg:text-sm '>
                 Date of Birth
               </h1>
-              <p className='text-base lg:text-lg '>25-August 2023</p>
+              <p className='text-base lg:text-lg '>
+                {' '}
+                {moment(userinfo?.date_of_birth).format('MMMM Do YYYY')}
+              </p>
             </div>
             {/* gender */}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
               <h1 className='text-xs text-slate-500   lg:text-sm '>Gender</h1>
-              <p className='text-base  lg:text-lg'>Male</p>
+              <p className='text-base  lg:text-lg'>{userinfo?.gender}</p>
             </div>
           </div>
           {/* ADDress */}
@@ -97,29 +138,31 @@ function view() {
             <div className='space-y-2  pt-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
               <h1 className='text-xs text-slate-500  lg:text-sm  '>Address</h1>
               <p className='text-base lg:text-lg'>
-                No 2 rumola street, Ph, Nigeria
+                {userinfo?.location.full_address}
               </p>
             </div>
             {/* email */}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
               <h1 className='text-xs text-slate-500    lg:text-sm '>city</h1>
-              <p className='text-base lg:text-lg'>Port Harcourt</p>
+              <p className='text-base lg:text-lg'>{userinfo?.location.city}</p>
             </div>
             {/* State*/}
             <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
               <h1 className='text-xs text-slate-500   lg:text-sm '>State</h1>
-              <p className='text-base  lg:text-lg'>Rivers</p>
+              <p className='text-base  lg:text-lg'>
+                {userinfo?.location.state}
+              </p>
             </div>
             {/* Country*/}
-            <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
+            {/* <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
               <h1 className='text-xs text-slate-500   lg:text-sm '>Country</h1>
               <p className='text-base  lg:text-lg'>Nigeria</p>
-            </div>
+            </div> */}
             {/* Zip Code*/}
-            <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
+            {/* <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
               <h1 className='text-xs text-slate-500   lg:text-sm '>Zip Code</h1>
               <p className='text-base  lg:text-lg'>111021234</p>
-            </div>
+            </div> */}
           </div>
 
           {/* Driving information */}
@@ -136,7 +179,7 @@ function view() {
               <h1 className='text-xs text-slate-500  lg:text-sm  '>
                 Driver's License Number
               </h1>
-              <p className='text-base lg:text-lg'>N2235on1244</p>
+              <p className='text-base lg:text-lg'>{userinfo?.license_number}</p>
             </div>
             {/* card */}
             <div className='space-y-2  pb-2  md:flex md:justify-between md:items-start md:gap-2 md:space-y-0'>
@@ -146,8 +189,8 @@ function view() {
               {/* image */}
               <div className='  relative '>
                 <Image
-                  src={'/images/idcard.png'}
-                  alt='logo'
+                  src={userinfo?.license.url}
+                  alt={userinfo?.license.name}
                   width={1000}
                   height={1000}
                   className='object-cover  w-48 lg:w-60 xl:w-72'
@@ -169,7 +212,9 @@ function view() {
               <h1 className='text-xs text-slate-500  lg:text-sm '>
                 Insurance License Number
               </h1>
-              <p className='text-base lg:text-lg'>N2235on1244</p>
+              <p className='text-base lg:text-lg'>
+                {userinfo?.insurance_number}
+              </p>
             </div>
             {/* card */}
             <div className='space-y-2  pb-2  md:flex md:justify-between md:items-start md:gap-2 md:space-y-0'>
@@ -179,8 +224,8 @@ function view() {
               {/* image */}
               <div className='  relative '>
                 <Image
-                  src={'/images/idcard.png'}
-                  alt='logo'
+                  src={userinfo?.insurance.url}
+                  alt={userinfo?.insurance.name}
                   width={1000}
                   height={1000}
                   className='object-cover  w-48 lg:w-60 xl:w-72'

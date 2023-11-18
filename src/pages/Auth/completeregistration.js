@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -11,10 +11,16 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { MdOutlineAddAPhoto } from 'react-icons/md'
 import { useRouter } from 'next/router'
+import { State, City } from 'country-state-city'
+import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux'
+import { logIN, setUserdata } from '@/features/userpersona/userSlice'
+import { phone } from 'phone'
 
 function Completeregistration() {
   const [loading, setLoading] = useState(false)
   const [usergender, setUsergender] = useState(['male', 'female', 'others'])
+
   const [userimage, setUserimage] = useState(null)
   const [imagetoupload, setImagetoupload] = useState(null)
 
@@ -24,9 +30,11 @@ function Completeregistration() {
   const [imageerrortwo, setImageerrortwo] = useState('')
   const fileTypes = ['JPG', 'JPEG', 'PNG']
   const router = useRouter()
+  // console.log(Country.getAllCountries())
+  const dispatch = useDispatch()
   // drivers
   const handleupload = (uploadedcontent) => {
-    if (uploadedcontent.size > 1000000) {
+    if (uploadedcontent.size > 2000000) {
       toast.error('file size is too large')
     } else {
       setUserimage(URL.createObjectURL(uploadedcontent))
@@ -36,7 +44,7 @@ function Completeregistration() {
 
   // insurance
   const handleuploadtwo = (uploadedcontent) => {
-    if (uploadedcontent.size > 1000000) {
+    if (uploadedcontent.size > 2000000) {
       toast.error('file size is too large')
     } else {
       setUserimagetwo(URL.createObjectURL(uploadedcontent))
@@ -49,42 +57,21 @@ function Completeregistration() {
     address: '',
     city: '',
     state: '',
-    country: '',
+    phone: '',
     dl: '',
     il: '',
   }
 
   const onSubmit = (values, onSubmitProps) => {
-    onSubmitProps.setSubmitting(false)
-
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
-
-    // reset
-    // onSubmitProps.resetForm()
-    console.log(values)
-    if (!imagetoupload) {
-      setImageerror("Please upload driver's license")
-      setLoading(false)
-    } else if (!imagetouploadtwo) {
-      setImageerrortwo('Please upload Insurance license')
+    onSubmitProps.setSubmitting(false)
+    const phoneresult = phone(values.phone)
+    if (phoneresult?.isValid === false) {
+      toast.warning('please input a valid phone number')
       setLoading(false)
     } else {
-      router.push({
-        pathname: '/',
-        //  query: response.data.data.user,
-      })
-      toast.success('Login Susscessfull')
-      setLoading(false)
+      completeregapi(values)
     }
-    setTimeout(() => {
-      setImageerror('')
-      setImageerrortwo('')
-    }, 3000)
   }
   // validation
   const validationSchema = Yup.object().shape({
@@ -104,13 +91,65 @@ function Completeregistration() {
     dl: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No value provided'),
-    country: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No country value provided'),
     il: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No value provided'),
+    phone: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No value provided'),
   })
+
+  const completeregapi = (values) => {
+    if (!imagetoupload) {
+      setImageerror("Please upload driver's license")
+      setLoading(false)
+    } else if (!imagetouploadtwo) {
+      setImageerrortwo('Please upload Insurance license')
+      setLoading(false)
+    } else {
+      console.log('first')
+      const formData = new FormData()
+      formData?.append('license', imagetoupload)
+      formData?.append('insurance', imagetouploadtwo)
+      formData?.append('gender', values.gender)
+      formData?.append('license_number', values.dl)
+      formData?.append('insurance_number', values.il)
+      formData?.append('address', values.address)
+      formData?.append('date_of_birth', values.dob.toISOString())
+      formData?.append('state', values.state)
+      formData?.append('city', values.city)
+      formData?.append('phone', values.phone)
+      axios
+        .post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/user/complete-registration`,
+          formData,
+          {
+            headers: {
+              'x-glorious-access': JSON.parse(
+                localStorage.getItem('User_Token')
+              ),
+            },
+          }
+        )
+        .then(function (response) {
+          console.log(response.data)
+          setLoading(false)
+          setImageerror('')
+          setImageerrortwo('')
+          router.push({
+            pathname: '/',
+          })
+          toast.success(response.data.message)
+          dispatch(logIN())
+          dispatch(setUserdata(response.data.user))
+        })
+        .catch(function (error) {
+          toast.error(error.response.data.message)
+          setLoading(false)
+          console.log(error)
+        })
+    }
+  }
   return (
     <>
       <section className='min-h-screen flex-col flex justify-center items-center backedground py-10 lg:py-14 overflow-x-hidden'>
@@ -152,7 +191,10 @@ function Completeregistration() {
                     <div className=' space-y-6 md:space-y-8 '>
                       <div className='flex items-start gap-x-10 justify-between  w-full'>
                         {/* dob */}
-                        <div className=''>
+                        <div className=' space-y-1 lg:space-y-2'>
+                          <label htmlFor='' className='text-xs lg:text-sm'>
+                            Date of Birth
+                          </label>
                           <Field name='dob' className=''>
                             {({ field, form }) => {
                               return (
@@ -175,7 +217,10 @@ function Completeregistration() {
                         </div>
 
                         {/* gender */}
-                        <div className='w-full'>
+                        <div className='w-full space-y-1 lg:space-y-2'>
+                          <label htmlFor='' className='text-xs lg:text-sm'>
+                            Gender
+                          </label>
                           <Field
                             as='select'
                             type='selectOption'
@@ -196,8 +241,26 @@ function Completeregistration() {
                           </div>
                         </div>
                       </div>
+                      {/* phone */}
+                      <div className=' space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          Phone Number
+                        </label>
+                        <Field
+                          type='text'
+                          name='phone'
+                          placeholder='Phone Number'
+                          className=' bg-white border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                        />
+                        <div className='text-softRed text-xs mt-1 px-4'>
+                          <ErrorMessage name='phone' />
+                        </div>
+                      </div>
                       {/* address */}
-                      <div>
+                      <div className=' space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          Full Address
+                        </label>
                         <Field
                           type='text'
                           name='address'
@@ -209,57 +272,70 @@ function Completeregistration() {
                         </div>
                       </div>
                       {/* city,state,country */}
-                      <div className='flex items-start gap-4'>
-                        {/* city */}
+                      {/* state */}
 
-                        <div className='w-1/3'>
-                          <Field
-                            type='text'
-                            name='city'
-                            placeholder='City'
-                            className=' bg-white border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='city' />
-                          </div>
+                      <div className=' space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          State
+                        </label>
+                        <Field
+                          as='select'
+                          type='selectOption'
+                          name='state'
+                          className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm  h-max w-full'
+                        >
+                          <option value=''>select State</option>
+                          {State.getStatesOfCountry('US')?.map(
+                            (item, index) => {
+                              return (
+                                <option key={index} value={item.name}>
+                                  {item.name}
+                                </option>
+                              )
+                            }
+                          )}
+                        </Field>
+                        <div className='text-softRed text-xs mt-1 px-4'>
+                          <ErrorMessage name='state' />
                         </div>
-                        {/* state */}
+                      </div>
+                      {/* city */}
 
-                        <div className='w-1/3'>
-                          <Field
-                            type='text'
-                            name='state'
-                            placeholder='State'
-                            className=' bg-white border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='state' />
-                          </div>
-                        </div>
-                        {/* country*/}
-                        <div className='w-1/3'>
+                      {formik.values.state && (
+                        <div className=' space-y-1 lg:space-y-2'>
+                          <label htmlFor='' className='text-xs lg:text-sm'>
+                            City
+                          </label>
                           <Field
                             as='select'
                             type='selectOption'
-                            name='country'
+                            name='city'
                             className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm  h-max w-full'
                           >
-                            <option value=''>select option</option>
-                            {usergender?.map((item, index) => {
+                            <option value=''>select City</option>
+                            {City.getCitiesOfState(
+                              'US',
+                              State.getStatesOfCountry('US')?.filter(
+                                (i) => i?.name === formik?.values?.state
+                              )?.[0]?.isoCode
+                            )?.map((item, index) => {
                               return (
-                                <option key={index} value={item}>
-                                  {item}
+                                <option key={index} value={item.name}>
+                                  {item.name}
                                 </option>
                               )
                             })}
                           </Field>
                           <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='country' />
+                            <ErrorMessage name='city' />
                           </div>
                         </div>
-                      </div>
+                      )}
                       {/* drivers license */}
-                      <div>
+                      <div className='space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          Drivers License Number
+                        </label>
                         <Field
                           type='text'
                           name='dl'
@@ -271,7 +347,10 @@ function Completeregistration() {
                         </div>
                       </div>
                       {/* Insurance license */}
-                      <div>
+                      <div className='space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          Insurance License Number
+                        </label>
                         <Field
                           type='text'
                           name='il'
@@ -283,7 +362,10 @@ function Completeregistration() {
                         </div>
                       </div>
                       {/* drivers license */}
-                      <div>
+                      <div className='space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          Driver's License Photo
+                        </label>
                         <div className='   '>
                           <div className='relative'>
                             {userimage && (
@@ -326,7 +408,7 @@ function Completeregistration() {
                                     Upload digital copy of your driver's license
                                   </p>
                                   <p className='text-xs text-softRed '>
-                                    (Max size 12 MB)
+                                    (Max size 2 MB)
                                   </p>
                                 </div>
                               }
@@ -338,7 +420,10 @@ function Completeregistration() {
                         </div>
                       </div>
                       {/* insurance license */}
-                      <div>
+                      <div className='space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          Insurance License Photo
+                        </label>
                         <div className='   '>
                           <div className='relative'>
                             {userimagetwo && (
@@ -382,7 +467,7 @@ function Completeregistration() {
                                     license
                                   </p>
                                   <p className='text-xs text-softRed '>
-                                    (Max size 12 MB)
+                                    (Max size 2 MB)
                                   </p>
                                 </div>
                               }
@@ -397,11 +482,11 @@ function Completeregistration() {
 
                     <button
                       type='submit'
-                      className='bg-babypurple text-white px-4 py-3   rounded-md w-full  text-base lg:text-lg '
+                      className='bg-babypurple text-sm lg:text-base text-white px-4 py-3 lg:py-4 rounded-md w-full shadow-lg '
                     >
                       {loading ? (
                         <div className='flex justify-center gap-2 items-center'>
-                          <ImSpinner className='animate-spin' />
+                          <div className='spinner'></div>
                           Verifying...
                         </div>
                       ) : (

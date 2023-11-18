@@ -1,12 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  isUserLogedin: true,
+  isUserLogedin: false,
   dropDown: false,
   notifications: false,
   notificationscontent: 0,
   hosting: false,
   isWithdrawing: false,
+  userData: {},
 }
 
 const userSlice = createSlice({
@@ -40,6 +41,12 @@ const userSlice = createSlice({
     cancelwithdraw: (state) => {
       state.isWithdrawing = false
     },
+    logIN: (state) => {
+      state.isUserLogedin = true
+    },
+    setUserdata: (state, action) => {
+      state.userData = action.payload
+    },
   },
 })
 export const {
@@ -52,5 +59,8 @@ export const {
   returnToUser,
   withdrawmoney,
   cancelwithdraw,
+  logIN,
+  userData,
+  setUserdata,
 } = userSlice.actions
 export default userSlice.reducer

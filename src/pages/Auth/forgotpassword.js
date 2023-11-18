@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { ImSpinner } from 'react-icons/im'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import axios from 'axios'
+
 function Forgotpassword() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
@@ -15,19 +18,8 @@ function Forgotpassword() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
 
-    // reset
-    // onSubmitProps.resetForm()
-    router.push({
-      pathname: '/Auth/forgotpasswordemailverification',
-      //  query: response.data.data.user,
-    })
-    console.log(values)
+    recoverpasswordapi(values)
   }
   // validation
   const validationSchema = Yup.object().shape({
@@ -39,6 +31,26 @@ function Forgotpassword() {
       )
       .required('No email Provided'),
   })
+
+  // cta
+  const recoverpasswordapi = (values) => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/forgot-password`, values)
+      .then(function (response) {
+        console.log(response)
+        setLoading(false)
+        router.push({
+          pathname: '/Auth/forgotpasswordemailverification',
+          query: { userEmail: values.email },
+        })
+        toast.success(response.data.message)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        toast.error(error.response.data.message)
+        console.log(error)
+      })
+  }
   return (
     <>
       <section className='min-h-screen flex-col flex justify-center items-center backedground py-10 lg:py-14'>
@@ -98,8 +110,8 @@ function Forgotpassword() {
                     >
                       {loading ? (
                         <div className='flex justify-center gap-2 items-center'>
-                          <ImSpinner className='animate-spin' />
-                          Verifying...
+                          <div className='spinner'></div>
+                          Recovering...
                         </div>
                       ) : (
                         'Continue'
@@ -112,13 +124,13 @@ function Forgotpassword() {
           </div>
 
           {/* link to signup */}
-          <h1 className='text-center  text-xs sm:text-sm lg:text-base  text-white font-sans  mx-auto'>
+          {/* <h1 className='text-center  text-xs sm:text-sm lg:text-base  text-white font-sans  mx-auto'>
             Didn't get the email ?{' '}
             <span className='underline font-bold tracking-wider cursor-pointer'>
               {' '}
               Resend
             </span>
-          </h1>
+          </h1> */}
         </div>
       </section>
     </>

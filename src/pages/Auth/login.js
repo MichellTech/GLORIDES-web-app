@@ -4,15 +4,22 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { AiFillEyeInvisible } from 'react-icons/ai'
 import { AiFillEye } from 'react-icons/ai'
-import { ImSpinner } from 'react-icons/im'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux'
+import { logIN, setUserdata } from '@/features/userpersona/userSlice'
+
 function Login() {
   const [seepassword, setSeepassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const dispatch = useDispatch()
+  //  const {
+  //    isUserLogedin,
+  //  } = useSelector((store) => store.userpersona)
   const initialValues = {
     email: '',
     password: '',
@@ -21,20 +28,10 @@ function Login() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
+    loginapi(values)
 
     // reset
     // onSubmitProps.resetForm()
-    router.push({
-      pathname: '/',
-      //  query: response.data.data.user,
-    })
-    toast.success('Welcome back!')
-    console.log(values)
   }
   // validation
   const validationSchema = Yup.object().shape({
@@ -47,6 +44,47 @@ function Login() {
       .required('No email Provided'),
     password: Yup.string().required('No password provided.'),
   })
+  const loginapi = (values) => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/login`, values)
+      .then(function (response) {
+        console.log(response.data)
+        if (response.data.user.isVerified === false) {
+          setLoading(false)
+          router.push({
+            pathname: '/Auth/emailverification',
+            query: { userEmail: response.data.user.email },
+          })
+        } else if (response.data.user.isCompleted === false) {
+          localStorage.setItem(
+            'User_Token',
+            JSON.stringify(response.data.user.token)
+          )
+          router.push({
+            pathname: '/Auth/completeregistration',
+          })
+        } else {
+          setLoading(false)
+          toast.success(response.data.message)
+          localStorage.setItem(
+            'User_Token',
+            JSON.stringify(response.data.user.token)
+          )
+          router.push({
+            pathname: '/',
+          })
+          dispatch(logIN())
+          dispatch(setUserdata(response.data.user))
+        }
+      })
+      .catch(function (error) {
+        setLoading(false)
+        toast.error(error.response.data.message)
+
+        console.log(error)
+      })
+  }
+
   return (
     <>
       <section className='min-h-screen flex-col flex justify-center items-center backedground py-10 lg:py-14'>
@@ -69,7 +107,7 @@ function Login() {
             {/* header */}
             <div className='space-y-1 lg:space-y-2'>
               <h1 className=' font-bold text-babypurple text-2xl lg:text-3xl text-center  mx-auto '>
-                Signin to your account
+                Signin to your Account
               </h1>
               <p className='text-xs text-center  mx-auto  max-w-xs lg:text-sm lg:max-w-md'>
                 Please provide your login details to get access to your account
@@ -135,11 +173,11 @@ function Login() {
 
                     <button
                       type='submit'
-                      className='bg-babypurple text-white px-4 py-3   rounded-md w-full  text-base lg:text-lg '
+                      className='bg-babypurple text-white px-4 py-3   rounded-md w-full  text-base lg:text-lg   shadow-xl'
                     >
                       {loading ? (
                         <div className='flex justify-center gap-2 items-center'>
-                          <ImSpinner className='animate-spin' />
+                          <div className='spinner'></div>
                           Verifying...
                         </div>
                       ) : (

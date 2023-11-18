@@ -4,9 +4,12 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { AiFillEyeInvisible } from 'react-icons/ai'
 import { AiFillEye } from 'react-icons/ai'
-import { ImSpinner } from 'react-icons/im'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
 function Signup() {
   const [seepassword, setSeepassword] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -22,19 +25,10 @@ function Signup() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
+    signupapi(values)
 
     // reset
     // onSubmitProps.resetForm()
-    router.push({
-      pathname: '/Auth/emailverification',
-      //  query: response.data.data.user,
-    })
-    console.log(values)
   }
   // validation
   const validationSchema = Yup.object().shape({
@@ -77,6 +71,29 @@ function Signup() {
       .oneOf([Yup.ref('password'), ''], 'Passwords must match')
       .required('Required'),
   })
+
+  const signupapi = (values) => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/signup`, values)
+      .then(function (response) {
+        setLoading(false)
+        localStorage.setItem(
+          'User_Token',
+          JSON.stringify(response.data.user.token)
+        )
+        router.push({
+          pathname: '/Auth/emailverification',
+          query: { userEmail: response.data.user.email },
+        })
+
+        console.log(response)
+      })
+      .catch(function (error) {
+        toast.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
+  }
   return (
     <>
       <section className='min-h-screen flex-col flex justify-center items-center backedground py-10 lg:py-14'>
@@ -99,7 +116,7 @@ function Signup() {
             {/* header */}
             <div className='space-y-1 lg:space-y-2'>
               <h1 className=' font-bold text-babypurple text-2xl lg:text-3xl text-center  mx-auto '>
-                Create an account
+                Create an Account
               </h1>
               <p className='text-xs text-center  mx-auto  max-w-xs lg:text-sm lg:max-w-md'>
                 Please provide the following details in order to begin your
@@ -117,7 +134,10 @@ function Signup() {
                   <Form className='  text-babyblack space-y-10 font-sans px-6 py-8 md:px-0 '>
                     <div className=' space-y-6 md:space-y-8'>
                       {/* firstnmae */}
-                      <div>
+                      <div className=' space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          First Name
+                        </label>
                         <Field
                           type='text'
                           name='firstname'
@@ -129,7 +149,10 @@ function Signup() {
                         </div>
                       </div>
                       {/* lastnmae */}
-                      <div>
+                      <div className=' space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          Last Name
+                        </label>
                         <Field
                           type='text'
                           name='lastname'
@@ -141,7 +164,10 @@ function Signup() {
                         </div>
                       </div>
                       {/* email */}
-                      <div>
+                      <div className=' space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          Email
+                        </label>
                         <Field
                           type='email'
                           name='email'
@@ -153,7 +179,10 @@ function Signup() {
                         </div>
                       </div>
                       {/* paswoord */}
-                      <div>
+                      <div className=' space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          Password
+                        </label>
                         <div className='flex  relative justify-between items-center w-full'>
                           <Field
                             type={seepassword ? 'text ' : 'password'}
@@ -179,7 +208,10 @@ function Signup() {
                         {/* remember me and forgot password */}
                       </div>
                       {/* cpaswoord */}
-                      <div>
+                      <div className=' space-y-1 lg:space-y-2'>
+                        <label htmlFor='' className='text-xs lg:text-sm'>
+                          Confirm Password
+                        </label>
                         <div className='flex  relative justify-between items-center w-full'>
                           <Field
                             type={seepassword ? 'text ' : 'password'}
@@ -208,11 +240,11 @@ function Signup() {
 
                     <button
                       type='submit'
-                      className='bg-babypurple text-white px-4 py-3   rounded-md w-full  text-base lg:text-lg '
+                      className='bg-babypurple text-white px-4 py-3 shadow-xl   rounded-md w-full  text-base lg:text-lg '
                     >
                       {loading ? (
-                        <div className='flex justify-center gap-2 items-center'>
-                          <ImSpinner className='animate-spin' />
+                        <div className='flex justify-center gap-2 items-center '>
+                          <div className='spinner'></div>
                           Verifying...
                         </div>
                       ) : (
