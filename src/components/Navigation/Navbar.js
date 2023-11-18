@@ -94,8 +94,8 @@ function Navbar() {
         }
       )
       .then(function (response) {
-        console.log(response.data)
-        dispatch(setUserdata(response.data.user))
+        // console.log(response.data)
+        dispatch(setUserdata(response?.data?.user))
       })
       .catch(function (error) {
         console.log(error)
@@ -295,8 +295,8 @@ function Navbar() {
                   <div className='  relative '>
                     {userData ? (
                       <Image
-                        src={userData.profile_picture.url}
-                        alt={userData.profile_picture.name}
+                        src={userData?.profile_picture.url}
+                        alt={userData?.profile_picture.name}
                         width={1000}
                         height={1000}
                         className={`${

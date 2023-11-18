@@ -10,7 +10,7 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { logIN, setUserdata } from '@/features/userpersona/userSlice'
+import { logIN } from '@/features/userpersona/userSlice'
 
 function Login() {
   const [seepassword, setSeepassword] = useState(false)

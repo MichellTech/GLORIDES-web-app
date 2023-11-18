@@ -14,7 +14,7 @@ import { useRouter } from 'next/router'
 import { State, City } from 'country-state-city'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { logIN, setUserdata } from '@/features/userpersona/userSlice'
+import { logIN } from '@/features/userpersona/userSlice'
 import { phone } from 'phone'
 
 function Completeregistration() {
