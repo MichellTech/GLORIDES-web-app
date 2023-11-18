@@ -9,6 +9,9 @@ import { ImSpinner } from 'react-icons/im'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Footer from '../components/Navigation/Footer'
+import { phone } from 'phone'
+import { Country } from 'country-state-city'
+
 function contactus() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
@@ -155,11 +158,20 @@ function contactus() {
                         <div>
                           <div className='flex  relative justify-between items-center w-full'>
                             <Field
-                              type='text'
+                              as='select'
+                              type='selectOption'
                               name='country'
-                              placeholder='Country'
                               className=' bg-white border-babyblack border w-full py-3 px-4 outline-babypurple  text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
-                            />
+                            >
+                              <option value=''>select Country</option>
+                              {Country.getAllCountries()?.map((item, index) => {
+                                return (
+                                  <option key={index} value={item.name}>
+                                    {item.name}
+                                  </option>
+                                )
+                              })}
+                            </Field>
                           </div>
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='country' />
@@ -201,11 +213,11 @@ function contactus() {
 
                       <button
                         type='submit'
-                        className='bg-babypurple text-white px-4 py-3   rounded-md w-full  text-base lg:text-lg '
+                        className='bg-babypurple text-white px-4 py-3 shadow-md   rounded-md w-full  text-base lg:text-lg '
                       >
                         {loading ? (
                           <div className='flex justify-center gap-2 items-center'>
-                            <ImSpinner className='animate-spin' />
+                            <div className='spinner'></div>
                             Verifying...
                           </div>
                         ) : (

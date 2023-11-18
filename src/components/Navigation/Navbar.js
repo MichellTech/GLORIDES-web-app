@@ -397,13 +397,23 @@ function Navbar() {
                   {/* image */}
                   <div className='flex justify-center items-center gap-2 '>
                     <div className='  relative '>
-                      <Image
-                        src={'/images/avatar.png'}
-                        alt='logo'
-                        width={1000}
-                        height={1000}
-                        className='object-cover w-10 lg:w-12  xl:w-14 rounded-full border-2 border-babypurple'
-                      />
+                      {userData ? (
+                        <Image
+                          src={userData?.profile_picture?.url}
+                          alt={userData?.profile_picture?.name}
+                          width={1000}
+                          height={1000}
+                          className='object-cover w-10 lg:w-12  xl:w-14 rounded-full border-2 border-babypurple'
+                        />
+                      ) : (
+                        <Image
+                          src={'/images/avatar.png'}
+                          alt='logo'
+                          width={1000}
+                          height={1000}
+                          className='object-cover w-10 lg:w-12  xl:w-14 rounded-full border-2 border-babypurple'
+                        />
+                      )}
                     </div>
                     <h1 className='text-xs lg:text-sm font-bold truncate w-14 lg:w-16 xl:w-20'>
                       {' '}

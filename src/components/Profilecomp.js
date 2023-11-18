@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import { useSelector, useDispatch } from 'react-redux'
 function Profilecomp() {
   const router = useRouter()
-
+  const { hosting } = useSelector((store) => store.userpersona)
   return (
     <>
       {/* small screen */}
@@ -59,26 +60,30 @@ function Profilecomp() {
           >
             Password
           </Link>
-          <Link
-            href='/Userprofile/pin'
-            className={`${
-              router.pathname === '/Userprofile/pin'
-                ? 'border-b-4  font-bold  rounded-sm border-babypurple pb-3 text-babypurple '
-                : '  rounded-sm  pb-3 '
-            }`}
-          >
-            Pin
-          </Link>
-          <Link
-            href='/Userprofile/accounts'
-            className={`${
-              router.pathname === '/Userprofile/accounts'
-                ? 'border-b-4 font-bold  rounded-sm border-babypurple pb-3 text-babypurple '
-                : '  rounded-sm  pb-3 '
-            }`}
-          >
-            Accounts
-          </Link>
+          {hosting && (
+            <Link
+              href='/Userprofile/pin'
+              className={`${
+                router.pathname === '/Userprofile/pin'
+                  ? 'border-b-4  font-bold  rounded-sm border-babypurple pb-3 text-babypurple '
+                  : '  rounded-sm  pb-3 '
+              }`}
+            >
+              Pin
+            </Link>
+          )}
+          {hosting && (
+            <Link
+              href='/Userprofile/accounts'
+              className={`${
+                router.pathname === '/Userprofile/accounts'
+                  ? 'border-b-4 font-bold  rounded-sm border-babypurple pb-3 text-babypurple '
+                  : '  rounded-sm  pb-3 '
+              }`}
+            >
+              Accounts
+            </Link>
+          )}
         </div>
         <div className='absolute left-0 w-full right-0 bottom-0 border-b  '></div>
       </div>

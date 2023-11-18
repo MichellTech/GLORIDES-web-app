@@ -62,5 +62,6 @@ export const {
   logIN,
   userData,
   setUserdata,
+  hosting,
 } = userSlice.actions
 export default userSlice.reducer
