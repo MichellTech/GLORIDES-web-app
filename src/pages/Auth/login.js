@@ -44,6 +44,7 @@ function Login() {
       .required('No email Provided'),
     password: Yup.string().required('No password provided.'),
   })
+
   const loginapi = (values) => {
     axios
       .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/login`, values)
@@ -74,7 +75,6 @@ function Login() {
             pathname: '/',
           })
           dispatch(logIN())
-          dispatch(setUserdata(response.data.user))
         }
       })
       .catch(function (error) {

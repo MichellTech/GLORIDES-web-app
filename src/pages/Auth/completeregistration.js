@@ -141,7 +141,6 @@ function Completeregistration() {
           })
           toast.success(response.data.message)
           dispatch(logIN())
-          dispatch(setUserdata(response.data.user))
         })
         .catch(function (error) {
           toast.error(error.response.data.message)

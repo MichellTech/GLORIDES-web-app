@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/Navigation/Navbar'
 import Profilecomp from '@/components/Profilecomp'
 import Image from 'next/image'
@@ -15,33 +15,50 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { FileUploader } from 'react-drag-drop-files'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import moment from 'moment'
+import axios from 'axios'
+
 function Editprofile() {
   const [loading, setLoading] = useState(false)
   const [userimage, setUserimage] = useState(null)
   const [imagetoupload, setImagetoupload] = useState(null)
+  const [usergender, setUsergender] = useState(['male', 'female', 'others'])
+  const [userinfo, setUserinfo] = useState(null)
+  const getuserprofile = () => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/get-user`,
+        {},
+        {
+          headers: {
+            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response.data)
+        setLoading(false)
+        setUserinfo(response.data.user)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
 
-  const [userimagetwo, setUserimagetwo] = useState(null)
-  const [imagetouploadtwo, setImagetouploadtwo] = useState(null)
-  const [userimagethree, setUserimagethree] = useState(null)
-  const [imagetouploadthree, setImagetouploadthree] = useState(null)
-  const [imageerror, setImageerror] = useState('')
-  const [imageerrortwo, setImageerrortwo] = useState('')
-  const [imageerrorthree, setImageerrorthree] = useState('')
+  useEffect(() => {
+    getuserprofile()
+  }, [])
+  console.log(userinfo)
   const fileTypes = ['JPG', 'JPEG', 'PNG']
   const initialValues = {
-    firstname: 'Michell',
-    lastname: 'Okwu',
-    email: 'Okwuchiedozie@gmail.com',
-    phone: '+2348138121986',
-    dob: new Date(),
-    gender: 'Male',
-    address: 'No 2 rumola street, Ph, Nigeria',
-    city: 'Port Harcourt',
-    state: 'Rivers',
-    country: 'Nigeria',
-    zip: '111022393',
-    dln: 'N2235on1244',
-    iln: 'N2235on1244',
+    firstname: userinfo?.firstname,
+    lastname: userinfo?.lastname,
+    phone: userinfo?.phone_number,
+    gender: userinfo?.gender,
+    address: userinfo?.full_address,
+    city: userinfo?.city,
+    state: userinfo?.state,
   }
 
   const onSubmit = (values, onSubmitProps) => {
@@ -60,24 +77,17 @@ function Editprofile() {
     //    //  query: response.data.data.user,
     //  })
     //  console.log(values)
+    updateprofile(values)
   }
   // validation
   const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('No email provided')
-      .matches(
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        'Kindly input a valid email'
-      )
-      .required('No email Provided'),
     phone: Yup.string().required('No phone number provided'),
     address: Yup.string().required('No address provided'),
     city: Yup.string().required('No city provided'),
+    gender: Yup.string().required('No city provided'),
     state: Yup.string().required('No state provided'),
-    country: Yup.string().required('No country provided'),
-    zip: Yup.string().required('No zip code provided'),
-    dln: Yup.string().required('No Drivers License Number provided'),
-    iln: Yup.string().required('No Insurance license Number provided'),
+    firstname: Yup.string().required('No firstname provided'),
+    lastname: Yup.string().required('No lastname provided'),
   })
 
   // profilephoto
@@ -90,24 +100,34 @@ function Editprofile() {
     }
   }
 
-  // drivers
-  const handleuploadtwo = (uploadedcontent) => {
-    if (uploadedcontent.size > 1000000) {
-      toast.error('file size is too large')
-    } else {
-      setUserimagetwo(URL.createObjectURL(uploadedcontent))
-      setImagetouploadtwo(uploadedcontent)
-    }
+  const updateprofile = (values) => {
+    const formData = new FormData()
+    formData?.append('gender', values.gender)
+    formData?.append('firstname', values.firstname)
+    formData?.append('address', values.address)
+    formData?.append('lastname', values.lastname)
+    formData?.append('state', values.state)
+    formData?.append('city', values.city)
+    formData?.append('phone', values.phone)
+    formData?.append('profile_picture', imagetoupload)
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/update-user`, formData, {
+        headers: {
+          'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
+        },
+      })
+      .then(function (response) {
+        console.log(response?.data)
+        setLoading(false)
+        toast.success(response?.data?.message)
+      })
+      .catch(function (error) {
+        toast.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
   }
-  // insurance
-  const handleuploadthree = (uploadedcontent) => {
-    if (uploadedcontent.size > 1000000) {
-      toast.error('file size is too large')
-    } else {
-      setUserimagethree(URL.createObjectURL(uploadedcontent))
-      setImagetouploadthree(uploadedcontent)
-    }
-  }
+
   return (
     <>
       {/* small nav */}
@@ -131,6 +151,7 @@ function Editprofile() {
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={validationSchema}
+            enableReinitialize
           >
             {(formik) => {
               return (
@@ -157,8 +178,8 @@ function Editprofile() {
                           />
                         ) : (
                           <Image
-                            src={'/images/avatar.png'}
-                            alt='logo'
+                            src={userinfo?.profile_picture.url}
+                            alt={userinfo?.profile_picture.name}
                             width={1000}
                             height={1000}
                             className='object-cover  w-32  lg:w-40   h-32  lg:h-40 rounded-full'
@@ -183,7 +204,9 @@ function Editprofile() {
                         </h1>
                         <p className='  border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
                           {' '}
-                          25-August 2023
+                          {moment(userinfo?.date_of_birth).format(
+                            'MMMM Do YYYY'
+                          )}
                         </p>
                       </div>
                       {/* gender*/}
@@ -192,10 +215,26 @@ function Editprofile() {
                           Gender
                         </h1>
                         {/* firstnmae */}
-                        <p className='  border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
-                          {' '}
-                          Male
-                        </p>
+                        <div>
+                          <Field
+                            as='select'
+                            type='selectOption'
+                            name='gender'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                          >
+                            <option value=''>select gender</option>
+                            {usergender?.map((item, index) => {
+                              return (
+                                <option key={index} value={item}>
+                                  {item}
+                                </option>
+                              )
+                            })}
+                          </Field>
+                          <div className='text-softRed text-xs mt-1 px-4'>
+                            <ErrorMessage name='gender' />
+                          </div>
+                        </div>
                       </div>
                     </div>
                     {/* name */}
@@ -204,10 +243,17 @@ function Editprofile() {
                         <h1 className='text-xs text-slate-500  lg:text-sm '>
                           First Name
                         </h1>
-                        <p className='  border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
-                          {' '}
-                          Michell
-                        </p>
+                        <div>
+                          <Field
+                            type='text'
+                            name='firstname'
+                            placeholder='First Name'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                          />
+                          <div className='text-softRed text-xs mt-1 px-4'>
+                            <ErrorMessage name='firstname' />
+                          </div>
+                        </div>
                       </div>
                       {/* last*/}
                       <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2'>
@@ -215,10 +261,17 @@ function Editprofile() {
                           Last Name
                         </h1>
                         {/* lastnmae */}
-                        <p className='   border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
-                          {' '}
-                          Okwu
-                        </p>
+                        <div>
+                          <Field
+                            type='text'
+                            name='lastname'
+                            placeholder='Last Name'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                          />
+                          <div className='text-softRed text-xs mt-1 px-4'>
+                            <ErrorMessage name='lastname' />
+                          </div>
+                        </div>
                       </div>
                     </div>
                     {/* email and phone no */}
@@ -228,17 +281,9 @@ function Editprofile() {
                         <h1 className='text-xs text-slate-500  lg:text-sm '>
                           Email
                         </h1>
-                        <div>
-                          <Field
-                            type='text'
-                            name='email'
-                            placeholder='Email'
-                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='email' />
-                          </div>
-                        </div>
+                        <p className='  border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
+                          {userinfo?.email}
+                        </p>
                       </div>
                       {/* phone*/}
                       <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2  '>
@@ -266,27 +311,9 @@ function Editprofile() {
                     <div className='border-b   pb-4'>
                       <h1 className='text-lg font-bold lg:text-xl'>Location</h1>
                     </div>
-                    {/* zip and city */}
-                    <div className=' md:flex md:justify-between md:flex-row-reverse md:items-start  md:gap-4  lg:gap-10 xl:gap-14   md:space-y-0  space-y-4 md:pb-4'>
-                      {/* Zip code */}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm '>
-                          Zip Code
-                        </h1>
-                        {/* firstnmae */}
-                        <div>
-                          <Field
-                            type='text'
-                            name='zip'
-                            placeholder='Zip Code'
-                            className='border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='zip' />
-                          </div>
-                        </div>
-                      </div>
 
+                    {/* state and country */}
+                    <div className=' md:flex md:justify-between md:flex-row-reverse md:items-start  md:gap-4  lg:gap-10 xl:gap-14   md:space-y-0  space-y-4 md:pb-4'>
                       {/* city */}
                       <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
                         <h1 className='text-xs text-slate-500  lg:text-sm '>
@@ -305,9 +332,6 @@ function Editprofile() {
                           </div>
                         </div>
                       </div>
-                    </div>
-                    {/* state and country */}
-                    <div className=' md:flex md:justify-between md:flex-row-reverse md:items-start  md:gap-4  lg:gap-10 xl:gap-14   md:space-y-0  space-y-4 md:pb-4'>
                       {/* state */}
                       <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
                         <h1 className='text-xs text-slate-500  lg:text-sm '>
@@ -323,24 +347,6 @@ function Editprofile() {
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='state' />
-                          </div>
-                        </div>
-                      </div>
-                      {/* Country */}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm  '>
-                          Country
-                        </h1>
-                        {/* firstnmae */}
-                        <div>
-                          <Field
-                            type='text'
-                            name='country'
-                            placeholder='Country'
-                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='country' />
                           </div>
                         </div>
                       </div>
@@ -360,138 +366,6 @@ function Editprofile() {
                         />
                         <div className='text-softRed text-xs mt-1 px-4'>
                           <ErrorMessage name='address' />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Driving information */}
-                  <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6'>
-                    {/* header */}
-                    <div className='border-b   pb-4'>
-                      <h1 className='text-lg font-bold lg:text-xl'>
-                        Driving Information
-                      </h1>
-                    </div>
-                    <div className=' md:flex md:justify-between md:items-start md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4'>
-                      {/* Driving license no*/}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm '>
-                          Driver's License Number
-                        </h1>
-                        {/* firstnmae */}
-                        <div>
-                          <Field
-                            type='text'
-                            name='dln'
-                            placeholder='Drivers License Number'
-                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='dln' />
-                          </div>
-                        </div>
-                      </div>
-                      {/* card */}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm '>
-                          Driver's Liciense Card
-                        </h1>
-                        {/* image */}
-                        <div className='  relative w-48 lg:w-60 xl:w-72 '>
-                          {userimagetwo ? (
-                            <Image
-                              src={userimagetwo}
-                              alt='logo'
-                              width={1000}
-                              height={1000}
-                              className='object-cover  w-48 lg:w-60 xl:w-72'
-                            />
-                          ) : (
-                            <Image
-                              src={'/images/idcard.png'}
-                              alt='logo'
-                              width={1000}
-                              height={1000}
-                              className='object-cover  w-48 lg:w-60 xl:w-72'
-                            />
-                          )}
-                          <div className='bg-babypurple rounded-full flex justify-center items-center w-7 h-7 lg:w-8 lg:h-8  absolute -top-1 lg:-top-2 right-0 '>
-                            <FileUploader
-                              classes=' '
-                              handleChange={handleuploadtwo}
-                              name='file'
-                              types={fileTypes}
-                              children={
-                                <MdOutlineAddAPhoto className=' lg:text-lg text-white cursor-pointer' />
-                              }
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* insurance information */}
-                  <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6'>
-                    {/* header */}
-                    <div className='border-b   pb-4'>
-                      <h1 className='text-lg font-bold lg:text-xl '>
-                        Insurance Information
-                      </h1>
-                    </div>
-                    <div className=' md:flex md:justify-between md:items-start md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4 w-full'>
-                      {/* Driving license no*/}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2  '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm'>
-                          Insurance License Number
-                        </h1>
-                        {/* firstnmae */}
-                        <div>
-                          <Field
-                            type='text'
-                            name='iln'
-                            placeholder='Insurance License Number'
-                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='iln' />
-                          </div>
-                        </div>
-                      </div>
-                      {/* card */}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm'>
-                          Insurance Liciense Card
-                        </h1>
-                        {/* image */}
-                        <div className='  relative w-48 lg:w-60 xl:w-72 '>
-                          {userimagethree ? (
-                            <Image
-                              src={userimagethree}
-                              alt='logo'
-                              width={1000}
-                              height={1000}
-                              className='object-cover  w-48  lg:w-60 xl:w-72'
-                            />
-                          ) : (
-                            <Image
-                              src={'/images/idcard.png'}
-                              alt='logo'
-                              width={1000}
-                              height={1000}
-                              className='object-cover  w-48  lg:w-60 xl:w-72'
-                            />
-                          )}
-                          <div className='bg-babypurple rounded-full flex justify-center items-center w-7 h-7 lg:w-8 lg:h-8  absolute -top-1 lg:-top-2 right-0 '>
-                            <FileUploader
-                              classes=' '
-                              handleChange={handleuploadthree}
-                              name='file'
-                              types={fileTypes}
-                              children={
-                                <MdOutlineAddAPhoto className=' lg:text-lg text-white cursor-pointer' />
-                              }
-                            />
-                          </div>
                         </div>
                       </div>
                     </div>

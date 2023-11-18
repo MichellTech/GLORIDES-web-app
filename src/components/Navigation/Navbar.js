@@ -11,6 +11,7 @@ import {
   switchToHost,
   returnToUser,
   logOut,
+  setUserdata,
 } from '@/features/userpersona/userSlice'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { AiOutlineCaretDown, AiOutlineCaretUp } from 'react-icons/ai'
@@ -41,6 +42,7 @@ function Navbar() {
   } = useSelector((store) => store.userpersona)
   const [pannel, setPannel] = useState(false)
   const [menubutton, setMenubutton] = useState(false)
+  const [userinfo, setUserinfo] = useState(null)
   const [bg, setBg] = useState(true)
   const [bgg, setBgg] = useState(false)
   const router = useRouter()
@@ -80,9 +82,30 @@ function Navbar() {
     dispatch(closeNotifications())
   }, [router.pathname])
 
+  const getuserprofile = () => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/get-user`,
+        {},
+        {
+          headers: {
+            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
+          },
+        }
+      )
+      .then(function (response) {
+        console.log(response.data)
+        dispatch(setUserdata(response.data.user))
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
+
   // get notifications
   useEffect(() => {
     getallnotifications()
+    getuserprofile()
   }, [])
   let menuRef = useRef()
   useEffect(() => {
@@ -270,17 +293,31 @@ function Navbar() {
                 <div className='flex justify-center items-center gap-2 lg:gap-4 xl:gap-5'>
                   {/* image */}
                   <div className='  relative '>
-                    <Image
-                      src={'/images/avatar.png'}
-                      alt='logo'
-                      width={1000}
-                      height={1000}
-                      className={`${
-                        bg
-                          ? 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-white'
-                          : 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-babypurple'
-                      }`}
-                    />
+                    {userData ? (
+                      <Image
+                        src={userData.profile_picture.url}
+                        alt={userData.profile_picture.name}
+                        width={1000}
+                        height={1000}
+                        className={`${
+                          bg
+                            ? 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-white'
+                            : 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-babypurple'
+                        }`}
+                      />
+                    ) : (
+                      <Image
+                        src={'/images/avatar.png'}
+                        alt='logo'
+                        width={1000}
+                        height={1000}
+                        className={`${
+                          bg
+                            ? 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-white'
+                            : 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-babypurple'
+                        }`}
+                      />
+                    )}
                   </div>
                   {/* name */}
                   <h1

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FiUserPlus, FiUser } from 'react-icons/fi'
 import { BiLockOpenAlt } from 'react-icons/bi'
+import { GrDocumentText } from 'react-icons/gr'
 import { MdOutlinePayments, MdPassword, MdManageAccounts } from 'react-icons/md'
 function Profilecompbig() {
   const router = useRouter()
@@ -33,6 +34,20 @@ function Profilecompbig() {
           <div className='flex items-center gap-4 '>
             <FiUserPlus className='text-xl' />
             <h1 className='text-sm  xl:text-base'>Edit Profile</h1>
+          </div>
+        </Link>
+
+        <Link
+          href='/Userprofile/documents'
+          className={`${
+            router.pathname === '/Userprofile/documents'
+              ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
+              : '  rounded-sm  py-3 px-4  '
+          }`}
+        >
+          <div className='flex items-center gap-4 '>
+            <GrDocumentText className='text-xl' />
+            <h1 className='text-sm  xl:text-base'>Documents</h1>
           </div>
         </Link>
         <Link

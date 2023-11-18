@@ -30,6 +30,16 @@ function Profilecomp() {
             Edit Profile
           </Link>
           <Link
+            href='/Userprofile/documents'
+            className={`${
+              router.pathname === '/Userprofile/documents'
+                ? 'border-b-4  rounded-sm border-babypurple pb-3 font-bold  text-babypurple '
+                : '  rounded-sm  pb-3 '
+            }`}
+          >
+            Documents
+          </Link>
+          <Link
             href='/Userprofile/payment'
             className={`${
               router.pathname === '/Userprofile/payment'
