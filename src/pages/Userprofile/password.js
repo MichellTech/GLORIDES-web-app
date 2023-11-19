@@ -1,48 +1,39 @@
 import React, { useState } from 'react'
 import Navbar from '@/components/Navigation/Navbar'
 import Profilecomp from '@/components/Profilecomp'
-import Image from 'next/image'
 import Profilecompbig from '@/components/Profilecompbig'
-import Link from 'next/link'
-import { FiUserPlus } from 'react-icons/fi'
-import { BiUser } from 'react-icons/bi'
-import { MdOutlinePayments } from 'react-icons/md'
-import Footer from '@/components/Navigation/Footer'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { ImSpinner } from 'react-icons/im'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { AiFillEyeInvisible } from 'react-icons/ai'
+import { AiFillEye } from 'react-icons/ai'
 
 function Password() {
   const [loading, setLoading] = useState(false)
-
+  const [seepassword, setSeepassword] = useState(false)
   const initialValues = {
-    opassword: 'MichellOkwu007',
+    opassword: '',
     npassword: '',
     cpassword: '',
-    opin: '1234',
-    npin: '',
-    cpin: '',
   }
 
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
+    const payload = {
+      old_password: values.opassword,
+      new_password: values.npassword,
+    }
 
-    // reset
-    // onSubmitProps.resetForm()
-    //  router.push({
-    //    pathname: '/Auth/emailverification',
-    //    //  query: response.data.data.user,
-    //  })
-    //  console.log(values)
+    resetpassword(payload, onSubmitProps.resetForm)
   }
   // validation
   const validationSchema = Yup.object().shape({
+    opassword: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('Please provide old password'),
     npassword: Yup.string()
       .min(8, 'password must contain 8 or more characters')
       .test(
@@ -68,33 +59,31 @@ function Password() {
     cpassword: Yup.string()
       .oneOf([Yup.ref('npassword'), ''], 'Passwords must match')
       .required('Required'),
-    npin: Yup.string()
-      .min(8, 'pin must contain 8 or more characters')
-      .test(
-        'isValidPass',
-        ' Pin must have an Uppercase, Number and Lowercase',
-        (value, context) => {
-          const hasUpperCase = /[A-Z]/.test(value)
-          const hasLowerCase = /[a-z]/.test(value)
-          const hasNumber = /[0-9]/.test(value)
-          let validConditions = 0
-          const numberOfMustBeValidConditions = 3
-          const conditions = [hasLowerCase, hasUpperCase, hasNumber]
-          conditions.forEach((condition) =>
-            condition ? validConditions++ : null
-          )
-          if (validConditions >= numberOfMustBeValidConditions) {
-            return true
-          }
-          return false
-        }
-      )
-      .required('No pin provided.'),
-    cpin: Yup.string()
-      .oneOf([Yup.ref('npin'), ''], 'Pin must match')
-      .required('Required'),
   })
 
+  const resetpassword = (payload, callback) => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/user/change-password`,
+        payload,
+        {
+          headers: {
+            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
+          },
+        }
+      )
+      .then(function (response) {
+        setLoading(false)
+        toast.success(response?.data?.message)
+        setSeepassword(false)
+        callback()
+      })
+      .catch(function (error) {
+        toast.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
+  }
   return (
     <>
       {/* small nav */}
@@ -126,7 +115,7 @@ function Password() {
                     {/* header */}
                     <div className='border-b   pb-4 '>
                       <h1 className='text-lg font-bold lg:text-xl  '>
-                        Login Password
+                        Manage your Login Password
                       </h1>
                     </div>
 
@@ -139,12 +128,25 @@ function Password() {
                         </h1>
 
                         <div>
-                          <Field
-                            type='password'
-                            name='opassword'
-                            placeholder='Old Password'
-                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                          />
+                          <div className='flex  relative justify-between items-center w-full'>
+                            <Field
+                              type={seepassword ? 'text ' : 'password'}
+                              name='opassword'
+                              placeholder='Old Password'
+                              className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                            />
+                            {seepassword ? (
+                              <AiFillEye
+                                className='absolute right-4 cursor-pointer'
+                                onClick={() => setSeepassword(!seepassword)}
+                              />
+                            ) : (
+                              <AiFillEyeInvisible
+                                className='absolute right-4 cursor-pointer'
+                                onClick={() => setSeepassword(!seepassword)}
+                              />
+                            )}
+                          </div>
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='opassword' />
                           </div>
@@ -157,12 +159,25 @@ function Password() {
                         </h1>
 
                         <div>
-                          <Field
-                            type='password'
-                            name='npassword'
-                            placeholder='New Password'
-                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                          />
+                          <div className='flex  relative justify-between items-center w-full'>
+                            <Field
+                              type={seepassword ? 'text ' : 'password'}
+                              name='npassword'
+                              placeholder='New Password'
+                              className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                            />
+                            {seepassword ? (
+                              <AiFillEye
+                                className='absolute right-4 cursor-pointer'
+                                onClick={() => setSeepassword(!seepassword)}
+                              />
+                            ) : (
+                              <AiFillEyeInvisible
+                                className='absolute right-4 cursor-pointer'
+                                onClick={() => setSeepassword(!seepassword)}
+                              />
+                            )}
+                          </div>
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='npassword' />
                           </div>
@@ -176,12 +191,25 @@ function Password() {
                       </h1>
 
                       <div>
-                        <Field
-                          type='password'
-                          name='cpassword'
-                          placeholder='Confirm New Password'
-                          className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                        />
+                        <div className='flex  relative justify-between items-center w-full'>
+                          <Field
+                            type={seepassword ? 'text ' : 'password'}
+                            name='cpassword'
+                            placeholder='Confirm New Password'
+                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                          />
+                          {seepassword ? (
+                            <AiFillEye
+                              className='absolute right-4 cursor-pointer'
+                              onClick={() => setSeepassword(!seepassword)}
+                            />
+                          ) : (
+                            <AiFillEyeInvisible
+                              className='absolute right-4 cursor-pointer'
+                              onClick={() => setSeepassword(!seepassword)}
+                            />
+                          )}
+                        </div>
                         <div className='text-softRed text-xs mt-1 px-4'>
                           <ErrorMessage name='cpassword' />
                         </div>
@@ -191,7 +219,7 @@ function Password() {
 
                   <button
                     type='submit'
-                    className='bg-babypurple text-white px-6 py-2 lg:py-3   rounded-md flex justify-center items-center mx-auto text-sm md:w-full max-w-xs shadow-md'
+                    className='bg-babypurple text-white px-6 py-2 lg:py-3   rounded-md flex justify-center items-center mx-auto text-sm md:w-full max-w-xs shadow-lg'
                   >
                     {loading ? (
                       <div className='flex justify-center gap-2 items-center  '>

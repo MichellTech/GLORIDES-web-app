@@ -1,22 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '@/components/Navigation/Navbar'
 import Image from 'next/image'
-import Link from 'next/link'
-import { FiUserPlus } from 'react-icons/fi'
-import { BiUser, BiLockOpenAlt } from 'react-icons/bi'
 import { CiCreditCardOff } from 'react-icons/ci'
-import Footer from '@/components/Navigation/Footer'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { ImSpinner } from 'react-icons/im'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import Profilecomp from '@/components/Profilecomp'
 import Profilecompbig from '@/components/Profilecompbig'
+import creditCardType, {
+  getTypeInfo,
+  types as CardType,
+} from 'credit-card-type'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { MdOutlineDeleteOutline } from 'react-icons/md'
+import moment from 'moment'
+
 function Payment() {
   const [loading, setLoading] = useState(false)
-  const [cardexists, setCardexists] = useState(false)
-
+  const [cardexists, setCardexists] = useState(0)
+  const [userdetails, setUserdetails] = useState(null)
   const initialValues = {
     cname: '',
     cnumber: '',
@@ -27,19 +32,22 @@ function Payment() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
+    const payload = {
+      cvv: values.cvv,
+      card_name: values.cname,
+      card_expiry: values.cexpiry.toISOString(),
+      card_number: values.cnumber,
+    }
+    postcarddetails(payload, onSubmitProps.resetForm)
+  }
 
-    // reset
-    // onSubmitProps.resetForm()
-    //  router.push({
-    //    pathname: '/Auth/emailverification',
-    //    //  query: response.data.data.user,
-    //  })
-    //  console.log(values)
+  // credittype
+  const cardtypecheck = (string) => {
+    if (string?.trim?.()?.length >= 12) {
+      const type = creditCardType?.(string)?.[0]?.type
+      console.log(type, 'maki')
+      return type
+    }
   }
   // validation
   const validationSchema = Yup.object().shape({
@@ -48,7 +56,81 @@ function Payment() {
     cexpiry: Yup.date().required('No card expiry date provided'),
     cvv: Yup.string().required('No CVV provided'),
   })
+  const getusercard = () => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/payment/get-cards`,
+        {},
+        {
+          headers: {
+            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
+          },
+        }
+      )
+      .then(function (response) {
+        setLoading(false)
+        toast.success(response?.data?.message)
+        console.log(response)
+        setCardexists(2)
+        setUserdetails(response?.data?.card_details)
+      })
+      .catch(function (error) {
+        if (error?.response?.data?.message === 'Cards not found') {
+          setCardexists(0)
+        }
 
+        setLoading(false)
+        console.log(error)
+      })
+  }
+  const postcarddetails = (payload, callback) => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/payment/add-cards`, payload, {
+        headers: {
+          'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
+        },
+      })
+      .then(function (response) {
+        setLoading(false)
+        toast.success(response?.data?.message)
+        setCardexists(2)
+        callback()
+        getusercard()
+      })
+      .catch(function (error) {
+        toast.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
+  }
+  useEffect(() => {
+    getusercard()
+  }, [])
+  // 5061240202044217007
+
+  const handledelete = () => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/payment/delete-cards`,
+        {},
+        {
+          headers: {
+            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
+          },
+        }
+      )
+      .then(function (response) {
+        setLoading(false)
+        toast.success(response?.data?.message)
+        console.log(response)
+        setCardexists(0)
+        setUserdetails(null)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
   return (
     <>
       {/* small nav */}
@@ -67,7 +149,7 @@ function Payment() {
         {/* information */}
         <div className=' px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20 min-h-[70vh]  '>
           {/* form */}
-          {!cardexists ? (
+          {cardexists === 0 ? (
             <div className='bg-white shadow-md h-[50vh] md:h-[60vh] w-full  flex flex-col justify-center items-center px-6 py-4 mx-auto space-y-6 '>
               <div className='bg-babygrey flex justify-center items-center p-4 rounded-full '>
                 <CiCreditCardOff className='text-2xl lg:text-3xl' />
@@ -79,17 +161,18 @@ function Payment() {
                 experience{' '}
               </h1>
               <button
-                onClick={() => setCardexists(true)}
+                onClick={() => setCardexists(1)}
                 className='bg-babypurple px-6 py-2 rounded-md text-xs lg:text-sm text-white transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '
               >
                 Add Payment Card
               </button>
             </div>
-          ) : (
+          ) : cardexists === 1 ? (
             <Formik
               initialValues={initialValues}
               onSubmit={onSubmit}
               validationSchema={validationSchema}
+              enableReinitialize
             >
               {(formik) => {
                 return (
@@ -143,9 +226,35 @@ function Payment() {
                         </div>
                       </div>
                       {/* cvv and expiry date */}
-                      <div className='md:flex md:justify-between md:items-center md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4  md:flex-row-reverse  '>
+                      <div className='md:flex md:justify-center md:items-start md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4  md:flex-row-reverse  '>
+                        {/* card tyoe */}
+                        {formik?.values?.cnumber?.toString?.()?.trim?.()
+                          ?.length >= 3 && (
+                          <div className='space-y-3  pb-2 lg:pb-3 md:w-full'>
+                            <h1 className='text-xs text-slate-500  lg:text-sm '>
+                              Card Type
+                            </h1>
+                            {formik?.values?.cnumber &&
+                            formik?.values?.cnumber?.toString?.()?.trim?.()
+                              ?.length >= 12 ? (
+                              <div className='bg-babypurple px-6 py-2 text-white text-center rounded-sm shadow-lg'>
+                                <h1>
+                                  {cardtypecheck(
+                                    formik?.values?.cnumber?.toString?.()
+                                  )}
+                                </h1>
+                              </div>
+                            ) : formik?.values?.cnumber?.toString?.()?.trim?.()
+                                ?.length <= 2 ? null : (
+                              <div className='bg-babypurple px-6 py-2 text-white text-center rounded-sm shadow-lg'>
+                                <div className='spinner'></div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
                         {/* cexpiry */}
-                        <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2'>
+                        <div className='space-y-3  pb-2 lg:pb-3 md:w-full'>
                           <h1 className='text-xs text-slate-500  lg:text-sm '>
                             Card Expiry Date
                           </h1>
@@ -175,7 +284,7 @@ function Payment() {
                           </div>
                         </div>
                         {/* cvv */}
-                        <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                        <div className='space-y-3  pb-2 lg:pb-3 md:w-full '>
                           <h1 className='text-xs text-slate-500  lg:text-sm '>
                             CVV
                           </h1>
@@ -212,6 +321,35 @@ function Payment() {
                 )
               }}
             </Formik>
+          ) : (
+            <div className='bg-white shadow-md h-[50vh] md:h-[60vh] w-full  flex flex-col justify-start items-start px-6 py-4 mx-auto space-y-6 '>
+              <div className='  rounded-lg border px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white space-y-4 '>
+                <div className='flex justify-end'>
+                  <MdOutlineDeleteOutline
+                    onClick={() => handledelete()}
+                    className='text-white text-lg lg:text-2xl cursor-pointer'
+                  />
+                </div>
+                <div className='space-y-2 lg:space-y-4'>
+                  <h1 className='text-xs md:text-sm xl:text-base'>
+                    {userdetails?.card_name}
+                  </h1>
+                  <h1 className='text-lg lg:text-2xl font-bold'>
+                    {userdetails?.card_number}
+                  </h1>
+                  <div className='flex justify-between items-center gap-2'>
+                    <h1 className='text-xs md:text-sm xl:text-base'>
+                      {' '}
+                      {userdetails?.cvv}
+                    </h1>
+                    <h1 className='text-xs md:text-sm xl:text-base'>
+                      {' '}
+                      {moment(userdetails?.card_expiry).format('MM / YY')}
+                    </h1>
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>

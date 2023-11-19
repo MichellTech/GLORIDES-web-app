@@ -4,13 +4,13 @@ import Image from 'next/image'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { MdAttachEmail, MdLocationOn, MdPhoneCallback } from 'react-icons/md'
-import { AiFillEye } from 'react-icons/ai'
-import { ImSpinner } from 'react-icons/im'
-import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Footer from '../components/Navigation/Footer'
 import { phone } from 'phone'
 import { Country } from 'country-state-city'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 function contactus() {
   const [loading, setLoading] = useState(false)
@@ -28,19 +28,23 @@ function contactus() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
+    const phoneresult = phone(values.phone)
+    if (phoneresult?.isValid === false) {
+      toast.warning('please input a valid phone number')
+      setLoading(false)
+    } else {
+      const payload = {
+        firstname: values.firstname,
+        lastname: values.lastname,
+        email: values.email,
+        phone_number: values.phone,
+        title: values.title,
+        country: values.country,
+        message: values.message,
+      }
 
-    // reset
-    // onSubmitProps.resetForm()
-    // router.push({
-    //   pathname: '/Auth/emailverification',
-    //   //  query: response.data.data.user,
-    // })
-    console.log(values)
+      sendinquiry(payload, onSubmitProps.resetForm)
+    }
   }
   // validation
   const validationSchema = Yup.object().shape({
@@ -70,6 +74,22 @@ function contactus() {
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No message provided'),
   })
+
+  const sendinquiry = (payload, callback) => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/general/contact`, payload)
+      .then(function (response) {
+        console.log(response?.data)
+        setLoading(false)
+        toast.success(response?.data?.message)
+        callback()
+      })
+      .catch(function (error) {
+        toast.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
+  }
 
   return (
     <>
@@ -144,7 +164,7 @@ function contactus() {
                         <div>
                           <div className='flex  relative justify-between items-center w-full'>
                             <Field
-                              type='number'
+                              type='text'
                               name='phone'
                               placeholder='Phone Number including intl dial code'
                               className=' bg-white border-babyblack border w-full py-3 px-4 outline-babypurple  text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
@@ -218,10 +238,10 @@ function contactus() {
                         {loading ? (
                           <div className='flex justify-center gap-2 items-center'>
                             <div className='spinner'></div>
-                            Verifying...
+                            Sending...
                           </div>
                         ) : (
-                          'Continue'
+                          'Send'
                         )}
                       </button>
                     </Form>

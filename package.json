@@ -13,6 +13,7 @@
     "autoprefixer": "10.4.15",
     "axios": "^1.4.0",
     "country-state-city": "^3.2.1",
+    "credit-card-type": "^10.0.0",
     "formik": "^2.4.3",
     "moment": "^2.29.4",
     "next": "13.4.19",

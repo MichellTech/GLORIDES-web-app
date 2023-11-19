@@ -65,8 +65,8 @@ function view() {
             <div className='bg-white w-full flex justify-center items-center flex-col border px-6 py-4 sm:px-8 sm:py-6 rounded-md space-y-4 shadow-md md:flex-row md:space-y-0 md:w-full md:gap-4 lg:gap-6'>
               <div className='  relative max-w-xs '>
                 <Image
-                  src={userinfo?.profile_picture.url}
-                  alt={userinfo?.profile_picture.name}
+                  src={userinfo?.profile_picture?.url}
+                  alt={userinfo?.profile_picture?.name}
                   width={1000}
                   height={1000}
                   className='object-cover w-28 lg:w-32 rounded-full '
