@@ -4,13 +4,10 @@ import Profilecomp from '@/components/Profilecomp'
 import Image from 'next/image'
 import Profilecompbig from '@/components/Profilecompbig'
 import { MdOutlineAddAPhoto } from 'react-icons/md'
-import { BiLockOpenAlt, BiUser } from 'react-icons/bi'
-import { MdOutlinePayments } from 'react-icons/md'
-import Footer from '@/components/Navigation/Footer'
+import { useRouter } from 'next/router'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { ImSpinner } from 'react-icons/im'
-import DatePicker from 'react-datepicker'
+
 import 'react-datepicker/dist/react-datepicker.css'
 import { FileUploader } from 'react-drag-drop-files'
 import { toast } from 'react-toastify'
@@ -24,6 +21,7 @@ function Editprofile() {
   const [imagetoupload, setImagetoupload] = useState(null)
   const [usergender, setUsergender] = useState(['male', 'female', 'others'])
   const [userinfo, setUserinfo] = useState(null)
+  const router = useRouter()
   const getuserprofile = () => {
     axios
       .post(
@@ -120,6 +118,9 @@ function Editprofile() {
         console.log(response?.data)
         setLoading(false)
         toast.success(response?.data?.message)
+        router.push({
+          pathname: '/Userprofile/view',
+        })
       })
       .catch(function (error) {
         toast.error(error?.response?.data?.message)

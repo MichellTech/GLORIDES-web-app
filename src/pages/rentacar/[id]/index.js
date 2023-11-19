@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react'
+import React, { useMemo, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { cars } from '../../../utilis/Cardata'
 import Navbar from '@/components/Navigation/Navbar'
 import Footer from '@/components/Navigation/Footer'
-import Image from 'next/image'
+import { useSelector, useDispatch } from 'react-redux'
+
 import Carousel from '../../../components/Carousel/Image'
 import Userfeedback from '../../../components/Carousel/userfeedback'
 import {
@@ -11,6 +12,9 @@ import {
   MdOutlineBluetoothConnected,
   MdGpsFixed,
   MdChildFriendly,
+  MdSettingsInputHdmi,
+  MdOutlineMyLocation,
+  MdLocalFireDepartment,
 } from 'react-icons/md'
 // import { FaBluetoothB } from 'react-icons/md'
 import Link from 'next/link'
@@ -19,19 +23,24 @@ import { LuFuel } from 'react-icons/lu'
 import { GiGearStickPattern, GiCarSeat } from 'react-icons/gi'
 import { TbClockSearch, TbCameraCheck } from 'react-icons/tb'
 import { AiFillCar } from 'react-icons/ai'
+import { RiUserSettingsFill } from 'react-icons/ri'
+import { FaRegCreditCard } from 'react-icons/fa'
+import { GoMilestone } from 'react-icons/go'
+
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 function Viewcar() {
   const router = useRouter()
-
+  const { allsearchedcars } = useSelector((store) => store.rental)
   const carId = router.query.id
 
   const singlecar = useMemo(
-    () => cars.filter((item) => item.id === Number(carId))?.[0],
+    () => allsearchedcars?.filter((item) => item._id === carId),
     [carId]
   )
-
+  // console.log(singlecar?.[0]?.car_additional_features)
+  console.log(singlecar)
   return (
     <>
       <Navbar />
@@ -53,12 +62,65 @@ function Viewcar() {
               {/* carname*/}
               <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
                 <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
-                  Car Name
+                  Car Information
                 </h1>
                 {/* img */}
-                <div className='flex items-center gap-2'>
-                  <AiFillCar className='lg:text-xl' />
-                  <h1 className='text-xs lg:text-sm'>{singlecar?.carname}</h1>
+                <div className='flex flex-wrap items-start gap-4 lg:gap-6 divide-x'>
+                  <div className='space-y-1 lg:space-y-2'>
+                    <h1 className='text-sm lg:text-base'>Car Name</h1>
+                    <div className='flex items-center gap-2'>
+                      <AiFillCar className='' />
+                      <h1 className='text-xs lg:text-sm'>
+                        {singlecar?.[0]?.car_name}
+                      </h1>
+                    </div>
+                  </div>
+
+                  <div className='space-y-1 lg:space-y-2 pl-4 lg:pl-6'>
+                    <h1 className='text-sm lg:text-base'>Car Model</h1>
+                    <div className='flex items-center gap-2'>
+                      <MdSettingsInputHdmi className='' />
+                      <h1 className='text-xs lg:text-sm'>
+                        {singlecar?.[0]?.car_model}
+                      </h1>
+                    </div>
+                  </div>
+                  <div className='space-y-1 lg:space-y-2 pl-4 lg:pl-6'>
+                    <h1 className='text-sm lg:text-base'>Car Miles</h1>
+                    <div className='flex items-center gap-2'>
+                      <GoMilestone className='' />
+                      <h1 className='text-xs lg:text-sm'>
+                        {singlecar?.[0]?.miles}
+                      </h1>
+                    </div>
+                  </div>
+                  <div className='space-y-1 lg:space-y-2 pl-4 lg:pl-6'>
+                    <h1 className='text-sm lg:text-base'>Location</h1>
+                    <div className='flex items-center gap-2'>
+                      <MdOutlineMyLocation className='' />
+                      <h1 className='text-xs lg:text-sm'>
+                        {singlecar?.[0]?.city}, {singlecar?.[0]?.state}
+                      </h1>
+                    </div>
+                  </div>
+                  <div className='space-y-1 lg:space-y-2 pl-4 lg:pl-6'>
+                    <h1 className='text-sm lg:text-base'>Plate Number</h1>
+                    <div className='flex items-center gap-2'>
+                      <FaRegCreditCard className='' />
+                      <h1 className='text-xs lg:text-sm'>
+                        {singlecar?.[0]?.plate_number}
+                      </h1>
+                    </div>
+                  </div>
+                  <div className='space-y-1 lg:space-y-2 pl-4 lg:pl-6'>
+                    <h1 className='text-sm lg:text-base'>Car Owner</h1>
+                    <div className='flex items-center gap-2'>
+                      <RiUserSettingsFill className='' />
+                      <h1 className='text-xs lg:text-sm'>
+                        {singlecar?.[0]?.owner.firstname}
+                      </h1>
+                    </div>
+                  </div>
                 </div>
               </div>
               {/* image */}
@@ -68,7 +130,7 @@ function Viewcar() {
                 </h1>
                 {/* img */}
                 <div className='w-full bg-white '>
-                  <Carousel />
+                  <Carousel photos={singlecar?.[0]?.car_photos} />
                 </div>
               </div>
               {/* description */}
@@ -94,27 +156,32 @@ function Viewcar() {
                   {/* one */}
                   <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
                     <LuFuel className='text-xl' />
-                    <h1 className='text-xs'>Diesel</h1>
+                    <h1 className='text-xs'>{singlecar?.[0]?.fuel_type} </h1>
                   </div>
                   {/* two */}
                   <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
                     <BiSolidCarGarage className='text-xl' />
-                    <h1 className='text-xs '>Doors</h1>
+                    <h1 className='text-xs '>
+                      {' '}
+                      {singlecar?.[0]?.car_doors} Doors
+                    </h1>
                   </div>
                   {/* three */}
                   <div className='flex items-center gap-2 border border-babyblack px-2 py-2 w-max rounded-sm lg:rounded-md'>
                     <GiCarSeat className='text-xl' />
-                    <p className='text-xs'>4 Seater</p>
+                    <p className='text-xs'>
+                      {singlecar?.[0]?.seats_number} Seater
+                    </p>
                   </div>
                   {/* four */}
                   <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max  rounded-sm lg:rounded-md'>
                     <GiGearStickPattern className='text-xl' />
-                    <p className='text-xs'>Automatic</p>
+                    <p className='text-xs'>{singlecar?.[0]?.gear_type} </p>
                   </div>
                   {/* five */}
                   <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
                     <TbClockSearch className='text-xl' />
-                    <p className='text-xs'>2400</p>
+                    <p className='text-xs'>{singlecar?.[0]?.miles} </p>
                   </div>
                   {/* six */}
                   <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
@@ -122,20 +189,32 @@ function Viewcar() {
                     <p className='text-xs'>Bluetooth</p>
                   </div>
                   {/* seven*/}
-                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
-                    <MdGpsFixed className='text-xl' />
-                    <p className='text-xs'>GPS</p>
-                  </div>
+                  {singlecar?.[0]?.car_additional_features?.some(
+                    (i) => i['gps']
+                  ) && (
+                    <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
+                      <MdGpsFixed className='text-xl' />
+                      <p className='text-xs'>GPS</p>
+                    </div>
+                  )}
                   {/* eight*/}
-                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
-                    <MdChildFriendly className='text-xl' />
-                    <p className='text-xs'>Child Seat</p>
-                  </div>
+                  {singlecar?.[0]?.car_additional_features?.some(
+                    (i) => i['heater']
+                  ) && (
+                    <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
+                      <MdLocalFireDepartment className='text-xl' />
+                      <p className='text-xs'>Heater Available</p>
+                    </div>
+                  )}
                   {/* eight*/}
-                  <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
-                    <TbCameraCheck className='text-xl' />
-                    <p className='text-xs'>Camera</p>
-                  </div>
+                  {singlecar?.[0]?.car_additional_features?.some(
+                    (i) => i['camera']
+                  ) && (
+                    <div className='flex items-center gap-2 border border-babyblack px-2 py-2  w-max rounded-sm lg:rounded-md'>
+                      <TbCameraCheck className='text-xl' />
+                      <p className='text-xs'>Camera</p>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -161,7 +240,7 @@ function Viewcar() {
                 <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
                   <h1 className='text-xs xl:text-sm'>Rent Cost</h1>
                   <h1 className='text-xs xl:text-sm font-bold text-babypurple'>
-                    $ 100 / day
+                    $ {singlecar?.[0]?.rent_cost} / day
                   </h1>
                 </div>
                 {/* two */}
@@ -172,21 +251,12 @@ function Viewcar() {
                   </h1>
                 </div>
 
-                {/* one */}
-                {/* <div className='w-full  flex justify-between items-center gap-2 border-b  border-babyblack pb-4 '>
-                  <h1 className='text-xs md:text-sm lg:text-base font-bold'>
-                    Total Cost
-                  </h1>
-                  <h1 className='text-xs  md:text-sm lg:text-base font-bold'>
-                    $ 120
-                  </h1>
-                </div> */}
                 {/* settings*/}
                 <div className='w-full  space-y-4 py-4'>
                   <button
                     onClick={() => {
                       router.push({
-                        pathname: `/rentacar/${singlecar.id}/bookingconfirmation/${singlecar.id}`,
+                        pathname: `/rentacar/${singlecar?.[0]?._id}/bookingconfirmation/${singlecar?.[0]?._id}`,
                       })
                     }}
                     className='bg-babypurple px-5 py-3 w-full  md:px-2 text-white rounded-sm transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white flex justify-center items-center gap-2'

@@ -6,6 +6,7 @@ import axios from 'axios'
 import Profilecompbig from '@/components/Profilecompbig'
 import Loadercomp from '@/components/Loadercomp'
 import moment from 'moment'
+import Link from 'next/link'
 
 function view() {
   const [loading, setLoading] = useState(false)
@@ -72,7 +73,7 @@ function view() {
                   className='object-cover w-28 lg:w-32 rounded-full '
                 />
               </div>
-              <div className='space-y-2 md:w-full'>
+              <div className='space-y-2 md:space-y-3 lg:space-y-4 md:w-full'>
                 <h1 className='font-bold text-base text-center sm:text-lg md:text-base md:text-left lg:text-lg'>
                   {' '}
                   Hello {userinfo?.firstname}{' '}
@@ -83,6 +84,22 @@ function view() {
                   security settings, and manage your payments effortlessly.Make
                   your experience truly yours.
                 </h1>
+                <div className='flex items-center justify-center md:justify-start gap-4  lg:gap-6 '>
+                  <Link
+                    href='/Userprofile/edit'
+                    className='px-6  py-2 border  rounded-md text-xs lg:text-sm tracking-wide transition ease-in-out delay-150   hover:scale-110 border-babyblack hover:bg-indigo-500 duration-300 hover:text-white hover:border-none'
+                  >
+                    {' '}
+                    Edit Profile
+                  </Link>
+                  <Link
+                    href='/Userprofile/documents'
+                    className='px-6  py-2 border  rounded-md text-xs lg:text-sm tracking-wide transition ease-in-out delay-150   hover:scale-110 border-babyblack hover:bg-indigo-500 duration-300 hover:text-white hover:border-none'
+                  >
+                    {' '}
+                    Edit Documents
+                  </Link>
+                </div>
               </div>
             </div>
             {/* profile information */}

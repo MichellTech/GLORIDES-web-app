@@ -60,7 +60,7 @@ function Navbar() {
         }
       )
       .then(function (response) {
-        console.log(response.data.notifications)
+        // console.log(response.data.notifications)
       })
       .catch(function (error) {
         console.log(error)

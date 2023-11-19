@@ -9,9 +9,15 @@ import * as Yup from 'yup'
 import { RiDeleteBack2Fill } from 'react-icons/ri'
 import { LuImagePlus } from 'react-icons/lu'
 import Image from 'next/image'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { State, City } from 'country-state-city'
+
 function Enlistacar() {
   const [loading, setLoading] = useState(false)
   const [cardoors, setCardoors] = useState(['Two', 'Four', 'Six'])
+  const [carfeatures, setCarfeatures] = useState([])
   const fueltype = [
     { id: 1, value: 'PMS' },
     { id: 2, value: 'Electric' },
@@ -23,8 +29,8 @@ function Enlistacar() {
     { id: 2, value: '4' },
   ]
   const optiontype = [
-    { id: 1, value: 'Available' },
-    { id: 2, value: 'Not Available' },
+    { id: 1, value: 'true' },
+    { id: 2, value: 'false' },
   ]
   const geartype = [
     { id: 1, value: 'Automatic' },
@@ -62,90 +68,158 @@ function Enlistacar() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
 
-    // reset
-    // onSubmitProps.resetForm()
-    // router.push({
-    //   pathname: '/Auth/emailverification',
-    //   //  query: response.data.data.user,
-    // })
-    console.log(values)
+    enlistusercar(values, onSubmitProps.resetForm)
   }
   // validation
-  const validationSchema = Yup.object().shape({
-    carname: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No car name provided'),
-    carmodel: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No car model provided'),
-    plateno: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No plate number provided'),
-    doors: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No door option  provided'),
-    miles: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No miles data provided'),
-    fuel: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No Fuel Type Required'),
-    gear: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No gear type provided'),
-    seats: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('Number of seats not provided'),
-    pickup: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No pickup location provided'),
-    dropoff: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No drop off location provided'),
-    city: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No city provided'),
-    state: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No state provided'),
-    country: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No country provided'),
-    message: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No car description provided'),
-    cost: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No car rental cost provided'),
-    outside: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No Extra Cost provided'),
-    bluetooth: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('Bluetooth availability not specified'),
-    gps: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('GPS availability not specified'),
-    camera: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('Camera availability not specified'),
-    child: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('Child Seat availability not specified'),
-    heat: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('Heater availability not specified'),
-    tank: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No tank filling cost provided'),
-  })
-  // console.log(userimage)
+  // const validationSchema = Yup.object().shape({
+  //   carname: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No car name provided'),
+  //   carmodel: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No car model provided'),
+  //   plateno: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No plate number provided'),
+  //   doors: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No door option  provided'),
+  //   miles: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No miles data provided'),
+  //   fuel: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No Fuel Type Required'),
+  //   gear: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No gear type provided'),
+  //   seats: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('Number of seats not provided'),
+  //   pickup: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No pickup location provided'),
+  //   dropoff: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No drop off location provided'),
+  //   city: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No city provided'),
+  //   state: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No state provided'),
+  //   country: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No country provided'),
+  //   message: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No car description provided'),
+  //   cost: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No car rental cost provided'),
+  //   outside: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No Extra Cost provided'),
+  //   bluetooth: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('Bluetooth availability not specified'),
+  //   gps: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('GPS availability not specified'),
+  //   camera: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('Camera availability not specified'),
+  //   child: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('Child Seat availability not specified'),
+  //   heat: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('Heater availability not specified'),
+  //   tank: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No tank filling cost provided'),
+  // })
+  console.log(carfeatures)
+  const enlistusercar = (values, callback) => {
+    if (userimage.length < 2) {
+      toast.error('Please upload atleast six photos of your vehicle')
+      setLoading(false)
+    } else if (userimage2.length < 1) {
+      toast.error(
+        'Please upload atleast one supporting documentation for your vehicle'
+      )
+      setLoading(false)
+    } else {
+      console.log(values)
+      const formData = new FormData()
+      // const imagearray = userimage
+      // console.log(userimage, 'lkjs')
+      // for (let value of userimage) {
+      //   formData.append('images[]', JSON.stringify(value?.file))
+      // }
+
+      // const documentsarray = userimage2
+      // for (var i = 0; i < documentsarray.length; i++) {
+      //   formData.append('documents[]', documentsarray[i])
+      // }
+      for (const image of userimage) {
+        formData.append('images', image?.file)
+      }
+      for (const image of userimage2) {
+        formData.append('documents', image?.file)
+      }
+      // formData?.append('documents', JSON.stringify(values.userimage2))
+      formData?.append('car_name', values.carname)
+      formData?.append('car_model', values.carmodel)
+      formData?.append('plate_number', values.plateno)
+      formData?.append('pickup_location', values.pickup)
+      formData?.append('dropoff_location', values.dropoff)
+      formData?.append('rent_cost', values.cost)
+      formData?.append('tank_filling', values.tank)
+      formData?.append('state', values.state)
+      formData?.append('city', values.city)
+      formData?.append('car_doors', values.doors)
+      formData?.append('seats_number', values.seats)
+      formData?.append('miles', values.miles)
+      formData?.append('description', values.message)
+      formData?.append('fuel_type', values.fuel)
+      formData?.append('gear_type', values.gear)
+      formData?.append('outside_location_cost', values.outside)
+      formData?.append(
+        'features',
+        JSON.stringify([
+          { heater: values.heat },
+          { gps: values.gps },
+          { child: values.child },
+          { bluetooth: values.bluetooth },
+          { camera: values.camera },
+        ])
+      )
+      axios
+        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/list`, formData, {
+          headers: {
+            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
+          },
+        })
+        .then(function (response) {
+          console.log(response?.data)
+          setLoading(false)
+          setUserimage(null)
+          setUserimage2(null)
+          // router.push({
+          //   pathname: '/Host/fleet',
+          // })
+          toast.success(response?.data?.message)
+          callback()
+        })
+        .catch(function (error) {
+          toast.error(error?.response?.data?.message)
+          setLoading(false)
+          console.log(error)
+        })
+    }
+  }
   return (
     <>
       <Navbar />
@@ -163,7 +237,7 @@ function Enlistacar() {
             <Formik
               initialValues={initialValues}
               onSubmit={onSubmit}
-              validationSchema={validationSchema}
+              // validationSchema={validationSchema}
             >
               {(formik) => {
                 return (
@@ -304,24 +378,6 @@ function Enlistacar() {
                             <ErrorMessage name='dropoff' />
                           </div>
                         </div>
-                        {/* city */}
-                        <div className='space-y-2 w-full'>
-                          <label
-                            htmlFor=''
-                            className='text-xs lg:text-sm text-slate-500'
-                          >
-                            City
-                          </label>
-                          <Field
-                            type='text'
-                            name='city'
-                            placeholder='Houston'
-                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='city' />
-                          </div>
-                        </div>
                         {/* state */}
                         <div className='space-y-2 w-full'>
                           <label
@@ -330,16 +386,62 @@ function Enlistacar() {
                           >
                             State
                           </label>
+
                           <Field
-                            type='text'
+                            as='select'
+                            type='selectOption'
                             name='state'
-                            placeholder='Texas'
                             className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
-                          />
+                          >
+                            <option value=''>select State</option>
+                            {State.getStatesOfCountry('US')?.map(
+                              (item, index) => {
+                                return (
+                                  <option key={index} value={item.name}>
+                                    {item.name}
+                                  </option>
+                                )
+                              }
+                            )}
+                          </Field>
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='state' />
                           </div>
                         </div>
+                        {/* city */}
+                        <div className='space-y-2 w-full'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
+                            City
+                          </label>
+
+                          <Field
+                            as='select'
+                            type='selectOption'
+                            name='city'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                          >
+                            <option value=''>select City</option>
+                            {City.getCitiesOfState(
+                              'US',
+                              State.getStatesOfCountry('US')?.filter(
+                                (i) => i?.name === formik?.values?.state
+                              )?.[0]?.isoCode
+                            )?.map((item, index) => {
+                              return (
+                                <option key={index} value={item.name}>
+                                  {item.name}
+                                </option>
+                              )
+                            })}
+                          </Field>
+                          <div className='text-softRed text-xs mt-1 px-4'>
+                            <ErrorMessage name='city' />
+                          </div>
+                        </div>
+
                         {/*country */}
                         {/* <div className='space-y-2 w-full '>
                           <label htmlFor='' className='text-xs lg:text-sm'>
@@ -704,7 +806,7 @@ function Enlistacar() {
                       {/* photos */}
                       <div className='flex justify-between items-start gap-4 pt-4 px-4 sm:px-6 md:px-8 '>
                         <div className='flex flex-wrap  gap-6  lg:gap-5  items-center'>
-                          {userimage.map((item, index) => {
+                          {userimage?.map((item, index) => {
                             return (
                               <div key={index} className='col-span-full'>
                                 {!item.file ? (
@@ -988,7 +1090,7 @@ function Enlistacar() {
                       >
                         {loading ? (
                           <div className='flex justify-center gap-2 items-center'>
-                            <ImSpinner className='animate-spin' />
+                            <div className='spinner'></div>
                             Uploading...
                           </div>
                         ) : (

@@ -20,7 +20,7 @@ function Profilecomp() {
           >
             My Profile
           </Link>
-          <Link
+          {/* <Link
             href='/Userprofile/edit'
             className={`${
               router.pathname === '/Userprofile/edit'
@@ -39,7 +39,7 @@ function Profilecomp() {
             }`}
           >
             Documents
-          </Link>
+          </Link> */}
           <Link
             href='/Userprofile/payment'
             className={`${

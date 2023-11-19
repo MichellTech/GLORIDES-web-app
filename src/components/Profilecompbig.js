@@ -25,7 +25,7 @@ function Profilecompbig() {
             <h1 className='text-sm  xl:text-base'>My Profile</h1>
           </div>
         </Link>
-        <Link
+        {/* <Link
           href='/Userprofile/edit'
           className={`${
             router.pathname === '/Userprofile/edit'
@@ -51,7 +51,7 @@ function Profilecompbig() {
             <GrDocumentText className='text-xl' />
             <h1 className='text-sm  xl:text-base'>Documents</h1>
           </div>
-        </Link>
+        </Link> */}
         <Link
           href='/Userprofile/payment'
           className={`${

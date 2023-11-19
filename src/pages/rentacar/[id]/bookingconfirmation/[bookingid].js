@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react'
 import { useRouter } from 'next/router'
-import { cars } from '../../../../utilis/Cardata'
 import Navbar from '@/components/Navigation/Navbar'
 import Footer from '@/components/Navigation/Footer'
-import Image from 'next/image'
-import { ImSpinner } from 'react-icons/im'
+import { useSelector, useDispatch } from 'react-redux'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import DatePicker from 'react-datepicker'
@@ -23,11 +21,11 @@ import { TbClockSearch } from 'react-icons/tb'
 
 function Booking() {
   const router = useRouter()
-
+  const { allsearchedcars } = useSelector((store) => store.rental)
   const carId = router.query.id
 
   const singlecar = useMemo(
-    () => cars.filter((item) => item.id === Number(carId))?.[0],
+    () => allsearchedcars?.filter((item) => item._id === carId),
     [carId]
   )
   const initialValues = {
@@ -156,7 +154,9 @@ function Booking() {
                                         {' '}
                                         Tank Filling
                                       </h1>
-                                      <p className='text-xs'>$30</p>
+                                      <p className='text-xs'>
+                                        ${singlecar?.[0]?.tank_filling?.amount}
+                                      </p>
                                     </div>
                                   </label>
                                 </div>
@@ -198,7 +198,7 @@ function Booking() {
                                   htmlFor='hostaddress'
                                   className='text-xs md:text-sm'
                                 >
-                                  No 6 Awoya Street, Ajah, Lagos, Nigeria
+                                  {singlecar?.[0]?.pickup_location}
                                 </label>
                               </div>
                               {/* select addreee */}
@@ -240,7 +240,9 @@ function Booking() {
                           <h1 className='text-[0.6rem] text-red-500 lg:text-xs'>
                             Be advised that inputing your own address will
                             attract an additional cost of{' '}
-                            <span className='font-bold'>$40</span>
+                            <span className='font-bold'>
+                              $ {singlecar?.[0]?.outside_location_cost}
+                            </span>
                           </h1>
                         </div>
                       ) : null}
@@ -394,7 +396,9 @@ function Booking() {
                       {/* one */}
                       <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
                         <h1 className='text-xs xl:text-sm'>Rent Cost</h1>
-                        <h1 className='text-xs xl:text-sm font-bold'>$ 100</h1>
+                        <h1 className='text-xs xl:text-sm font-bold'>
+                          $ {singlecar?.[0]?.rent_cost}
+                        </h1>
                       </div>
                       {/* two */}
                       <div className='w-full  flex justify-between items-center gap-2   border-b pb-4'>
@@ -410,7 +414,7 @@ function Booking() {
                         <h1 className='text-xs xl:text-sm'>Tank Filling</h1>
                         <h1 className='text-xs xl:text-sm  font-bold'>
                           {formik.values.extraservices.includes('tank')
-                            ? '$30'
+                            ? singlecar?.[0]?.tank_filling.amount
                             : '0'}
                         </h1>
                       </div>

@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   isFiltering: false,
+  allsearchedcars: [],
 }
 
 const filterSlice = createSlice({
@@ -14,7 +15,11 @@ const filterSlice = createSlice({
     closeFilter: (state) => {
       state.isFiltering = false
     },
+    setAllsearchedcars: (state, action) => {
+      state.allsearchedcars = action.payload
+    },
   },
 })
-export const { openFilter, closeFilter } = filterSlice.actions
+export const { openFilter, closeFilter, setAllsearchedcars, allsearchedcars } =
+  filterSlice.actions
 export default filterSlice.reducer
