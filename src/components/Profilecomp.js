@@ -14,34 +14,15 @@ function Profilecomp() {
             href='/userprofile/view'
             className={`${
               router.pathname === '/userprofile/view' ||
-              '/userprofile/edit' ||
-              '/userprofile/documents'
+              router.pathname === '/userprofile/edit' ||
+              router.pathname === '/userprofile/documents'
                 ? 'border-b-4  rounded-sm border-babypurple pb-3 font-bold text-babypurple '
                 : '  rounded-sm  pb-3 '
             }`}
           >
             My Profile
           </Link>
-          {/* <Link
-            href='/userprofile/edit'
-            className={`${
-              router.pathname === '/userprofile/edit'
-                ? 'border-b-4  rounded-sm border-babypurple pb-3 font-bold  text-babypurple '
-                : '  rounded-sm  pb-3 '
-            }`}
-          >
-            Edit Profile
-          </Link>
-          <Link
-            href='/userprofile/documents'
-            className={`${
-              router.pathname === '/userprofile/documents'
-                ? 'border-b-4  rounded-sm border-babypurple pb-3 font-bold  text-babypurple '
-                : '  rounded-sm  pb-3 '
-            }`}
-          >
-            Documents
-          </Link> */}
+
           <Link
             href='/userprofile/payment'
             className={`${

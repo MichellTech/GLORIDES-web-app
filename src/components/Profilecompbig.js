@@ -16,8 +16,8 @@ function Profilecompbig() {
           href='/userprofile/view'
           className={`${
             router.pathname === '/userprofile/view' ||
-            '/userprofile/edit' ||
-            '/userprofile/documents'
+            router.pathname === '/userprofile/edit' ||
+            router.pathname === '/userprofile/documents'
               ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
               : '  rounded-sm  py-3 px-4  '
           }`}
@@ -27,33 +27,7 @@ function Profilecompbig() {
             <h1 className='text-sm  xl:text-base'>My Profile</h1>
           </div>
         </Link>
-        {/* <Link
-          href='/userprofile/edit'
-          className={`${
-            router.pathname === '/userprofile/edit'
-              ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
-              : '  rounded-sm  py-3 px-4  '
-          }`}
-        >
-          <div className='flex items-center gap-4 '>
-            <FiUserPlus className='text-xl' />
-            <h1 className='text-sm  xl:text-base'>Edit Profile</h1>
-          </div>
-        </Link>
 
-        <Link
-          href='/userprofile/documents'
-          className={`${
-            router.pathname === '/userprofile/documents'
-              ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
-              : '  rounded-sm  py-3 px-4  '
-          }`}
-        >
-          <div className='flex items-center gap-4 '>
-            <GrDocumentText className='text-xl' />
-            <h1 className='text-sm  xl:text-base'>Documents</h1>
-          </div>
-        </Link> */}
         <Link
           href='/userprofile/payment'
           className={`${
