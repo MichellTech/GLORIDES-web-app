@@ -79,7 +79,7 @@ function Returnvehicle() {
                 <div
                   onClick={() => {
                     router.push({
-                      pathname: `/Renthistory/${carId}`,
+                      pathname: `/renthistory/${carId}`,
                     })
                   }}
                   className='flex items-center gap-2 cursor-pointer'

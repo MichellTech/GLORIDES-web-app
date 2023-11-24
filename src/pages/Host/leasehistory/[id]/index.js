@@ -26,7 +26,7 @@ function Rentedcar() {
         {/* body */}
         <div className='max-w-md sm:max-w-lg mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-6 lg:space-y-10   pb-10  '>
           {/* back */}
-          <Link href='/Host/leasehistory'>
+          <Link href='/host/leasehistory'>
             <div className='flex items-center gap-2 cursor-pointer'>
               <MdKeyboardBackspace className='lg:text-2xl' />
               <h1 className='text-sm  lg:text-base font-bold'>Lease history</h1>

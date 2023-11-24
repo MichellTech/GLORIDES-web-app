@@ -40,7 +40,7 @@ function Forgotpassword() {
         console.log(response)
         setLoading(false)
         router.push({
-          pathname: '/Auth/forgotpasswordemailverification',
+          pathname: '/auth/forgotpasswordemailverification',
           query: { userEmail: values.email },
         })
         toast.success(response.data.message)

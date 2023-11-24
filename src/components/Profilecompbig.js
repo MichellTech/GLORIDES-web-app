@@ -13,9 +13,11 @@ function Profilecompbig() {
     <div className='bg-white py-6 '>
       <div className='flex flex-col space-y-2 text-sm  '>
         <Link
-          href='/Userprofile/view'
+          href='/userprofile/view'
           className={`${
-            router.pathname === '/Userprofile/view'
+            router.pathname === '/userprofile/view' ||
+            '/userprofile/edit' ||
+            '/userprofile/documents'
               ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
               : '  rounded-sm  py-3 px-4  '
           }`}
@@ -26,9 +28,9 @@ function Profilecompbig() {
           </div>
         </Link>
         {/* <Link
-          href='/Userprofile/edit'
+          href='/userprofile/edit'
           className={`${
-            router.pathname === '/Userprofile/edit'
+            router.pathname === '/userprofile/edit'
               ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
               : '  rounded-sm  py-3 px-4  '
           }`}
@@ -40,9 +42,9 @@ function Profilecompbig() {
         </Link>
 
         <Link
-          href='/Userprofile/documents'
+          href='/userprofile/documents'
           className={`${
-            router.pathname === '/Userprofile/documents'
+            router.pathname === '/userprofile/documents'
               ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
               : '  rounded-sm  py-3 px-4  '
           }`}
@@ -53,9 +55,9 @@ function Profilecompbig() {
           </div>
         </Link> */}
         <Link
-          href='/Userprofile/payment'
+          href='/userprofile/payment'
           className={`${
-            router.pathname === '/Userprofile/payment'
+            router.pathname === '/userprofile/payment'
               ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
               : '  rounded-sm  py-3 px-4 '
           }`}
@@ -66,9 +68,9 @@ function Profilecompbig() {
           </div>
         </Link>
         <Link
-          href='/Userprofile/password'
+          href='/userprofile/password'
           className={`${
-            router.pathname === '/Userprofile/password'
+            router.pathname === '/userprofile/password'
               ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
               : '  rounded-sm  py-3 px-4 '
           }`}
@@ -80,9 +82,9 @@ function Profilecompbig() {
         </Link>
         {hosting && (
           <Link
-            href='/Userprofile/pin'
+            href='/userprofile/pin'
             className={`${
-              router.pathname === '/Userprofile/pin'
+              router.pathname === '/userprofile/pin'
                 ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
                 : '  rounded-sm  py-3 px-4 '
             }`}
@@ -95,9 +97,9 @@ function Profilecompbig() {
         )}
         {hosting && (
           <Link
-            href='/Userprofile/accounts'
+            href='/userprofile/accounts'
             className={`${
-              router.pathname === '/Userprofile/accounts'
+              router.pathname === '/userprofile/accounts'
                 ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
                 : '  rounded-sm  py-3 px-4  '
             }`}

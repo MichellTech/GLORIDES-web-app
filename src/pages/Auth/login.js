@@ -53,7 +53,7 @@ function Login() {
         if (response.data.user.isVerified === false) {
           setLoading(false)
           router.push({
-            pathname: '/Auth/emailverification',
+            pathname: '/auth/emailverification',
             query: { userEmail: response.data.user.email },
           })
         } else if (response.data.user.isCompleted === false) {
@@ -62,7 +62,7 @@ function Login() {
             JSON.stringify(response.data.user.token)
           )
           router.push({
-            pathname: '/Auth/completeregistration',
+            pathname: '/auth/completeregistration',
           })
         } else {
           setLoading(false)
@@ -162,7 +162,7 @@ function Login() {
                         </div>
                         {/* remember me and forgot password */}
                         <div className=' flex justify-end'>
-                          <Link href='/Auth/forgotpassword'>
+                          <Link href='/auth/forgotpassword'>
                             <h1 className='text-xs font-bold text-left'>
                               Forgot Password ?
                             </h1>
@@ -193,7 +193,7 @@ function Login() {
           {/* link to signup */}
           <h1 className='text-center  text-xs sm:text-sm lg:text-base  text-white font-sans  mx-auto'>
             Dont have an account?{' '}
-            <Link href='/Auth/signup'>
+            <Link href='/auth/signup'>
               <span className='underline font-bold tracking-wider cursor-pointer'>
                 {' '}
                 Register
@@ -207,3 +207,8 @@ function Login() {
 }
 
 export default Login
+
+// select {
+// -webkit-appearance: none;
+// -moz-appearance: none;
+// }

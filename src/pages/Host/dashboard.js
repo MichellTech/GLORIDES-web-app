@@ -44,7 +44,7 @@ function Dashboard() {
                 </p>
                 <div className='flex items-center gap-4 lg:gap-6  pb-4 xl:pb-6'>
                   <Link
-                    href='/Host/enlistacar'
+                    href='/host/enlistacar'
                     className='px-6  py-2 border  rounded-md text-xs lg:text-sm tracking-wide transition ease-in-out delay-150   hover:scale-110 border-babyblack hover:bg-indigo-500 duration-300 hover:text-white hover:border-none'
                   >
                     {' '}
@@ -158,7 +158,7 @@ function Dashboard() {
                         Lease History
                       </h1>
                       <Link
-                        href='/Host/leasehistory'
+                        href='/host/leasehistory'
                         className='px-4 py-1 rounded-full border text-xs hover:bg-softpurple hover:border-none lg:text-sm'
                       >
                         View All
@@ -238,7 +238,7 @@ function Dashboard() {
                         Transactional Records
                       </h1>
                       <Link
-                        href='/Host/transactionhistory'
+                        href='/host/transactionhistory'
                         className='px-4 py-1 rounded-full border text-xs hover:bg-softpurple hover:border-none lg:text-sm'
                       >
                         View All

@@ -73,7 +73,7 @@ function Paymentcomp() {
                   </label>
                   {userAccount.length < 1 && (
                     <Link
-                      href='/Userprofile/accounts'
+                      href='/userprofile/accounts'
                       className='text-xs lg:text-sm text-babypurple font-bold cursor-pointer'
                     >
                       {' '}

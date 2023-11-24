@@ -166,7 +166,7 @@ function Editcardetails() {
           <button
             onClick={() => {
               router.push({
-                pathname: `/Host/fleet/${carId}`,
+                pathname: `/host/fleet/${carId}`,
               })
             }}
           >
@@ -1017,7 +1017,7 @@ function Editcardetails() {
                       <div
                         onClick={() => {
                           router.push({
-                            pathname: `/Host/fleet/${carId}`,
+                            pathname: `/host/fleet/${carId}`,
                           })
                         }}
                         className='border  border-babyblack text-babyblack px-4 py-2 sm:py-3   rounded-md w-full  text-sm lg:text-base xl:text-lg text-center transition ease-in-out delay-150  hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white cursor-pointer'

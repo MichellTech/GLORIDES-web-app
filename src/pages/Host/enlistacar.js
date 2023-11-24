@@ -226,7 +226,7 @@ function Enlistacar() {
       <section className='bg-[#F5F5F5] bg-opacity-50   w-full pt-10 xl:pt-16 '>
         <div className='max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-6 lg:space-y-10   pb-10  '>
           {/* back */}
-          <Link href='/Host/fleet'>
+          <Link href='/host/fleet'>
             <div className='flex items-center gap-2 cursor-pointer'>
               <MdKeyboardBackspace className='lg:text-2xl' />
               <h1 className='text-sm  lg:text-base font-bold'>Back to Fleet</h1>
@@ -1098,7 +1098,7 @@ function Enlistacar() {
                         )}
                       </button>
                       <Link
-                        href='/Host/fleet'
+                        href='/host/fleet'
                         className='border  border-babyblack text-babyblack px-4 py-2 sm:py-3   rounded-md w-full  text-sm lg:text-base xl:text-lg text-center transition ease-in-out delay-150  hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white '
                       >
                         Cancel

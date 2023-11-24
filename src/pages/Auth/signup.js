@@ -82,7 +82,7 @@ function Signup() {
           JSON.stringify(response.data.user.token)
         )
         router.push({
-          pathname: '/Auth/emailverification',
+          pathname: '/auth/emailverification',
           query: { userEmail: response.data.user.email },
         })
 
@@ -260,7 +260,7 @@ function Signup() {
           {/* link to signup */}
           <h1 className='text-center  text-xs sm:text-sm lg:text-base  text-white font-sans  mx-auto'>
             Do you have an account with us ?{' '}
-            <Link href='/Auth/login'>
+            <Link href='/auth/login'>
               <span className='underline font-bold tracking-wider cursor-pointer'>
                 {' '}
                 Login

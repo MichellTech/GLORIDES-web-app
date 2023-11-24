@@ -11,9 +11,11 @@ function Profilecomp() {
       <div className='relative example  overflow-y-auto w-max sm:w-full px-6 '>
         <div className='flex space-x-10 text-sm '>
           <Link
-            href='/Userprofile/view'
+            href='/userprofile/view'
             className={`${
-              router.pathname === '/Userprofile/view'
+              router.pathname === '/userprofile/view' ||
+              '/userprofile/edit' ||
+              '/userprofile/documents'
                 ? 'border-b-4  rounded-sm border-babypurple pb-3 font-bold text-babypurple '
                 : '  rounded-sm  pb-3 '
             }`}
@@ -21,9 +23,9 @@ function Profilecomp() {
             My Profile
           </Link>
           {/* <Link
-            href='/Userprofile/edit'
+            href='/userprofile/edit'
             className={`${
-              router.pathname === '/Userprofile/edit'
+              router.pathname === '/userprofile/edit'
                 ? 'border-b-4  rounded-sm border-babypurple pb-3 font-bold  text-babypurple '
                 : '  rounded-sm  pb-3 '
             }`}
@@ -31,9 +33,9 @@ function Profilecomp() {
             Edit Profile
           </Link>
           <Link
-            href='/Userprofile/documents'
+            href='/userprofile/documents'
             className={`${
-              router.pathname === '/Userprofile/documents'
+              router.pathname === '/userprofile/documents'
                 ? 'border-b-4  rounded-sm border-babypurple pb-3 font-bold  text-babypurple '
                 : '  rounded-sm  pb-3 '
             }`}
@@ -41,9 +43,9 @@ function Profilecomp() {
             Documents
           </Link> */}
           <Link
-            href='/Userprofile/payment'
+            href='/userprofile/payment'
             className={`${
-              router.pathname === '/Userprofile/payment'
+              router.pathname === '/userprofile/payment'
                 ? 'border-b-4 font-bold   rounded-sm border-babypurple pb-3 text-babypurple '
                 : '  rounded-sm  pb-3 '
             }`}
@@ -51,9 +53,9 @@ function Profilecomp() {
             Payment Cards
           </Link>
           <Link
-            href='/Userprofile/password'
+            href='/userprofile/password'
             className={`${
-              router.pathname === '/Userprofile/password'
+              router.pathname === '/userprofile/password'
                 ? 'border-b-4 font-bold   rounded-sm border-babypurple pb-3 text-babypurple '
                 : '  rounded-sm  pb-3 '
             }`}
@@ -62,9 +64,9 @@ function Profilecomp() {
           </Link>
           {hosting && (
             <Link
-              href='/Userprofile/pin'
+              href='/userprofile/pin'
               className={`${
-                router.pathname === '/Userprofile/pin'
+                router.pathname === '/userprofile/pin'
                   ? 'border-b-4  font-bold  rounded-sm border-babypurple pb-3 text-babypurple '
                   : '  rounded-sm  pb-3 '
               }`}
@@ -74,9 +76,9 @@ function Profilecomp() {
           )}
           {hosting && (
             <Link
-              href='/Userprofile/accounts'
+              href='/userprofile/accounts'
               className={`${
-                router.pathname === '/Userprofile/accounts'
+                router.pathname === '/userprofile/accounts'
                   ? 'border-b-4 font-bold  rounded-sm border-babypurple pb-3 text-babypurple '
                   : '  rounded-sm  pb-3 '
               }`}

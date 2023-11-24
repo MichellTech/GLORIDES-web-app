@@ -35,7 +35,7 @@ function Rentedcar() {
         {/* body */}
         <div className='max-w-md sm:max-w-lg mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-6 lg:space-y-10   pb-10  '>
           {/* back */}
-          <Link href='/Renthistory'>
+          <Link href='/renthistory'>
             <div className='flex items-center gap-2 cursor-pointer'>
               <MdKeyboardBackspace className='lg:text-2xl' />
               <h1 className='text-sm  lg:text-base font-bold'>Rent history</h1>
@@ -211,7 +211,7 @@ function Rentedcar() {
                   <button
                     onClick={() => {
                       router.push({
-                        pathname: `/Renthistory/${singlecar.id}/returnvehicle/${singlecar.id}`,
+                        pathname: `/renthistory/${singlecar.id}/returnvehicle/${singlecar.id}`,
                       })
                     }}
                     className='bg-babypurple px-5 py-3 w-full text-xs md:px-2 text-white rounded-sm transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white'

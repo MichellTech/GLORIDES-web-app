@@ -155,7 +155,7 @@ function Leasehistory() {
                         <tr
                           onClick={() => {
                             router.push({
-                              pathname: `/Host/leasehistory/${item.id}`,
+                              pathname: `/host/leasehistory/${item.id}`,
                             })
                           }}
                           key={index}
@@ -243,7 +243,7 @@ function Leasehistory() {
                             <button
                               onClick={() => {
                                 router.push({
-                                  pathname: `/Host/leasehistory/${item.id}`,
+                                  pathname: `/host/leasehistory/${item.id}`,
                                 })
                               }}
                               className='bg-babypurple px-2 py-2  w-full text-xs text-white rounded-md cursor-pointer hover:shadow-lg'

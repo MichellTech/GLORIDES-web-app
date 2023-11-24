@@ -73,7 +73,7 @@ function Forgotpasswordemailverification() {
         console.log(response)
         setLoading(false)
         router.push({
-          pathname: '/Auth/login',
+          pathname: '/auth/login',
         })
         toast.success(response.data.message)
       })

@@ -35,7 +35,7 @@ function index() {
           {/* overvall body */}
           <div className='max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-5xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-6 lg:space-y-10   pb-10 '>
             {/* back */}
-            <Link href='/Host/fleet'>
+            <Link href='/host/fleet'>
               <div className='flex items-center gap-2 cursor-pointer'>
                 <MdKeyboardBackspace className='lg:text-2xl' />
                 <h1 className='text-sm  lg:text-base font-bold'>All Cars</h1>
@@ -51,7 +51,7 @@ function index() {
                 <button
                   onClick={() => {
                     router.push({
-                      pathname: `/Host/fleet/${singlecar.id}/editcardetails/${singlecar.id}`,
+                      pathname: `/host/fleet/${singlecar.id}/editcardetails/${singlecar.id}`,
                     })
                   }}
                   className='px-2 sm:px-4 lg:px-6  py-2 lg:py-3  rounded-md border border-indigo-500 text-xs md:text-sm xl:text-base  hover:bg-indigo-500 hover:text-white hover:duration-500  shadow-md hover:shadow-xl'

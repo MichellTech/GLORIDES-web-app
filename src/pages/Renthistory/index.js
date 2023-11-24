@@ -158,7 +158,7 @@ function Index() {
                               <button
                                 onClick={() => {
                                   router.push({
-                                    pathname: `/Renthistory/${item.id}`,
+                                    pathname: `/renthistory/${item.id}`,
                                   })
                                 }}
                                 className='bg-babypurple px-2 py-2 lg:py-3 w-full text-xs text-white rounded-md cursor-pointer hover:shadow-lg'

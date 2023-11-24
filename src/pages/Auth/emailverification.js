@@ -52,7 +52,7 @@ function Emailverification() {
         console.log(response.data)
         setLoading(false)
         router.push({
-          pathname: '/Auth/completeregistration',
+          pathname: '/auth/completeregistration',
         })
         toast.success(response.data.message)
       })

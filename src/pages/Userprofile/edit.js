@@ -7,21 +7,24 @@ import { MdOutlineAddAPhoto } from 'react-icons/md'
 import { useRouter } from 'next/router'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-
 import 'react-datepicker/dist/react-datepicker.css'
 import { FileUploader } from 'react-drag-drop-files'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import moment from 'moment'
 import axios from 'axios'
+import { useSelector, useDispatch } from 'react-redux'
+import { setUserprofiledetails } from '@/features/profile/userprofileSlice'
+import Link from 'next/link'
 
 function Editprofile() {
   const [loading, setLoading] = useState(false)
   const [userimage, setUserimage] = useState(null)
   const [imagetoupload, setImagetoupload] = useState(null)
   const [usergender, setUsergender] = useState(['male', 'female', 'others'])
-  const [userinfo, setUserinfo] = useState(null)
+  const { userprofile } = useSelector((store) => store.profile)
   const router = useRouter()
+  const dispatch = useDispatch()
   const getuserprofile = () => {
     axios
       .post(
@@ -36,7 +39,7 @@ function Editprofile() {
       .then(function (response) {
         console.log(response.data)
         setLoading(false)
-        setUserinfo(response.data.user)
+        dispatch(setUserprofiledetails(response?.data?.user))
       })
       .catch(function (error) {
         setLoading(false)
@@ -45,36 +48,26 @@ function Editprofile() {
   }
 
   useEffect(() => {
-    getuserprofile()
+    if (userprofile === null) {
+      getuserprofile()
+    }
   }, [])
-  console.log(userinfo)
+
   const fileTypes = ['JPG', 'JPEG', 'PNG']
   const initialValues = {
-    firstname: userinfo?.firstname,
-    lastname: userinfo?.lastname,
-    phone: userinfo?.phone_number,
-    gender: userinfo?.gender,
-    address: userinfo?.full_address,
-    city: userinfo?.city,
-    state: userinfo?.state,
+    firstname: userprofile?.firstname,
+    lastname: userprofile?.lastname,
+    phone: userprofile?.phone_number,
+    gender: userprofile?.gender,
+    address: userprofile?.full_address,
+    city: userprofile?.city,
+    state: userprofile?.state,
   }
 
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
 
-    // reset
-    // onSubmitProps.resetForm()
-    //  router.push({
-    //    pathname: '/Auth/emailverification',
-    //    //  query: response.data.data.user,
-    //  })
-    //  console.log(values)
     updateprofile(values)
   }
   // validation
@@ -119,7 +112,7 @@ function Editprofile() {
         setLoading(false)
         toast.success(response?.data?.message)
         router.push({
-          pathname: '/Userprofile/view',
+          pathname: '/userprofile/view',
         })
       })
       .catch(function (error) {
@@ -179,8 +172,8 @@ function Editprofile() {
                           />
                         ) : (
                           <Image
-                            src={userinfo?.profile_picture.url}
-                            alt={userinfo?.profile_picture.name}
+                            src={userprofile?.profile_picture?.url}
+                            alt={userprofile?.profile_picture?.name}
                             width={1000}
                             height={1000}
                             className='object-cover  w-32  lg:w-40   h-32  lg:h-40 rounded-full'
@@ -205,7 +198,7 @@ function Editprofile() {
                         </h1>
                         <p className='  border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
                           {' '}
-                          {moment(userinfo?.date_of_birth).format(
+                          {moment(userprofile?.date_of_birth).format(
                             'MMMM Do YYYY'
                           )}
                         </p>
@@ -283,7 +276,7 @@ function Editprofile() {
                           Email
                         </h1>
                         <p className='  border w-full py-2  px-4  text-xs placeholder:text-xs bg-babygrey bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'>
-                          {userinfo?.email}
+                          {userprofile?.email}
                         </p>
                       </div>
                       {/* phone*/}
@@ -372,19 +365,27 @@ function Editprofile() {
                     </div>
                   </div>
 
-                  <button
-                    type='submit'
-                    className='bg-babypurple text-white px-6 py-2 lg:py-3   rounded-md flex justify-center items-center mx-auto text-sm md:w-full max-w-xs shadow-md'
-                  >
-                    {loading ? (
-                      <div className='flex justify-center gap-2 items-center  '>
-                        <div className='spinner'></div>
-                        Updating...
-                      </div>
-                    ) : (
-                      'Update Profile'
-                    )}
-                  </button>
+                  <div className='flex flex-col sm:flex-row   justify-center items-center gap-4 lg:gap-8'>
+                    <button
+                      type='submit'
+                      className='bg-babypurple text-white px-6 py-2 lg:py-3 xl:py-4    rounded-md flex justify-center items-center mx-auto text-sm xl:text-base  w-full shadow-md'
+                    >
+                      {loading ? (
+                        <div className='flex justify-center gap-2 items-center  '>
+                          <div className='spinner'></div>
+                          Updating...
+                        </div>
+                      ) : (
+                        'Update Profile'
+                      )}
+                    </button>
+                    <Link
+                      href='/userprofile/view'
+                      className='bg-softpurple text-babyblack  px-6 py-2 lg:py-3 xl:py-4   rounded-md flex justify-center items-center xl:text-base text-sm w-full shadow-md'
+                    >
+                      Cancel
+                    </Link>
+                  </div>
                 </Form>
               )
             }}

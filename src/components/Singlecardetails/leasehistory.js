@@ -93,7 +93,7 @@ function Userleasehistory() {
                         <tr
                           onClick={() => {
                             router.push({
-                              pathname: `/Host/leasehistory/${item.id}`,
+                              pathname: `/host/leasehistory/${item.id}`,
                             })
                           }}
                           key={index}

@@ -105,7 +105,7 @@ function Transactionhistory() {
               {/* mobile withdrawa */}
               <div className='w-full'>
                 <Link
-                  href='/Host/withdraw'
+                  href='/host/withdraw'
                   className='bg-babypurple md:hidden px-6 py-2 sm:py-3 text-white rounded-md text-xs lg:text-sm shadow-md transition ease-in-out delay-150    hover:bg-indigo-500 duration-300 hover:border-none hover:text-white w-full flex justify-center items-center '
                 >
                   Make a Withdrawal

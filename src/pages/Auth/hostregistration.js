@@ -33,7 +33,7 @@ function Hostregistration() {
     // reset
     // onSubmitProps.resetForm()
     router.push({
-      pathname: '/Auth/emailverification',
+      pathname: '/auth/emailverification',
       //  query: response.data.data.user,
     })
     console.log(values)

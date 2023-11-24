@@ -14,6 +14,7 @@ import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
 import { logIN } from '@/features/userpersona/userSlice'
 import { phone } from 'phone'
+import Link from 'next/link'
 
 function Completeregistration() {
   const [loading, setLoading] = useState(false)
@@ -499,7 +500,7 @@ function Completeregistration() {
           {/* link to signup */}
           <h1 className='text-center  text-xs sm:text-sm lg:text-base  text-white font-sans  mx-auto'>
             Do you have an account with us ?{' '}
-            <Link href='/Auth/login'>
+            <Link href='/auth/login'>
               <span className='underline font-bold tracking-wider cursor-pointer'>
                 {' '}
                 Login

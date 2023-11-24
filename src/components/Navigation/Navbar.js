@@ -201,7 +201,7 @@ function Navbar() {
             </ul>
             <ul
               className={`${
-                router.pathname === '/Renthistory' && isUserLogedin
+                router.pathname === '/renthistory' && isUserLogedin
                   ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
                   : router.pathname === '/partnerwithus' && !isUserLogedin
                   ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
@@ -209,7 +209,7 @@ function Navbar() {
               }`}
             >
               {isUserLogedin ? (
-                <Link href='/Renthistory'>Rent History</Link>
+                <Link href='/renthistory'>Rent History</Link>
               ) : (
                 <Link href='/partnerwithus'>Partner with Us</Link>
               )}
@@ -240,7 +240,7 @@ function Navbar() {
                     : 'sm:px-2 md:px-4 lg:px-6 py-2 lg:py-3 text-babypurple    rounded-md border border-babypurple cursor-pointer hidden md:flex md:justify-center md:items-center md:gap-1 transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 hover:border-none hover:text-white'
                 }`}
               >
-                <Link href='/Auth/signup'>
+                <Link href='/auth/signup'>
                   <p className='text-xs md:text-sm'>Sign Up</p>
                 </Link>
               </div>
@@ -251,7 +251,7 @@ function Navbar() {
                     : 'sm:px-2 md:px-4 lg:px-8 py-2 lg:py-3 text-white    rounded-md bg-babypurple cursor-pointer hidden md:flex md:justify-center md:items-center transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300  '
                 }`}
               >
-                <Link href='/Auth/login'>
+                <Link href='/auth/login'>
                   <p className='text-xs md:text-sm'>Login</p>
                 </Link>
               </div>
@@ -422,7 +422,7 @@ function Navbar() {
                   </div>
                   {/* link */}
                   <Link
-                    href='/Userprofile/view'
+                    href='/userprofile/view'
                     className='bg-babypurple px-2 md:px-3   py-1 md:py-2 rounded'
                   >
                     <h1 className='text-white text-xs xl:text-sm text-center w-max'>
@@ -450,7 +450,7 @@ function Navbar() {
                         onClick={() => {
                           dispatch(switchToHost()),
                             router.push({
-                              pathname: '/Host/dashboard',
+                              pathname: '/host/dashboard',
                             })
                         }}
                         className={`${
@@ -519,7 +519,7 @@ function Navbar() {
                   </Link>
                   {/* rent history */}
                   <Link
-                    href='/Renthistory'
+                    href='/renthistory'
                     className='flex md:hidden  items-center gap-4 '
                   >
                     <HiOutlineDocumentText className='lg:text-2xl ' />
@@ -536,7 +536,7 @@ function Navbar() {
                     onClick={() => {
                       dispatch(logOut()),
                         router.push({
-                          pathname: '/Auth/login',
+                          pathname: '/auth/login',
                         })
                     }}
                     className='flex  items-center gap-4 cursor-pointer '
@@ -635,7 +635,7 @@ function Navbar() {
           {/* <!-- Logo --> */}
           <div className='z-30 '>
             {bg ? (
-              <Link href='/Host/dashboard'>
+              <Link href='/host/dashboard'>
                 {' '}
                 <div className='flex items-center gap-2 cursor-pointer'>
                   <div className='  relative '>
@@ -653,7 +653,7 @@ function Navbar() {
                 </div>
               </Link>
             ) : (
-              <Link href='/Host/dashboard'>
+              <Link href='/host/dashboard'>
                 {' '}
                 <div className='flex items-center gap-2 cursor-pointer'>
                   <div className='  relative '>
@@ -682,12 +682,12 @@ function Navbar() {
           >
             <ul
               className={`${
-                router.pathname === '/Host/dashboard'
+                router.pathname === '/host/dashboard'
                   ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
                   : 'text-xs md:text-sm cursor-pointer xl:text-base '
               }`}
             >
-              <Link href='/Host/dashboard'>Dashboard</Link>
+              <Link href='/host/dashboard'>Dashboard</Link>
             </ul>
             <ul
               className={`${
@@ -696,25 +696,25 @@ function Navbar() {
                   : 'text-xs md:text-sm cursor-pointer xl:text-base '
               }`}
             >
-              <Link href='/Host/transactionhistory'>Transaction History</Link>
+              <Link href='/host/transactionhistory'>Transaction History</Link>
             </ul>
             <ul
               className={`${
-                router.pathname === '/Host/leasehistory'
+                router.pathname === '/host/leasehistory'
                   ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
                   : 'text-xs md:text-sm cursor-pointer xl:text-base '
               }`}
             >
-              <Link href='/Host/leasehistory'>Lease History</Link>
+              <Link href='/host/leasehistory'>Lease History</Link>
             </ul>
             <ul
               className={`${
-                router.pathname === '/Host/fleet'
+                router.pathname === '/host/fleet'
                   ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
                   : 'text-xs md:text-sm cursor-pointer xl:text-base '
               }`}
             >
-              <Link href='/Host/fleet'>Fleet</Link>
+              <Link href='/host/fleet'>Fleet</Link>
             </ul>
           </div>
 
@@ -804,7 +804,7 @@ function Navbar() {
                   </div>
                   {/* link */}
                   <Link
-                    href='/Userprofile/view'
+                    href='/userprofile/view'
                     className='bg-babypurple px-2 md:px-3 xl:px-4  py-1 md:py-2 rounded'
                   >
                     <h1 className='text-white text-xs xl:text-sm'>
@@ -853,28 +853,28 @@ function Navbar() {
                   </div>
                   {/* dashboard */}
                   <Link
-                    href='/Host/dashboard'
+                    href='/host/dashboard'
                     className='flex md:hidden items-center gap-4 '
                   >
                     <TbActivity className=' lg:text-2xl ' />
                     <h1 className='text-xs lg:text-sm '>Dashboard</h1>
                   </Link>
                   <Link
-                    href='/Host/transactionhistory'
+                    href='/host/transactionhistory'
                     className='flex md:hidden items-center gap-4 '
                   >
                     <GiReceiveMoney className=' lg:text-2xl ' />
                     <h1 className='text-xs lg:text-sm '>Transaction History</h1>
                   </Link>
                   <Link
-                    href='/Host/leasehistory'
+                    href='/host/leasehistory'
                     className='flex md:hidden items-center gap-4 '
                   >
                     <GrTransaction className=' lg:text-2xl ' />
                     <h1 className='text-xs lg:text-sm '>Lease History</h1>
                   </Link>
                   <Link
-                    href='/Host/fleet'
+                    href='/host/fleet'
                     className='flex  md:hidden items-center gap-4 '
                   >
                     <BiCar className=' lg:text-2xl ' />
@@ -891,7 +891,7 @@ function Navbar() {
                     onClick={() => {
                       dispatch(logOut()),
                         router.push({
-                          pathname: '/Auth/login',
+                          pathname: '/auth/login',
                         })
                     }}
                     className='flex  items-center gap-4 cursor-pointer '
@@ -967,12 +967,12 @@ function Navbar() {
           {!isUserLogedin && (
             <div className='flex  justify-center pt-10 items-center gap-4'>
               <div className=' px-6 py-3 text-white   rounded-md  border boreder-white cursor-pointer md:hidden flex justify-center items-center gap-4 '>
-                <Link href='/Auth/signup'>
+                <Link href='/auth/signup'>
                   <p className='text-xs md:text-sm'>Sign Up</p>
                 </Link>
               </div>
               <div className='px-6 py-3 text-babyblack   rounded-md  bg-white cursor-pointer md:hidden flex justify-center items-center gap-4 '>
-                <Link href='/Auth/login'>
+                <Link href='/auth/login'>
                   <p className='text-xs md:text-sm'>Login</p>
                 </Link>
               </div>
@@ -986,22 +986,22 @@ function Navbar() {
         >
           <div className='w-full py-3 text-center'>
             <ul className='text-sm md:text-sm cursor-pointer'>
-              <Link href='/Host/dashboard'>Dashboard</Link>
+              <Link href='/host/dashboard'>Dashboard</Link>
             </ul>
           </div>
           <div className='w-full py-3 text-center'>
             <ul className='text-sm md:text-sm cursor-pointer'>
-              <Link href='/Host/transactionhistory'>Transaction History</Link>
+              <Link href='/host/transactionhistory'>Transaction History</Link>
             </ul>
           </div>
           <div className='w-full py-3 text-center'>
             <ul className='text-sm md:text-sm cursor-pointer'>
-              <Link href='/Host/leasehistory'>Lease History</Link>
+              <Link href='/host/leasehistory'>Lease History</Link>
             </ul>
           </div>
           <div className='w-full py-3 text-center'>
             <ul className='text-sm md:text-sm cursor-pointer'>
-              <Link href='/Host/fleet'>Fleet</Link>
+              <Link href='/host/fleet'>Fleet</Link>
             </ul>
           </div>
         </div>

@@ -37,7 +37,7 @@ function Fleet() {
               </div>
 
               <Link
-                href='/Host/enlistacar'
+                href='/host/enlistacar'
                 className='bg-babypurple hidden md:block px-6 py-2 lg:py-3 text-white rounded-md text-xs lg:text-sm shadow-md transition ease-in-out delay-150    hover:bg-indigo-500 duration-300 hover:border-none hover:text-white w-max '
               >
                 Enlist a Car
@@ -104,7 +104,7 @@ function Fleet() {
             {/* mobile withdrawa */}
             <div className='w-full'>
               <Link
-                href='/Host/enlistacar'
+                href='/host/enlistacar'
                 className='bg-babypurple md:hidden px-6 py-2 sm:py-3 text-white rounded-md text-xs lg:text-sm shadow-md transition ease-in-out delay-150    hover:bg-indigo-500 duration-300 hover:border-none hover:text-white w-full flex justify-center items-center '
               >
                 Enlist a Car
@@ -166,7 +166,7 @@ function Fleet() {
                           <button
                             onClick={() => {
                               router.push({
-                                pathname: `/Host/fleet/${item.id}`,
+                                pathname: `/host/fleet/${item.id}`,
                               })
                             }}
                             className='bg-babypurple px-2 py-2  w-full text-xs text-white rounded-md cursor-pointer hover:shadow-lg'
