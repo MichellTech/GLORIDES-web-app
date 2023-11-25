@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Navbar from '../../components/Navigation/Navbar'
+import Navbar from '../../components/Navigation/Navbar/index'
 import Search from '../../components/Rentcomp/Search'
 import Allcars from '../../components/Rentcomp/Allcars'
 import { MdOutlineFilterAlt } from 'react-icons/md'

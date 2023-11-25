@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Navbar from '@/components/Navigation/Navbar'
+import Navbar from '@/components/Navigation/Navbar/index'
 import Profilecomp from '@/components/Profilecomp'
 import Profilecompbig from '@/components/Profilecompbig'
 import { Formik, Form, Field, ErrorMessage } from 'formik'

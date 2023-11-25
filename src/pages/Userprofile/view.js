@@ -1,44 +1,20 @@
 import React, { useState, useEffect } from 'react'
-import Navbar from '@/components/Navigation/Navbar'
+import Navbar from '@/components/Navigation/Navbar/index'
 import Profilecomp from '@/components/Profilecomp'
 import Image from 'next/image'
-import axios from 'axios'
 import Profilecompbig from '@/components/Profilecompbig'
-import Loadercomp from '@/components/Loadercomp'
 import moment from 'moment'
 import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUserprofiledetails } from '@/features/profile/userprofileSlice'
 import Loader from '../../components/Loaders/profileloader'
+import { getuserprofile } from '@/features/userpersona/userSlice'
 
 function view() {
-  const [loading, setLoading] = useState(false)
-  const { userprofile } = useSelector((store) => store.profile)
+  const { isLoading, userData } = useSelector((store) => store.userpersona)
   const dispatch = useDispatch()
-  const getuserprofile = () => {
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/user/get-user`,
-        {},
-        {
-          headers: {
-            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
-          },
-        }
-      )
-      .then(function (response) {
-        console.log(response.data)
-        setLoading(false)
-        dispatch(setUserprofiledetails(response?.data?.user))
-      })
-      .catch(function (error) {
-        setLoading(false)
-        console.log(error)
-      })
-  }
 
   useEffect(() => {
-    getuserprofile()
+    dispatch(getuserprofile())
   }, [])
 
   return (
@@ -59,7 +35,7 @@ function view() {
           <Profilecompbig />
         </div>
         {/* information */}
-        {!loading ? (
+        {isLoading ? (
           <div className='px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20  '>
             <Loader />
           </div>
@@ -69,8 +45,8 @@ function view() {
             <div className='bg-white w-full flex justify-center items-center flex-col border px-6 py-4 sm:px-8 sm:py-6 rounded-md space-y-4 shadow-md md:flex-row md:space-y-0 md:w-full md:gap-4 lg:gap-6'>
               <div className='  relative max-w-xs '>
                 <Image
-                  src={userprofile?.profile_picture?.url}
-                  alt={userprofile?.profile_picture?.name}
+                  src={userData?.profile_picture?.url}
+                  alt={userData?.profile_picture?.name}
                   width={1000}
                   height={1000}
                   className='object-cover w-28 lg:w-32 rounded-full '
@@ -79,7 +55,7 @@ function view() {
               <div className='space-y-2 md:space-y-3 lg:space-y-4 md:w-full'>
                 <h1 className='font-bold text-base text-center sm:text-lg md:text-base md:text-left lg:text-lg'>
                   {' '}
-                  Hello {userprofile?.firstname}{' '}
+                  Hello {userData?.firstname}{' '}
                 </h1>
                 <h1 className='text-xs text-center sm:text-sm md:text-left md:text-xs  lg:text-sm'>
                   Welcome to your profile page! Here, you have the power to
@@ -119,13 +95,13 @@ function view() {
                   Full Name
                 </h1>
                 <p className='text-base lg:text-lg '>
-                  {userprofile?.firstname} {''} {userprofile?.lastname}
+                  {userData?.firstname} {''} {userData?.lastname}
                 </p>
               </div>
               {/* email */}
               <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
                 <h1 className='text-xs text-slate-500 lg:text-sm    '>Email</h1>
-                <p className='text-base lg:text-lg'>{userprofile?.email}</p>
+                <p className='text-base lg:text-lg'>{userData?.email}</p>
               </div>
               {/* phnoe */}
               <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
@@ -133,7 +109,7 @@ function view() {
                   Phone Number
                 </h1>
                 <p className='text-base  lg:text-lg'>
-                  {userprofile?.phone_number}
+                  {userData?.phone_number}
                 </p>
               </div>
               {/* Dob */}
@@ -143,13 +119,13 @@ function view() {
                 </h1>
                 <p className='text-base lg:text-lg '>
                   {' '}
-                  {moment(userprofile?.date_of_birth).format('MMMM Do YYYY')}
+                  {moment(userData?.date_of_birth).format('MMMM Do YYYY')}
                 </p>
               </div>
               {/* gender */}
               <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
                 <h1 className='text-xs text-slate-500   lg:text-sm '>Gender</h1>
-                <p className='text-base  lg:text-lg'>{userprofile?.gender}</p>
+                <p className='text-base  lg:text-lg'>{userData?.gender}</p>
               </div>
             </div>
             {/* ADDress */}
@@ -163,19 +139,17 @@ function view() {
                 <h1 className='text-xs text-slate-500  lg:text-sm  '>
                   Address
                 </h1>
-                <p className='text-base lg:text-lg'>
-                  {userprofile?.full_address}
-                </p>
+                <p className='text-base lg:text-lg'>{userData?.full_address}</p>
               </div>
               {/* email */}
               <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
                 <h1 className='text-xs text-slate-500    lg:text-sm '>city</h1>
-                <p className='text-base lg:text-lg'>{userprofile?.city}</p>
+                <p className='text-base lg:text-lg'>{userData?.city}</p>
               </div>
               {/* State*/}
               <div className='space-y-2 border-b pb-3 md:flex md:justify-between md:items-center md:gap-2 md:space-y-0'>
                 <h1 className='text-xs text-slate-500   lg:text-sm '>State</h1>
-                <p className='text-base  lg:text-lg'>{userprofile?.state}</p>
+                <p className='text-base  lg:text-lg'>{userData?.state}</p>
               </div>
             </div>
 
@@ -194,7 +168,7 @@ function view() {
                   Driver's License Number
                 </h1>
                 <p className='text-base lg:text-lg'>
-                  {userprofile?.license_number}
+                  {userData?.license_number}
                 </p>
               </div>
               {/* card */}
@@ -205,8 +179,8 @@ function view() {
                 {/* image */}
                 <div className='  relative '>
                   <Image
-                    src={userprofile?.license?.url}
-                    alt={userprofile?.license?.name}
+                    src={userData?.license?.url}
+                    alt={userData?.license?.name}
                     width={1000}
                     height={1000}
                     className='object-cover  w-48 lg:w-60 xl:w-72'
@@ -229,7 +203,7 @@ function view() {
                   Insurance License Number
                 </h1>
                 <p className='text-base lg:text-lg'>
-                  {userprofile?.insurance_number}
+                  {userData?.insurance_number}
                 </p>
               </div>
               {/* card */}
@@ -240,8 +214,8 @@ function view() {
                 {/* image */}
                 <div className='  relative '>
                   <Image
-                    src={userprofile?.insurance?.url}
-                    alt={userprofile?.insurance?.name}
+                    src={userData?.insurance?.url}
+                    alt={userData?.insurance?.name}
                     width={1000}
                     height={1000}
                     className='object-cover  w-48 lg:w-60 xl:w-72'

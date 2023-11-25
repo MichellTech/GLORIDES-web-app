@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
 import { cars } from '../../../../utilis/Cardata'
-import Navbar from '@/components/Navigation/Navbar'
+import Navbar from '@/components/Navigation/Navbar/index'
 import Link from 'next/link'
 import { MdKeyboardBackspace, MdOutlineCancel } from 'react-icons/md'
 import Image from 'next/image'

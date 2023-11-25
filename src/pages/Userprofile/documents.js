@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Navbar from '@/components/Navigation/Navbar'
+import Navbar from '@/components/Navigation/Navbar/index'
 import Profilecomp from '@/components/Profilecomp'
 import Image from 'next/image'
 import Profilecompbig from '@/components/Profilecompbig'
@@ -12,8 +12,9 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { setUserprofiledetails } from '@/features/profile/userprofileSlice'
+import { getuserprofile } from '@/features/userpersona/userSlice'
 import Link from 'next/link'
+import Loader from '../../components/Loaders/profileloader'
 
 function EditDocs() {
   const [loading, setLoading] = useState(false)
@@ -21,59 +22,25 @@ function EditDocs() {
   const [imagetouploadtwo, setImagetouploadtwo] = useState(null)
   const [userimagethree, setUserimagethree] = useState(null)
   const [imagetouploadthree, setImagetouploadthree] = useState(null)
-  const { userprofile } = useSelector((store) => store.profile)
+  const { isLoading, userData } = useSelector((store) => store.userpersona)
   const dispatch = useDispatch()
 
-  const getuserprofile = () => {
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/user/get-user`,
-        {},
-        {
-          headers: {
-            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
-          },
-        }
-      )
-      .then(function (response) {
-        console.log(response.data)
-        setLoading(false)
-        dispatch(setUserprofiledetails(response?.data?.user))
-      })
-      .catch(function (error) {
-        setLoading(false)
-        console.log(error)
-      })
-  }
-
   useEffect(() => {
-    if (userprofile === null) {
-      getuserprofile()
+    if (userData === null) {
+      dispatch(getuserprofile())
+      console.log('calling')
     }
   }, [])
 
   const fileTypes = ['JPG', 'JPEG', 'PNG']
   const initialValues = {
-    dln: userprofile?.license_number,
-    iln: userprofile?.insurance_number,
+    dln: userData?.license_number,
+    iln: userData?.insurance_number,
   }
 
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
-
-    // reset
-    // onSubmitProps.resetForm()
-    //  router.push({
-    //    pathname: '/Auth/emailverification',
-    //    //  query: response.data.data.user,
-    //  })
-    //  console.log(values)
   }
   // validation
   const validationSchema = Yup.object().shape({
@@ -116,175 +83,181 @@ function EditDocs() {
           <Profilecompbig />
         </div>
         {/* information */}
-        <div className=' px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20  '>
-          {/* form */}
-          <Formik
-            initialValues={initialValues}
-            onSubmit={onSubmit}
-            validationSchema={validationSchema}
-            enableReinitialize
-          >
-            {(formik) => {
-              return (
-                <Form className='  space-y-10 lg:space-y-14 w-full overflow-x-hidden '>
-                  {/* Driving information */}
-                  <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6'>
-                    {/* header */}
-                    <div className='border-b   pb-4'>
-                      <h1 className='text-lg font-bold lg:text-xl'>
-                        Driving Information
-                      </h1>
-                    </div>
-                    <div className=' md:flex md:justify-between md:items-start md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4'>
-                      {/* Driving license no*/}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm '>
-                          Driver's License Number
+        {isLoading ? (
+          <div className='px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20  '>
+            <Loader />
+          </div>
+        ) : (
+          <div className=' px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20  '>
+            {/* form */}
+            <Formik
+              initialValues={initialValues}
+              onSubmit={onSubmit}
+              validationSchema={validationSchema}
+              enableReinitialize
+            >
+              {(formik) => {
+                return (
+                  <Form className='  space-y-10 lg:space-y-14 w-full overflow-x-hidden '>
+                    {/* Driving information */}
+                    <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6'>
+                      {/* header */}
+                      <div className='border-b   pb-4'>
+                        <h1 className='text-lg font-bold lg:text-xl'>
+                          Driving Information
                         </h1>
-                        {/* firstnmae */}
-                        <div>
-                          <Field
-                            type='text'
-                            name='dln'
-                            placeholder='Drivers License Number'
-                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='dln' />
+                      </div>
+                      <div className=' md:flex md:justify-between md:items-start md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4'>
+                        {/* Driving license no*/}
+                        <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                          <h1 className='text-xs text-slate-500  lg:text-sm '>
+                            Driver's License Number
+                          </h1>
+                          {/* firstnmae */}
+                          <div>
+                            <Field
+                              type='text'
+                              name='dln'
+                              placeholder='Drivers License Number'
+                              className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                            />
+                            <div className='text-softRed text-xs mt-1 px-4'>
+                              <ErrorMessage name='dln' />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      {/* card */}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm '>
-                          Driver's Liciense Card
-                        </h1>
-                        {/* image */}
-                        <div className='  relative w-48 lg:w-60 xl:w-72 '>
-                          {userimagetwo ? (
-                            <Image
-                              src={userimagetwo}
-                              alt='logo'
-                              width={1000}
-                              height={1000}
-                              className='object-cover  w-48 lg:w-60 xl:w-72'
-                            />
-                          ) : (
-                            <Image
-                              src={userprofile?.license?.url}
-                              alt={userprofile?.license?.name}
-                              width={1000}
-                              height={1000}
-                              className='object-cover  w-48 lg:w-60 xl:w-72'
-                            />
-                          )}
-                          <div className='bg-babypurple rounded-full flex justify-center items-center w-7 h-7 lg:w-8 lg:h-8  absolute -top-1 lg:-top-2 right-0 '>
-                            <FileUploader
-                              classes=' '
-                              handleChange={handleuploadtwo}
-                              name='file'
-                              types={fileTypes}
-                              children={
-                                <MdOutlineAddAPhoto className=' lg:text-lg text-white cursor-pointer' />
-                              }
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* insurance information */}
-                  <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6'>
-                    {/* header */}
-                    <div className='border-b   pb-4'>
-                      <h1 className='text-lg font-bold lg:text-xl '>
-                        Insurance Information
-                      </h1>
-                    </div>
-                    <div className=' md:flex md:justify-between md:items-start md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4 w-full'>
-                      {/* Driving license no*/}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2  '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm'>
-                          Insurance License Number
-                        </h1>
-                        {/* firstnmae */}
-                        <div>
-                          <Field
-                            type='text'
-                            name='iln'
-                            placeholder='Insurance License Number'
-                            className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='iln' />
-                          </div>
-                        </div>
-                      </div>
-                      {/* card */}
-                      <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
-                        <h1 className='text-xs text-slate-500  lg:text-sm'>
-                          Insurance Liciense Card
-                        </h1>
-                        {/* image */}
-                        <div className='  relative w-48 lg:w-60 xl:w-72 '>
-                          {userimagethree ? (
-                            <Image
-                              src={userimagethree}
-                              alt='logo'
-                              width={1000}
-                              height={1000}
-                              className='object-cover  w-48  lg:w-60 xl:w-72'
-                            />
-                          ) : (
-                            <Image
-                              src={userprofile?.insurance.url}
-                              alt={userprofile?.insurance.name}
-                              width={1000}
-                              height={1000}
-                              className='object-cover  w-48  lg:w-60 xl:w-72'
-                            />
-                          )}
-                          <div className='bg-babypurple rounded-full flex justify-center items-center w-7 h-7 lg:w-8 lg:h-8  absolute -top-1 lg:-top-2 right-0 '>
-                            <FileUploader
-                              classes=' '
-                              handleChange={handleuploadthree}
-                              name='file'
-                              types={fileTypes}
-                              children={
-                                <MdOutlineAddAPhoto className=' lg:text-lg text-white cursor-pointer' />
-                              }
-                            />
+                        {/* card */}
+                        <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                          <h1 className='text-xs text-slate-500  lg:text-sm '>
+                            Driver's Liciense Card
+                          </h1>
+                          {/* image */}
+                          <div className='  relative w-48 lg:w-60 xl:w-72 '>
+                            {userimagetwo ? (
+                              <Image
+                                src={userimagetwo}
+                                alt='logo'
+                                width={1000}
+                                height={1000}
+                                className='object-cover  w-48 lg:w-60 xl:w-72'
+                              />
+                            ) : (
+                              <Image
+                                src={userData?.license?.url}
+                                alt={userData?.license?.name}
+                                width={1000}
+                                height={1000}
+                                className='object-cover  w-48 lg:w-60 xl:w-72'
+                              />
+                            )}
+                            <div className='bg-babypurple rounded-full flex justify-center items-center w-7 h-7 lg:w-8 lg:h-8  absolute -top-1 lg:-top-2 right-0 '>
+                              <FileUploader
+                                classes=' '
+                                handleChange={handleuploadtwo}
+                                name='file'
+                                types={fileTypes}
+                                children={
+                                  <MdOutlineAddAPhoto className=' lg:text-lg text-white cursor-pointer' />
+                                }
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div className='flex flex-col sm:flex-row   justify-center items-center gap-4 lg:gap-8'>
-                    <button
-                      type='submit'
-                      className='bg-babypurple text-white px-6 py-2 lg:py-3 xl:py-4    rounded-md flex justify-center items-center mx-auto text-sm xl:text-base  w-full shadow-md'
-                    >
-                      {loading ? (
-                        <div className='flex justify-center gap-2 items-center  '>
-                          <div className='spinner'></div>
-                          Updating...
+                    {/* insurance information */}
+                    <div className='bg-white space-y-4 lg:space-y-6 shadow-md rounded-md border py-4 px-6'>
+                      {/* header */}
+                      <div className='border-b   pb-4'>
+                        <h1 className='text-lg font-bold lg:text-xl '>
+                          Insurance Information
+                        </h1>
+                      </div>
+                      <div className=' md:flex md:justify-between md:items-start md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4 w-full'>
+                        {/* Driving license no*/}
+                        <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2  '>
+                          <h1 className='text-xs text-slate-500  lg:text-sm'>
+                            Insurance License Number
+                          </h1>
+                          {/* firstnmae */}
+                          <div>
+                            <Field
+                              type='text'
+                              name='iln'
+                              placeholder='Insurance License Number'
+                              className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                            />
+                            <div className='text-softRed text-xs mt-1 px-4'>
+                              <ErrorMessage name='iln' />
+                            </div>
+                          </div>
                         </div>
-                      ) : (
-                        'Update Documents'
-                      )}
-                    </button>
-                    <Link
-                      href='/userprofile/view'
-                      className='bg-softpurple text-babyblack  px-6 py-2 lg:py-3 xl:py-4   rounded-md flex justify-center items-center xl:text-base text-sm w-full shadow-md'
-                    >
-                      Cancel
-                    </Link>
-                  </div>
-                </Form>
-              )
-            }}
-          </Formik>
-        </div>
+                        {/* card */}
+                        <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2 '>
+                          <h1 className='text-xs text-slate-500  lg:text-sm'>
+                            Insurance Liciense Card
+                          </h1>
+                          {/* image */}
+                          <div className='  relative w-48 lg:w-60 xl:w-72 '>
+                            {userimagethree ? (
+                              <Image
+                                src={userimagethree}
+                                alt='logo'
+                                width={1000}
+                                height={1000}
+                                className='object-cover  w-48  lg:w-60 xl:w-72'
+                              />
+                            ) : (
+                              <Image
+                                src={userData?.insurance.url}
+                                alt={userData?.insurance.name}
+                                width={1000}
+                                height={1000}
+                                className='object-cover  w-48  lg:w-60 xl:w-72'
+                              />
+                            )}
+                            <div className='bg-babypurple rounded-full flex justify-center items-center w-7 h-7 lg:w-8 lg:h-8  absolute -top-1 lg:-top-2 right-0 '>
+                              <FileUploader
+                                classes=' '
+                                handleChange={handleuploadthree}
+                                name='file'
+                                types={fileTypes}
+                                children={
+                                  <MdOutlineAddAPhoto className=' lg:text-lg text-white cursor-pointer' />
+                                }
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='flex flex-col sm:flex-row   justify-center items-center gap-4 lg:gap-8'>
+                      <button
+                        type='submit'
+                        className='bg-babypurple text-white px-6 py-2 lg:py-3 xl:py-4    rounded-md flex justify-center items-center mx-auto text-sm xl:text-base  w-full shadow-md'
+                      >
+                        {loading ? (
+                          <div className='flex justify-center gap-2 items-center  '>
+                            <div className='spinner'></div>
+                            Updating...
+                          </div>
+                        ) : (
+                          'Update Documents'
+                        )}
+                      </button>
+                      <Link
+                        href='/userprofile/view'
+                        className='bg-softpurple text-babyblack  px-6 py-2 lg:py-3 xl:py-4   rounded-md flex justify-center items-center xl:text-base text-sm w-full shadow-md'
+                      >
+                        Cancel
+                      </Link>
+                    </div>
+                  </Form>
+                )
+              }}
+            </Formik>
+          </div>
+        )}
       </div>
     </>
   )

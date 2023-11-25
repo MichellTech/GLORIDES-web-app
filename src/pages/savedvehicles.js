@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Footer from '@/components/Navigation/Footer'
-import Navbar from '@/components/Navigation/Navbar'
+import Navbar from '@/components/Navigation/Navbar/index'
 import { cars } from '../utilis/Cardata'
 import Image from 'next/image'
 import { useRouter } from 'next/router'

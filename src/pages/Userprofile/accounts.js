@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Navbar from '@/components/Navigation/Navbar'
+import Navbar from '@/components/Navigation/Navbar/index'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FiUserPlus } from 'react-icons/fi'

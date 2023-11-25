@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import Navbar from '@/components/Navigation/Navbar'
-import Loadercomp from '@/components/Loadercomp'
+import Navbar from '@/components/Navigation/Navbar/index'
 import { AiOutlineFileSearch } from 'react-icons/ai'
 import { TbReportSearch } from 'react-icons/tb'
 import Link from 'next/link'

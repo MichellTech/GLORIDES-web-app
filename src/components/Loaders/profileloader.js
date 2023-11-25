@@ -27,7 +27,7 @@ function profileloader() {
       <div className='w-full space-y-4'>
         <div className='bg-babygrey w-40 lg:w-52 h-6 md:h-8  rounded-full '></div>
         {/* group */}
-        <div className='space-y-2 md:space-y-4 '>
+        <div className='space-y-3 md:space-y-4 '>
           {/* one */}
           <div className='flex justify-between items-center   w-full gap-4 lg:gap-10'>
             <div className='bg-babygrey w-full h-5 md:h-7  rounded-full '></div>
@@ -39,6 +39,26 @@ function profileloader() {
             <div className='bg-babygrey w-full h-5 md:h-7  rounded-full '></div>
           </div>
           {/* three */}
+          <div className='flex justify-between items-center   w-full gap-4 lg:gap-10'>
+            <div className='bg-babygrey w-full h-5 md:h-7 rounded-full '></div>
+            <div className='bg-babygrey w-full h-5 md:h-7 rounded-full '></div>
+          </div>
+          {/* four */}
+          <div className='flex justify-between items-center   w-full gap-4 lg:gap-10'>
+            <div className='bg-babygrey w-full h-5 md:h-7 rounded-full '></div>
+            <div className='bg-babygrey w-full h-5 md:h-7 rounded-full '></div>
+          </div>
+          {/* four */}
+          <div className='flex justify-between items-center   w-full gap-4 lg:gap-10'>
+            <div className='bg-babygrey w-full h-5 md:h-7 rounded-full '></div>
+            <div className='bg-babygrey w-full h-5 md:h-7 rounded-full '></div>
+          </div>
+          {/* four */}
+          <div className='flex justify-between items-center   w-full gap-4 lg:gap-10'>
+            <div className='bg-babygrey w-full h-5 md:h-7 rounded-full '></div>
+            <div className='bg-babygrey w-full h-5 md:h-7 rounded-full '></div>
+          </div>
+          {/* four */}
           <div className='flex justify-between items-center   w-full gap-4 lg:gap-10'>
             <div className='bg-babygrey w-full h-5 md:h-7 rounded-full '></div>
             <div className='bg-babygrey w-full h-5 md:h-7 rounded-full '></div>

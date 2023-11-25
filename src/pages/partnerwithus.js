@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Navbar from '../components/Navigation/Navbar'
+import Navbar from '../components/Navigation/Navbar/index'
 import Link from 'next/link'
 import Image from 'next/image'
 import Businessdata from '../utilis/Businessdata'

@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '@/components/Navigation/Navbar'
+import Navbar from '@/components/Navigation/Navbar/index'
 import Link from 'next/link'
 import Footer from '@/components/Navigation/Footer'
 import { transactionhistory } from '../../utilis/Cardata'

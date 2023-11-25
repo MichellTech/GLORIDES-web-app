@@ -50,26 +50,26 @@ function Login() {
       .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/login`, values)
       .then(function (response) {
         console.log(response.data)
-        if (response.data.user.isVerified === false) {
+        if (response?.data?.user?.isVerified === false) {
           setLoading(false)
           router.push({
             pathname: '/auth/emailverification',
-            query: { userEmail: response.data.user.email },
+            query: { userEmail: response?.data?.user?.email },
           })
         } else if (response.data.user.isCompleted === false) {
           localStorage.setItem(
             'User_Token',
-            JSON.stringify(response.data.user.token)
+            JSON.stringify(response?.data?.user?.token)
           )
           router.push({
             pathname: '/auth/completeregistration',
           })
         } else {
           setLoading(false)
-          toast.success(response.data.message)
+          toast.success(response?.data?.message)
           localStorage.setItem(
             'User_Token',
-            JSON.stringify(response.data.user.token)
+            JSON.stringify(response?.data?.user?.token)
           )
           router.push({
             pathname: '/',
@@ -79,7 +79,7 @@ function Login() {
       })
       .catch(function (error) {
         setLoading(false)
-        toast.error(error.response.data.message)
+        toast.error(error?.response?.data?.message)
 
         console.log(error)
       })

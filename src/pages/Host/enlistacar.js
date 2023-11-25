@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Navbar from '@/components/Navigation/Navbar'
+import Navbar from '@/components/Navigation/Navbar/index'
 import Footer from '@/components/Navigation/Footer'
 import { ImSpinner } from 'react-icons/im'
 import Link from 'next/link'

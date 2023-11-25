@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Navbar from '../components/Navigation/Navbar'
+import Navbar from '../components/Navigation/Navbar/index'
 import Image from 'next/image'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'

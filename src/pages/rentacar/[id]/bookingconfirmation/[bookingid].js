@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import { useRouter } from 'next/router'
-import Navbar from '@/components/Navigation/Navbar'
+import Navbar from '@/components/Navigation/Navbar/index'
 import Footer from '@/components/Navigation/Footer'
 import { useSelector, useDispatch } from 'react-redux'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
