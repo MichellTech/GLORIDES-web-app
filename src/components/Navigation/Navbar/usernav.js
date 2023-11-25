@@ -222,24 +222,24 @@ function Navbar() {
               </Link>
 
               {/* notification */}
-
-              {read?.length > 0 && (
-                <div
-                  onClick={() => {
-                    dispatch(openNotifications()), dispatch(closeDropDown())
-                  }}
-                  className='bg-babygrey px-2 py-2 rounded-full lg:px-3 lg:py-3 cursor-pointer relative'
-                >
-                  <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
-                  <div className='absolute -top-2 -right-3 lg:-top-3 '>
+              <div
+                onClick={() => {
+                  dispatch(openNotifications()), dispatch(closeDropDown())
+                }}
+                className='bg-babygrey px-2 py-2 rounded-full lg:px-3 lg:py-3 cursor-pointer relative'
+              >
+                <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
+                <div className='absolute -top-2 -right-3 lg:-top-3 '>
+                  {read?.length > 0 && (
                     <div className='bg-babypurple rounded-full  text-white w-5 h-5 lg:w-7 lg:h-7 flex justify-center items-center'>
                       <h1 className='text-[0.6rem] lg:text-xs'>
                         {read?.length}
                       </h1>
                     </div>
-                  </div>
+                  )}
                 </div>
-              )}
+              </div>
+
               {/* userimage drop */}
               <div className='flex justify-center items-center gap-2 lg:gap-4 xl:gap-5'>
                 {/* image */}
@@ -488,13 +488,6 @@ function Navbar() {
                   <HiOutlineDocumentText className='lg:text-2xl ' />
                   <h1 className='text-xs lg:text-sm '>Rent History</h1>
                 </Link>
-                {/* Messages */}
-                {/* <Link href='/messages' className='flex  items-center gap-4 '>
-                    <BiMessageSquareEdit className=' lg:text-2xl ' />
-                    <h1 className='text-xs lg:text-sm '>Messages</h1>
-                  </Link> */}
-
-                {/* logout */}
                 <div
                   onClick={() => {
                     dispatch(logOut()),
