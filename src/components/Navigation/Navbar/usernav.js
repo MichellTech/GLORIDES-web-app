@@ -520,7 +520,7 @@ function Navbar() {
                   className='text-2xl lg:text-3xl cursor-pointer'
                 />
               </div>
-              {!Notificationdata ? (
+              {!notificationsData ? (
                 <div className='flex flex-col justify-center items-center mx-auto h-64 md:h-56  space-y-1 md:space-y-2 '>
                   <div className='bg-babygrey px-2 py-2 rounded-full cursor-pointer '>
                     <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
