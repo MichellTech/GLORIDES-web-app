@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 function Profilecomp() {
   const router = useRouter()
   const { hosting } = useSelector((store) => store.userpersona)
+  console.log(router?.pathname)
   return (
     <>
       {/* small screen */}
@@ -20,7 +21,7 @@ function Profilecomp() {
                 : '  rounded-sm  pb-3 '
             }`}
           >
-            My Profile
+            My Profile(s)
           </Link>
 
           <Link
