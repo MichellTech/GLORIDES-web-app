@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
 import Image from 'next/image'
-import Profilenavsmall from '../../components/Profile/Profilenavsmall'
+import Profilenavsmall from '../../components/Profile/Profilenavbig'
 import Profilenavbig from '../../components/Profile/Profilenavbig'
 import moment from 'moment'
 import Link from 'next/link'
