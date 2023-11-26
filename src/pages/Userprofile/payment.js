@@ -6,8 +6,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import Profilenavsmall from '../../components/Profile/Profilenavsmall'
-import Profilenavbig from '../../components/Profile/Profilenavbig'
+import Profilenavsmall from '@/components/Profile/Profilenavsmall'
+import Profilenavbig from '@/components/Profile/Profilenavbig'
 import creditCardType, {
   getTypeInfo,
   types as CardType,
