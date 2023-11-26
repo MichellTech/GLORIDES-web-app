@@ -14,9 +14,9 @@ function Profilecomp() {
           <Link
             href='/userprofile/view'
             className={`${
-              router.pathname === '/userprofile/view' ||
-              router.pathname === '/userprofile/edit' ||
-              router.pathname === '/userprofile/documents'
+              router.pathname?.toLowerCase() === '/userprofile/view' ||
+              router.pathname?.toLowerCase() === '/userprofile/edit' ||
+              router.pathname?.toLowerCase() === '/userprofile/documents'
                 ? 'border-b-4  rounded-sm border-babypurple  pb-3 font-bold text-babypurple '
                 : '  rounded-sm  pb-3 '
             }`}
@@ -27,7 +27,7 @@ function Profilecomp() {
           <Link
             href='/userprofile/payment'
             className={`${
-              router.pathname === '/userprofile/payment'
+              router.pathname?.toLowerCase() === '/userprofile/payment'
                 ? 'border-b-4 font-bold   rounded-sm border-babypurple pb-3 text-babypurple '
                 : '  rounded-sm  pb-3 '
             }`}
@@ -37,7 +37,7 @@ function Profilecomp() {
           <Link
             href='/userprofile/password'
             className={`${
-              router.pathname === '/userprofile/password'
+              router.pathname?.toLowerCase() === '/userprofile/password'
                 ? 'border-b-4 font-bold   rounded-sm border-babypurple pb-3 text-babypurple '
                 : '  rounded-sm  pb-3 '
             }`}
@@ -48,7 +48,7 @@ function Profilecomp() {
             <Link
               href='/userprofile/pin'
               className={`${
-                router.pathname === '/userprofile/pin'
+                router.pathname?.toLowerCase() === '/userprofile/pin'
                   ? 'border-b-4  font-bold  rounded-sm border-babypurple pb-3 text-babypurple '
                   : '  rounded-sm  pb-3 '
               }`}
@@ -60,7 +60,7 @@ function Profilecomp() {
             <Link
               href='/userprofile/accounts'
               className={`${
-                router.pathname === '/userprofile/accounts'
+                router.pathname?.toLowerCase() === '/userprofile/accounts'
                   ? 'border-b-4 font-bold  rounded-sm border-babypurple pb-3 text-babypurple '
                   : '  rounded-sm  pb-3 '
               }`}

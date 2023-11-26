@@ -15,9 +15,9 @@ function Profilecompbig() {
         <Link
           href='/userprofile/view'
           className={`${
-            router.pathname === '/userprofile/view' ||
-            router.pathname === '/userprofile/edit' ||
-            router.pathname === '/userprofile/documents'
+            router.pathname?.toLowerCase() === '/userprofile/view' ||
+            router.pathname?.toLowerCase() === '/userprofile/edit' ||
+            router.pathname?.toLowerCase() === '/userprofile/documents'
               ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
               : '  rounded-sm  py-3 px-4  '
           }`}
@@ -31,7 +31,7 @@ function Profilecompbig() {
         <Link
           href='/userprofile/payment'
           className={`${
-            router.pathname === '/userprofile/payment'
+            router.pathname?.toLowerCase() === '/userprofile/payment'
               ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
               : '  rounded-sm  py-3 px-4 '
           }`}
@@ -44,7 +44,7 @@ function Profilecompbig() {
         <Link
           href='/userprofile/password'
           className={`${
-            router.pathname === '/userprofile/password'
+            router.pathname?.toLowerCase() === '/userprofile/password'
               ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
               : '  rounded-sm  py-3 px-4 '
           }`}
@@ -58,7 +58,7 @@ function Profilecompbig() {
           <Link
             href='/userprofile/pin'
             className={`${
-              router.pathname === '/userprofile/pin'
+              router.pathname?.toLowerCase() === '/userprofile/pin'
                 ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
                 : '  rounded-sm  py-3 px-4 '
             }`}
@@ -73,7 +73,7 @@ function Profilecompbig() {
           <Link
             href='/userprofile/accounts'
             className={`${
-              router.pathname === '/userprofile/accounts'
+              router.pathname?.toLowerCase() === '/userprofile/accounts'
                 ? 'bg-softpurple border-r-4  border-babypurple py-3  text-babyblack px-4'
                 : '  rounded-sm  py-3 px-4  '
             }`}
