@@ -16,7 +16,7 @@ function Profilecomp() {
               router.pathname === '/userprofile/view' ||
               router.pathname === '/userprofile/edit' ||
               router.pathname === '/userprofile/documents'
-                ? 'border-b-4  rounded-sm border-babypurple pb-3 font-bold text-babypurple '
+                ? 'border-b-4  rounded-sm border-babypurple  pb-3 font-bold text-babypurple '
                 : '  rounded-sm  pb-3 '
             }`}
           >
