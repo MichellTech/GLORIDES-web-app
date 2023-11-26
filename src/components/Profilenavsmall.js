@@ -21,7 +21,7 @@ function Profilecomp() {
                 : '  rounded-sm  pb-3 '
             }`}
           >
-            My Profile(s)
+            My Profile
           </Link>
 
           <Link
