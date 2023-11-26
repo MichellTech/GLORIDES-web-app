@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
-import Profilecomp from '@/components/Profilecomp'
 import Image from 'next/image'
-import Profilecompbig from '@/components/Profilecompbig'
+import Profilenavsmall from '../../components/Profile/Profilenavsmall'
+import Profilenavbig from '../../components/Profile/Profilenavbig'
 import { MdOutlineAddAPhoto } from 'react-icons/md'
 import { useRouter } from 'next/router'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
@@ -16,7 +16,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getuserprofile } from '@/features/userpersona/userSlice'
 import Link from 'next/link'
 import Loader from '../../components/Loaders/profileloader'
-import axios from 'axios'
+import mainAxiosAction from '@/components/axiosAction'
+import { State, City } from 'country-state-city'
 
 function Editprofile() {
   const [loading, setLoading] = useState(false)
@@ -30,10 +31,8 @@ function Editprofile() {
   useEffect(() => {
     if (userData === null) {
       dispatch(getuserprofile())
-      console.log('calling')
     }
   }, [])
-  console.log(userData)
   const fileTypes = ['JPG', 'JPEG', 'PNG']
   const initialValues = {
     firstname: userData?.firstname,
@@ -82,14 +81,9 @@ function Editprofile() {
     formData?.append('city', values.city)
     formData?.append('phone', values.phone)
     formData?.append('profile_picture', imagetoupload)
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/update-user`, formData, {
-        headers: {
-          'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
-        },
-      })
+    mainAxiosAction
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/update-user`, formData)
       .then(function (response) {
-        console.log(response?.data)
         setLoading(false)
         toast.success(response?.data?.message)
         router.push({
@@ -109,7 +103,7 @@ function Editprofile() {
       <div className='sticky  md:fixed top-0 left-0 right-0 bg-white z-50  '>
         <Navbar />
         <div className='example md:hidden  overflow-y-auto w-full '>
-          <Profilecomp />
+          <Profilenavsmall />
         </div>
       </div>
 
@@ -117,7 +111,7 @@ function Editprofile() {
       <div className='bg-[#F5F5F5] md:bg-white bg-opacity-50 pt-8  md:pt-0 md:px-6  md:flex md:justify-between md:items-start md:gap-4 w-full md:relative  '>
         {/* bg-nave links */}
         <div className='hidden md:block md:w-1/4 fixed top-32  md:pr-10       '>
-          <Profilecompbig />
+          <Profilenavbig />
         </div>
         {/* information */}
         {isLoading ? (
@@ -304,11 +298,25 @@ function Editprofile() {
                           {/* city */}
                           <div>
                             <Field
-                              type='text'
+                              as='select'
+                              type='selectOption'
                               name='city'
-                              placeholder='City'
                               className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                            />
+                            >
+                              <option value=''>select City</option>
+                              {City.getCitiesOfState(
+                                'US',
+                                State.getStatesOfCountry('US')?.filter(
+                                  (i) => i?.name === formik?.values?.state
+                                )?.[0]?.isoCode
+                              )?.map((item, index) => {
+                                return (
+                                  <option key={index} value={item.name}>
+                                    {item.name}
+                                  </option>
+                                )
+                              })}
+                            </Field>
                             <div className='text-softRed text-xs mt-1 px-4'>
                               <ErrorMessage name='city' />
                             </div>
@@ -322,11 +330,22 @@ function Editprofile() {
                           {/* state */}
                           <div>
                             <Field
-                              type='text'
+                              as='select'
+                              type='selectOption'
                               name='state'
-                              placeholder='State'
                               className='border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
-                            />
+                            >
+                              <option value=''>select State</option>
+                              {State.getStatesOfCountry('US')?.map(
+                                (item, index) => {
+                                  return (
+                                    <option key={index} value={item.name}>
+                                      {item.name}
+                                    </option>
+                                  )
+                                }
+                              )}
+                            </Field>
                             <div className='text-softRed text-xs mt-1 px-4'>
                               <ErrorMessage name='state' />
                             </div>

@@ -1,20 +1,12 @@
+import mainAxiosAction from '@/components/axiosAction'
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import axios from 'axios'
 
 // getuserprofile
 export const getuserprofile = createAsyncThunk(
   'profile/getprofile',
   async () => {
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/user/get-user`,
-        {},
-        {
-          headers: {
-            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
-          },
-        }
-      )
+      const response = await mainAxiosAction.post(`/user/get-user`, {})
       return response?.data?.user
     } catch (error) {
       console.error(error)
@@ -27,16 +19,11 @@ export const getusernotifications = createAsyncThunk(
   'profile/getnotifications',
   async () => {
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/notifications/get-notifications`,
-        {},
-        {
-          headers: {
-            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
-          },
-        }
+      const response = await mainAxiosAction.post(
+        `/notifications/get-notifications`,
+        {}
       )
-      console.log(response)
+      // console.log(response)
       return response?.data?.notifications
     } catch (error) {
       console.error(error)
@@ -44,8 +31,20 @@ export const getusernotifications = createAsyncThunk(
   }
 )
 
+const loadState = () => {
+  try {
+    const serializedState = localStorage.getItem('User_Exist')
+    if (serializedState === null) {
+      return false
+    }
+    return JSON.parse(serializedState)
+  } catch (err) {
+    return undefined
+  }
+}
+console.log(loadState())
 const initialState = {
-  isUserLogedin: true,
+  isUserLogedin: loadState(),
   dropDown: false,
   notifications: false,
   notificationsData: null,
@@ -62,6 +61,7 @@ const userSlice = createSlice({
   reducers: {
     logOut: (state) => {
       state.isUserLogedin = false
+      localStorage.clear('User_Token')
     },
     openDropDown: (state) => {
       state.dropDown = true
@@ -89,6 +89,7 @@ const userSlice = createSlice({
     },
     logIN: (state) => {
       state.isUserLogedin = true
+      localStorage.setItem('User_Exist', JSON.stringify(true))
     },
     setUserdata: (state, action) => {
       state.userData = action.payload
@@ -125,6 +126,7 @@ const userSlice = createSlice({
         })
   },
 })
+
 export const {
   logOut,
   openDropDown,
@@ -143,10 +145,3 @@ export const {
   notificationsData,
 } = userSlice.actions
 export default userSlice.reducer
-
-// Selectors
-// export const selectCompanies = state => state.companyList.company;
-// export const selectLoadingState = state => state.companyList.isLoading;
-// export const selectErrorState = state => state.companyList.hasError;
-
-// export default companySlice.reducer;

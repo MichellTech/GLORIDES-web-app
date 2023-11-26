@@ -27,7 +27,7 @@ function Search() {
 
     setLoading(true)
 
-    console.log(values)
+    // console.log(values)
   }
   // validation
   const validationSchema = Yup.object().shape({

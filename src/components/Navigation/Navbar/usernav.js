@@ -56,7 +56,7 @@ function Navbar() {
       document.removeEventListener('mousedown', handler)
     }
   })
-  console.log(notificationsData)
+  // console.log(userData)
 
   // notification data count
   const getunreadnotifications = () => {
@@ -67,7 +67,7 @@ function Navbar() {
     )
   }
 
-  console.log(read?.length)
+  // console.log(read?.length)
 
   return (
     <nav
@@ -243,7 +243,10 @@ function Navbar() {
               {/* userimage drop */}
               <div className='flex justify-center items-center gap-2 lg:gap-4 xl:gap-5'>
                 {/* image */}
-                <div className='  relative '>
+                <div
+                  onClick={() => dispatch(openDropDown())}
+                  className='  relative '
+                >
                   {userData ? (
                     <Image
                       src={userData?.profile_picture?.url}
@@ -269,38 +272,6 @@ function Navbar() {
                           ? 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-white'
                           : 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-babypurple'
                       }`}
-                    />
-                  )}
-                </div>
-                {/* name */}
-                <h1
-                  className={`${
-                    router.pathname === '/' || router.pathname === '/contactus'
-                      ? 'text-xs xl:text-base lg:text-sm font-bold text-white truncate w-14  lg:w-16 xl:w-20'
-                      : 'text-xs text-babyblack lg:text-sm xl:text-base font-bold truncate w-14 lg:w-16 xl:w-20 '
-                  }`}
-                >
-                  {userData?.firstname}
-                </h1>
-                {/* dropdwon */}
-                <div
-                  className={`${
-                    router.pathname === '/' || router.pathname === '/contactus'
-                      ? 'text-white'
-                      : 'text-babyblack'
-                  }`}
-                >
-                  {dropDown ? (
-                    <AiOutlineCaretUp
-                      onClick={() => dispatch(closeDropDown())}
-                      className='text-lg lg:text-2xl xl:text-3xl'
-                    />
-                  ) : (
-                    <AiOutlineCaretDown
-                      onClick={() => {
-                        dispatch(closeNotifications()), dispatch(openDropDown())
-                      }}
-                      className='text-lg lg:text-2xl xl:text-3xl'
                     />
                   )}
                 </div>

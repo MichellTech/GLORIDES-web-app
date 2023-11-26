@@ -9,10 +9,11 @@ import * as Yup from 'yup'
 import { RiDeleteBack2Fill } from 'react-icons/ri'
 import { LuImagePlus } from 'react-icons/lu'
 import Image from 'next/image'
-import axios from 'axios'
+await mainAxiosAction.post
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { State, City } from 'country-state-city'
+import mainAxiosAction from '@/components/axiosAction'
 
 function Enlistacar() {
   const [loading, setLoading] = useState(false)
@@ -140,7 +141,7 @@ function Enlistacar() {
   //     .trim('The contact name cannot include leading and trailing spaces')
   //     .required('No tank filling cost provided'),
   // })
-  console.log(carfeatures)
+
   const enlistusercar = (values, callback) => {
     if (userimage.length < 2) {
       toast.error('Please upload atleast six photos of your vehicle')
@@ -151,7 +152,6 @@ function Enlistacar() {
       )
       setLoading(false)
     } else {
-      console.log(values)
       const formData = new FormData()
       // const imagearray = userimage
       // console.log(userimage, 'lkjs')
@@ -196,14 +196,9 @@ function Enlistacar() {
           { camera: values.camera },
         ])
       )
-      axios
-        .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/list`, formData, {
-          headers: {
-            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
-          },
-        })
+      mainAxiosAction
+        .post(`/cars/list`, formData)
         .then(function (response) {
-          console.log(response?.data)
           setLoading(false)
           setUserimage(null)
           setUserimage2(null)

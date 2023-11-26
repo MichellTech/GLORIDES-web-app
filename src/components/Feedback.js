@@ -50,10 +50,10 @@ export default class AutoPlay extends Component {
       vertical: true,
       verticalSwiping: true,
       beforeChange: function (currentSlide, nextSlide) {
-        console.log('before changee', currentSlide, nextSlide)
+        // console.log('before changee', currentSlide, nextSlide)
       },
       afterChange: function (currentSlide) {
-        console.log('after changee', currentSlide)
+        // console.log('after changee', currentSlide)
       },
       responsive: [
         // {

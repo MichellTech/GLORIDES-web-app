@@ -4,7 +4,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import axios from 'axios'
+import mainAxiosAction from '@/components/axiosAction'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
@@ -66,11 +66,9 @@ function Forgotpasswordemailverification() {
   })
 
   const resetpasswordapi = (payload) => {
-    console.log(payload)
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/reset-password`, payload)
+    mainAxiosAction
+      .post(`/user/reset-password`, payload)
       .then(function (response) {
-        console.log(response)
         setLoading(false)
         router.push({
           pathname: '/auth/login',
@@ -86,12 +84,11 @@ function Forgotpasswordemailverification() {
 
   const handleresend = () => {
     setNewloader(true)
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/forgot-password`, {
+    mainAxiosAction
+      .post(`/user/forgot-password`, {
         email: userEmail,
       })
       .then(function (response) {
-        console.log(response.data)
         setNewloader(false)
         toast.success(response.data.message)
         setMinutes(1)

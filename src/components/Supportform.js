@@ -30,7 +30,7 @@ function Supportform() {
     //   pathname: '/Auth/emailverification',
     //   //  query: response.data.data.user,
     // })
-    console.log(values)
+    // console.log(values)
   }
 
   const validationSchema = Yup.object().shape({
@@ -47,7 +47,7 @@ function Supportform() {
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No priority provided'),
   })
-  console.log(userimage)
+  // console.log(userimage)
   return (
     <>
       <section className=''>

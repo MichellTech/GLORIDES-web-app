@@ -6,13 +6,13 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import Profilecomp from '@/components/Profilecomp'
-import Profilecompbig from '@/components/Profilecompbig'
+import Profilenavsmall from '../../components/Profile/Profilenavsmall'
+import Profilenavbig from '../../components/Profile/Profilenavbig'
 import creditCardType, {
   getTypeInfo,
   types as CardType,
 } from 'credit-card-type'
-import axios from 'axios'
+import mainAxiosAction from '@/components/axiosAction'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { MdOutlineDeleteOutline } from 'react-icons/md'
@@ -20,7 +20,8 @@ import moment from 'moment'
 import Loader from '../../components/Loaders/paymentcardloader'
 
 function Payment() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [loadingnew, setLoadingnew] = useState(false)
   const [cardexists, setCardexists] = useState(0)
   const [userdetails, setUserdetails] = useState(null)
   const initialValues = {
@@ -32,7 +33,7 @@ function Payment() {
 
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
-    setLoading(true)
+    setLoadingnew(true)
     const payload = {
       cvv: values.cvv,
       card_name: values.cname,
@@ -46,7 +47,7 @@ function Payment() {
   const cardtypecheck = (string) => {
     if (string?.trim?.()?.length >= 12) {
       const type = creditCardType?.(string)?.[0]?.type
-      console.log(type, 'maki')
+
       return type
     }
   }
@@ -58,20 +59,11 @@ function Payment() {
     cvv: Yup.string().required('No CVV provided'),
   })
   const getusercard = () => {
-    setLoading(true)
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/payment/get-cards`,
-        {},
-        {
-          headers: {
-            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
-          },
-        }
-      )
+    mainAxiosAction
+      .post(`/payment/get-cards`, {})
       .then(function (response) {
         setLoading(false)
-        toast.success(response?.data?.message)
+        // toast.success(response?.data?.message)
         setCardexists(2)
         setUserdetails(response?.data?.card_details)
       })
@@ -85,15 +77,11 @@ function Payment() {
       })
   }
   const postcarddetails = (payload, callback) => {
-    setLoading(true)
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/payment/add-cards`, payload, {
-        headers: {
-          'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
-        },
-      })
+    setLoadingnew(true)
+    mainAxiosAction
+      .post(`/payment/add-cards`, payload)
       .then(function (response) {
-        setLoading(false)
+        setLoadingnew(false)
         toast.success(response?.data?.message)
         setCardexists(2)
         callback()
@@ -101,7 +89,7 @@ function Payment() {
       })
       .catch(function (error) {
         toast.error(error?.response?.data?.message)
-        setLoading(false)
+        setLoadingnew(false)
         console.log(error)
       })
   }
@@ -111,20 +99,11 @@ function Payment() {
   // 5061240202044217007
 
   const handledelete = () => {
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/payment/delete-cards`,
-        {},
-        {
-          headers: {
-            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
-          },
-        }
-      )
+    mainAxiosAction
+      .post(`/payment/delete-cards`, {})
       .then(function (response) {
         setLoading(false)
         toast.success(response?.data?.message)
-        console.log(response)
         setCardexists(0)
         setUserdetails(null)
       })
@@ -139,14 +118,14 @@ function Payment() {
       <div className='sticky  md:fixed top-0 left-0 right-0 bg-white z-50  '>
         <Navbar />
         <div className='example md:hidden  overflow-y-auto w-full '>
-          <Profilecomp />
+          <Profilenavsmall />
         </div>
       </div>
       {/* body */}
       <div className='bg-[#F5F5F5] md:bg-white bg-opacity-50 pt-8  md:pt-0 md:px-6  md:flex md:justify-between md:items-start md:gap-4 w-full md:relative  '>
         {/* bg-nave links */}
         <div className='hidden md:block md:w-1/4 fixed top-32  md:pr-10       '>
-          <Profilecompbig />
+          <Profilenavbig />
         </div>
         {/* information */}
         {loading ? (
@@ -313,10 +292,11 @@ function Payment() {
                       </div>
 
                       <button
+                        disabled={loadingnew}
                         type='submit'
                         className='bg-babypurple text-white px-6 py-2 lg:py-3   rounded-md flex justify-center items-center mx-auto text-sm md:w-full max-w-xs shadow-md'
                       >
-                        {loading ? (
+                        {loadingnew ? (
                           <div className='flex justify-center gap-2 items-center  '>
                             <div className='spinner'></div>
                             Saving...

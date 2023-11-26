@@ -10,11 +10,15 @@ import 'react-toastify/dist/ReactToastify.css'
 import { MdOutlineAddAPhoto } from 'react-icons/md'
 import { useRouter } from 'next/router'
 import { State, City } from 'country-state-city'
-import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { logIN } from '@/features/userpersona/userSlice'
+import {
+  logIN,
+  getuserprofile,
+  getusernotifications,
+} from '@/features/userpersona/userSlice'
 import { phone } from 'phone'
 import Link from 'next/link'
+import mainAxiosAction from '@/components/axiosAction'
 
 function Completeregistration() {
   const [loading, setLoading] = useState(false)
@@ -29,7 +33,6 @@ function Completeregistration() {
   const [imageerrortwo, setImageerrortwo] = useState('')
   const fileTypes = ['JPG', 'JPEG', 'PNG']
   const router = useRouter()
-  // console.log(Country.getAllCountries())
   const dispatch = useDispatch()
   // drivers
   const handleupload = (uploadedcontent) => {
@@ -106,7 +109,6 @@ function Completeregistration() {
       setImageerrortwo('Please upload Insurance license')
       setLoading(false)
     } else {
-      console.log('first')
       const formData = new FormData()
       formData?.append('license', imagetoupload)
       formData?.append('insurance', imagetouploadtwo)
@@ -118,20 +120,9 @@ function Completeregistration() {
       formData?.append('state', values.state)
       formData?.append('city', values.city)
       formData?.append('phone', values.phone)
-      axios
-        .post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/user/complete-registration`,
-          formData,
-          {
-            headers: {
-              'x-glorious-access': JSON.parse(
-                localStorage.getItem('User_Token')
-              ),
-            },
-          }
-        )
+      mainAxiosAction
+        .post(`/user/complete-registration`, formData)
         .then(function (response) {
-          console.log(response.data)
           setLoading(false)
           setImageerror('')
           setImageerrortwo('')
@@ -140,6 +131,8 @@ function Completeregistration() {
           })
           toast.success(response.data.message)
           dispatch(logIN())
+          dispatch(getuserprofile())
+          dispatch(getusernotifications())
         })
         .catch(function (error) {
           toast.error(error.response.data.message)

@@ -1,21 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
 import User from './usernav'
 import Host from './hostnav'
+import { useSelector, useDispatch } from 'react-redux'
 import {
   getuserprofile,
   getusernotifications,
 } from '@/features/userpersona/userSlice'
 
 function index() {
-  const { hosting } = useSelector((store) => store.userpersona)
   const dispatch = useDispatch()
-  // get user
   useEffect(() => {
     dispatch(getuserprofile())
     dispatch(getusernotifications())
   }, [])
-
+  const { hosting } = useSelector((store) => store.userpersona)
   return <>{hosting ? <Host /> : <User />}</>
 }
 

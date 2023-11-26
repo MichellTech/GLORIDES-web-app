@@ -8,9 +8,13 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import axios from 'axios'
+import mainAxiosAction from '@/components/axiosAction'
 import { useSelector, useDispatch } from 'react-redux'
-import { logIN } from '@/features/userpersona/userSlice'
+import {
+  logIN,
+  getuserprofile,
+  getusernotifications,
+} from '@/features/userpersona/userSlice'
 
 function Login() {
   const [seepassword, setSeepassword] = useState(false)
@@ -46,10 +50,9 @@ function Login() {
   })
 
   const loginapi = (values) => {
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/login`, values)
+    mainAxiosAction
+      .post(`/user/login`, values)
       .then(function (response) {
-        console.log(response.data)
         if (response?.data?.user?.isVerified === false) {
           setLoading(false)
           router.push({
@@ -71,10 +74,13 @@ function Login() {
             'User_Token',
             JSON.stringify(response?.data?.user?.token)
           )
+          // localStorage.setItem('User_Exist', JSON.stringify(true))
           router.push({
             pathname: '/',
           })
           dispatch(logIN())
+          dispatch(getuserprofile())
+          dispatch(getusernotifications())
         }
       })
       .catch(function (error) {
@@ -172,6 +178,7 @@ function Login() {
                     </div>
 
                     <button
+                      disabled={loading}
                       type='submit'
                       className='bg-babypurple text-white px-4 py-3   rounded-md w-full  text-base lg:text-lg   shadow-xl'
                     >

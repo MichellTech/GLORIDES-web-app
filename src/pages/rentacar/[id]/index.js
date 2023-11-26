@@ -40,7 +40,6 @@ function Viewcar() {
     [carId]
   )
   // console.log(singlecar?.[0]?.car_additional_features)
-  console.log(singlecar)
   return (
     <>
       <Navbar />

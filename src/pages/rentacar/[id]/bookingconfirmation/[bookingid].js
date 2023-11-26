@@ -41,8 +41,7 @@ function Booking() {
 
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
-    console.log(values)
-    console.log('hello')
+
     // setLoadingp(true)
 
     // const payload = {

@@ -3,14 +3,22 @@ import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
 import { store } from '../redux/store'
 import { Provider } from 'react-redux'
+import react, { useEffect, useState } from 'react'
 
 export default function App({ Component, pageProps }) {
+  const [isClient, setIsClient] = useState(false)
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
   return (
     <>
-      <Provider store={store}>
-        <Component {...pageProps} />
-        <ToastContainer />
-      </Provider>
+      {isClient && (
+        <Provider store={store}>
+          <Component {...pageProps} />
+          <ToastContainer />
+        </Provider>
+      )}
     </>
   )
 }

@@ -31,9 +31,9 @@ function Paymentcomp() {
     //   pathname: '/Auth/emailverification',
     //   //  query: response.data.data.user,
     // })
-    console.log(values)
+    // console.log(values)
   }
-  console.log(userAccount.length)
+  // console.log(userAccount.length)
   const validationSchema = Yup.object().shape({
     account: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')

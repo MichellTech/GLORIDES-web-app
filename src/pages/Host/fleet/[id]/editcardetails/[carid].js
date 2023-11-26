@@ -84,7 +84,6 @@ function Editcardetails() {
     //   pathname: '/Auth/emailverification',
     //   //  query: response.data.data.user,
     // })
-    console.log(values)
   }
   // validation
   const validationSchema = Yup.object().shape({

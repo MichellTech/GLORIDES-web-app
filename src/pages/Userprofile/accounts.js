@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
+import Profilenavsmall from '../../components/Profile/Profilenavsmall'
+import Profilenavbig from '../../components/Profile/Profilenavbig'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FiUserPlus } from 'react-icons/fi'
@@ -11,8 +13,7 @@ import * as Yup from 'yup'
 import { ImSpinner } from 'react-icons/im'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import Profilecomp from '@/components/Profilecomp'
-import Profilecompbig from '@/components/Profilecompbig'
+
 function Payment() {
   const [loading, setLoading] = useState(false)
   const [bankexists, setBankexists] = useState(false)
@@ -55,14 +56,14 @@ function Payment() {
       <div className='sticky  md:fixed top-0 left-0 right-0 bg-white z-50  '>
         <Navbar />
         <div className='example md:hidden  overflow-y-auto w-full '>
-          <Profilecomp />
+          <Profilenavsmall />
         </div>
       </div>
       {/* body */}
       <div className='bg-[#F5F5F5] md:bg-white bg-opacity-50 pt-8  md:pt-0 md:px-6  md:flex md:justify-between md:items-start md:gap-4 w-full md:relative  '>
         {/* bg-nave links */}
         <div className='hidden md:block md:w-1/4 fixed top-32  md:pr-10       '>
-          <Profilecompbig />
+          <Profilenavbig />
         </div>
         {/* information */}
         <div className=' px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20 min-h-[70vh]  '>

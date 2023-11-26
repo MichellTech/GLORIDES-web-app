@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import axios from 'axios'
+import mainAxiosAction from '@/components/axiosAction'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
@@ -35,7 +35,6 @@ function Emailverification() {
     //   pathname: '/Auth/completeregistration',
     //   //  query: response.data.data.user,
     // })
-    console.log(values)
   }
 
   // validation
@@ -46,10 +45,9 @@ function Emailverification() {
   })
 
   const emailauthenticateapi = (payload) => {
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/otp/verify`, payload)
+    mainAxiosAction
+      .post(`/otp/verify`, payload)
       .then(function (response) {
-        console.log(response.data)
         setLoading(false)
         router.push({
           pathname: '/auth/completeregistration',
@@ -69,8 +67,8 @@ function Emailverification() {
 
   const handlenewrequest = () => {
     setLoading(true)
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/otp/request-new`, {
+    mainAxiosAction
+      .post(`/otp/request-new`, {
         email: userEmail,
       })
       .then(function (response) {
@@ -86,12 +84,11 @@ function Emailverification() {
 
   const handleresend = () => {
     setNewloader(true)
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/otp/resend`, {
+    mainAxiosAction
+      .post(`/otp/resend`, {
         email: userEmail,
       })
       .then(function (response) {
-        console.log(response.data)
         setNewloader(false)
         toast.success(response.data.message)
         setMinutes(1)

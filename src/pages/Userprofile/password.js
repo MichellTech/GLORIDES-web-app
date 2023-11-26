@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
-import Profilecomp from '@/components/Profilecomp'
-import Profilecompbig from '@/components/Profilecompbig'
+import Profilenavsmall from '../../components/Profile/Profilenavsmall'
+import Profilenavbig from '../../components/Profile/Profilenavbig'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import axios from 'axios'
+import mainAxiosAction from '@/components/axiosAction'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { AiFillEyeInvisible } from 'react-icons/ai'
@@ -62,16 +62,8 @@ function Password() {
   })
 
   const resetpassword = (payload, callback) => {
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/user/change-password`,
-        payload,
-        {
-          headers: {
-            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
-          },
-        }
-      )
+    mainAxiosAction
+      .post(`/user/change-password`, payload)
       .then(function (response) {
         setLoading(false)
         toast.success(response?.data?.message)
@@ -90,14 +82,14 @@ function Password() {
       <div className='sticky  md:fixed top-0 left-0 right-0 bg-white z-50  '>
         <Navbar />
         <div className='example md:hidden  overflow-y-auto w-full '>
-          <Profilecomp />
+          <Profilenavsmall />
         </div>
       </div>
       {/* body */}
       <div className='bg-[#F5F5F5] md:bg-white bg-opacity-50 pt-8  md:pt-0 md:px-6  md:flex md:justify-between md:items-start md:gap-4 w-full md:relative  '>
         {/* bg-nave links */}
         <div className='hidden md:block md:w-1/4 fixed top-32  md:pr-10       '>
-          <Profilecompbig />
+          <Profilenavbig />
         </div>
         {/* information */}
         <div className=' px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20 min-h-[70vh]  '>
@@ -120,7 +112,7 @@ function Password() {
                     </div>
 
                     {/* old password and new password */}
-                    <div className=' md:flex md:justify-between md:items-center md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4  '>
+                    <div className=' md:flex md:justify-between md:items-start md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4  '>
                       {/* old password */}
                       <div className='space-y-3  pb-2 lg:pb-3 md:w-1/2'>
                         <h1 className='text-xs text-slate-500  lg:text-sm '>

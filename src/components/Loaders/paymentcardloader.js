@@ -3,7 +3,7 @@ import React from 'react'
 function paymentcardloader() {
   return (
     <div className='bg-slate-200 shadow-md h-[50vh] md:h-[60vh] w-full  flex flex-col justify-start items-start px-6 py-4 mx-auto space-y-6  animate-pulse'>
-      <div className='  rounded-lg border px-6 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white space-y-4 w-4/6 sm:w-3/6 '>
+      <div className='  rounded-lg border px-6 py-4 bg-white text-white space-y-4 w-4/6 sm:w-3/6 '>
         <div className='flex justify-end'>
           <div className='w-7 md:w-8 lg:w-10 h-7 md:h-8 lg:h-10 rounded-full  bg-babygrey '></div>
         </div>

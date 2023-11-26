@@ -36,26 +36,26 @@ function Subscribe() {
     // reset
     onSubmitProps.resetForm()
   }
-  const Submitform = (payload) => {
-    axios
-      .post(`${process.env.NEXT_PUBLIC_POSTSUBSCRIBE_API}`, payload, {
-        headers: {
-          ' x-api-key':
-            'PMAK-646f49a99c0bef19902a3fe4-7049a9fa0500a342980c89cca17c38dfca',
-        },
-      })
-      .then(function (response) {
-        if (response.data.message === 'Ok') {
-          toast.success('Thanks for Subscribing ', { autoClose: 2000 })
-        }
-        setLoading(false)
-      })
-      .catch(function (error) {
-        toast.error('Network Error, Try Again')
-        setLoading(false)
-        console.log(error)
-      })
-  }
+  // const Submitform = (payload) => {
+  //   axios
+  //     .post(`${process.env.NEXT_PUBLIC_POSTSUBSCRIBE_API}`, payload, {
+  //       headers: {
+  //         ' x-api-key':
+  //           'PMAK-646f49a99c0bef19902a3fe4-7049a9fa0500a342980c89cca17c38dfca',
+  //       },
+  //     })
+  //     .then(function (response) {
+  //       if (response.data.message === 'Ok') {
+  //         toast.success('Thanks for Subscribing ', { autoClose: 2000 })
+  //       }
+  //       setLoading(false)
+  //     })
+  //     .catch(function (error) {
+  //       toast.error('Network Error, Try Again')
+  //       setLoading(false)
+  //       console.log(error)
+  //     })
+  // }
   return (
     <Formik
       initialValues={initialValues}

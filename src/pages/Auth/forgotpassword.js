@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import axios from 'axios'
+import mainAxiosAction from '@/components/axiosAction'
 
 function Forgotpassword() {
   const [loading, setLoading] = useState(false)
@@ -34,10 +34,9 @@ function Forgotpassword() {
 
   // cta
   const recoverpasswordapi = (values) => {
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/forgot-password`, values)
+    mainAxiosAction
+      .post(`/user/forgot-password`, values)
       .then(function (response) {
-        console.log(response)
         setLoading(false)
         router.push({
           pathname: '/auth/forgotpasswordemailverification',

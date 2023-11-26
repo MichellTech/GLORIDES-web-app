@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
-import Profilecomp from '@/components/Profilecomp'
 import Image from 'next/image'
-import Profilecompbig from '@/components/Profilecompbig'
+import Profilenavsmall from '../../components/Profile/Profilenavsmall'
+import Profilenavbig from '../../components/Profile/Profilenavbig'
 import moment from 'moment'
 import Link from 'next/link'
 import { useSelector, useDispatch } from 'react-redux'
@@ -23,7 +23,7 @@ function view() {
       <div className='sticky  md:fixed top-0 left-0 right-0 bg-white z-50  '>
         <Navbar />
         <div className='example md:hidden  overflow-y-auto w-full '>
-          <Profilecomp />
+          <Profilenavsmall />
         </div>
       </div>
 
@@ -32,7 +32,7 @@ function view() {
       <div className='bg-[#F5F5F5] md:bg-white bg-opacity-50 pt-8  md:pt-0 md:px-6  md:flex md:justify-between md:items-start md:gap-4 w-full md:relative  '>
         {/* bg-nave links */}
         <div className='hidden md:block md:w-1/4 fixed top-32  md:pr-10       '>
-          <Profilecompbig />
+          <Profilenavbig />
         </div>
         {/* information */}
         {isLoading ? (
@@ -63,22 +63,24 @@ function view() {
                   security settings, and manage your payments effortlessly.Make
                   your experience truly yours.
                 </h1>
-                <div className='flex items-center justify-center md:justify-start gap-4  lg:gap-6 '>
-                  <Link
-                    href='/userprofile/edit'
-                    className='px-6  py-2 border  rounded-md text-xs lg:text-sm tracking-wide transition ease-in-out delay-150   hover:scale-110 border-babyblack hover:bg-indigo-500 duration-300 hover:text-white hover:border-none'
-                  >
-                    {' '}
-                    Edit Profile
-                  </Link>
-                  <Link
-                    href='/userprofile/documents'
-                    className='px-6  py-2 border  rounded-md text-xs lg:text-sm tracking-wide transition ease-in-out delay-150   hover:scale-110 border-babyblack hover:bg-indigo-500 duration-300 hover:text-white hover:border-none'
-                  >
-                    {' '}
-                    Edit Documents
-                  </Link>
-                </div>
+                {userData && (
+                  <div className='flex items-center justify-center md:justify-start gap-4  lg:gap-6 '>
+                    <Link
+                      href='/userprofile/edit'
+                      className='px-6  py-2 border  rounded-md text-xs lg:text-sm tracking-wide transition ease-in-out delay-150   hover:scale-110 border-babyblack hover:bg-indigo-500 duration-300 hover:text-white hover:border-none'
+                    >
+                      {' '}
+                      Edit Profile
+                    </Link>
+                    <Link
+                      href='/userprofile/documents'
+                      className='px-6  py-2 border  rounded-md text-xs lg:text-sm tracking-wide transition ease-in-out delay-150   hover:scale-110 border-babyblack hover:bg-indigo-500 duration-300 hover:text-white hover:border-none'
+                    >
+                      {' '}
+                      Edit Documents
+                    </Link>
+                  </div>
+                )}
               </div>
             </div>
             {/* profile information */}

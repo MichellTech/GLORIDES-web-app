@@ -32,7 +32,6 @@ function Raiseaticket() {
     //   pathname: '/Auth/emailverification',
     //   //  query: response.data.data.user,
     // })
-    console.log(values)
   }
 
   const validationSchema = Yup.object().shape({
@@ -49,7 +48,7 @@ function Raiseaticket() {
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No priority provided'),
   })
-  console.log(userimage)
+
   return (
     <>
       <Navbar />

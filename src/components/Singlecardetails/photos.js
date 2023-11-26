@@ -2,7 +2,7 @@ import React from 'react'
 import { cars } from '../../utilis/Cardata'
 import Image from 'next/image'
 function photos() {
-  console.log(cars)
+  // console.log(cars)
   return (
     <div className='bg-white rounded-md px-4 py-6 md:py-8 shadow-md'>
       {/* car photos */}

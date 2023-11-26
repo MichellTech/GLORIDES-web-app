@@ -6,7 +6,7 @@ import { AiFillEyeInvisible } from 'react-icons/ai'
 import { AiFillEye } from 'react-icons/ai'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import axios from 'axios'
+import mainAxiosAction from '@/components/axiosAction'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -73,20 +73,19 @@ function Signup() {
   })
 
   const signupapi = (values) => {
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/user/signup`, values)
+    mainAxiosAction
+      .post(`/user/signup`, values)
       .then(function (response) {
         setLoading(false)
         localStorage.setItem(
           'User_Token',
           JSON.stringify(response.data.user.token)
         )
+        localStorage.setItem('User_Exist', JSON.stringify(true))
         router.push({
           pathname: '/auth/emailverification',
           query: { userEmail: response.data.user.email },
         })
-
-        console.log(response)
       })
       .catch(function (error) {
         toast.error(error?.response?.data?.message)

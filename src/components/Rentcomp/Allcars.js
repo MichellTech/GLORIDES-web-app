@@ -8,9 +8,10 @@ import { setAllsearchedcars } from '@/features/rental/filterSlice'
 import { cars } from '../../utilis/Cardata'
 import { useRouter } from 'next/router'
 import { GiRoad } from 'react-icons/gi'
-import axios from 'axios'
+await mainAxiosAction.post
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import mainAxiosAction from '../axiosAction'
 
 function Allcars() {
   const [saved, setSaved] = useState(false)
@@ -21,16 +22,8 @@ function Allcars() {
   const dispatch = useDispatch()
 
   const getallcars = () => {
-    axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/cars/getAllCars`,
-        {},
-        {
-          headers: {
-            'x-glorious-access': JSON.parse(localStorage.getItem('User_Token')),
-          },
-        }
-      )
+    mainAxiosAction
+      .post(`/cars/getAllCars`, {})
       .then(function (response) {
         setLoading(false)
         toast.success(response?.data?.message)
@@ -42,7 +35,7 @@ function Allcars() {
         console.log(error)
       })
   }
-  console.log(allcars)
+  // console.log(allcars)
   useEffect(() => {
     getallcars()
   }, [])
