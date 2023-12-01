@@ -286,11 +286,11 @@ function Navbar() {
                               alt='logo'
                               width={1000}
                               height={1000}
-                              className='object-cover w-10 md:w-12 lg:w-16  xl:w-20  rounded-full border-2 border-babypurple'
+                              className='object-cover w-10 md:w-12 lg:w-16  xl:w-20   rounded-full border-2 border-babypurple'
                             />
                           )}
                         </div>
-                        <h1 className='text-xs lg:text-sm font-bold truncate w-40 xl:w-60 text-center'>
+                        <h1 className='text-xs lg:text-sm font-bold truncate w-40  text-center'>
                           {profile?.lastname} {profile?.firstname}
                         </h1>
                       </div>

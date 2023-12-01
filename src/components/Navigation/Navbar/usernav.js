@@ -14,7 +14,7 @@ import { BsBookmark, BsBriefcase, BsChatSquareDots } from 'react-icons/bs'
 import { HiOutlineDocumentText } from 'react-icons/hi'
 import { BiSupport } from 'react-icons/bi'
 import { RiHome3Line, RiInformationLine } from 'react-icons/ri'
-import { MdAdsClick } from 'react-icons/md'
+import { MdAdsClick, MdOutlineDataSaverOn } from 'react-icons/md'
 import { GrTransaction } from 'react-icons/gr'
 import Link from 'next/link'
 import moment from 'moment'
@@ -330,10 +330,10 @@ function Navbar() {
                 content={
                   <div className='    bg-white  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6 '>
                     {/* profil */}
-                    <div className='flex flex-col justify-between items-center gap-4 px-4 lg:px-6 '>
+                    <div className='flex flex-col justify-between items-center gap-4 px-4  '>
                       {/* image */}
                       <div className='flex flex-col justify-center items-center gap-2 '>
-                        <div className='  relative '>
+                        <div className='  relative  '>
                           {profile ? (
                             <Image
                               src={profile?.profile_picture?.url}
@@ -352,12 +352,12 @@ function Navbar() {
                             />
                           )}
                         </div>
-                        <h1 className='text-xs lg:text-sm font-bold truncate w-40 xl:w-60 text-center'>
+                        <h1 className='text-xs lg:text-sm font-bold truncate w-40  text-center'>
                           {profile?.lastname} {profile?.firstname}
                         </h1>
                       </div>
                       {/* link */}
-                      <div className='flex items-center gap-2 w-max  md:flex-col'>
+                      <div className='flex items-center gap-2 w-max lg:gap-4 '>
                         <Link
                           href='/userprofile/view'
                           className='border px-3 md:px-4 lg:px-6 hover:bg-babypurple hover:border-none hover:text-white hover:duration-500 hover:shadow-md     py-1  rounded-full w-max '
@@ -384,7 +384,7 @@ function Navbar() {
                     {/* underline */}
                     <div className='w-full border-b  border-babygrey'></div>
                     {/* options */}
-                    <div className='px-4 lg:px-6 space-y-4 md:space-y-4 lg:space-y-5 xl:space-y-6'>
+                    <div className='px-4 space-y-4  lg:space-y-5 xl:space-y-6'>
                       {/* saved vehicles */}
                       <Link
                         href='/'
@@ -430,7 +430,7 @@ function Navbar() {
                         href='/savedvehicles'
                         className='flex  items-center gap-4 '
                       >
-                        <BsBookmark className='lg:text-2xl ' />
+                        <MdOutlineDataSaverOn className='lg:text-2xl ' />
                         <h1 className='text-xs lg:text-sm '>Saved Vehicles</h1>
                       </Link>
                       {/* rent history */}
