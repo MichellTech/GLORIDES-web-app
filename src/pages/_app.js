@@ -1,3 +1,4 @@
+'useClient'
 import '@/styles/globals.css'
 import 'react-toastify/dist/ReactToastify.css'
 import 'tippy.js/dist/tippy.css'

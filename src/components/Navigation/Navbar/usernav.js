@@ -56,7 +56,8 @@ function Navbar() {
   //     }
   //   })
   //  ref = { menuRef }
-
+  const profile = JSON.parse(localStorage.getItem('User_Profile'))
+  const mynotifications = JSON.parse(localStorage.getItem('User_Notifications'))
   return (
     <nav
       className={`${
@@ -210,7 +211,7 @@ function Navbar() {
               {/* tooltipnotifications */}
               <Tippy
                 content={
-                  !notificationsData ? (
+                  !mynotifications ? (
                     <div className='flex flex-col justify-center items-center mx-auto h-64 md:h-56 w-60 lg:w-80  space-y-1 md:space-y-2 '>
                       <div className='bg-babygrey px-2 py-2 rounded-full cursor-pointer '>
                         <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
@@ -225,7 +226,7 @@ function Navbar() {
                     </div>
                   ) : (
                     <div className='  divide-y w-60 lg:w-80'>
-                      {notificationsData.slice(0, 3).map((item, index) => {
+                      {mynotifications.slice(0, 3).map((item, index) => {
                         return (
                           <div
                             key={index}
@@ -283,16 +284,16 @@ function Navbar() {
               {/* menu dropdown */}
               <Tippy
                 content={
-                  <div className=' w-60 md:w-64 lg:w-72 xl:w-[19rem]  bg-white  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6 '>
+                  <div className='    bg-white  py-4 lg:py-6  space-y-4 md:space-y-5 lg:space-y-6 '>
                     {/* profil */}
-                    <div className='flex justify-between items-center gap-4 px-4 lg:px-6 '>
+                    <div className='flex flex-col justify-between items-center gap-4 px-4 lg:px-6 '>
                       {/* image */}
-                      <div className='flex justify-center items-center gap-2 '>
+                      <div className='flex flex-col justify-center items-center gap-2 '>
                         <div className='  relative '>
-                          {userData ? (
+                          {profile ? (
                             <Image
-                              src={userData?.profile_picture?.url}
-                              alt={userData?.profile_picture?.name}
+                              src={profile?.profile_picture?.url}
+                              alt={profile?.profile_picture?.name}
                               width={1000}
                               height={1000}
                               className='object-cover w-10 lg:w-12  xl:w-14 rounded-full border-2 border-babypurple'
@@ -307,60 +308,39 @@ function Navbar() {
                             />
                           )}
                         </div>
-                        <h1 className='text-xs lg:text-sm font-bold truncate w-14 lg:w-16 xl:w-20'>
-                          {' '}
-                          {userData?.firstname}
+                        <h1 className='text-xs lg:text-sm font-bold truncate w-40 xl:w-60 text-center'>
+                          {profile?.lastname} {profile?.firstname}
                         </h1>
                       </div>
                       {/* link */}
-                      <Link
-                        href='/userprofile/view'
-                        className='bg-babypurple px-2 md:px-3   py-1 md:py-2 rounded'
-                      >
-                        <h1 className='text-white text-xs xl:text-sm text-center w-max'>
-                          View Profile
-                        </h1>
-                      </Link>
+                      <div className='flex items-center gap-2 w-max lg:gap-4'>
+                        <Link
+                          href='/userprofile/view'
+                          className='border px-3 md:px-4 lg:px-6 hover:bg-babypurple hover:border-none hover:text-white hover:duration-500 hover:shadow-md     py-1  rounded-full w-max '
+                        >
+                          <h1 className=' text-xs xl:text-sm text-center '>
+                            View Profile
+                          </h1>
+                        </Link>
+                        <button
+                          onClick={() => {
+                            dispatch(switchToHost()),
+                              router.push({
+                                pathname: '/host/dashboard',
+                              })
+                          }}
+                          className='border px-3 md:px-4  py-1  rounded-full w-max  hover:bg-babypurple hover:border-none hover:text-white hover:duration-500 hover:shadow-md'
+                        >
+                          <h1 className=' text-xs xl:text-sm text-center '>
+                            Switch to business
+                          </h1>
+                        </button>
+                      </div>
                     </div>
                     {/* underline */}
-                    <div className='w-full border-b lg:border-b-2 border-babygrey'></div>
+                    <div className='w-full border-b  border-babygrey'></div>
                     {/* options */}
                     <div className='px-4 lg:px-6 space-y-4 md:space-y-4 lg:space-y-5 xl:space-y-6'>
-                      {/* host/user */}
-                      <div className='flex justify-between items-center gap-4'>
-                        {/* text */}
-                        <div className='flex  items-center gap-4 '>
-                          <FiUser className=' lg:text-2xl ' />
-                          <h1 className='text-xs lg:text-sm '>
-                            {hosting ? 'Switch to User' : 'Become a Host'}
-                          </h1>
-                        </div>
-                        {/* button */}
-                        {!hosting && (
-                          <button
-                            type='button'
-                            onClick={() => {
-                              dispatch(switchToHost()),
-                                router.push({
-                                  pathname: '/host/dashboard',
-                                })
-                            }}
-                            className={`${
-                              dropDown
-                                ? 'bg-babypurple rounded-full relative h-4 w-8 lg:w-14 lg:h-6 '
-                                : 'bg-babygrey rounded-full relative h-4 w-8 lg:w-14 lg:h-6 '
-                            }`}
-                          >
-                            <div
-                              className={`${
-                                hosting
-                                  ? 'bg-white rounded-full w-3 h-3 lg:h-5 lg:w-5  absolute top-1/2  bottom-1/2 right-1 -translate-y-1/2 duration-1000  '
-                                  : 'bg-white rounded-full w-3 h-3 absolute top-1/2  bottom-1/2 left-1 -translate-y-1/2 duration-1000 lg:h-5 lg:w-5'
-                              } `}
-                            ></div>
-                          </button>
-                        )}
-                      </div>
                       {/* saved vehicles */}
                       <Link
                         href='/'
@@ -444,11 +424,11 @@ function Navbar() {
                   className='flex justify-center items-center gap-2 lg:gap-4 xl:gap-5'
                 >
                   {/* image */}
-                  <div className='  relative '>
-                    {userData ? (
+                  <div className='  relative cursor-pointer '>
+                    {profile ? (
                       <Image
-                        src={userData?.profile_picture?.url}
-                        alt={userData?.profile_picture?.name}
+                        src={profile?.profile_picture?.url}
+                        alt={profile?.profile_picture?.name}
                         width={1000}
                         height={1000}
                         className={`${

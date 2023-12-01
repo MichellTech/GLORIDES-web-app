@@ -7,6 +7,7 @@ export const getuserprofile = createAsyncThunk(
   async () => {
     try {
       const response = await mainAxiosAction.post(`/user/get-user`, {})
+      localStorage.setItem('User_Profile', JSON.stringify(response?.data?.user))
       return response?.data?.user
     } catch (error) {
       console.error(error)
@@ -23,7 +24,10 @@ export const getusernotifications = createAsyncThunk(
         `/notifications/get-notifications`,
         {}
       )
-      // console.log(response)
+      localStorage.setItem(
+        'User_Notifications',
+        JSON.stringify(response?.data?.notifications)
+      )
       return response?.data?.notifications
     } catch (error) {
       console.error(error)
