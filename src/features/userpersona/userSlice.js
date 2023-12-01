@@ -46,7 +46,7 @@ const loadState = () => {
     return undefined
   }
 }
-console.log(loadState())
+
 const initialState = {
   isUserLogedin: loadState(),
   dropDown: false,

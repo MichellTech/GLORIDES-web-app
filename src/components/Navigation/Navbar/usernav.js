@@ -56,8 +56,11 @@ function Navbar() {
   //     }
   //   })
   //  ref = { menuRef }
-  const profile = JSON.parse(localStorage.getItem('User_Profile'))
-  const mynotifications = JSON.parse(localStorage.getItem('User_Notifications'))
+  const profile = JSON?.parse(localStorage?.getItem('User_Profile'))
+  const mynotifications = JSON?.parse(
+    localStorage?.getItem('User_Notifications')
+  )
+
   return (
     <nav
       className={`${
@@ -212,48 +215,76 @@ function Navbar() {
               <Tippy
                 content={
                   !mynotifications ? (
-                    <div className='flex flex-col justify-center items-center mx-auto h-64 md:h-56 w-60 lg:w-80  space-y-1 md:space-y-2 '>
+                    <div className='flex flex-col justify-center items-center mx-auto h-52 md:h-56 w-64 md:w-72 lg:w-80 space-y-2 md:space-y-3 '>
                       <div className='bg-babygrey px-2 py-2 rounded-full cursor-pointer '>
                         <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
                       </div>
-                      <h1 className='font-bold text-sm text-center lg:text-base px-4 md:px-8  lg:px-10'>
-                        No Notifications to show yet
-                      </h1>
-                      <p className='text-xs text-center px-6 md:px-8  lg:px-10 '>
-                        You will see useful notifications here soon. Please
-                        check back regularly
-                      </p>
+                      <div className='space-y-1 px-4 md:px-8  '>
+                        <h1 className='font-bold text-sm text-center lg:text-base '>
+                          No new notifications to show yet
+                        </h1>
+                        <p className='text-xs text-center  lg:text-sm '>
+                          You will see new notifications here soon. Please check
+                          back regularly
+                        </p>
+                      </div>
+
+                      <Link href='/allnotifications'>
+                        <div
+                          // onClick={() => dispatch(closeNotifications())}
+                          className='  py-2 px-4 text-left text-babypurple text-xs lg:text-sm font-bold'
+                        >
+                          <h1>See all notifications</h1>
+                        </div>
+                      </Link>
                     </div>
                   ) : (
-                    <div className='  divide-y w-60 lg:w-80'>
-                      {mynotifications.slice(0, 3).map((item, index) => {
-                        return (
-                          <div
-                            key={index}
-                            className=' space-y-1 py-3 lg:py-4 px-2  lg:px-3  '
-                          >
-                            {/* text */}
-                            <div className='space-y-1  cursor-pointer '>
-                              {/* Header */}
+                    <div
+                      className={`${
+                        mynotifications?.filter((i) => i.isRead === false)
+                          ?.length > 0
+                          ? '  divide-y w-64 lg:w-80'
+                          : 'w-max'
+                      }`}
+                    >
+                      {mynotifications
+                        .filter((i) => i.isRead === false)
+                        .slice(0, 3)
+                        .map((item, index) => {
+                          return (
+                            <div
+                              key={index}
+                              className=' space-y-1 py-3 lg:py-4 px-2  lg:px-3  '
+                            >
+                              {/* text */}
+                              <div className='space-y-1  cursor-pointer '>
+                                {/* Header */}
 
-                              {/* desc */}
-                              <p className='text-xs lg:text-sm  line-clamp-2   '>
-                                {item?.message}
-                              </p>
-                              {/* time */}
-                              <p
-                                className='text-[0.65rem]
+                                {/* desc */}
+                                <p className='text-xs lg:text-sm  line-clamp-2   '>
+                                  {item?.message}
+                                </p>
+                                {/* time */}
+                                <p
+                                  className='text-[0.65rem]
                                     text-slate-500  '
-                              >
-                                {moment(item?.date_created).format('Do MMMM')}
-                              </p>
+                                >
+                                  {moment(item?.date_created).format('Do MMMM')}
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                        )
-                      })}
+                          )
+                        })}
 
                       {/* viewall */}
-                      <div className=' border-t w-full'>
+                      <div
+                        className={`${
+                          mynotifications?.filter((i) => i.isRead === false)
+                            ?.length > 0
+                            ? ' border-t w-full'
+                            : 'w-max'
+                        }`}
+                      >
                         <Link href='/allnotifications'>
                           <div
                             // onClick={() => dispatch(closeNotifications())}
@@ -273,11 +304,24 @@ function Navbar() {
                 visible={visible}
                 onClickOutside={hide}
               >
-                <div
-                  onClick={visible ? hide : show}
-                  className='bg-babygrey px-2 py-2 rounded-full lg:px-3 lg:py-3 cursor-pointer relative'
-                >
-                  <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
+                <div className='relative'>
+                  <div
+                    onClick={visible ? hide : show}
+                    className='bg-babygrey px-2 py-2 rounded-full lg:px-3 lg:py-3 cursor-pointer relative'
+                  >
+                    <IoIosNotificationsOutline className='text-xs lg:text-base xl:text-xl ' />
+                  </div>
+                  {mynotifications?.filter((i) => i.isRead === false)?.length >
+                    0 && (
+                    <div className='absolute -top-3 lg:-top-4 -right-2 lg:-right-3 w-5 h-5 lg:w-7 lg:h-7 rounded-full bg-babypurple flex justify-center items-center'>
+                      <h1 className='text-[0.6rem] text-white lg:text-xs font-bold'>
+                        {
+                          mynotifications?.filter((i) => i.isRead === false)
+                            ?.length
+                        }
+                      </h1>
+                    </div>
+                  )}
                 </div>
               </Tippy>
 
