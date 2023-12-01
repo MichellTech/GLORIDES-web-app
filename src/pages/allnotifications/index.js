@@ -84,21 +84,21 @@ function Index() {
                     <div
                       className={`${
                         item.isRead
-                          ? 'w-full  space-y-6 lg:space-y-8  bg-white px-3 lg:px-5 xl:px-7  py-4 shadow-md  border-l md:border-l-2  lg:border-l-4 border-green-500 '
-                          : 'w-full  space-y-6 lg:space-y-8  bg-white px-3 lg:px-5 xl:px-7  py-4 shadow-md  border-l md:border-l-2  lg:border-l-4 border-babypurple '
+                          ? 'w-full  space-y-6 lg:space-y-8  bg-white px-3 lg:px-5 xl:px-7  py-4 shadow-md  border-l-4 lg:border-l-[6px] border-green-500 '
+                          : 'w-full  space-y-6 lg:space-y-8  bg-white px-3 lg:px-5 xl:px-7  py-4 shadow-md border-l-4 lg:border-l-[6px] border-babypurple '
                       }`}
                     >
                       {/* header */}
                       <header className='flex justify-between items-center gap-4 '>
                         <div className='flex items-center gap-2 lg:gap-4'>
                           <BiMessageSquareDetail className='text-xl lg:text-2xl' />
-                          <h1 className=' text-sm sm:text-base lg:text-lg xl:text-xl font-semibold text-babyblack '>
+                          <h1 className=' text-xs sm:text-sm lg:text-base xl:text-lg font-semibold text-babyblack '>
                             {' '}
                             {item?.title}
                           </h1>
                         </div>
                         <div className='flex items-center gap-4 md:gap-6'>
-                          <h1 className='text-sm lg:text-base '>
+                          <h1 className='text-xs md:text-sm xl:text-base '>
                             {' '}
                             {moment(item?.date_created).format('Do MMMM YYYY')}
                           </h1>
@@ -124,7 +124,7 @@ function Index() {
                       </header>
 
                       {messageid === item?._id && (
-                        <div className='space-y-3 md:space-y-5 lg:space-y-7'>
+                        <div className='space-y-6 md:space-y-7 lg:space-y-9'>
                           <p className='text-sm lg:text-base xl:text-lg text-slate-500'>
                             {item?.message}
                           </p>

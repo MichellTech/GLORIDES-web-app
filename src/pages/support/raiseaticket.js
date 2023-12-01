@@ -4,7 +4,10 @@ import Footer from '@/components/Navigation/Footer'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { RiDeleteBack2Fill } from 'react-icons/ri'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import Link from 'next/link'
+import mainAxiosAction from '@/components/axiosAction'
 function Raiseaticket() {
   const [loading, setLoading] = useState(false)
   const [userservice, setUserservice] = useState(['User', 'Host'])
@@ -20,18 +23,9 @@ function Raiseaticket() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
+    sendticket(values)
 
-    // reset
-    // onSubmitProps.resetForm()
-    // router.push({
-    //   pathname: '/Auth/emailverification',
-    //   //  query: response.data.data.user,
-    // })
+    console.log(values)
   }
 
   const validationSchema = Yup.object().shape({
@@ -49,11 +43,37 @@ function Raiseaticket() {
       .required('No priority provided'),
   })
 
+  const sendticket = (values) => {
+    const formData = new FormData()
+    for (const image of userimage) {
+      formData.append('ticket_files', image?.file)
+    }
+    // formData?.append('documents', JSON.stringify(values.userimage2))
+    formData?.append('subject', values.subject)
+    formData?.append('message', values.message)
+    formData?.append('priority', values.priority)
+    mainAxiosAction
+      .post(`/ticket/raise-ticket`, formData)
+      .then(function (response) {
+        setLoading(false)
+        setUserimage(null)
+        router.push({
+          pathname: '/support',
+        })
+        toast.success(response?.data?.message)
+      })
+      .catch(function (error) {
+        toast.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
   return (
     <>
       <Navbar />
       <section className='bg-[#F5F5F5]   bg-opacity-50 '>
-        <div className='py-16 xl:py-24 max-w-md sm:max-w-xl mx-auto font-sans md:max-w-3xl lg:max-w-4xl xl:max-w-6xl  px-4 md:px-6  lg:px-8'>
+        <div className='py-16 xl:py-24 mx-auto font-sans  px-6 md:px-8  lg:px-10 xl:px-14'>
           {/* form */}
           <Formik
             initialValues={initialValues}
@@ -70,33 +90,19 @@ function Raiseaticket() {
                         Ticket Information
                       </h1>
                       <div className='w-full bg-white shadow-md rounded-lg px-6 py-6 lg:px-10 lg:py-10 space-y-6 lg:space-y-10 xl:space-y-12'>
-                        {/* name and emails */}
-                        <div className='space-y-6  md:flex md:items-center md:justify-between md:gap-6 xl:gap-10 md:space-y-0'>
-                          {/* name */}
-                          <div className='space-y-3 w-full'>
-                            <h1 className='text-xs lg:text-sm'> Name</h1>
-                            <p className='bg-softpurple border-babyblack border w-full py-2 lg:py-3  px-4 text-xs  md:text-sm   rounded-sm'>
-                              Okwu Chiedozie Michell
-                            </p>
-                          </div>
-                          {/* email */}
-                          <div className='space-y-3  w-full'>
-                            <h1 className='text-xs lg:text-sm'> Email</h1>
-                            <p className='bg-softpurple border-babyblack border w-full py-2 lg:py-3  px-4 text-xs  md:text-sm rounded-sm'>
-                              OkwuChiedozie@gmail.com
-                            </p>
-                          </div>
-                        </div>
                         {/* subject , service and priority */}
                         <div className='space-y-6  md:flex md:items-start md:justify-between md:gap-6 md:space-y-0 xl:gap-10'>
                           {/* subject */}
                           <div className=' space-y-3 w-full'>
-                            <h1 className='text-xs lg:text-sm'>Subject</h1>
+                            <h1 className='text-xs md:text-sm xl:text-base '>
+                              Subject
+                            </h1>
                             <Field
                               type='text'
                               name='subject'
                               placeholder='Input your Subject title here'
-                              className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm rounded-sm '
+                              className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm
+                               rounded-sm xl:text-base xl:placeholder:text-base  '
                             />
                             <div className='text-softRed text-xs mt-1 px-4'>
                               <ErrorMessage name='subject' />
@@ -104,13 +110,15 @@ function Raiseaticket() {
                           </div>
                           {/* service */}
                           <div className=' space-y-3 w-full'>
-                            <h1 className='text-xs lg:text-sm'>Service Type</h1>
+                            <h1 className='text-xs md:text-sm xl:text-base '>
+                              Service Type
+                            </h1>
                             <div className='relative'>
                               <Field
                                 as='select'
                                 type='selectOption'
                                 name='service'
-                                className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm rounded-sm cursor-pointer '
+                                className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm rounded-sm cursor-pointer xl:text-base xl:placeholder:text-base  '
                               >
                                 <option value=''>Select Service Type</option>
                                 {userservice?.map((item, index) => {
@@ -132,13 +140,15 @@ function Raiseaticket() {
                           </div>
                           {/* priority */}
                           <div className=' space-y-3 w-full'>
-                            <h1 className='text-xs lg:text-sm'>Priority</h1>
+                            <h1 className='text-xs md:text-sm xl:text-base '>
+                              Priority
+                            </h1>
                             <div className='relative '>
                               <Field
                                 as='select'
                                 type='selectOption'
                                 name='priority'
-                                className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm  rounded-sm cursor-pointer   '
+                                className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm  rounded-sm cursor-pointer xl:text-base xl:placeholder:text-base    '
                               >
                                 <option className=' ' value=''>
                                   select Priority
@@ -275,20 +285,21 @@ function Raiseaticket() {
                         {/* more */}
                         {/* more */}
                         <h1 className='text-xs text-babypurple'>
-                          Only Images and Pdf's are allowed
+                          Only Images and Pdf's are allowed(max size 5mb)
                         </h1>
                       </div>
                     </div>
                   </div>
                   {/* button */}
-                  <div className='flex justify-between items-center gap-6 lg:gap-8 xl:gap-10 pt-6 lg:pt-10  xl:pt-12 max-w-sm mx-auto'>
+                  <div className='flex justify- items-center gap-6 lg:gap-8 xl:gap-10 pt-6 lg:pt-10  xl:pt-12 max-w-sm lg:max-w-xl  mx-auto'>
                     <button
                       type='submit'
-                      className='bg-babypurple text-white px-4 py-2 lg:py-3   rounded-md w-full  text-base lg:text-lg shadow-md transition ease-in-out delay-150  hover:-translate-y-1  hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '
+                      // disabled={loading}
+                      className='bg-babypurple text-white px-4 py-3 lg:py-4   rounded-md w-full  text-base lg:text-lg shadow-md transition ease-in-out delay-150  hover:-translate-y-1  hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '
                     >
                       {loading ? (
                         <div className='flex justify-center gap-2 items-center'>
-                          <ImSpinner className='animate-spin' />
+                          <div className='spinner'></div>
                           Sending...
                         </div>
                       ) : (
@@ -297,7 +308,7 @@ function Raiseaticket() {
                     </button>
                     <Link
                       href='/support'
-                      className='border-babyblack text-babyblack border px-4 py-2 lg:py-3   rounded-md w-full  text-base lg:text-lg shadow-md transition ease-in-out delay-150  hover:-translate-y-1  hover:bg-indigo-500 duration-300 hover:border-none hover:text-white text-center '
+                      className='border-babyblack text-babyblack border px-4 py-3 lg:py-4   rounded-md w-full  text-base lg:text-lg shadow-md transition ease-in-out delay-150  hover:-translate-y-1  hover:bg-indigo-500 duration-300 hover:border-none hover:text-white text-center '
                     >
                       Cancel
                     </Link>

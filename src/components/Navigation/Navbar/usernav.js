@@ -340,7 +340,7 @@ function Navbar() {
                               alt={profile?.profile_picture?.name}
                               width={1000}
                               height={1000}
-                              className='object-cover w-10 lg:w-12  xl:w-14 rounded-full border-2 border-babypurple'
+                              className='object-cover w-10 md:w-12 lg:w-16  xl:w-20  rounded-full border-2 border-babypurple'
                             />
                           ) : (
                             <Image
@@ -348,7 +348,7 @@ function Navbar() {
                               alt='logo'
                               width={1000}
                               height={1000}
-                              className='object-cover w-10 lg:w-12  xl:w-14 rounded-full border-2 border-babypurple'
+                              className='object-cover w-10 md:w-12 lg:w-16  xl:w-20  rounded-full border-2 border-babypurple'
                             />
                           )}
                         </div>
@@ -357,7 +357,7 @@ function Navbar() {
                         </h1>
                       </div>
                       {/* link */}
-                      <div className='flex items-center gap-2 w-max lg:gap-4'>
+                      <div className='flex items-center gap-2 w-max  md:flex-col'>
                         <Link
                           href='/userprofile/view'
                           className='border px-3 md:px-4 lg:px-6 hover:bg-babypurple hover:border-none hover:text-white hover:duration-500 hover:shadow-md     py-1  rounded-full w-max '

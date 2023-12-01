@@ -47,12 +47,23 @@ const loadState = () => {
   }
 }
 
+const userState = () => {
+  try {
+    const usersState = localStorage.getItem('User_State')
+    if (usersState === null) {
+      return false
+    }
+    return JSON.parse(usersState)
+  } catch (err) {
+    return undefined
+  }
+}
 const initialState = {
   isUserLogedin: loadState(),
   dropDown: false,
   notifications: false,
   notificationsData: null,
-  hosting: false,
+  hosting: userState(),
   isWithdrawing: false,
   userData: null,
   isLoading: false,
@@ -81,9 +92,11 @@ const userSlice = createSlice({
     },
     switchToHost: (state) => {
       state.hosting = true
+      localStorage.setItem('User_State', JSON.stringify(true))
     },
     returnToUser: (state) => {
       state.hosting = false
+      localStorage.setItem('User_State', JSON.stringify(false))
     },
     withdrawmoney: (state) => {
       state.isWithdrawing = true

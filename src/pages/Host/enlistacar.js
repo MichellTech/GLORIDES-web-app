@@ -9,7 +9,6 @@ import * as Yup from 'yup'
 import { RiDeleteBack2Fill } from 'react-icons/ri'
 import { LuImagePlus } from 'react-icons/lu'
 import Image from 'next/image'
-await mainAxiosAction.post
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { State, City } from 'country-state-city'

@@ -7,16 +7,29 @@ import { RiFileEditFill } from 'react-icons/ri'
 import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai'
 import { FiUser } from 'react-icons/fi'
 import { BiArrowBack } from 'react-icons/bi'
-
+import mainAxiosAction from '@/components/axiosAction'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import moment from 'moment'
 import Supportform from '../../../components/Supportform'
 function Viewticket() {
   const [isReplying, setIsReplying] = useState(false)
   const router = useRouter()
   const ticketId = router.query.id
   const singleticket = useMemo(
-    () => Ticketdata.filter((item) => item.id === Number(ticketId))?.[0],
-    [ticketId]
+    () =>
+      mainAxiosAction
+        .post(`/ticket/get-ticket-conversation`, { ticket_id: ticketId })
+        .then(function (response) {
+          console.log(response?.data)
+        })
+        .catch(function (error) {
+          toast.error(error?.response?.data?.message)
+          console.log(error)
+        })[ticketId]
   )
+
+  console.log(singleticket)
   return (
     <>
       <Navbar />
@@ -30,7 +43,7 @@ function Viewticket() {
                 pathname: `/support`,
               })
             }}
-            className='flex pb-10 lg:pb-14 items-center gap-3 cursor-pointer'
+            className='flex pb-10 lg:pb-14 items-center gap-3 cursor-pointer w-max'
           >
             <BiArrowBack className='text-xl lg:text-2xl' />
             <h1 className='text-sm lg:text-base'>View All Tickets</h1>

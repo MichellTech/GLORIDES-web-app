@@ -28,7 +28,7 @@ function Dashboard() {
       >
         <Navbar />
         <div className='bg-[#F5F5F5] bg-opacity-50  w-full pt-10 xl:pt-16 '>
-          <section className='my-6 sm:my-10 md:pb-6 max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-10 md:space-y-12 xl:space-y-14'>
+          <section className='my-6 sm:my-10 md:pb-6 mx-auto font-sans  px-4 md:px-6  lg:px-8 space-y-10 md:space-y-12 xl:space-y-14'>
             {/* title */}
             <div className='border  shadow-sm w-full rounded-md pt-4 xl:pt-6 px-6 md:flex md:justify-between md:items-end md:gap-10  bg-white'>
               {/* text */}

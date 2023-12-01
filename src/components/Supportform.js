@@ -62,24 +62,6 @@ function Supportform() {
               return (
                 <Form className='  text-babyblack space-y-10 font-sans w-full pb-6 md:px-0 '>
                   <div className=' space-y-8  md:space-y-10 lg:space-y-12 px-2 py-4'>
-                    {/* name and emails */}
-                    <div className=' space-y-8  md:space-y-0 md:flex md:items-center md:justify-between md:gap-4 lg:gap-10 '>
-                      {/* name */}
-                      <div className='space-y-3 w-full'>
-                        <h1 className='text-xs lg:text-sm'> Name</h1>
-                        <p className='bg-softpurple border-babygrey border w-full py-2  lg:py-3 px-4 text-xs  lg:text-sm   rounded-sm'>
-                          Okwu Chiedozie Michell
-                        </p>
-                      </div>
-                      {/* email */}
-                      <div className='space-y-3  w-full'>
-                        <h1 className='text-xs lg:text-sm'> Email</h1>
-                        <p className='bg-softpurple border-babygrey border w-full py-2 lg:py-3  px-4 text-xs  lg:text-sm rounded-sm'>
-                          OkwuChiedozie@gmail.com
-                        </p>
-                      </div>
-                    </div>
-
                     {/* message*/}
                     <div className='space-y-3'>
                       <h1 className='text-sm '>Message</h1>
