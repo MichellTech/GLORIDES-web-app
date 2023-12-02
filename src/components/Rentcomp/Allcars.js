@@ -5,7 +5,6 @@ import { GiGearStickPattern } from 'react-icons/gi'
 import { AiOutlineHeart, AiFillHeart, AiFillStar } from 'react-icons/ai'
 import { useSelector, useDispatch } from 'react-redux'
 import { setAllsearchedcars } from '@/features/rental/filterSlice'
-import { cars } from '../../utilis/Cardata'
 import { useRouter } from 'next/router'
 import {
   MdOutlineMyLocation,
@@ -30,7 +29,6 @@ function Allcars() {
       .then(function (response) {
         setLoading(false)
         toast.success(response?.data?.message)
-
         dispatch(setAllsearchedcars(response?.data?.data))
         console.log(response?.data?.data)
       })
@@ -59,8 +57,20 @@ function Allcars() {
                     alt={item?.car_photos?.[0]?.name}
                     width={1000}
                     height={1000}
-                    className='object-cover object-center w-full h-72 '
+                    className='object-cover object-center w-full h-64 '
                   />
+                  <div className='absolute top-2 right-2'>
+                    <div
+                      onClick={() => setSaved(!saved)}
+                      className=' bg-black bg-opacity-50 flex justify-center items-center rounded-md mx-auto cursor-pointer w-10 h-10'
+                    >
+                      {saved ? (
+                        <AiFillHeart className='text-lg  text-white' />
+                      ) : (
+                        <AiOutlineHeart className='text-lg    text-white ' />
+                      )}
+                    </div>
+                  </div>
                 </div>
                 {/* info */}
                 <div className=' space-y-4'>
@@ -90,11 +100,11 @@ function Allcars() {
 
                     <div className='flex items-center gap-2 bg-softpurple  px-3 py-2 w-max'>
                       <MdOutlineAirlineSeatReclineExtra className='text-base' />
-                      <h1 className='text-xs'>{item?.seats_number}</h1>
+                      <h1 className='text-xs'>{item?.seats_number} Seats</h1>
                     </div>
                   </div>
                   {/* text */}
-                  <h1 className='px-4 text-sm text-gray-500'>
+                  <h1 className='px-4 text-sm text-gray-500 '>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab
                     atque tempora quidem. Placeat mollitia perspiciatis tempore
                     praesentium fugiat. Perspiciatis, esse.
@@ -129,9 +139,9 @@ function Allcars() {
                           pathname: `/rentacar/${item?._id}`,
                         })
                       }}
-                      className='border px-4 py-2 lg:py-3 w-3/6 text-sm text-babyblack rounded-full cursor-pointer font-bold '
+                      className='border px-4 py-2 lg:py-3 w-3/6 text-sm text-babyblack rounded-full cursor-pointer font-bold hover:text-white hover:bg-babypurple hover:shadow-md  '
                     >
-                      Rent Now
+                      View Details
                     </button>
                   </div>
                 </div>

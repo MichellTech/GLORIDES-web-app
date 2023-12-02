@@ -11,12 +11,12 @@ function SampleNextArrow(props) {
   const { className, style, onClick } = props
   return (
     <div
-      className='w-6 h-6 absolute -right-1   rounded-full flex justify-center items-center bg-white z-10 cursor-pointer  shadow-md'
+      className='w-8 h-8 absolute right-4   rounded-full flex justify-center items-center bg-white z-10 cursor-pointer  shadow-md'
       style={{
         ...style,
         display: 'flex',
-        top: '50%',
-        transform: 'translateY(-50%)',
+        top: '45%',
+        transform: 'translateY(-45%)',
       }}
       onClick={onClick}
     >
@@ -29,12 +29,12 @@ function SamplePrevArrow(props) {
   const { className, style, onClick } = props
   return (
     <div
-      className='w-6 h-6 absolute -left-1 rounded-full flex justify-center items-center bg-white z-10 cursor-pointer shadow-md'
+      className='w-8 h-8 absolute left-4 rounded-full flex justify-center items-center bg-white z-10 cursor-pointer shadow-md'
       style={{
         ...style,
         display: 'flex',
-        top: '50%',
-        transform: 'translateY(-50%)',
+        top: '45%',
+        transform: 'translateY(-45%)',
       }}
       onClick={onClick}
     >
@@ -45,61 +45,85 @@ function SamplePrevArrow(props) {
 
 export default function SimpleSlider(props) {
   // console.log(props.photos)
+  // const settings = {
+  //   dots: false,
+  //   infinite: true,
+  //   autoplay: false,
+  //   speed: 2000,
+  //   autoplaySpeed: 5000,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  //   nextArrow: <SampleNextArrow />,
+  //   prevArrow: <SamplePrevArrow />,
+  //   responsive: [
+  //     // {
+  //     //   breakpoint: 1700,
+  //     //   settings: {
+  //     //     slidesToShow: 5,
+  //     //     slidesToScroll: 3,
+  //     //     infinite: true,
+  //     //     dots: true,
+  //     //   },
+  //     // },
+  //     {
+  //       breakpoint: 1500,
+  //       settings: {
+  //         slidesToShow: 3,
+  //         slidesToScroll: 1,
+  //         infinite: true,
+  //         dots: false,
+  //       },
+  //     },
+  //     {
+  //       breakpoint: 1300,
+  //       settings: {
+  //         slidesToShow: 2,
+  //         slidesToScroll: 2,
+  //         initialSlide: 2,
+  //       },
+  //     },
+
+  //     {
+  //       breakpoint: 890,
+  //       settings: {
+  //         slidesToShow: 1,
+  //         slidesToScroll: 1,
+  //         dots: false,
+  //       },
+  //     },
+  //   ],
+  // }
+
   const settings = {
-    dots: false,
+    customPaging: function (i) {
+      return (
+        <a className=' w-full'>
+          <img
+            src={props?.photos?.filter((_, index) => index === i)?.[0].url}
+            alt={'thumbnail'}
+            className='  w-full  md:h-20 h-14  object-cover rounded-md mb-4'
+          />
+        </a>
+      )
+    },
+    dots: true,
+    dotsClass: 'slick-dots slick-thumb',
     infinite: true,
-    autoplay: false,
-    speed: 2000,
-    autoplaySpeed: 5000,
+    speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     nextArrow: <SampleNextArrow />,
     prevArrow: <SamplePrevArrow />,
-    responsive: [
-      // {
-      //   breakpoint: 1700,
-      //   settings: {
-      //     slidesToShow: 5,
-      //     slidesToScroll: 3,
-      //     infinite: true,
-      //     dots: true,
-      //   },
-      // },
-      {
-        breakpoint: 1500,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-          infinite: true,
-          dots: false,
-        },
-      },
-      {
-        breakpoint: 1300,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2,
-          initialSlide: 2,
-        },
-      },
-
-      {
-        breakpoint: 890,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          dots: false,
-        },
-      },
-    ],
   }
-
   return (
-    <div className='w-full relative pb-6   '>
+    <div className='w-full customslick  pb-6 lg:pb-10 md:pb-8 p-2 lg:p-4 rounded-lg '>
       <Slider {...settings}>
         {props?.photos?.map((item) => {
           return (
-            <div key={item.id} className='pt-5    md:pt-7  lg:pt-10 '>
+            <div
+              key={item.id}
+              className='py-4 lg:py-6 pb-14  md:pb-20 lg:pb-24'
+            >
               <div className='  relative rounded-md  mx-2     '>
                 <Image
                   src={item.url}
@@ -107,7 +131,7 @@ export default function SimpleSlider(props) {
                   width={1000}
                   height={1000}
                   priority
-                  className='object-cover rounded-md  w-full h-48 sm:h-52 '
+                  className='object-cover object-center rounded-md  w-full h-48 md:h-80 '
                 />
               </div>
             </div>
