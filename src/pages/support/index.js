@@ -142,7 +142,14 @@ function index() {
                           <tr
                             onClick={() => {
                               router.push({
-                                pathname: `/support/${item._id}`,
+                                pathname: `/support/${item?._id}`,
+                                query: {
+                                  status: item?.status,
+                                  priority: item?.priority,
+                                  reference_code: item?.reference_code,
+                                  lastupdated: item?.last_updated,
+                                  subject: item?.subject,
+                                },
                               })
                             }}
                             key={index}

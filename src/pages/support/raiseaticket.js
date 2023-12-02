@@ -8,12 +8,13 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import Link from 'next/link'
 import mainAxiosAction from '@/components/axiosAction'
+import { useRouter } from 'next/router'
 function Raiseaticket() {
   const [loading, setLoading] = useState(false)
   const [userservice, setUserservice] = useState(['User', 'Host'])
   const [userpriority, setUserpriority] = useState(['High', 'Medium', 'Low'])
   const [userimage, setUserimage] = useState([{ id: 1, file: null }])
-
+  const router = useRouter()
   const initialValues = {
     subject: '',
     message: '',
@@ -215,7 +216,7 @@ function Raiseaticket() {
                         {/* photos */}
                         <div className='flex justify-between items-start gap-4 '>
                           <div className='flex flex-col gap-2 lg:gap-4 items-center'>
-                            {userimage.map((item, index) => {
+                            {userimage?.map((item, index) => {
                               return (
                                 <div
                                   key={index}

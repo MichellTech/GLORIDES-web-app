@@ -3,51 +3,55 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { RiDeleteBack2Fill } from 'react-icons/ri'
 import Link from 'next/link'
-function Supportform() {
+import { useRouter } from 'next/router'
+import mainAxiosAction from '@/components/axiosAction'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+function Supportform(ticketId) {
   const [loading, setLoading] = useState(false)
-  const [userservice, setUserservice] = useState(['User', 'Host'])
-  const [userpriority, setUserpriority] = useState(['High', 'Medium', 'Low'])
   const [userimage, setUserimage] = useState([{ id: 1, file: null }])
-
+  const router = useRouter()
   const initialValues = {
-    subject: '',
     message: '',
-    service: '',
-    priority: '',
   }
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
 
-    // reset
-    // onSubmitProps.resetForm()
-    // router.push({
-    //   pathname: '/Auth/emailverification',
-    //   //  query: response.data.data.user,
-    // })
-    // console.log(values)
+    sendreply(values)
   }
 
   const validationSchema = Yup.object().shape({
-    subject: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No subject provided'),
-    service: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No service type provided'),
     message: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No message provided'),
-    priority: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No priority provided'),
   })
-  // console.log(userimage)
+  console.log(ticketId)
+
+  const sendreply = (values) => {
+    const formData = new FormData()
+    for (const image of userimage) {
+      formData.append('ticket_files', image?.file)
+    }
+    // formData?.append('documents', JSON.stringify(values.userimage2))
+    formData?.append('message', values.message)
+    formData?.append('ticket_id', ticketId.ticketId)
+    mainAxiosAction
+      .post(`/ticket/reply-ticket`, formData)
+      .then(function (response) {
+        setLoading(false)
+        setUserimage(null)
+        router.push({
+          pathname: '/support',
+        })
+        toast.success(response?.data?.message)
+      })
+      .catch(function (error) {
+        toast.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
+  }
   return (
     <>
       <section className=''>
@@ -94,7 +98,7 @@ function Supportform() {
                         {/* photos */}
                         <div className='flex justify-between items-start gap-4 '>
                           <div className='flex flex-col gap-2 lg:gap-4 items-center'>
-                            {userimage.map((item, index) => {
+                            {userimage?.map((item, index) => {
                               return (
                                 <div
                                   key={index}
@@ -172,23 +176,18 @@ function Supportform() {
                   <div className=' px-2 flex justify-start items-center gap-6 lg:gap-10 max-w-xs '>
                     <button
                       type='submit'
+                      // disable={loading}
                       className='bg-babypurple text-white px-2 py-2 lg:py-3    rounded-md w-full  text-xs md:text-sm  shadow-md transition ease-in-out delay-150   hover:bg-indigo-500 duration-1000 hover:border-none hover:text-white '
                     >
                       {loading ? (
                         <div className='flex justify-center gap-2 items-center'>
-                          <ImSpinner className='animate-spin' />
+                          <div className='spinner'></div>
                           Sending...
                         </div>
                       ) : (
                         'Submit'
                       )}
                     </button>
-                    <Link
-                      href='/support'
-                      className='border-babygrey text-babyblack border px-2 py-2 lg:py-3  rounded-md w-full  text-xs md:text-sm  shadow-md transition ease-in-out delay-150   hover:bg-indigo-500 duration-1000 hover:border-none hover:text-white text-center '
-                    >
-                      Cancel
-                    </Link>
                   </div>
                 </Form>
               )
