@@ -4,22 +4,25 @@ import { LuFuel } from 'react-icons/lu'
 import { GiGearStickPattern } from 'react-icons/gi'
 import { AiOutlineHeart, AiFillHeart, AiFillStar } from 'react-icons/ai'
 import { useSelector, useDispatch } from 'react-redux'
-import { setAllsearchedcars } from '@/features/rental/filterSlice'
+import {
+  setAllsearchedcars,
+  getuserfavourites,
+} from '@/features/rental/filterSlice'
 import { useRouter } from 'next/router'
 import {
   MdOutlineMyLocation,
   MdOutlineAirlineSeatReclineExtra,
+  MdLocationOn,
 } from 'react-icons/md'
-await mainAxiosAction.post
+
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import mainAxiosAction from '../axiosAction'
 
 function Allcars() {
-  const [saved, setSaved] = useState(false)
   const [loading, setLoading] = useState(false)
   const [allcars, setAllcars] = useState([])
-  const { allsearchedcars } = useSelector((store) => store.rental)
+  const { allsearchedcars, bookmarked } = useSelector((store) => store.rental)
   const router = useRouter()
   const dispatch = useDispatch()
 
@@ -37,14 +40,39 @@ function Allcars() {
         console.log(error)
       })
   }
+
   // console.log(allcars)
   useEffect(() => {
     getallcars()
+    dispatch(getuserfavourites())
   }, [])
+
+  // add to fav
+  const addtofav = (id) => {
+    if (bookmarked?.map((i) => i._id)?.includes(id)) {
+      mainAxiosAction
+        .post(`/cars/delete-bookmark`, { car_id: id })
+        .then(function (response) {
+          dispatch(getuserfavourites())
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    } else {
+      mainAxiosAction
+        .post(`/cars/add-bookmark`, { car_id: id })
+        .then(function (response) {
+          dispatch(getuserfavourites())
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  }
   return (
     <div className=' '>
       {/* display cars */}
-      <div className=' space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-10 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12'>
+      <div className=' space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-10 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12 '>
         {allsearchedcars?.map((item, index) => {
           return (
             <div key={index}>
@@ -61,10 +89,10 @@ function Allcars() {
                   />
                   <div className='absolute top-2 right-2'>
                     <div
-                      onClick={() => setSaved(!saved)}
+                      onClick={() => addtofav(item?._id)}
                       className=' bg-black bg-opacity-50 flex justify-center items-center rounded-md mx-auto cursor-pointer w-10 h-10'
                     >
-                      {saved ? (
+                      {bookmarked?.map((i) => i._id)?.includes(item?._id) ? (
                         <AiFillHeart className='text-lg  text-white' />
                       ) : (
                         <AiOutlineHeart className='text-lg    text-white ' />
@@ -76,7 +104,7 @@ function Allcars() {
                 <div className=' space-y-4'>
                   {/* location */}
                   <div className='flex items-center gap-2 px-4'>
-                    <MdOutlineMyLocation />
+                    <MdLocationOn />
                     <h1>{item?.city}</h1>
                   </div>
 
@@ -139,9 +167,9 @@ function Allcars() {
                           pathname: `/rentacar/${item?._id}`,
                         })
                       }}
-                      className='border px-4 py-2 lg:py-3 w-3/6 text-sm text-babyblack rounded-full cursor-pointer font-bold hover:text-white hover:bg-babypurple hover:shadow-md  '
+                      className='border px-4 py-2 lg:py-3 w-3/6 text-sm text-babyblack rounded-md cursor-pointer font-bold hover:text-white hover:bg-babypurple hover:shadow  '
                     >
-                      View Details
+                      Explore
                     </button>
                   </div>
                 </div>

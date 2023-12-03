@@ -1,138 +1,190 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Footer from '@/components/Navigation/Footer'
 import Navbar from '@/components/Navigation/Navbar/index'
-import { cars } from '../utilis/Cardata'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { LuFuel, LuUser } from 'react-icons/lu'
-import { GiGearStickPattern, GiCarSeat, GiRoundStar } from 'react-icons/gi'
-import { AiOutlineHeart, AiFillHeart, AiFillStar } from 'react-icons/ai'
-import { TbClockSearch } from 'react-icons/tb'
-import { MdOutlineFilterAlt } from 'react-icons/md'
-function savedvehicles() {
-  const [saved, setSaved] = useState(true)
-  const router = useRouter()
+import { LuFuel } from 'react-icons/lu'
+import { GiGearStickPattern } from 'react-icons/gi'
+import { GoBookmarkSlashFill } from 'react-icons/go'
 
+import { AiOutlineHeart, AiFillHeart, AiFillStar } from 'react-icons/ai'
+import { MdOutlineAirlineSeatReclineExtra, MdLocationOn } from 'react-icons/md'
+import mainAxiosAction from '../components/axiosAction/index'
+import { useSelector, useDispatch } from 'react-redux'
+import { getuserfavourites } from '@/features/rental/filterSlice'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+
+function savedvehicles() {
+  const { bookmarked } = useSelector((store) => store.rental)
+  const router = useRouter()
+  const dispatch = useDispatch()
+  useEffect(() => {
+    dispatch(getuserfavourites())
+  }, [])
+
+  const addtofav = (id) => {
+    if (bookmarked?.map((i) => i._id)?.includes(id)) {
+      mainAxiosAction
+        .post(`/cars/delete-bookmark`, { car_id: id })
+        .then(function (response) {
+          dispatch(getuserfavourites())
+          toast.success(response?.data?.message)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    } else {
+      mainAxiosAction
+        .post(`/cars/add-bookmark`, { car_id: id })
+        .then(function (response) {
+          toast.success(response?.data?.message)
+          dispatch(getuserfavourites())
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  }
   return (
     <>
       <Navbar />
-      <section className=' mt-10 max-w-xl sm:max-w-xl mx-auto font-sans md:max-w-xl lg:max-w-4xl xl:max-w-6xl  px-4 md:px-6  lg:px-8 space-y-20  pb-10   '>
+      <section className=' mt-10 mx-auto font-sans   px-6 md:px-8  lg:px-10 xl:px-16 space-y-10  lg:space-y-12 pb-10   '>
         {/* title */}
-        <div className='flex justify-between items-center gap-2 px-6'>
+        <div className='flex justify-between items-center gap-2 '>
           {/* amount */}
-          <h1 className='text-sm md:text-base lg:text-lg xl:text-xl'>
-            <span className='font-bold'>10</span> Car(s) saved
-          </h1>
+          {bookmarked?.length > 0 && (
+            <h1 className='text-base lg:text-lg xl:text-xl'>
+              <span className='font-bold'>{bookmarked?.length}</span> Car(s)
+              saved
+            </h1>
+          )}
           {/* remove */}
-          <button className='px-6 py-2 text-white bg-babypurple rounded-md text-xs sm:text-sm lg:text-base shadow-md'>
+          {/* <button className='px-6 py-2 text-white bg-babypurple rounded-md text-xs sm:text-sm lg:text-base shadow-md'>
             Remove All
-          </button>
+          </button> */}
         </div>
         {/* display cars */}
-        <div className='flex justify-center items-center mx-auto'>
-          <div className='space-y-10 sm:space-y-0 sm:grid sm:grid-cols-2 sm:gap-x-4 mx-auto lg:gap-x-6 sm:gap-y-16 lg:grid-cols-3 xl:grid-cols-4'>
-            {cars.map((item) => {
+        {bookmarked?.length < 1 ? (
+          <div className='flex justify-center items-center flex-col space-y-2 xl:space-y-3'>
+            {/* icon */}
+            <div className='flex justify-center items-center p-3 bg-opacity-50 bg-babygrey rounded-full'>
+              <GoBookmarkSlashFill className='text-2xl xl:text-3xl' />
+            </div>
+            <h1 className='text-sm md:text-base xl:text-lg font-bold'>
+              {' '}
+              No Bookedmarked Records Found
+            </h1>
+            <p className='text-xs md:text-sm xl:text-base max-w-xs lg:max-w-lg text-center'>
+              We couldn't find your Bookedmarked. This is because you haven't
+              bookmarked any car. Bookmark a vehicle today to easily access them
+              when next you wan to rent a car
+            </p>
+          </div>
+        ) : (
+          <div className=' space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-10 lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12 '>
+            {bookmarked?.map((item, index) => {
               return (
-                <div key={item.id}>
+                <div key={index}>
                   {/* car 1 */}
-                  <div className='bg-white shadow-lg h-[22rem] rounded-xl  pb-2 space-y-4 max-w-xs  relative w-full '>
+                  <div className='bg-white shadow-lg space-y-4 pb-4'>
                     {/* image */}
-                    <div className='   relative '>
+                    <div className='   relative  '>
                       <Image
-                        src={item.image}
-                        alt='footer'
+                        src={item?.car_photos?.[0]?.url}
+                        alt={item?.car_photos?.[0]?.name}
                         width={1000}
                         height={1000}
-                        className='object-cover w-full h-40 rounded-tl-lg rounded-tr-lg rounded-br-none  rounded-bl-none '
+                        className='object-cover object-center w-full h-64 '
                       />
+                      <div className='absolute top-2 right-2'>
+                        <div
+                          onClick={() => addtofav(item?._id)}
+                          className=' bg-black bg-opacity-50 flex justify-center items-center rounded-md mx-auto cursor-pointer w-10 h-10'
+                        >
+                          {bookmarked
+                            ?.map((i) => i._id)
+                            ?.includes(item?._id) ? (
+                            <AiFillHeart className='text-lg  text-white' />
+                          ) : (
+                            <AiOutlineHeart className='text-lg    text-white ' />
+                          )}
+                        </div>
+                      </div>
                     </div>
+                    {/* info */}
+                    <div className=' space-y-4'>
+                      {/* location */}
+                      <div className='flex items-center gap-2 px-4'>
+                        <MdLocationOn />
+                        <h1>{item?.city}</h1>
+                      </div>
 
-                    {/*text */}
-                    <div className='px-4 w-full '>
-                      {/* first part */}
-                      <div className='space-y-2 border-b-2 pb-3'>
-                        {/* carname */}
-                        <h1 className='font-bold text-sm line-clamp-1'>
-                          {item.carname}
-                        </h1>
-                        {/* owner and cost */}
-                        <div className='flex items-center justify-between  '>
-                          <div className='flex justify-center items-center gap-2'>
-                            <LuUser className='text-sm' />
-                            <h1 className='text-xs'>Olamide Oluwale</h1>
-                          </div>
-                          <h1 className='font-bold text-sm text-babypurple'>
-                            ${item.cost} /{' '}
-                            <span className='text-sm text-babypurple font-normal'>
-                              day
-                            </span>
+                      {/* name */}
+                      <div className='px-4'>
+                        <h1 className='font-mono text-3xl'>{item?.car_name}</h1>
+                      </div>
+                      {/* descr */}
+                      <div className='flex items-center gap-2 px-4 '>
+                        {/* fuel */}
+                        <div className='flex items-center gap-2 bg-softpurple  px-3 py-2 w-max'>
+                          <LuFuel className='text-base' />
+                          <h1 className='text-xs'>{item?.fuel_type}</h1>
+                        </div>
+                        {/* gear */}
+                        <div className='flex items-center gap-2 bg-softpurple  px-3 py-2 w-max'>
+                          <GiGearStickPattern className='text-base' />
+                          <h1 className='text-xs'>{item?.gear_type}</h1>
+                        </div>
+                        {/* seats */}
+
+                        <div className='flex items-center gap-2 bg-softpurple  px-3 py-2 w-max'>
+                          <MdOutlineAirlineSeatReclineExtra className='text-base' />
+                          <h1 className='text-xs'>
+                            {item?.seats_number} Seats
                           </h1>
                         </div>
                       </div>
-                      {/* second */}
-                      <div className='pt-6 space-y-4'>
-                        {/* params */}
-                        <div className=' grid grid-cols-3 gap-x-1 gap-y-6 justify-center items-center mx-auto'>
-                          {/* two */}
-                          <div className='flex items-center gap-2'>
-                            <LuFuel className='text-base' />
-                            <h1 className='text-[0.6rem]'>Petrol</h1>
-                          </div>
-                          {/* three */}
-                          <div className='flex items-center gap-2'>
-                            <GiGearStickPattern className='text-base' />
-                            <h1 className='text-[0.6rem]'>Manual</h1>
-                          </div>
-
-                          {/* six */}
-                          <div className='flex items-center gap-2'>
-                            <TbClockSearch className='text-base' />
-                            <h1 className='text-[0.6rem]'> 2.4k Miles</h1>
-                          </div>
+                      {/* text */}
+                      <h1 className='px-4 text-sm text-gray-500 '>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Ab atque tempora quidem. Placeat mollitia perspiciatis
+                        tempore praesentium fugiat. Perspiciatis, esse.
+                      </h1>
+                      {/* rating */}
+                      <div className='flex items-center gap-2 px-4'>
+                        {/* star */}
+                        <div className='flex items-center '>
+                          <AiFillStar className='text-yellow-500' />
+                          <AiFillStar className='text-yellow-500' />
+                          <AiFillStar className='text-yellow-500' />
+                          <AiFillStar className='text-yellow-500' />
+                          <AiFillStar className='text-yellow-500' />
                         </div>
-                        {/* button */}
-                        <div className='flex items-center justify-between gap-2'>
-                          <button
-                            onClick={() => {
-                              router.push({
-                                pathname: `/rentacar/${item.id}`,
-                              })
-                            }}
-                            className='bg-babypurple px-2 py-2 lg:py-3 w-full text-xs text-white rounded-md cursor-pointer hover:shadow-lg'
-                          >
-                            Rent
-                          </button>
-                          <button
-                            // onClick={() => {
-                            //   router.push({
-                            //     pathname: `/rentacar/${item.id}`,
-                            //   })
-                            // }}
-                            className='bg-orange-500 px-2 py-2 lg:py-3 w-full text-xs text-white rounded-md cursor-pointer hover:shadow-lg'
-                          >
-                            Remove
-                          </button>
-                        </div>
+                        <h1 className='text-xs text-slate-500'>(4.97 / 5.0)</h1>
                       </div>
-                    </div>
-                    {/* buttons top */}
-                    <div className=' absolute -top-2 left-2 right-2 '>
-                      <div className='flex justify-between items-center gap-2 mx-auto w-full'>
-                        {/* ratings */}
-                        <div className='flex justify-center items-center gap-1 rounded-md bg-white px-2 py-1'>
-                          <h1 className='text-xs'>5.0</h1>
-                          <AiFillStar className='text-xs text-yellow-500' />
-                        </div>
-                        {/* saved */}
-                        <div onClick={() => setSaved(!saved)} className=' '>
-                          <div className=' bg-white flex justify-center items-center rounded-md mx-auto cursor-pointer w-6 h-6'>
-                            {saved ? (
-                              <AiFillHeart className='text-sm  text-red-500' />
-                            ) : (
-                              <AiOutlineHeart className='text-sm    text-red-500 ' />
-                            )}
-                          </div>
-                        </div>
+                      {/* divide */}
+                      <div className='border border-dashed w-full'></div>
+                      {/* price and call to action */}
+                      <div className='px-4 flex justify-between items-center gap-1'>
+                        <h1 className='font-bold text-sm lg:text-base'>
+                          {' '}
+                          <span className='text-3xl lg:text-4xl text-babypurple font-mono '>
+                            ${item?.rent_cost}
+                          </span>{' '}
+                          / day
+                        </h1>
+                        {/* button */}
+                        <button
+                          onClick={() => {
+                            router.push({
+                              pathname: `/rentacar/${item?._id}`,
+                            })
+                          }}
+                          className='border px-4 py-2 lg:py-3 w-3/6 text-sm text-babyblack rounded-md cursor-pointer font-bold hover:text-white hover:bg-babypurple hover:shadow  '
+                        >
+                          Explore
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -140,7 +192,7 @@ function savedvehicles() {
               )
             })}
           </div>
-        </div>
+        )}
       </section>
       <Footer />
     </>

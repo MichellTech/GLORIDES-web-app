@@ -11,7 +11,7 @@ function SampleNextArrow(props) {
   const { className, style, onClick } = props
   return (
     <div
-      className='w-8 h-8 absolute right-4   rounded-full flex justify-center items-center bg-white z-10 cursor-pointer  shadow-md'
+      className='w-6 lg:w-8 h-6 lg:h-8 absolute right-4   rounded-full flex justify-center items-center bg-white z-10 cursor-pointer  shadow-md'
       style={{
         ...style,
         display: 'flex',
@@ -29,7 +29,7 @@ function SamplePrevArrow(props) {
   const { className, style, onClick } = props
   return (
     <div
-      className='w-8 h-8 absolute left-4 rounded-full flex justify-center items-center bg-white z-10 cursor-pointer shadow-md'
+      className='w-6 lg:w-8 h-6 lg:h-8 absolute left-4 rounded-full flex justify-center items-center bg-white z-10 cursor-pointer shadow-md'
       style={{
         ...style,
         display: 'flex',
@@ -131,7 +131,7 @@ export default function SimpleSlider(props) {
                   width={1000}
                   height={1000}
                   priority
-                  className='object-cover object-center rounded-md  w-full h-48 md:h-80 '
+                  className='object-cover object-center rounded-md  w-full h-52 md:h-80 '
                 />
               </div>
             </div>

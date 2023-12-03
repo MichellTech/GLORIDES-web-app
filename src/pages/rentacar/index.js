@@ -12,7 +12,7 @@ import { LuFilter } from 'react-icons/lu'
 import { BsBookmark } from 'react-icons/bs'
 
 function allcars() {
-  const { isFiltering } = useSelector((store) => store.rental)
+  const { isFiltering, bookmarked } = useSelector((store) => store.rental)
   const dispatch = useDispatch()
 
   return (
@@ -59,7 +59,9 @@ function allcars() {
             {/* favorites */}
             <div className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm  cursor-pointer bg-white'>
               <BsBookmark className='text-sm md:text-base' />
-              <h1 className='text-xs md:text-sm'>Favorites (0)</h1>
+              <h1 className='text-xs md:text-sm'>
+                Favorites ({bookmarked.length})
+              </h1>
             </div>
           </div>
         </div>

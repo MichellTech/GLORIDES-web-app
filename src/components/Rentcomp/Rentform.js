@@ -5,7 +5,6 @@ import * as Yup from 'yup'
 import { BiCalendar } from 'react-icons/bi'
 import { LuFilter } from 'react-icons/lu'
 import { BsBookmark } from 'react-icons/bs'
-
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { toast } from 'react-toastify'
@@ -15,13 +14,11 @@ import { openFilter, closeFilter } from '@/features/rental/filterSlice'
 import { useSelector, useDispatch } from 'react-redux'
 function Search() {
   const [loading, setLoading] = useState(false)
-  const [usebg, setUsebg] = useState(false)
-
+  const { bookmarked } = useSelector((store) => store.rental)
   const initialValues = {
     city: '',
     date: new Date(),
   }
-
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
 
@@ -98,7 +95,7 @@ function Search() {
               {/* saved */}
               <div className='xl:flex lg:items-center gap-3 border lg:py-3 lg:px-8 hidden  cursor-pointer bg-[#F5F5F5]'>
                 <BsBookmark />
-                <h1>Favorites (0)</h1>
+                <h1>Favorites ({bookmarked.length})</h1>
               </div>
             </Form>
           )
