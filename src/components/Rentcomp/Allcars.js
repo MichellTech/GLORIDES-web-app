@@ -100,10 +100,8 @@ function Allcars() {
                     {/* name and cost */}
                     <div className='flex items-center justify-between  gap-1 '>
                       <div className='flex items-center gap-1   w-max'>
-                        <MdLocationOn className='text-sm lg:text-base ' />
-                        <h1 className='text-xs line-clamp-1 lg:text-sm'>
-                          {item?.city}
-                        </h1>
+                        <MdLocationOn className='text-base ' />
+                        <h1 className=' line-clamp-1 text-sm'>{item?.city}</h1>
                       </div>
 
                       <h1 className='font-bold text-lg text-babypurple font-mono tracking-widest line-clamp-1 '>
@@ -121,14 +119,14 @@ function Allcars() {
                       {/* two */}
                       <div className='flex items-center gap-1'>
                         <LuFuel className='text-base' />
-                        <h1 className='text-[0.6rem] lg:text-xs text-babyblack'>
+                        <h1 className='text-xs text-babyblack'>
                           {item?.fuel_type}
                         </h1>
                       </div>
                       {/* three */}
                       <div className='flex justify-center items-center gap-1'>
                         <GiGearStickPattern className='text-base' />
-                        <h1 className='text-[0.6rem] lg:text-xs text-babyblack'>
+                        <h1 className='text-xs text-babyblack'>
                           {item?.gear_type}
                         </h1>
                       </div>
@@ -136,7 +134,7 @@ function Allcars() {
                       {/* six */}
                       <div className='flex items-center gap-1 justify-end '>
                         <MdOutlineAirlineSeatReclineExtra className='text-base' />
-                        <h1 className='text-[0.6rem] lg:text-xs text-babyblack'>
+                        <h1 className='text-xs text-babyblack'>
                           {' '}
                           {item?.seats_number} Seats
                         </h1>
