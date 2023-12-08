@@ -60,7 +60,7 @@ function allcars() {
             <div className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm  cursor-pointer bg-white'>
               <BsBookmark className='text-sm md:text-base' />
               <h1 className='text-xs md:text-sm'>
-                Favorites ({bookmarked.length})
+                Favorites ({bookmarked?.length})
               </h1>
             </div>
           </div>

@@ -10,20 +10,22 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 import {
   MdKeyboardBackspace,
-  MdOutlineLocationSearching,
+  MdAccessTimeFilled,
   MdOutlineSecurity,
+  MdMyLocation,
 } from 'react-icons/md'
 import Link from 'next/link'
 import { BiSolidCarGarage, BiCurrentLocation, BiCalendar } from 'react-icons/bi'
 import { LuFuel, LuClock10 } from 'react-icons/lu'
 import { GiGearStickPattern, GiCarSeat } from 'react-icons/gi'
-import { TbClockSearch } from 'react-icons/tb'
+import { TbClockHour9 } from 'react-icons/tb'
 
 function Booking() {
   const router = useRouter()
   const { allsearchedcars } = useSelector((store) => store.rental)
   const carId = router.query.id
-
+  const { status, priority, lastupdated, reference_code, subject } =
+    router.query
   const singlecar = useMemo(
     () => allsearchedcars?.filter((item) => item._id === carId),
     [carId]
@@ -73,7 +75,7 @@ function Booking() {
       <Navbar />
       <section className='bg-[#F5F5F5]  w-full pt-10 xl:pt-16 '>
         {/* body */}
-        <div className='max-w-md sm:max-w-lg mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-6 lg:space-y-10   pb-10  '>
+        <div className='px-6 md:px-7  lg:px-8 xl:px-12 space-y-6 lg:space-y-10   pb-10  '>
           {/* back */}
           <div
             onClick={() => {
@@ -97,14 +99,19 @@ function Booking() {
           >
             {(formik) => {
               return (
-                <Form className='space-y-5 md:space-y-0  w-full md:flex md:items-start  md:gap-6  '>
+                <Form className='space-y-6  md:space-y-0  w-full md:flex md:items-start  md:gap-6  '>
                   {/* first */}
-                  <div className='space-y-5 md:space-y-6 lg:space-y-8 md:w-2/3 lg:w-3/4'>
+                  <div className='space-y-6  lg:w-2/3 xl:w-4/6'>
                     {/* extra services */}
-                    <div className='bg-white px-4 py-4 rounded-lg shadow-md lg:py-6'>
-                      <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
-                        Extra Services
-                      </h1>
+                    <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
+                      {/* header */}
+                      <div className='relative'>
+                        <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
+                          {' '}
+                          Extra Services
+                        </h1>
+                        <div className='w-10 h-1 bg-babypurple absolute bottom-0 left-0'></div>
+                      </div>
                       {/* img */}
                       <div className='w-full bg-white pt-4 '>
                         <Field name='extraservices' className=' px-6 py-1'>
@@ -126,10 +133,7 @@ function Booking() {
                                   >
                                     <MdOutlineSecurity className='text-3xl' />
                                     <div className='space-y-1'>
-                                      <h1 className='font-bold text-sm'>
-                                        {' '}
-                                        Insurance
-                                      </h1>
+                                      <h1 className=' text-sm'> Insurance</h1>
                                       <p className='text-xs'>$24/day</p>
                                     </div>
                                   </label>
@@ -149,7 +153,7 @@ function Booking() {
                                   >
                                     <LuFuel className='text-3xl' />
                                     <div className='space-y-1'>
-                                      <h1 className='font-bold text-sm'>
+                                      <h1 className=' text-sm'>
                                         {' '}
                                         Tank Filling
                                       </h1>
@@ -174,234 +178,81 @@ function Booking() {
                       ) : null}
                     </div>
 
-                    {/* pickup & dropoff  location*/}
-                    <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
-                      <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
-                        Pickup and Drop Off Location
-                      </h1>
-                      {/* option */}
-                      <Field name='address' className=' px-6 py-1 '>
-                        {({ field }) => {
-                          return (
-                            <div className='space-y-2'>
-                              {/* host addreee */}
-                              <div className='space-x-4'>
-                                <input
-                                  type='radio'
-                                  id='hostaddress'
-                                  {...field}
-                                  value='hostaddress'
-                                  checked={field.value === 'hostaddress'}
-                                />
-                                <label
-                                  htmlFor='hostaddress'
-                                  className='text-xs md:text-sm'
-                                >
-                                  {singlecar?.[0]?.pickup_location}
-                                </label>
-                              </div>
-                              {/* select addreee */}
-                              <div className='space-x-4'>
-                                <input
-                                  type='radio'
-                                  id='useraddress'
-                                  {...field}
-                                  value='useraddress'
-                                  checked={field.value === 'useraddress'}
-                                />
-                                <label
-                                  htmlFor='useraddress'
-                                  className='text-xs md:text-sm'
-                                >
-                                  Select Pickup Address
-                                </label>
-                              </div>
-                            </div>
-                          )
-                        }}
-                      </Field>
-                      {/* input addres */}
-                      {formik.values.address === 'useraddress' ? (
-                        <div className=' space-y-3  flex flex-col'>
-                          <label
-                            htmlFor='copies'
-                            className='text-xs md:text-sm'
-                          >
-                            Please input your desired pickup address
-                          </label>
-                          <Field
-                            type='text'
-                            name='myaddress'
-                            className=' w-full  py-2 px-2 border border-babyblack text-xs placeholder:text-xs rounded-sm max-w-md md:text-sm  md:placeholder:text-sm'
-                            placeholder='Address'
-                          />
-                          {/* warning */}
-                          <h1 className='text-[0.6rem] text-red-500 lg:text-xs'>
-                            Be advised that inputing your own address will
-                            attract an additional cost of{' '}
-                            <span className='font-bold'>
-                              $ {singlecar?.[0]?.outside_location_cost}
-                            </span>
+                    {/* pickup */}
+
+                    <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
+                      {/* header */}
+                      <div className='relative'>
+                        <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
+                          {' '}
+                          Pickup Location and Time
+                        </h1>
+                        <div className='w-10 h-1 bg-babypurple absolute bottom-0 left-0'></div>
+                      </div>
+                      {/* content */}
+                      <div className=' space-y-2 lg:space-y-3'>
+                        <div className='flex items-center gap-2'>
+                          <MdMyLocation />
+                          <h1 className='text-sm lg:text-base '>
+                            Ajah Lagos State
                           </h1>
                         </div>
-                      ) : null}
-                    </div>
-
-                    {/* pick Up time and date */}
-                    <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
-                      <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
-                        Pick Up Date and Time
-                      </h1>
-                      {/* img */}
-                      <div className='flex flex-wrap items-center gap-4'>
-                        {/* date */}
-                        <div>
-                          <div className=' relative  p-2 border border-babyblack rounded-md w-44'>
-                            <Field name='pickupd' className=''>
-                              {({ field, form }) => {
-                                return (
-                                  <DatePicker
-                                    className='pl-10 outline-none   text-right w-36  '
-                                    id='pickupd'
-                                    {...field}
-                                    selected={field.value}
-                                    minDate={new Date()}
-                                    dateFormat='MM/dd/yyyy '
-                                    onChange={(date) =>
-                                      form.setFieldValue(field.name, date)
-                                    }
-                                  />
-                                )
-                              }}
-                            </Field>
-                            <BiCalendar className='absolute  top-1/2  left-8 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold' />
-                          </div>
-
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='pickupd' />
-                          </div>
-                        </div>
-                        {/* time */}
-                        <div>
-                          <div className='relative  p-2 border border-babyblack rounded-md w-36'>
-                            <Field name='pickupt' className=''>
-                              {({ field, form }) => {
-                                return (
-                                  <DatePicker
-                                    // placeholderText='Click to select a date'
-                                    className='  pl-10 outline-none text-left w-28  '
-                                    id='pickupt'
-                                    {...field}
-                                    selected={field.value}
-                                    showTimeSelect
-                                    showTimeSelectOnly
-                                    timeIntervals={1}
-                                    timeCaption='Time'
-                                    dateFormat='h:mm aa'
-                                    onChange={(date) =>
-                                      form.setFieldValue(field.name, date)
-                                    }
-                                  />
-                                )
-                              }}
-                            </Field>
-                            <div className='absolute  top-1/2  left-8 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold '>
-                              <LuClock10 />
-                            </div>
-                          </div>
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='pickupt' />
-                          </div>
+                        <div className='flex items-center gap-2'>
+                          <TbClockHour9 />
+                          <h1 className='text-sm lg:text-base '>
+                            25th sept 2023
+                          </h1>
                         </div>
                       </div>
                     </div>
-                    {/* drop off time and date */}
-                    <div className='bg-white px-4 py-4 rounded-lg space-y-2 lg:space-y-4 shadow-md lg:py-6'>
-                      <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2'>
-                        Dropoff Date and Time
-                      </h1>
-                      {/* date and time */}
-                      <div className='flex flex-wrap items-start gap-4'>
-                        {/* date */}
-                        <div>
-                          <div className=''>
-                            <div className=' relative  p-2 border border-babyblack rounded-md w-44'>
-                              <Field name='dropoffd' className=''>
-                                {({ field, form }) => {
-                                  return (
-                                    <DatePicker
-                                      className='pl-10 outline-none   text-right w-36  '
-                                      id='dropoffd'
-                                      {...field}
-                                      selected={field.value}
-                                      minDate={new Date()}
-                                      dateFormat='MM/dd/yyyy '
-                                      onChange={(date) =>
-                                        form.setFieldValue(field.name, date)
-                                      }
-                                    />
-                                  )
-                                }}
-                              </Field>
-                              <BiCalendar className='absolute  top-1/2  left-8 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold' />
-                            </div>
-                          </div>
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='dropoffd' />
-                          </div>
+
+                    {/* drop off */}
+
+                    <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
+                      {/* header */}
+                      <div className='relative'>
+                        <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
+                          {' '}
+                          Dropoff Location and Time
+                        </h1>
+                        <div className='w-10 h-1 bg-babypurple absolute bottom-0 left-0'></div>
+                      </div>
+                      {/* content */}
+                      <div className=' space-y-2 lg:space-y-3'>
+                        <div className='flex items-center gap-2'>
+                          <MdMyLocation />
+                          <h1 className='text-sm lg:text-base '>
+                            Ajah Lagos State
+                          </h1>
                         </div>
-                        {/* time */}
-                        <div>
-                          <div className='relative  p-2 border border-babyblack rounded-md w-36'>
-                            <Field name='dropofft' className=''>
-                              {({ field, form }) => {
-                                return (
-                                  <DatePicker
-                                    // placeholderText='Click to select a date'
-                                    className='  pl-10 outline-none text-left w-28  '
-                                    id='dropofft'
-                                    {...field}
-                                    selected={field.value}
-                                    showTimeSelect
-                                    showTimeSelectOnly
-                                    timeIntervals={1}
-                                    timeCaption='Time'
-                                    dateFormat='h:mm aa'
-                                    onChange={(date) =>
-                                      form.setFieldValue(field.name, date)
-                                    }
-                                  />
-                                )
-                              }}
-                            </Field>
-                            <div className='absolute  top-1/2  left-8 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold '>
-                              <LuClock10 />
-                            </div>
-                          </div>
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='dropofft' />
-                          </div>
+                        <div className='flex items-center gap-2'>
+                          <TbClockHour9 />
+                          <h1 className='text-sm lg:text-base '>
+                            25th sept 2023
+                          </h1>
                         </div>
                       </div>
                     </div>
                   </div>
                   {/* second */}
-                  <div className='md:w-1/3 lg:w-1/4'>
+                  <div className='lg:w-1/3 xl:w-2/6'>
                     {/* summary */}
                     <div className='bg-white px-4 py-4 rounded-lg space-y-3  md:space-y-4 lg:space-y-5 shadow-md'>
-                      <h1 className='font-bold text-base sm:text-base md:text-base lg:text-lg border-b border-babyblack pb-2'>
+                      <h1 className='font-bold text-sm md:text-base xl:text-lg border-b border-babyblack pb-2'>
                         Cost Summary
                       </h1>
                       {/* one */}
                       <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
                         <h1 className='text-xs xl:text-sm'>Rent Cost</h1>
-                        <h1 className='text-xs xl:text-sm font-bold'>
+                        <h1 className='text-sm lg:text-base font-bold'>
                           $ {singlecar?.[0]?.rent_cost}
                         </h1>
                       </div>
                       {/* two */}
                       <div className='w-full  flex justify-between items-center gap-2   border-b pb-4'>
-                        <h1 className='text-xs xl:text-sm '>Insurance Cost</h1>
+                        <h1 className='text-sm lg:text-base '>
+                          Insurance Cost
+                        </h1>
                         <h1 className='text-xs  xl:text-sm font-bold'>
                           {formik.values.extraservices.includes('insurance')
                             ? '$24'
@@ -410,7 +261,7 @@ function Booking() {
                       </div>
                       {/* one */}
                       <div className='w-full  flex justify-between items-center gap-2  border-b pb-4 border-babyblack '>
-                        <h1 className='text-xs xl:text-sm'>Tank Filling</h1>
+                        <h1 className='text-sm lg:text-base'>Tank Filling</h1>
                         <h1 className='text-xs xl:text-sm  font-bold'>
                           {formik.values.extraservices.includes('tank')
                             ? singlecar?.[0]?.tank_filling.amount
@@ -419,31 +270,32 @@ function Booking() {
                       </div>
                       {/* one */}
                       <div className='w-full  flex justify-between items-center gap-2 border-b  border-babyblack pb-4 '>
-                        <h1 className='text-xs md:text-sm lg:text-base font-bold'>
+                        <h1 className='text-sm lg:text-base font-bold'>
                           Total Cost
                         </h1>
                         <h1 className='text-xs  md:text-sm lg:text-base font-bold'>
                           $ 120
                         </h1>
                       </div>
-                      {/* settings*/}
+                      {/* button*/}
+
                       <div className='w-full  space-y-4 py-4'>
                         <button
                           type='submit'
-                          className='bg-babypurple px-5 py-3 w-full text-xs md:px-2 text-white rounded-sm transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white'
+                          className='bg-babypurple px-5 py-3 w-full text-sm md:px-2 text-white rounded-md  hover:shadow-sm'
                         >
-                          Confirm Booking
+                          Book Vehicle
                         </button>
                         <button
+                          type='reset'
                           onClick={() => {
                             router.push({
-                              pathname: `/rentacar`,
+                              pathname: `/rentacar/${carId}`,
                             })
                           }}
-                          type='reset'
-                          className='border-babypurple w-full border px-5 py-3 md:px-2 text-xs text-babyblack rounded-sm transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white'
+                          className='border- w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
                         >
-                          Cancel Booking
+                          Edit Booking Details
                         </button>
                       </div>
                     </div>

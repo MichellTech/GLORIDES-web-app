@@ -95,7 +95,7 @@ function Search() {
               {/* saved */}
               <div className='xl:flex lg:items-center gap-3 border lg:py-3 lg:px-8 hidden  cursor-pointer bg-[#F5F5F5]'>
                 <BsBookmark />
-                <h1>Favorites ({bookmarked.length})</h1>
+                <h1>Favorites ({bookmarked?.length})</h1>
               </div>
             </Form>
           )

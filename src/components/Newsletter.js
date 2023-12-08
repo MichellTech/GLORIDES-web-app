@@ -1,12 +1,9 @@
 import React, { useState, useContext } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
+import mainAxiosAction from '@/components/axiosAction'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { ImSpinner } from 'react-icons/im'
-import axios from 'axios'
-// import { AppContext } from '../context/Context'
-
 function Subscribe() {
   const [loading, setLoading] = useState(false)
 
@@ -31,31 +28,23 @@ function Subscribe() {
     const payload = {
       email: values.email,
     }
-    // Submitform(payload)
-
-    // reset
-    onSubmitProps.resetForm()
+    submitform(payload, onSubmitProps.resetForm)
   }
-  // const Submitform = (payload) => {
-  //   axios
-  //     .post(`${process.env.NEXT_PUBLIC_POSTSUBSCRIBE_API}`, payload, {
-  //       headers: {
-  //         ' x-api-key':
-  //           'PMAK-646f49a99c0bef19902a3fe4-7049a9fa0500a342980c89cca17c38dfca',
-  //       },
-  //     })
-  //     .then(function (response) {
-  //       if (response.data.message === 'Ok') {
-  //         toast.success('Thanks for Subscribing ', { autoClose: 2000 })
-  //       }
-  //       setLoading(false)
-  //     })
-  //     .catch(function (error) {
-  //       toast.error('Network Error, Try Again')
-  //       setLoading(false)
-  //       console.log(error)
-  //     })
-  // }
+
+  const submitform = (payload, callback) => {
+    mainAxiosAction
+      .post(`/general/newsletter`, payload)
+      .then(function (response) {
+        setLoading(false)
+        toast.success(response?.data?.message)
+        callback()
+      })
+      .catch(function (error) {
+        toast.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
+  }
   return (
     <Formik
       initialValues={initialValues}
@@ -72,7 +61,7 @@ function Subscribe() {
                   type='email'
                   name='email'
                   placeholder='Please input your email here '
-                  className='px-3 w-60  sm:w-96 xl:w-[18rem] md:px-4 lg:px-6 py-2 lg:py-3 border border-babypurple  md:w-full lg:w-max outline-babyblack md:border-r-0 border-b-0 md:border-b placeholder:text-xs md:placeholder:text-sm placeholder:text-center md:placeholder:text-left '
+                  className='px-3 w-60  sm:w-96 xl:w-[18rem] md:px-4 lg:px-6 py-2 lg:py-3 border border-babypurple  md:w-full lg:w-max outline-none md:border-r-0 border-b-0 md:border-b placeholder:text-xs md:placeholder:text-sm placeholder:text-center md:placeholder:text-left '
                 />
               </div>
               <button
@@ -81,7 +70,7 @@ function Subscribe() {
               >
                 {loading ? (
                   <div className='flex justify-center gap-2 items-center'>
-                    <ImSpinner className='animate-spin' />
+                    <div className='spinner'></div>
                     sending...
                   </div>
                 ) : (

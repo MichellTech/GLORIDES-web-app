@@ -77,7 +77,6 @@ function Viewcar() {
     }
   }
   const initialValues = {
-    extraservices: [],
     address: 'hostaddress',
     myaddress: '',
     pickupd: new Date(),
@@ -88,6 +87,18 @@ function Viewcar() {
 
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
+    console.log(values)
+    router.push({
+      pathname: `/rentacar/${carId}/bookingconfirmation/${carId}`,
+      query: {
+        address: values.address,
+        myaddress: values.myaddress,
+        pickupd: values.pickupd,
+        pickupt: values.pickupt,
+        dropoffd: values.dropoffd,
+        dropofft: values.dropoffd,
+      },
+    })
   }
 
   const validationSchema = Yup.object().shape({
@@ -127,7 +138,7 @@ function Viewcar() {
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
                 {/* header */}
                 <div className='relative'>
-                  <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2 lg:pb-4'>
+                  <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
                     {' '}
                     Description
                   </h1>
@@ -150,7 +161,7 @@ function Viewcar() {
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
                 {/* header */}
                 <div className='relative'>
-                  <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2 lg:pb-4'>
+                  <h1 className='font-bold text-sm md:text-base xl:text-lg  border-b pb-2 lg:pb-4'>
                     {' '}
                     Features
                   </h1>
@@ -226,7 +237,7 @@ function Viewcar() {
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
                 {/* header */}
                 <div className='relative'>
-                  <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2 lg:pb-4'>
+                  <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
                     {' '}
                     Extra Services
                   </h1>
@@ -242,7 +253,7 @@ function Viewcar() {
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
                 {/* header */}
                 <div className='relative'>
-                  <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2 lg:pb-4'>
+                  <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
                     {' '}
                     Reviews and ratings
                   </h1>
@@ -319,7 +330,7 @@ function Viewcar() {
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4 '>
                 {/* header */}
                 <div className='relative'>
-                  <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2 lg:pb-4'>
+                  <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
                     {' '}
                     Check Availability
                   </h1>
@@ -588,7 +599,7 @@ function Viewcar() {
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
                 {/* header */}
                 <div className='relative'>
-                  <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2 lg:pb-4'>
+                  <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
                     {' '}
                     Lisiting Owner Details
                   </h1>
@@ -655,7 +666,7 @@ function Viewcar() {
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
                 {/* header */}
                 <div className='relative'>
-                  <h1 className='font-bold text-sm sm:text-base md:text-lg lg:text-xl border-b pb-2 lg:pb-4'>
+                  <h1 className='font-bold text-sm md:text-base xl:text-lg  border-b pb-2 lg:pb-4'>
                     {' '}
                     Share car Details
                   </h1>
