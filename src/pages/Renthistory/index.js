@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
 import { AiOutlineFileSearch } from 'react-icons/ai'
 import { TbReportSearch } from 'react-icons/tb'
@@ -7,24 +7,38 @@ import Footer from '@/components/Navigation/Footer'
 import { cars } from '../../utilis/Cardata'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import { BiSolidCarGarage } from 'react-icons/bi'
 import { LuFuel, LuUser } from 'react-icons/lu'
-import {
-  GiGearStickPattern,
-  GiCarSeat,
-  GiRoundStar,
-  GiRoad,
-} from 'react-icons/gi'
-import { AiOutlineHeart, AiFillHeart, AiFillStar } from 'react-icons/ai'
-import { TbClockSearch } from 'react-icons/tb'
-import { MdOutlineFilterAlt } from 'react-icons/md'
+import { GiGearStickPattern, GiRoad } from 'react-icons/gi'
+
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import mainAxiosAction from '../../components/axiosAction/index'
 
 function Index() {
   const [query, setQuery] = useState('')
+  const [loading, setLoading] = useState(false)
   const [params, setParams] = useState('')
   const [carhistory, setCarhistory] = useState(cars)
 
   const router = useRouter()
+
+  const getrenthistory = () => {
+    mainAxiosAction
+      .post(`/cars/getrenthistory`, {})
+      .then(function (response) {
+        console.log(response?.data?.bookings)
+        setLoading(false)
+        toast.success(response?.data?.message)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    getrenthistory()
+  }, [])
 
   return (
     <>
