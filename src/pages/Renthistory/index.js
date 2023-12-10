@@ -58,7 +58,7 @@ function Index() {
               </div>
             </div>
           ) : (
-            <div className='bg-white md:min-h-[60vh]  w-full  shadow-lg rounded-md lg:rounded-lg py-6 lg:pb-8'>
+            <div className='bg-white md:min-h-[60vh]  w-full   rounded-md lg:rounded-lg py-6 lg:pb-8'>
               {/* table */}
               <div className='w-full overflow-x-auto'>
                 <h1 className='font-bold  text-xs xl:text-base md:text-sm px-6 pb-6 '>
@@ -141,58 +141,62 @@ function Index() {
                     </tr>
                   </thead>
                   <tbody className=' px-6  py-5 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
-                    {history?.map((item, index) => {
-                      return (
-                        <tr
-                          key={index}
-                          onClick={() => {
-                            router.push({
-                              pathname: `/renthistory/${item?._id}`,
-                            })
-                          }}
-                          className='hover:bg-softpurple text-xs md:text-sm '
-                        >
-                          <td className='pl-6 pr-4  py-4  '>
-                            <Image
-                              src={item?.car_booked?.car_photos?.[0]?.url}
-                              alt={item?.car_booked?.car_photos?.[0]?.name}
-                              width={1000}
-                              height={1000}
-                              className='object-cover h-6 w-6 lg:w-8 lg:h-8 rounded-full '
-                            />
-                          </td>
-                          <td className=' py-4 pr-4 '>
-                            {' '}
-                            {item?.car_booked?.car_name}
-                          </td>
-                          <td className=' py-4  pr-4 '>
-                            {' '}
-                            {moment(item?.start_date).format('MMMM Do YYYY')}
-                          </td>
-                          <td className='pr-4   py-4  text-left '>
-                            {moment(item?.end_date).format('MMMM Do YYYY')}
-                          </td>
-                          <td
-                            className={`${
-                              item.status === 'booked'
-                                ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
-                                : item.status === 'overdue'
-                                ? 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
-                                : 'pr-4   py-4  text-left text-orange-800 bg-orange-300 font-normal'
-                            }`}
+                    {history
+                      ?.sort((a, b) => {
+                        return new Date(b.start_date) - new Date(a.start_date)
+                      })
+                      ?.map((item, index) => {
+                        return (
+                          <tr
+                            key={index}
+                            onClick={() => {
+                              router.push({
+                                pathname: `/renthistory/${item?._id}`,
+                              })
+                            }}
+                            className='hover:bg-softpurple text-xs md:text-sm '
                           >
-                            {item?.status}
-                          </td>
+                            <td className='pl-6 pr-4  py-4  '>
+                              <Image
+                                src={item?.car_booked?.car_photos?.[0]?.url}
+                                alt={item?.car_booked?.car_photos?.[0]?.name}
+                                width={1000}
+                                height={1000}
+                                className='object-cover h-6 w-6 lg:w-8 lg:h-8 rounded-full '
+                              />
+                            </td>
+                            <td className=' py-4 pr-4 '>
+                              {' '}
+                              {item?.car_booked?.car_name}
+                            </td>
+                            <td className=' py-4  pr-4 '>
+                              {' '}
+                              {moment(item?.start_date).format('MMMM Do YYYY')}
+                            </td>
+                            <td className='pr-4   py-4  text-left '>
+                              {moment(item?.end_date).format('MMMM Do YYYY')}
+                            </td>
+                            <td
+                              className={`${
+                                item.status === 'booked'
+                                  ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
+                                  : item.status === 'overdue'
+                                  ? 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
+                                  : 'pr-4   py-4  text-left text-orange-800 bg-orange-300 font-normal'
+                              }`}
+                            >
+                              {item?.status}
+                            </td>
 
-                          <td className='pr-4   py-4  text-center '>
-                            {item?.car_booked?.rent_cost}
-                          </td>
-                          <td className='pr-4   py-4  text-left '>
-                            {item?.pickup_address}
-                          </td>
-                        </tr>
-                      )
-                    })}
+                            <td className='pr-4   py-4  text-center '>
+                              {item?.car_booked?.rent_cost}
+                            </td>
+                            <td className='pr-4   py-4  text-left '>
+                              {item?.pickup_address}
+                            </td>
+                          </tr>
+                        )
+                      })}
                   </tbody>
                 </table>
               </div>

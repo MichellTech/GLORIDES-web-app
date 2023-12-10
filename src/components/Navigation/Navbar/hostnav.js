@@ -43,10 +43,23 @@ function Navbar() {
   const showm = () => setVisiblem(true)
   const hidem = () => setVisiblem(false)
 
-  const profile = JSON?.parse(localStorage?.getItem('User_Profile'))
-  const mynotifications = JSON?.parse(
-    localStorage?.getItem('User_Notifications')
+  const profile =
+    localStorage?.getItem('User_Profile') === null ||
+    localStorage?.getItem('User_Profile') === 'undefined' ||
+    localStorage?.getItem('User_Profile') === undefined
+      ? []
+      : JSON?.parse(localStorage?.getItem('User_Profile'))
+  console.log(
+    localStorage?.getItem('User_Notifications') === 'undefined',
+    'jhsgfdrtgz'
   )
+  console.log(typeof localStorage?.getItem('User_Notifications'))
+  const mynotifications =
+    localStorage?.getItem('User_Notifications') === null ||
+    localStorage?.getItem('User_Notifications') === 'undefined' ||
+    localStorage?.getItem('User_Notifications') === undefined
+      ? []
+      : JSON?.parse(localStorage?.getItem('User_Notifications'))
 
   return (
     <nav className=' relative mx-auto font-sans px-1 md:px-4 lg:px-10 py-2 md:py-2 '>
@@ -272,7 +285,7 @@ function Navbar() {
                       {/* image */}
                       <div className='flex flex-col justify-center items-center gap-2 '>
                         <div className='  relative '>
-                          {profile ? (
+                          {profile?.profile_picture ? (
                             <Image
                               src={profile?.profile_picture?.url}
                               alt={profile?.profile_picture?.name}
@@ -392,7 +405,7 @@ function Navbar() {
                 >
                   {/* image */}
                   <div className='  relative cursor-pointer '>
-                    {profile ? (
+                    {profile?.profile_picture ? (
                       <Image
                         src={profile?.profile_picture?.url}
                         alt={profile?.profile_picture?.name}

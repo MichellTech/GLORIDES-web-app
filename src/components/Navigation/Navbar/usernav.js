@@ -56,10 +56,19 @@ function Navbar() {
   //     }
   //   })
   //  ref = { menuRef }
-  const profile = JSON?.parse(localStorage?.getItem('User_Profile'))
-  const mynotifications = JSON?.parse(
-    localStorage?.getItem('User_Notifications')
-  )
+  const profile =
+    localStorage?.getItem('User_Profile') === null ||
+    localStorage?.getItem('User_Profile') === 'undefined' ||
+    localStorage?.getItem('User_Profile') === undefined
+      ? []
+      : JSON?.parse(localStorage?.getItem('User_Profile'))
+
+  const mynotifications =
+    localStorage?.getItem('User_Notifications') === null ||
+    localStorage?.getItem('User_Notifications') === 'undefined' ||
+    localStorage?.getItem('User_Notifications') === undefined
+      ? []
+      : JSON?.parse(localStorage?.getItem('User_Notifications'))
 
   return (
     <nav
@@ -334,7 +343,7 @@ function Navbar() {
                       {/* image */}
                       <div className='flex flex-col justify-center items-center gap-2 '>
                         <div className='  relative  '>
-                          {profile ? (
+                          {profile?.profile_picture ? (
                             <Image
                               src={profile?.profile_picture?.url}
                               alt={profile?.profile_picture?.name}
@@ -469,7 +478,7 @@ function Navbar() {
                 >
                   {/* image */}
                   <div className='  relative cursor-pointer '>
-                    {profile ? (
+                    {profile?.profile_picture ? (
                       <Image
                         src={profile?.profile_picture?.url}
                         alt={profile?.profile_picture?.name}

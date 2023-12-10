@@ -16,6 +16,7 @@ import {
   MdOutlineBluetoothConnected,
   MdLocalFireDepartment,
   MdGpsFixed,
+  MdMyLocation,
 } from 'react-icons/md'
 import Link from 'next/link'
 import { BiSolidCarGarage, BiCalendar } from 'react-icons/bi'
@@ -32,7 +33,9 @@ import { FaFacebook, FaInstagramSquare } from 'react-icons/fa'
 import { RiWhatsappFill } from 'react-icons/ri'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { TbClockHour9 } from 'react-icons/tb'
 import { useSelector, useDispatch } from 'react-redux'
+import moment from 'moment'
 import {
   setAllsearchedcars,
   getuserfavourites,
@@ -43,90 +46,33 @@ function Viewcar() {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [cardata, setCardata] = useState({})
-  const { allsearchedcars, bookmarked } = useSelector((store) => store.rental)
+
   const carId = router.query.id
-  const singlecar = useMemo(
-    () => allsearchedcars?.filter((item) => item._id === carId),
-    [carId]
-  )
 
   useEffect(() => {
-    dispatch(getuserfavourites())
-  }, [])
-
-  const addtofav = (id) => {
-    if (bookmarked?.map((i) => i._id)?.includes(id)) {
-      mainAxiosAction
-        .post(`/cars/delete-bookmark`, { car_id: id })
-        .then(function (response) {
-          dispatch(getuserfavourites())
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    } else {
-      mainAxiosAction
-        .post(`/cars/add-bookmark`, { car_id: id })
-        .then(function (response) {
-          toast.success(response?.data?.message)
-
-          dispatch(getuserfavourites())
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
+    if (router.isReady) {
+      getrentdetails()
     }
-  }
-  const initialValues = {
-    address: 'hostaddress',
-    myaddress: '',
-    pickupd: new Date(),
-    pickupt: new Date(),
-    dropoffd: new Date(),
-    dropofft: new Date(),
-  }
-
-  const onSubmit = (values, onSubmitProps) => {
-    onSubmitProps.setSubmitting(false)
-    console.log(values)
-    router.push({
-      pathname: `/rentacar/${carId}/bookingconfirmation/${carId}`,
-      query: {
-        address: values.address,
-        myaddress: values.myaddress,
-        pickupd: values.pickupd,
-        pickupt: values.pickupt,
-        dropoffd: values.dropoffd,
-        dropofft: values.dropoffd,
-      },
-    })
-  }
-
-  const validationSchema = Yup.object().shape({
-    address: Yup.string().required('Required'),
-    myaddress: Yup.string().when('address', {
-      is: 'useraddress',
-      then: () => Yup.string().required('Required'),
-    }),
-    dropoffd: Yup.date().required('Dropoff Date Required'),
-    dropofft: Yup.date().required('Dropoff time Required'),
-    pickupd: Yup.date().required('Pickup Date Required'),
-    pickupt: Yup.date().required('Pickup time Required'),
-  })
+  }, [router.isReady])
 
   const getrentdetails = () => {
     mainAxiosAction
-      .post(`/cars/getsinglerenthistory`, { car_id: carId })
+      .post(`/cars/getsinglerenthistory`, { booking_id: carId })
       .then(function (response) {
         setLoading(false)
-        console.log(response)
-        console.log(carId)
+        setCardata(response?.data?.booking)
+        console.log(response?.data?.booking)
       })
       .catch(function (error) {
         setLoading(false)
         console.log(error)
       })
   }
+
+  const date1 = new Date(cardata?.start_date)
+  const date2 = new Date(cardata?.end_date)
+  const diffTime = Math.abs(date2 - date1)
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
   return (
     <>
       <Navbar />
@@ -146,7 +92,7 @@ function Viewcar() {
             <div className='space-y-6 lg:w-2/3 xl:w-4/6'>
               {/* car photo */}
               <div className='w-full bg-white rounded-md lg:rounded-lg'>
-                <Carousel photos={singlecar?.[0]?.car_photos} />
+                <Carousel photos={cardata?.car_booked?.car_photos} />
               </div>
               {/* desc */}
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
@@ -171,6 +117,7 @@ function Viewcar() {
                   </h1>
                 </div>
               </div>
+              {/* pick */}
               {/* Features */}
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
                 {/* header */}
@@ -186,32 +133,34 @@ function Viewcar() {
                   {/* one */}
                   <div className='flex items-center gap-2 border border-gray-400 px-2 py-2  w-max rounded-sm lg:rounded-md'>
                     <LuFuel className='text-xl' />
-                    <h1 className='text-xs'>{singlecar?.[0]?.fuel_type} </h1>
+                    <h1 className='text-xs'>
+                      {cardata?.car_booked?.fuel_type}{' '}
+                    </h1>
                   </div>
                   {/* two */}
                   <div className='flex items-center gap-2 border border-gray-400 px-2 py-2  w-max rounded-sm lg:rounded-md'>
                     <BiSolidCarGarage className='text-xl' />
                     <h1 className='text-xs '>
                       {' '}
-                      {singlecar?.[0]?.car_doors} Doors
+                      {cardata?.car_booked?.car_doors} Doors
                     </h1>
                   </div>
                   {/* three */}
                   <div className='flex items-center gap-2 border border-gray-400 px-2 py-2 w-max rounded-sm lg:rounded-md'>
                     <GiCarSeat className='text-xl' />
                     <p className='text-xs'>
-                      {singlecar?.[0]?.seats_number} Seater
+                      {cardata?.car_booked?.seats_number} Seater
                     </p>
                   </div>
                   {/* four */}
                   <div className='flex items-center gap-2 border border-gray-400 px-2 py-2  w-max  rounded-sm lg:rounded-md'>
                     <GiGearStickPattern className='text-xl' />
-                    <p className='text-xs'>{singlecar?.[0]?.gear_type} </p>
+                    <p className='text-xs'>{cardata?.car_booked?.gear_type} </p>
                   </div>
                   {/* five */}
                   <div className='flex items-center gap-2 border border-gray-400 px-2 py-2  w-max rounded-sm lg:rounded-md'>
                     <TbClockSearch className='text-xl' />
-                    <p className='text-xs'>{singlecar?.[0]?.miles} </p>
+                    <p className='text-xs'>{cardata?.car_booked?.miles} </p>
                   </div>
                   {/* six */}
                   <div className='flex items-center gap-2 border border-gray-400 px-2 py-2  w-max rounded-sm lg:rounded-md'>
@@ -219,7 +168,7 @@ function Viewcar() {
                     <p className='text-xs'>Bluetooth</p>
                   </div>
                   {/* seven*/}
-                  {singlecar?.[0]?.car_additional_features?.some(
+                  {cardata?.car_booked?.car_additional_features?.some(
                     (i) => i['gps']
                   ) && (
                     <div className='flex items-center gap-2 border border-gray-400 px-2 py-2  w-max rounded-sm lg:rounded-md'>
@@ -228,7 +177,7 @@ function Viewcar() {
                     </div>
                   )}
                   {/* eight*/}
-                  {singlecar?.[0]?.car_additional_features?.some(
+                  {cardata?.car_booked?.car_additional_features?.some(
                     (i) => i['heater']
                   ) && (
                     <div className='flex items-center gap-2 border border-gray-400 px-2 py-2  w-max rounded-sm lg:rounded-md'>
@@ -237,7 +186,7 @@ function Viewcar() {
                     </div>
                   )}
                   {/* eight*/}
-                  {singlecar?.[0]?.car_additional_features?.some(
+                  {cardata?.car_booked?.car_additional_features?.some(
                     (i) => i['camera']
                   ) && (
                     <div className='flex items-center gap-2 border border-gray-400 px-2 py-2  w-max rounded-sm lg:rounded-md'>
@@ -261,6 +210,63 @@ function Viewcar() {
                 <div className=' space-y-2 lg:space-y-3'>
                   <h1 className='text-sm lg:text-base'>Child Seat - $10</h1>
                   <h1 className='text-sm lg:text-base'>Tank Filling - $40</h1>
+                </div>
+              </div>
+              {/* pickup */}
+              <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
+                {/* header */}
+                <div className='relative'>
+                  <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
+                    {' '}
+                    Pickup Location and Time
+                  </h1>
+                  <div className='w-10 h-1 bg-babypurple absolute bottom-0 left-0'></div>
+                </div>
+                {/* content */}
+                <div className=' space-y-2 lg:space-y-3'>
+                  <div className='flex items-center gap-2'>
+                    <MdMyLocation />
+                    <h1 className='text-sm lg:text-base '>
+                      {cardata?.car_booked?.pickup_location}
+                    </h1>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <TbClockHour9 />
+                    <h1 className='text-sm lg:text-base '>
+                      {moment(cardata?.car_booked?.start_date).format(
+                        'MMMM Do YYYY, h:mm:ss a'
+                      )}
+                    </h1>
+                  </div>
+                </div>
+              </div>
+              {/* drop off */}
+
+              <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
+                {/* header */}
+                <div className='relative'>
+                  <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
+                    {' '}
+                    Dropoff Location and Time
+                  </h1>
+                  <div className='w-10 h-1 bg-babypurple absolute bottom-0 left-0'></div>
+                </div>
+                {/* content */}
+                <div className=' space-y-2 lg:space-y-3'>
+                  <div className='flex items-center gap-2'>
+                    <MdMyLocation />
+                    <h1 className='text-sm lg:text-base '>
+                      {cardata?.car_booked?.dropoff_location}
+                    </h1>
+                  </div>
+                  <div className='flex items-center gap-2'>
+                    <TbClockHour9 />
+                    <h1 className='text-sm lg:text-base '>
+                      {moment(cardata?.car_booked?.end_date).format(
+                        'MMMM Do YYYY, h:mm:ss a'
+                      )}
+                    </h1>
+                  </div>
                 </div>
               </div>
               {/* review */}
@@ -340,274 +346,59 @@ function Viewcar() {
             </div>
             {/* booking and user Info */}
             <div className='space-y-6 lg:w-1/3 xl:w-2/6 '>
-              {/* check availability */}
-              <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4 '>
-                {/* header */}
-                <div className='relative'>
-                  <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
-                    {' '}
-                    Check Availability
+              {/* closeout car */}
+              {/* summary */}
+              <div className='bg-white px-4 py-4 rounded-lg space-y-3  md:space-y-4 lg:space-y-5 shadow-md'>
+                <h1 className='font-bold text-sm md:text-base xl:text-lg border-b border-babyblack pb-2'>
+                  Transaction Summary
+                </h1>
+                {/* one */}
+                <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
+                  <h1 className='text-sm lg:text-base'>Rent Cost</h1>
+                  <h1 className='text-sm lg:text-base font-bold'>
+                    $ {cardata?.car_booked?.rent_cost}{' '}
                   </h1>
-                  <div className='w-10 h-1 bg-babypurple absolute bottom-0 left-0'></div>
                 </div>
-                {/* content */}
-                <Formik
-                  initialValues={initialValues}
-                  onSubmit={onSubmit}
-                  validationSchema={validationSchema}
-                  enableReinitialize
-                >
-                  {(formik) => {
-                    return (
-                      <Form className='space-y-5 w-full   '>
-                        {/* first */}
-                        <div className='space-y-6  lg:space-y-10 pt-4'>
-                          {/* pickup & dropoff  location*/}
-                          <div className='  space-y-2 lg:space-y-4 '>
-                            <h1 className='font-bold text-sm lg:text-base  '>
-                              Pickup and Drop Off Location
-                            </h1>
-                            {/* option */}
-                            <Field name='address' className=' px-6 py-1 '>
-                              {({ field }) => {
-                                return (
-                                  <div className='space-y-2'>
-                                    {/* host addreee */}
-                                    <div className='space-x-4'>
-                                      <input
-                                        type='radio'
-                                        id='hostaddress'
-                                        {...field}
-                                        value='hostaddress'
-                                        checked={field.value === 'hostaddress'}
-                                      />
-                                      <label
-                                        htmlFor='hostaddress'
-                                        className='text-sm'
-                                      >
-                                        {singlecar?.[0]?.pickup_location}
-                                      </label>
-                                    </div>
-                                    {/* select addreee */}
-                                    <div className='space-x-4'>
-                                      <input
-                                        type='radio'
-                                        id='useraddress'
-                                        {...field}
-                                        value='useraddress'
-                                        checked={field.value === 'useraddress'}
-                                      />
-                                      <label
-                                        htmlFor='useraddress'
-                                        className='text-sm'
-                                      >
-                                        Select Pickup Address
-                                      </label>
-                                    </div>
-                                  </div>
-                                )
-                              }}
-                            </Field>
-                            {/* input addres */}
-                            {formik.values.address === 'useraddress' ? (
-                              <div className=' space-y-3  flex flex-col'>
-                                <label
-                                  htmlFor='copies'
-                                  className='text-xs md:text-sm'
-                                >
-                                  Please input your desired pickup address
-                                </label>
-                                <Field
-                                  type='text'
-                                  name='myaddress'
-                                  className=' w-full  py-2 px-2 border border-babyblack text-xs placeholder:text-xs rounded-sm max-w-md md:text-sm  md:placeholder:text-sm'
-                                  placeholder='Address'
-                                />
-                                {/* warning */}
-                                <h1 className=' text-red-500 text-xs'>
-                                  Be advised that inputing your own address will
-                                  attract an additional cost of{' '}
-                                  <span className='font-bold'>
-                                    $ {singlecar?.[0]?.outside_location_cost}
-                                  </span>
-                                </h1>
-                              </div>
-                            ) : null}
-                          </div>
+                <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
+                  <h1 className='text-sm lg:text-base'>Number of day(s)</h1>
+                  <h1 className='text-sm lg:text-base font-bold'>{diffDays}</h1>
+                </div>
+                {/* two */}
+                <div className='w-full  flex justify-between items-center gap-2   border-b pb-4'>
+                  <h1 className='text-sm lg:text-base '>Insurance Cost</h1>
+                  <h1 className='text-xs  xl:text-sm font-bold'>$ 0</h1>
+                </div>
+                {/* one */}
+                <div className='w-full  flex justify-between items-center gap-2  border-b pb-4 border-babyblack '>
+                  <h1 className='text-sm lg:text-base'>Tank Filling</h1>
+                  <h1 className='text-xs xl:text-sm  font-bold'>
+                    $ {cardata?.car_booked?.tank_filling?.amount}
+                  </h1>
+                </div>
+                {/* one */}
+                <div className='w-full  flex justify-between items-center gap-2 border-b  border-babyblack pb-4 '>
+                  <h1 className='text-sm lg:text-base font-bold'>Total Cost</h1>
+                  <h1 className='text-xs  md:text-sm lg:text-base font-bold'>
+                    ${cardata?.amount}
+                  </h1>
+                </div>
+                {/* button*/}
 
-                          {/* pick Up time and date */}
-                          <div className='   rounded-lg space-y-2 lg:space-y-4  '>
-                            <h1 className='font-bold text-sm lg:text-base '>
-                              Pick Up Date and Time
-                            </h1>
-                            {/* img */}
-                            <div className='space-y-3'>
-                              {/* date */}
-                              <div>
-                                <div className=' relative  p-2 border w-full'>
-                                  <Field name='pickupd' className=''>
-                                    {({ field, form }) => {
-                                      return (
-                                        <DatePicker
-                                          className='pl-10 outline-none   text-left w-36 text-sm   '
-                                          id='pickupd'
-                                          {...field}
-                                          selected={field.value}
-                                          minDate={new Date()}
-                                          dateFormat='MM/dd/yyyy '
-                                          onChange={(date) =>
-                                            form.setFieldValue(field.name, date)
-                                          }
-                                        />
-                                      )
-                                    }}
-                                  </Field>
-                                  <BiCalendar className='absolute  top-1/2  left-8 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold' />
-                                </div>
-
-                                <div className='text-softRed text-xs mt-1 px-4'>
-                                  <ErrorMessage name='pickupd' />
-                                </div>
-                              </div>
-                              {/* time */}
-                              <div>
-                                <div className='relative  p-2 border '>
-                                  <Field name='pickupt' className=''>
-                                    {({ field, form }) => {
-                                      return (
-                                        <DatePicker
-                                          // placeholderText='Click to select a date'
-                                          className='  pl-10 outline-none text-left w-28 text-sm   '
-                                          id='pickupt'
-                                          {...field}
-                                          selected={field.value}
-                                          showTimeSelect
-                                          showTimeSelectOnly
-                                          timeIntervals={1}
-                                          timeCaption='Time'
-                                          dateFormat='h:mm aa'
-                                          onChange={(date) =>
-                                            form.setFieldValue(field.name, date)
-                                          }
-                                        />
-                                      )
-                                    }}
-                                  </Field>
-                                  <div className='absolute  top-1/2  left-8 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold '>
-                                    <LuClock10 />
-                                  </div>
-                                </div>
-                                <div className='text-softRed text-xs mt-1 px-4'>
-                                  <ErrorMessage name='pickupt' />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          {/* drop off time and date */}
-                          <div className='  space-y-2 lg:space-y-4  '>
-                            <h1 className='font-bold text-sm lg:text-base '>
-                              Dropoff Date and Time
-                            </h1>
-                            {/* date and time */}
-                            <div className='space-y-3'>
-                              {/* date */}
-                              <div>
-                                <div className=''>
-                                  <div className=' relative  p-2 border '>
-                                    <Field name='dropoffd' className=''>
-                                      {({ field, form }) => {
-                                        return (
-                                          <DatePicker
-                                            className='pl-10 outline-none   text-left w-36 text-sm   '
-                                            id='dropoffd'
-                                            {...field}
-                                            selected={field.value}
-                                            minDate={new Date()}
-                                            dateFormat='MM/dd/yyyy '
-                                            onChange={(date) =>
-                                              form.setFieldValue(
-                                                field.name,
-                                                date
-                                              )
-                                            }
-                                          />
-                                        )
-                                      }}
-                                    </Field>
-                                    <BiCalendar className='absolute  top-1/2  left-8 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold' />
-                                  </div>
-                                </div>
-                                <div className='text-softRed text-xs mt-1 px-4'>
-                                  <ErrorMessage name='dropoffd' />
-                                </div>
-                              </div>
-                              {/* time */}
-                              <div>
-                                <div className='relative  p-2 border '>
-                                  <Field name='dropofft' className=''>
-                                    {({ field, form }) => {
-                                      return (
-                                        <DatePicker
-                                          // placeholderText='Click to select a date'
-                                          className='  pl-10 outline-none text-left w-28 text-sm   '
-                                          id='dropofft'
-                                          {...field}
-                                          selected={field.value}
-                                          showTimeSelect
-                                          showTimeSelectOnly
-                                          timeIntervals={1}
-                                          timeCaption='Time'
-                                          dateFormat='h:mm aa'
-                                          onChange={(date) =>
-                                            form.setFieldValue(field.name, date)
-                                          }
-                                        />
-                                      )
-                                    }}
-                                  </Field>
-                                  <div className='absolute  top-1/2  left-8 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold '>
-                                    <LuClock10 />
-                                  </div>
-                                </div>
-                                <div className='text-softRed text-xs mt-1 px-4'>
-                                  <ErrorMessage name='dropofft' />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        {/* button*/}
-                        <div className='w-full  space-y-4 py-4'>
-                          <button
-                            type='submit'
-                            className='bg-babypurple px-5 py-3 w-full text-sm md:px-2 text-white rounded-md  hover:shadow-sm'
-                          >
-                            Confirm Availability
-                          </button>
-                          {bookmarked
-                            ?.map((i) => i._id)
-                            ?.includes(singlecar?.[0]?._id) ? (
-                            <button
-                              type='reset'
-                              onClick={() => addtofav(singlecar?.[0]?._id)}
-                              className='border- w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
-                            >
-                              Unbookmark car
-                            </button>
-                          ) : (
-                            <button
-                              type='reset'
-                              onClick={() => addtofav(singlecar?.[0]?._id)}
-                              className='border- w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
-                            >
-                              Bookmark Car Instead
-                            </button>
-                          )}
-                        </div>
-                      </Form>
-                    )
-                  }}
-                </Formik>
+                <div className='w-full  space-y-4 py-4'>
+                  <button
+                    onClick={() => {
+                      router.push({
+                        pathname: `/renthistory/${carId}/returnvehicle/${carId}`,
+                      })
+                    }}
+                    className='bg-babypurple px-5 py-3 w-full text-sm md:px-2 text-white rounded-md  hover:shadow-sm'
+                  >
+                    <h1>Return Vehicle</h1>
+                  </button>
+                  <button className='border- w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'>
+                    Report an Issue
+                  </button>
+                </div>
               </div>
               {/* owner Listing*/}
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
@@ -636,7 +427,7 @@ function Viewcar() {
                     {/* name and date */}
                     <div className='flex flex-col space-y-1'>
                       <h1 className='text-sm font-bold text-babyblack'>
-                        Olamide Omotuyaloe
+                        {cardata?.car_owner?.firstname}
                       </h1>
                       <div className='flex items-center gap-2 text-xs text-yellow-600'>
                         <AiFillStar />
@@ -674,24 +465,6 @@ function Viewcar() {
                       <h1 className=' text-sm   text-green-700'> Verified</h1>
                     </div>
                   </div>
-                </div>
-              </div>
-              {/* Share*/}
-              <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
-                {/* header */}
-                <div className='relative'>
-                  <h1 className='font-bold text-sm md:text-base xl:text-lg  border-b pb-2 lg:pb-4'>
-                    {' '}
-                    Share car Details
-                  </h1>
-                  <div className='w-10 h-1 bg-babypurple absolute bottom-0 left-0'></div>
-                </div>
-                {/* content */}
-                <div className='flex items-center gap-6 lg:gap-8 xl:gap-10'>
-                  <FaFacebook className='text-babyblack text-lg sm:text-xl lg:text-2xl ' />
-                  <TbBrandTwitterFilled className='text-babyblack text-lg sm:text-xl lg:text-2xl ' />
-                  <FaInstagramSquare className='text-babyblack text-lg sm:text-xl lg:text-2xl ' />
-                  <RiWhatsappFill className='text-babyblack sm:text-xl text-lg lg:text-2xl ' />
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
 import Footer from '../../components/Navigation/Footer'
 import Link from 'next/link'
@@ -15,10 +15,32 @@ import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
 import { transactionhistory, leasehistory } from '../../utilis/Cardata'
 import Paymentcomp from '@/components/Paymentcomp'
 import { withdrawmoney } from '@/features/userpersona/userSlice'
+import mainAxiosAction from '../../components/axiosAction/index'
+import moment from 'moment'
 function Dashboard() {
-  // console.log(transactionhistory)
+  const [loading, setLoading] = useState(false)
+  const [dashdata, setDashdata] = useState(null)
   const { isWithdrawing } = useSelector((store) => store.userpersona)
   const dispatch = useDispatch()
+
+  const getdashboard = () => {
+    mainAxiosAction
+      .post(`/user/get-dashboard-details`, {})
+      .then(function (response) {
+        console.log(response?.data?.dashboard_details)
+        setLoading(false)
+        setDashdata(response?.data?.dashboard_details)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    getdashboard()
+  }, [])
+
   return (
     <>
       <main
@@ -84,7 +106,9 @@ function Dashboard() {
                   </div>
                 </div>
                 {/* text */}
-                <h1 className='font-bold text-2xl lg:text-3xl'>$24,000</h1>
+                <h1 className='font-bold text-2xl lg:text-3xl'>
+                  ${dashdata?.total_amount}
+                </h1>
               </div>
               {/* two */}
               <div className='border bg-white  shadow-sm  rounded-md px-4 py-4 space-y-2 hover:shadow-md  lg:space-y-3 w-max  grow '>
@@ -98,7 +122,9 @@ function Dashboard() {
                   </div>
                 </div>
                 {/* text */}
-                <h1 className='font-bold text-2xl lg:text-3xl'>24</h1>
+                <h1 className='font-bold text-2xl lg:text-3xl'>
+                  {dashdata?.vehicles_number}
+                </h1>
               </div>
               {/* three */}
               <div className='border  shadow-sm  bg-white rounded-md px-4 py-4  space-y-2 lg:space-y-3  w-max grow hover:shadow-md '>
@@ -112,7 +138,9 @@ function Dashboard() {
                   </div>
                 </div>
                 {/* text */}
-                <h1 className='font-bold text-2xl lg:text-3xl'>20</h1>
+                <h1 className='font-bold text-2xl lg:text-3xl'>
+                  {dashdata?.vehicles_number - dashdata?.delist_vehicles_number}
+                </h1>
               </div>
               {/* four */}
               <div className='border  bg-white  shadow-sm rounded-md px-4 py-4 space-y-2 lg:space-y-3  w-max  grow hover:shadow-md'>
@@ -126,7 +154,9 @@ function Dashboard() {
                   </div>
                 </div>
                 {/* text */}
-                <h1 className='font-bold text-2xl lg:text-3xl'>4</h1>
+                <h1 className='font-bold text-2xl lg:text-3xl'>
+                  {dashdata?.delist_vehicles_number}
+                </h1>
               </div>
             </div>
             {/* lease history and transaction history */}
@@ -134,7 +164,7 @@ function Dashboard() {
               {/* leasehistory */}
               <div className='border px-4 py-4 h-full  bg-white shadow-md  w-full flex justify-center  hover:shadow-md rounded-md'>
                 {/* nofound */}
-                {!leasehistory ? (
+                {dashdata?.lease_history?.length < 1 ? (
                   <div className='flex   justify-center items-center flex-col space-y-2 xl:space-y-3 '>
                     {/* icon */}
                     <div className='flex justify-center items-center p-3 bg-opacity-50 bg-babygrey rounded-full'>
@@ -166,47 +196,57 @@ function Dashboard() {
                     </div>
                     {/* content */}
                     <div className='pt-6 space-y-5 '>
-                      {leasehistory.map((item, index) => {
-                        return (
-                          <div key={index}>
-                            <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:bg-opacity-50 hover:duration-1000 hover:px-2 lg:hover:px-4 cursor-pointer '>
-                              {/* icona nd descripiton */}
-                              <div className='flex items-center gap-4'>
-                                {/* icon */}
-                                <div className='bg-babygrey flex justify-center items-center  rounded-full bg-opacity-70 h-max w-max p-2 lg:p-3 '>
-                                  <MdOutlineDirectionsCar className='text-sm lg:text-base' />
+                      {dashdata?.lease_history
+                        ?.sort((a, b) => {
+                          return (
+                            new Date(b?.date_created) -
+                            new Date(a?.date_created)
+                          )
+                        })
+                        ?.slice(0, 5)
+                        ?.map((item, index) => {
+                          return (
+                            <div key={index}>
+                              <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:bg-opacity-50 hover:duration-1000 hover:px-2 lg:hover:px-4 cursor-pointer '>
+                                {/* icona nd descripiton */}
+                                <div className='flex items-center gap-4'>
+                                  {/* icon */}
+                                  <div className='bg-babygrey flex justify-center items-center  rounded-full bg-opacity-70 h-max w-max p-2 lg:p-3 '>
+                                    <MdOutlineDirectionsCar className='text-sm lg:text-base' />
+                                  </div>
+                                  {/* first text */}
+                                  <div className='space-y-1'>
+                                    <h1 className='text-xs lg:text-[0.8rem] font-bold'>
+                                      {item?.description}
+                                    </h1>
+                                    <h1 className='text-[0.5rem] lg:text-xs'>
+                                      {moment(item?.date_created).format(
+                                        'MMMM Do YYYY, h:mm:ss a'
+                                      )}
+                                    </h1>
+                                  </div>
                                 </div>
-                                {/* first text */}
-                                <div className='space-y-1'>
-                                  <h1 className='text-xs lg:text-[0.8rem] font-bold'>
-                                    {item.renter}
+                                {/* amount and status */}
+                                <div className='space-y-1 lg:space-y-2 flex flex-col items-end'>
+                                  <h1 className='text-xs lg:text-sm font-bold'>
+                                    $ {item?.amount}
                                   </h1>
-                                  <h1 className='text-[0.5rem] lg:text-xs'>
-                                    {item.date}
+                                  <h1
+                                    className={
+                                      item?.status === 'Successfull'
+                                        ? 'text-[0.5rem] lg:text-xs text-green-500'
+                                        : item.status === 'Canceled'
+                                        ? 'text-[0.5rem] lg:text-xs text-red-600'
+                                        : 'text-[0.5rem] lg:text-xs text-orange-500'
+                                    }
+                                  >
+                                    {item?.status}
                                   </h1>
                                 </div>
-                              </div>
-                              {/* amount and status */}
-                              <div className='space-y-1 lg:space-y-2 flex flex-col items-end'>
-                                <h1 className='text-xs lg:text-sm font-bold'>
-                                  $ {item.amount}
-                                </h1>
-                                <h1
-                                  className={
-                                    item.status === 'Successfull'
-                                      ? 'text-[0.5rem] lg:text-xs text-green-500'
-                                      : item.status === 'Canceled'
-                                      ? 'text-[0.5rem] lg:text-xs text-red-600'
-                                      : 'text-[0.5rem] lg:text-xs text-orange-500'
-                                  }
-                                >
-                                  {item.status}
-                                </h1>
                               </div>
                             </div>
-                          </div>
-                        )
-                      })}
+                          )
+                        })}
                     </div>
                   </div>
                 )}
@@ -214,7 +254,7 @@ function Dashboard() {
               {/* transhistory */}
               <div className='border px-4 py-4 h-full shadow-sm  bg-white    w-full flex justify-center  hover:shadow-md rounded-md'>
                 {/* nofound */}
-                {!transactionhistory ? (
+                {dashdata?.transaction_records?.length < 1 ? (
                   <div className='flex justify-center items-center flex-col space-y-2 xl:space-y-3'>
                     {/* icon */}
                     <div className='flex justify-center items-center p-3 bg-opacity-50 bg-babygrey rounded-full'>
@@ -246,51 +286,61 @@ function Dashboard() {
                     </div>
                     {/* content */}
                     <div className='pt-6 space-y-5 '>
-                      {transactionhistory.map((item, index) => {
-                        return (
-                          <div key={index}>
-                            <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:bg-opacity-50 hover:px-2 lg:hover:px-4 hover:duration-1000 cursor-pointer '>
-                              {/* icona nd descripiton */}
-                              <div className='flex items-center gap-4'>
-                                {/* icon */}
-                                <div className='bg-babygrey flex justify-center items-center  rounded-full bg-opacity-70 h-max w-max p-2 lg:p-3 '>
-                                  {item.type === 'incoming' ? (
-                                    <BsArrowDown className='text-sm lg:text-base' />
-                                  ) : (
-                                    <BsArrowUp className='text-sm lg:text-base ' />
-                                  )}
+                      {dashdata?.transaction_records
+                        ?.sort((a, b) => {
+                          return (
+                            new Date(b?.date_created) -
+                            new Date(a?.date_created)
+                          )
+                        })
+                        ?.slice(0, 5)
+                        ?.map((item, index) => {
+                          return (
+                            <div key={index}>
+                              <div className='flex justify-between gap-2 items-center border-b py-2 hover:bg-softpurple hover:bg-opacity-50 hover:px-2 lg:hover:px-4 hover:duration-1000 cursor-pointer '>
+                                {/* icona nd descripiton */}
+                                <div className='flex items-center gap-4'>
+                                  {/* icon */}
+                                  <div className='bg-babygrey flex justify-center items-center  rounded-full bg-opacity-70 h-max w-max p-2 lg:p-3 '>
+                                    {item?.payment_type === 'incoming' ? (
+                                      <BsArrowDown className='text-sm lg:text-base' />
+                                    ) : (
+                                      <BsArrowUp className='text-sm lg:text-base ' />
+                                    )}
+                                  </div>
+                                  {/* first text */}
+                                  <div className='space-y-1'>
+                                    <h1 className='text-xs lg:text-[0.8rem] font-bold'>
+                                      {item?.description}
+                                    </h1>
+                                    <h1 className='text-[0.5rem] lg:text-xs'>
+                                      {moment(item?.date_created).format(
+                                        'MMMM Do YYYY, h:mm:ss a'
+                                      )}
+                                    </h1>
+                                  </div>
                                 </div>
-                                {/* first text */}
-                                <div className='space-y-1'>
-                                  <h1 className='text-xs lg:text-[0.8rem] font-bold'>
-                                    {item.description}
+                                {/* amount and status */}
+                                <div className='space-y-1 lg:space-y-2 flex flex-col items-end'>
+                                  <h1 className='text-xs lg:text-sm font-bold'>
+                                    $ {item?.amount}
                                   </h1>
-                                  <h1 className='text-[0.5rem] lg:text-xs'>
-                                    {item.date}
+                                  <h1
+                                    className={
+                                      item?.status === 'Successfull'
+                                        ? 'text-[0.5rem] lg:text-xs text-green-500'
+                                        : item?.status === 'Failed'
+                                        ? 'text-[0.5rem] lg:text-xs text-red-600'
+                                        : 'text-[0.5rem] lg:text-xs text-orange-500'
+                                    }
+                                  >
+                                    {item?.status}
                                   </h1>
                                 </div>
-                              </div>
-                              {/* amount and status */}
-                              <div className='space-y-1 lg:space-y-2 flex flex-col items-end'>
-                                <h1 className='text-xs lg:text-sm font-bold'>
-                                  $ {item.amount}
-                                </h1>
-                                <h1
-                                  className={
-                                    item.status === 'Successfull'
-                                      ? 'text-[0.5rem] lg:text-xs text-green-500'
-                                      : item.status === 'Failed'
-                                      ? 'text-[0.5rem] lg:text-xs text-red-600'
-                                      : 'text-[0.5rem] lg:text-xs text-orange-500'
-                                  }
-                                >
-                                  {item.status}
-                                </h1>
                               </div>
                             </div>
-                          </div>
-                        )
-                      })}
+                          )
+                        })}
                     </div>
                   </div>
                 )}
