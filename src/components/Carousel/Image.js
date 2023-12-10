@@ -121,7 +121,7 @@ export default function SimpleSlider(props) {
         {props?.photos?.map((item) => {
           return (
             <div
-              key={item.id}
+              key={item._id}
               className='py-4 lg:py-6 pb-14  md:pb-20 lg:pb-24'
             >
               <div className='  relative rounded-md  mx-2     '>

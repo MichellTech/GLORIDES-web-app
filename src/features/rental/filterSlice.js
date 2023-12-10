@@ -17,6 +17,8 @@ const initialState = {
   isFiltering: false,
   allsearchedcars: [],
   bookmarked: [],
+  isBooking: false,
+  successinfo: {},
 }
 
 const filterSlice = createSlice({
@@ -31,6 +33,15 @@ const filterSlice = createSlice({
     },
     setAllsearchedcars: (state, action) => {
       state.allsearchedcars = action.payload
+    },
+    setsuccessinfo: (state, action) => {
+      state.successinfo = action.payload
+    },
+    bookCar: (state) => {
+      state.isBooking = true
+    },
+    unbookCar: (state) => {
+      state.isBooking = false
     },
   },
   extraReducers: (builder) => {
@@ -56,5 +67,8 @@ export const {
   setAllsearchedcars,
   allsearchedcars,
   bookmarked,
+  bookCar,
+  unbookCar,
+  setsuccessinfo,
 } = filterSlice.actions
 export default filterSlice.reducer

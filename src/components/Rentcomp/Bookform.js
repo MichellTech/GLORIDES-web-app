@@ -1,87 +1,77 @@
-import React, { useMemo } from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
-import Navbar from '@/components/Navigation/Navbar/index'
 import Footer from '@/components/Navigation/Footer'
 import { useSelector, useDispatch } from 'react-redux'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-
+import { unbookCar, setsuccessinfo } from '@/features/rental/filterSlice'
 import {
   MdKeyboardBackspace,
-  MdAccessTimeFilled,
   MdOutlineSecurity,
   MdMyLocation,
 } from 'react-icons/md'
 import Link from 'next/link'
-import { BiSolidCarGarage, BiCurrentLocation, BiCalendar } from 'react-icons/bi'
-import { LuFuel, LuClock10 } from 'react-icons/lu'
-import { GiGearStickPattern, GiCarSeat } from 'react-icons/gi'
+import { LuFuel } from 'react-icons/lu'
 import { TbClockHour9 } from 'react-icons/tb'
-
-function Booking() {
+import mainAxiosAction from '../axiosAction/index'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import moment from 'moment'
+function Booking({ cardata, uservalues }) {
+  const dispatch = useDispatch()
   const router = useRouter()
-  const { allsearchedcars } = useSelector((store) => store.rental)
-  const carId = router.query.id
-  const { status, priority, lastupdated, reference_code, subject } =
-    router.query
-  const singlecar = useMemo(
-    () => allsearchedcars?.filter((item) => item._id === carId),
-    [carId]
-  )
+  const [loading, setLoading] = useState(false)
   const initialValues = {
     extraservices: [],
-    address: 'hostaddress',
-    myaddress: '',
-    pickupd: new Date(),
-    pickupt: new Date(),
-    dropoffd: new Date(),
-    dropofft: new Date(),
   }
-  // .toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })
-
+  const date1 = new Date(uservalues?.pickupd)
+  const date2 = new Date(uservalues?.dropoffd)
+  const diffTime = Math.abs(date2 - date1)
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
-
-    // setLoadingp(true)
-
-    // const payload = {
-    //   first_name: values.firstname,
-    //   last_name: values.lastname,
-    //   email_id: values.email,
-    //   phone: values.phone,
-    //   address: values.address,
-    //   profile_type: '',
-    // }
+    setLoading(true)
+    const payload = {
+      start_date: uservalues?.pickupd?.toISOString(),
+      end_date: uservalues?.dropoffd?.toISOString(),
+      car_id: cardata?._id,
+      use_car_pickup: uservalues?.address === 'hostaddress' ? true : false,
+      use_insurance: values.extraservices.includes('insurance') ? true : false,
+      use_tank_filling: values.extraservices.includes('tank') ? true : false,
+      pickup_address: uservalues?.myaddress,
+    }
+    bookcar(payload)
 
     // UpdateProfile(payload, imagetoupload)
   }
 
-  const validationSchema = Yup.object().shape({
-    address: Yup.string().required('Required'),
-    myaddress: Yup.string().when('address', {
-      is: 'useraddress',
-      then: () => Yup.string().required('Required'),
-    }),
-    dropoffd: Yup.date().required('Dropoff Date Required'),
-    dropofft: Yup.date().required('Dropoff time Required'),
-    pickupd: Yup.date().required('Pickup Date Required'),
-    pickupt: Yup.date().required('Pickup time Required'),
-  })
+  const bookcar = (payload) => {
+    mainAxiosAction
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/book-car`, payload)
+      .then(function (response) {
+        setLoading(false)
+        toast?.success(response?.data?.message)
+        router.push({
+          pathname: `/rentacar/success`,
+        })
+        dispatch(setsuccessinfo(response.data.booking_details))
+      })
+      .catch(function (error) {
+        toast?.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
+  }
 
   return (
     <>
-      <Navbar />
       <section className='bg-[#F5F5F5]  w-full pt-10 xl:pt-16 '>
         {/* body */}
         <div className='px-6 md:px-7  lg:px-8 xl:px-12 space-y-6 lg:space-y-10   pb-10  '>
           {/* back */}
           <div
             onClick={() => {
-              router.push({
-                pathname: `/rentacar/${carId}`,
-              })
+              dispatch(unbookCar())
             }}
             className='flex items-center gap-2 cursor-pointer'
           >
@@ -94,7 +84,6 @@ function Booking() {
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
-            validationSchema={validationSchema}
             enableReinitialize
           >
             {(formik) => {
@@ -158,7 +147,7 @@ function Booking() {
                                         Tank Filling
                                       </h1>
                                       <p className='text-xs'>
-                                        ${singlecar?.[0]?.tank_filling?.amount}
+                                        ${cardata?.tank_filling?.amount}
                                       </p>
                                     </div>
                                   </label>
@@ -194,13 +183,17 @@ function Booking() {
                         <div className='flex items-center gap-2'>
                           <MdMyLocation />
                           <h1 className='text-sm lg:text-base '>
-                            Ajah Lagos State
+                            {uservalues?.address === 'hostaddress'
+                              ? cardata?.pickup_location
+                              : uservalues?.myaddress}
                           </h1>
                         </div>
                         <div className='flex items-center gap-2'>
                           <TbClockHour9 />
                           <h1 className='text-sm lg:text-base '>
-                            25th sept 2023
+                            {moment(uservalues?.pickupd).format(
+                              'MMMM Do YYYY, h:mm:ss a'
+                            )}
                           </h1>
                         </div>
                       </div>
@@ -222,13 +215,17 @@ function Booking() {
                         <div className='flex items-center gap-2'>
                           <MdMyLocation />
                           <h1 className='text-sm lg:text-base '>
-                            Ajah Lagos State
+                            {uservalues?.address === 'hostaddress'
+                              ? cardata?.pickup_location
+                              : uservalues?.myaddress}
                           </h1>
                         </div>
                         <div className='flex items-center gap-2'>
                           <TbClockHour9 />
                           <h1 className='text-sm lg:text-base '>
-                            25th sept 2023
+                            {moment(uservalues?.dropoffd).format(
+                              'MMMM Do YYYY, h:mm:ss a'
+                            )}
                           </h1>
                         </div>
                       </div>
@@ -243,9 +240,13 @@ function Booking() {
                       </h1>
                       {/* one */}
                       <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
-                        <h1 className='text-xs xl:text-sm'>Rent Cost</h1>
+                        <h1 className='text-sm lg:text-base'>Rent Cost</h1>
                         <h1 className='text-sm lg:text-base font-bold'>
-                          $ {singlecar?.[0]?.rent_cost}
+                          $ {cardata?.rent_cost * diffDays}{' '}
+                          <span className='font-normal'>
+                            {' '}
+                            / {diffDays} day(s)
+                          </span>
                         </h1>
                       </div>
                       {/* two */}
@@ -254,18 +255,20 @@ function Booking() {
                           Insurance Cost
                         </h1>
                         <h1 className='text-xs  xl:text-sm font-bold'>
+                          ${' '}
                           {formik.values.extraservices.includes('insurance')
-                            ? '$24'
-                            : '0'}
+                            ? 24
+                            : 0}
                         </h1>
                       </div>
                       {/* one */}
                       <div className='w-full  flex justify-between items-center gap-2  border-b pb-4 border-babyblack '>
                         <h1 className='text-sm lg:text-base'>Tank Filling</h1>
                         <h1 className='text-xs xl:text-sm  font-bold'>
+                          ${' '}
                           {formik.values.extraservices.includes('tank')
-                            ? singlecar?.[0]?.tank_filling.amount
-                            : '0'}
+                            ? cardata?.tank_filling.amount
+                            : 0}
                         </h1>
                       </div>
                       {/* one */}
@@ -274,7 +277,14 @@ function Booking() {
                           Total Cost
                         </h1>
                         <h1 className='text-xs  md:text-sm lg:text-base font-bold'>
-                          $ 120
+                          $
+                          {cardata?.rent_cost * diffDays +
+                            (formik.values.extraservices.includes('tank')
+                              ? cardata?.tank_filling.amount
+                              : 0) +
+                            (formik.values.extraservices.includes('insurance')
+                              ? 24
+                              : 0)}
                         </h1>
                       </div>
                       {/* button*/}
@@ -284,7 +294,14 @@ function Booking() {
                           type='submit'
                           className='bg-babypurple px-5 py-3 w-full text-sm md:px-2 text-white rounded-md  hover:shadow-sm'
                         >
-                          Book Vehicle
+                          {loading ? (
+                            <div className='flex justify-center items-center gap-2'>
+                              <div className='spinner'></div>
+                              <h1>Booking</h1>
+                            </div>
+                          ) : (
+                            <h1>Book Car</h1>
+                          )}
                         </button>
                         <button
                           type='reset'

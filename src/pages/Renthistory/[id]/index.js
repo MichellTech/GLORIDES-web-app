@@ -42,6 +42,7 @@ function Viewcar() {
   const router = useRouter()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
+  const [cardata, setCardata] = useState({})
   const { allsearchedcars, bookmarked } = useSelector((store) => store.rental)
   const carId = router.query.id
   const singlecar = useMemo(
@@ -113,6 +114,19 @@ function Viewcar() {
     pickupt: Yup.date().required('Pickup time Required'),
   })
 
+  const getrentdetails = () => {
+    mainAxiosAction
+      .post(`/cars/getsinglerenthistory`, { car_id: carId })
+      .then(function (response) {
+        setLoading(false)
+        console.log(response)
+        console.log(carId)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
   return (
     <>
       <Navbar />
