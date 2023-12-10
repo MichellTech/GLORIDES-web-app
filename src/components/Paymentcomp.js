@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { cancelwithdraw } from '@/features/userpersona/userSlice'
 import { ImCancelCircle, ImSpinner } from 'react-icons/im'
@@ -6,10 +6,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import Link from 'next/link'
-function Paymentcomp() {
+import mainAxiosAction from '../components/axiosAction/index'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+function Paymentcomp({ amount, gettransactions }) {
   const { isWithdrawing } = useSelector((store) => store.userpersona)
   const [loading, setLoading] = useState(false)
-
+  const [account, setAccount] = useState(null)
+  const [bankexists, setBankexists] = useState(false)
   const [userAccount, setUserAccount] = useState([])
   const dispatch = useDispatch()
   const initialValues = {
@@ -19,30 +23,66 @@ function Paymentcomp() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
 
-    // reset
-    // onSubmitProps.resetForm()
-    // router.push({
-    //   pathname: '/Auth/emailverification',
-    //   //  query: response.data.data.user,
-    // })
-    // console.log(values)
+    const payload = {
+      bank_account_id: account
+        .filter((i) => i.account_number === values.account)
+        .map((item) => item._id)
+        .toString(),
+      amount: values.amount.toString(),
+    }
+    withdrawmoney(payload)
   }
-  // console.log(userAccount.length)
+  console.log(gettransactions)
   const validationSchema = Yup.object().shape({
     account: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No Account provided'),
-    amount: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No amount provided'),
+    amount: Yup.number()
+      .required('No amount provided')
+      .max(amount, `Amount must be less than available balance`)
+      .min(50, `Amount must be more than $50`),
   })
 
+  const getaccount = () => {
+    mainAxiosAction
+      .post(`/account/get-bank-account`, {})
+      .then(function (response) {
+        console.log(response?.data?.accounts)
+        if (response?.data?.accounts.length < 1) {
+          setBankexists(false)
+        }
+        setAccount(response?.data?.accounts)
+        setBankexists(true)
+        setLoading(false)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  const withdrawmoney = (payload) => {
+    mainAxiosAction
+      .post(`/account/withdraw`, payload)
+      .then(function (response) {
+        console.log(response?.data)
+        setLoading(false)
+        toast.success(response?.data?.message)
+        gettransactions()
+        dispatch(cancelwithdraw())
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    getaccount()
+  }, [])
+
+  console.log(amount)
   return (
     <div className='bg-white py-4 lg:py-8 px-6 lg:px-8 flex justify-center flex-col items-center  rounded-md shadow-md w-full mx-6 sm:max-w-lg md:max-w-lg lg:max-w-xl xl:max-w-2xl overflow-y-auto'>
       {/* title */}
@@ -71,7 +111,7 @@ function Paymentcomp() {
                   <label htmlFor='' className='text-xs lg:text-sm'>
                     Account Payable
                   </label>
-                  {userAccount.length < 1 && (
+                  {!bankexists && (
                     <Link
                       href='/userprofile/accounts'
                       className='text-xs lg:text-sm text-babypurple font-bold cursor-pointer'
@@ -89,10 +129,10 @@ function Paymentcomp() {
                   className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                 >
                   <option value=''>select account</option>
-                  {userAccount?.map((item, index) => {
+                  {account?.map((item, index) => {
                     return (
-                      <option key={index} value={item}>
-                        {item}
+                      <option key={index} value={item?.account_number}>
+                        {item?.account_number}
                       </option>
                     )
                   })}
@@ -159,7 +199,8 @@ function Paymentcomp() {
                 </div>
                 <div className='flex justify-between items-center gap-4 flex-row-reverse'>
                   <h1 className='text-xs '>
-                    Amount withdrawable : <span className='font-bold'>200</span>
+                    Amount withdrawable :{' '}
+                    <span className='font-bold'>{amount}</span>
                   </h1>
 
                   <div className='text-softRed text-xs mt-1 px-4'>

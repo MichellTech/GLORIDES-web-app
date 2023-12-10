@@ -139,7 +139,7 @@ function Navbar() {
           </ul>
           <ul
             className={`${
-              router.pathname === '/rentacar'
+              router.pathname.includes('/rentacar')
                 ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
                 : 'text-xs md:text-sm cursor-pointer xl:text-base '
             }`}
@@ -148,7 +148,7 @@ function Navbar() {
           </ul>
           <ul
             className={`${
-              router.pathname === '/renthistory' && isUserLogedin
+              router.pathname.includes('/renthistory') && isUserLogedin
                 ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
                 : router.pathname === '/partnerwithus' && !isUserLogedin
                 ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
@@ -163,7 +163,7 @@ function Navbar() {
           </ul>
           <ul
             className={`${
-              router.pathname === '/support' && isUserLogedin
+              router.pathname.includes('/support') && isUserLogedin
                 ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
                 : router.pathname === '/contactus' && !isUserLogedin
                 ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started2.png')] bg-no-repeat bg-bottom  py-4  "

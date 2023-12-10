@@ -1,35 +1,26 @@
 import React, { useMemo, useState } from 'react'
 import { useRouter } from 'next/router'
-import { cars } from '../../../../utilis/Cardata'
 import Navbar from '@/components/Navigation/Navbar/index'
 import Footer from '@/components/Navigation/Footer'
-import Image from 'next/image'
-import { FileUploader } from 'react-drag-drop-files'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { MdOutlineAddAPhoto } from 'react-icons/md'
+
 import { RiDeleteBack2Fill } from 'react-icons/ri'
 import { FaStar } from 'react-icons/fa'
 import { LuImagePlus } from 'react-icons/lu'
 import { MdKeyboardBackspace } from 'react-icons/md'
-import Link from 'next/link'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import { ImSpinner } from 'react-icons/im'
+import mainAxiosAction from '../../../../components/axiosAction/index'
 
 function Returnvehicle() {
   const router = useRouter()
 
-  const carId = router.query.id
+  const bookingId = router.query.id
 
-  const singlecar = useMemo(
-    () => cars.filter((item) => item.id === Number(carId))?.[0],
-    [carId]
-  )
   const [loading, setLoading] = useState(false)
   const [userimage, setUserimage] = useState([{ id: 1, file: null }])
 
-  const [ratings, setRatings] = useState(0)
   const [rating, setRating] = useState(null)
   const [hover, setHover] = useState(null)
 
@@ -40,26 +31,46 @@ function Returnvehicle() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
 
-    // reset
-    // onSubmitProps.resetForm()
-    //  router.push({
-    //    pathname: '/Auth/emailverification',
-    //    //  query: response.data.data.user,
-    //  })
-    //  console.log(values)
+    returnusercar(values, onSubmitProps.resetForm())
   }
 
-  const validationSchema = Yup.object().shape({
-    comment: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No Comment Provided'),
-  })
+  // const validationSchema = Yup.object().shape({
+  //   comment: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No Comment Provided'),
+  // })
+
+  const returnusercar = (values, callback) => {
+    if (userimage?.length < 6) {
+      toast.error('Please upload atleast six photos of your vehicle')
+      setLoading(false)
+    } else {
+      const formData = new FormData()
+      for (const image of userimage) {
+        formData.append('car_images', image?.file)
+      }
+      formData?.append('comment', values.comment)
+      formData?.append('rating_value', rating)
+      formData?.append('booking_id', bookingId)
+      mainAxiosAction
+        .post(`/cars/return-car`, formData)
+        .then(function (response) {
+          setLoading(false)
+          setUserimage(null)
+          router.push({
+            pathname: '/renthistory',
+          })
+          toast.success(response?.data?.message)
+          callback()
+        })
+        .catch(function (error) {
+          toast.error(error?.response?.data?.message)
+          setLoading(false)
+          console.log(error)
+        })
+    }
+  }
   return (
     <>
       <Navbar />
@@ -67,7 +78,7 @@ function Returnvehicle() {
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
-        validationSchema={validationSchema}
+        // validationSchema={validationSchema}
       >
         {(formik) => {
           return (
@@ -112,7 +123,7 @@ function Returnvehicle() {
 
                         <div className='flex justify-between items-start gap-4  '>
                           <div className='flex flex-wrap  gap-6  lg:gap-5  items-center'>
-                            {userimage.map((item, index) => {
+                            {userimage?.map((item, index) => {
                               return (
                                 <div key={index} className='col-span-full'>
                                   {!item.file ? (
@@ -190,7 +201,6 @@ function Returnvehicle() {
                                           className='absolute  -top-3 -right-3 p-2 rounded-full text-babyblack  cursor-pointer font-bold md:text-lg bg-softpurple '
                                         >
                                           <RiDeleteBack2Fill />
-                                          <h1>hello</h1>
                                         </div>
                                       )}
                                       {index === 0 && item.file && (
@@ -341,8 +351,8 @@ function Returnvehicle() {
                   >
                     {loading ? (
                       <div className='flex justify-center gap-2 items-center'>
-                        <ImSpinner className='animate animate-spin' />
-                        Updating...
+                        <div className='spinner'></div>
+                        Uploading...
                       </div>
                     ) : (
                       'Return vehicle'

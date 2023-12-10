@@ -181,15 +181,7 @@ function Viewcar() {
                   </div>
                   {/* content */}
                   <div className=' space-y-2 lg:space-y-3'>
-                    <h1 className='text-sm '>
-                      Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                      Cum minus consequatur dicta dignissimos nihil accusantium!
-                      Nam excepturi, libero harum ullam asperiores distinctio
-                      voluptatem cupiditate non explicabo quae laboriosam
-                      quisquam reiciendis aliquid id ab rem facere nemo autem,
-                      repellat voluptate numquam earum quasi? Similique, sequi
-                      adipisci mollitia praesentium laborum pariatur debitis!
-                    </h1>
+                    <h1 className='text-sm '>{cardata?.car_description}</h1>
                   </div>
                 </div>
                 {/* Features */}
@@ -275,7 +267,7 @@ function Viewcar() {
                   </div>
                   {/* content */}
                   <div className=' space-y-2 lg:space-y-3'>
-                    <h1 className='text-sm lg:text-base'>Child Seat - $10</h1>
+                    {/* <h1 className='text-sm lg:text-base'>Child Seat - $10</h1> */}
                     {cardata?.tank_filling?.status === true && (
                       <h1 className='text-sm lg:text-base'>
                         Tank Filling - ${cardata?.tank_filling?.amount}

@@ -12,7 +12,6 @@ import {
   MdOutlineCarRental,
 } from 'react-icons/md'
 import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
-import { transactionhistory, leasehistory } from '../../utilis/Cardata'
 import Paymentcomp from '@/components/Paymentcomp'
 import { withdrawmoney } from '@/features/userpersona/userSlice'
 import mainAxiosAction from '../../components/axiosAction/index'
@@ -30,6 +29,7 @@ function Dashboard() {
         console.log(response?.data?.dashboard_details)
         setLoading(false)
         setDashdata(response?.data?.dashboard_details)
+        console.log(response?.data?.dashboard_details)
       })
       .catch(function (error) {
         setLoading(false)
@@ -41,6 +41,12 @@ function Dashboard() {
     getdashboard()
   }, [])
 
+  const profile =
+    localStorage?.getItem('User_Profile') === null ||
+    localStorage?.getItem('User_Profile') === 'undefined' ||
+    localStorage?.getItem('User_Profile') === undefined
+      ? []
+      : JSON?.parse(localStorage?.getItem('User_Profile'))
   return (
     <>
       <main
@@ -56,7 +62,7 @@ function Dashboard() {
               {/* text */}
               <div className='flex flex-col justify-center items-center md:justify-start md:items-start md:mx-0 space-y-4 lg:space-y-5 xl:space-y-6 mx-auto md:w-4/6  '>
                 <h1 className='text-lg font-bold   lg:text-xl'>
-                  Hello Okwu Chiedozie !
+                  Hello {profile?.lastname} {profile?.firstname}!
                 </h1>
                 <p className='text-xs text-center md:text-left max-w-xs md:max-w-full lg:text-sm  xl:text-base '>
                   Welcome to your Host Dashboard! Your gateway to managing your
@@ -351,7 +357,10 @@ function Dashboard() {
         </div>
         {isWithdrawing && (
           <div className='absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-40  px-6 flex justify-center items-center mx-auto  '>
-            <Paymentcomp />
+            <Paymentcomp
+              amount={dashdata?.total_amount}
+              gettransactions={getdashboard}
+            />
           </div>
         )}
       </main>

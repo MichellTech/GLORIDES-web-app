@@ -150,9 +150,11 @@ function Index() {
                           <tr
                             key={index}
                             onClick={() => {
-                              router.push({
-                                pathname: `/renthistory/${item?._id}`,
-                              })
+                              item?.status === 'booked'
+                                ? router.push({
+                                    pathname: `/renthistory/${item?._id}`,
+                                  })
+                                : ''
                             }}
                             className='hover:bg-softpurple text-xs md:text-sm '
                           >
@@ -179,10 +181,10 @@ function Index() {
                             <td
                               className={`${
                                 item.status === 'booked'
-                                  ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
-                                  : item.status === 'overdue'
-                                  ? 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
-                                  : 'pr-4   py-4  text-left text-orange-800 bg-orange-300 font-normal'
+                                  ? 'pr-4 py-4    text-left text-white bg-indigo-500 px-2 '
+                                  : item.status === 'returned'
+                                  ? 'pr-4 py-4     text-left text-orange-800 bg-orange-300 px-2 '
+                                  : 'pr-4   py-4  text-left text-green-800 bg-green-300 font-normal'
                               }`}
                             >
                               {item?.status}

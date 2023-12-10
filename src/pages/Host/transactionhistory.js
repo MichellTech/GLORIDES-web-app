@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
 import Link from 'next/link'
 import Footer from '@/components/Navigation/Footer'
@@ -14,10 +14,91 @@ import {
 } from 'react-icons/pi'
 import Paymentcomp from '@/components/Paymentcomp'
 import { withdrawmoney } from '@/features/userpersona/userSlice'
+import mainAxiosAction from '../../components/axiosAction/index'
+import moment from 'moment'
 function Transactionhistory() {
+  const [loading, setLoading] = useState(false)
+  const [transdata, setTransdata] = useState(null)
+  const [transsum, setTranssum] = useState(0)
+  const [withdrawnsum, setWithdrawnsum] = useState(0)
+  const [pendingsum, setPendingsum] = useState(0)
+  const [availablesum, setAvailablesum] = useState(0)
   const router = useRouter()
   const { isWithdrawing } = useSelector((store) => store.userpersona)
   const dispatch = useDispatch()
+
+  const profile =
+    localStorage?.getItem('User_Profile') === null ||
+    localStorage?.getItem('User_Profile') === 'undefined' ||
+    localStorage?.getItem('User_Profile') === undefined
+      ? []
+      : JSON?.parse(localStorage?.getItem('User_Profile'))
+
+  const gettransactions = () => {
+    mainAxiosAction
+      .post(`/account/get-all-transactions`, {})
+      .then(function (response) {
+        console.log(response?.data)
+        setTransdata(response?.data?.transactions_records)
+        // cal total
+        const totalamount = response?.data?.transactions_records
+          ?.filter((i) => i?.payment_type === 'incoming')
+          ?.map((i) => i?.amount) // sums to 10
+        let sum = 0
+        for (let i = 0; i < totalamount.length; i++) {
+          sum += totalamount[i]
+        }
+        setTranssum(sum)
+
+        // calculate withdrawn
+        const totalwithdrawn = response?.data?.transactions_records
+          ?.filter((i) => i?.payment_type === 'outgoing')
+          ?.filter((item) => item?.status === 'completed')
+          .map((i) => i.amount)
+        // sums to 10
+        let sumwithdrawn = 0
+        for (let i = 0; i < totalwithdrawn.length; i++) {
+          sumwithdrawn += totalwithdrawn[i]
+        }
+        setWithdrawnsum(sumwithdrawn)
+
+        // pending
+
+        const totalpending = response?.data?.transactions_records
+          ?.filter((i) => i?.payment_type === 'incoming')
+          ?.filter((item) => item?.status === 'in-service')
+          .map((i) => i.amount)
+        // sums to 10
+        let sumpending = 0
+        for (let i = 0; i < totalpending.length; i++) {
+          sumpending += totalpending[i]
+        }
+        setPendingsum(sumpending)
+
+        // available balance
+
+        const totalavailable = response?.data?.transactions_records
+          ?.filter((i) => i?.payment_type === 'incoming')
+          ?.filter((item) => item?.status === 'completed')
+          .map((i) => i.amount)
+        // sums to 10
+        let sumavailable = 0
+        for (let i = 0; i < totalavailable.length; i++) {
+          sumavailable += totalavailable[i]
+        }
+        setAvailablesum(sumavailable - sumwithdrawn)
+        setLoading(false)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    gettransactions()
+  }, [])
+
   return (
     <>
       <main
@@ -34,7 +115,7 @@ function Transactionhistory() {
               {/* title */}
               <div className='flex justify-between items-center gap-2'>
                 <h1 className='text-xs sm:text-sm md:text-base font-bold lg:text-lg'>
-                  Michell, keep track of your transactions
+                  {profile?.firstname}, keep track of your transactions
                 </h1>
                 <button
                   onClick={() => dispatch(withdrawmoney())}
@@ -57,7 +138,9 @@ function Transactionhistory() {
                     </div>
                   </div>
                   {/* text */}
-                  <h1 className='font-bold text-2xl lg:text-3xl'>$240,000</h1>
+                  <h1 className='font-bold text-2xl lg:text-3xl'>
+                    ${transsum}
+                  </h1>
                 </div>
                 {/* three */}
                 <div className='border bg-white  shadow-sm  rounded-md px-4 py-4  space-y-2 lg:space-y-3  w-max grow hover:shadow-md '>
@@ -71,7 +154,9 @@ function Transactionhistory() {
                     </div>
                   </div>
                   {/* text */}
-                  <h1 className='font-bold text-2xl lg:text-3xl'>$200,000</h1>
+                  <h1 className='font-bold text-2xl lg:text-3xl'>
+                    ${withdrawnsum}
+                  </h1>
                 </div>
                 {/* one */}
                 <div className='border bg-white shadow-sm  rounded-md px-4 py-4  space-y-2 lg:space-y-3 w-max grow hover:shadow-md '>
@@ -85,7 +170,9 @@ function Transactionhistory() {
                     </div>
                   </div>
                   {/* text */}
-                  <h1 className='font-bold text-2xl lg:text-3xl'>$40,000</h1>
+                  <h1 className='font-bold text-2xl lg:text-3xl'>
+                    ${availablesum}
+                  </h1>
                 </div>
                 {/* four */}
                 <div className='border  bg-white  shadow-sm rounded-md px-4 py-4 space-y-2 lg:space-y-3  w-max  grow hover:shadow-md'>
@@ -99,22 +186,24 @@ function Transactionhistory() {
                     </div>
                   </div>
                   {/* text */}
-                  <h1 className='font-bold text-2xl lg:text-3xl'>$4,000</h1>
+                  <h1 className='font-bold text-2xl lg:text-3xl'>
+                    ${pendingsum}
+                  </h1>
                 </div>
               </div>
               {/* mobile withdrawa */}
               <div className='w-full'>
-                <Link
-                  href='/host/withdraw'
-                  className='bg-babypurple md:hidden px-6 py-2 sm:py-3 text-white rounded-md text-xs lg:text-sm shadow-md transition ease-in-out delay-150    hover:bg-indigo-500 duration-300 hover:border-none hover:text-white w-full flex justify-center items-center '
+                <h1
+                  onClick={() => dispatch(withdrawmoney())}
+                  className='bg-babypurple md:hidden px-6 py-2 sm:py-3 text-white rounded-md text-xs lg:text-sm shadow-md transition ease-in-out delay-150    hover:bg-indigo-500 duration-300 hover:border-none hover:text-white w-full flex justify-center items-center  cursor-pointer'
                 >
                   Make a Withdrawal
-                </Link>
+                </h1>
               </div>
             </div>
 
             {/* content */}
-            {!transactionhistory ? (
+            {transdata?.length < 1 ? (
               <div className='bg-white  w-full min-h-[60vh] lg:min-h-[50vh] shadow-lg flex flex-col justify-center items-center rounded-md lg:rounded-lg px-6 space-y-5'>
                 {/* icon */}
                 <div className='flex justify-center items-center p-4 rounded-full bg-babygrey'>
@@ -204,38 +293,49 @@ function Transactionhistory() {
                       </tr>
                     </thead>
                     <tbody className=' px-6  py-5 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
-                      {transactionhistory.map((item, index) => {
-                        return (
-                          <tr
-                            key={index}
-                            className='hover:bg-softpurple text-xs md:text-sm '
-                          >
-                            <td className='pl-6 pr-4  py-4  '>
-                              {item.description}
-                            </td>
-                            <td className=' py-4 pr-4 '>Michell Okwu</td>
-                            <td className=' py-4  pr-4 '>{item.type}</td>
-
-                            <td
-                              className={`${
-                                item.status === 'Successfull'
-                                  ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
-                                  : item.status === 'Failed'
-                                  ? 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
-                                  : 'pr-4   py-4  text-left text-orange-800 bg-orange-300 font-normal'
-                              }`}
+                      {transdata
+                        ?.sort((a, b) => {
+                          return (
+                            new Date(b?.date_created) -
+                            new Date(a?.date_created)
+                          )
+                        })
+                        ?.map((item, index) => {
+                          return (
+                            <tr
+                              key={index}
+                              className='hover:bg-softpurple text-xs md:text-sm '
                             >
-                              {item.status}
-                            </td>
-                            <td className='pr-4   py-4  text-left '>
-                              {item.amount}
-                            </td>
-                            <td className='pr-4   py-4  text-left '>
-                              {item.date}
-                            </td>
-                          </tr>
-                        )
-                      })}
+                              <td className='pl-6 pr-4  py-4  '>
+                                {item?.description}
+                              </td>
+                              <td className=' py-4 pr-4 '>Michell Okwu</td>
+                              <td className=' py-4  pr-4 '>
+                                {item?.payment_type}
+                              </td>
+
+                              <td
+                                className={`${
+                                  item?.status === 'completed'
+                                    ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
+                                    : item.status === 'failed'
+                                    ? 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
+                                    : 'pr-4   py-4  text-left text-orange-800 bg-orange-300 font-normal'
+                                }`}
+                              >
+                                {item?.status}
+                              </td>
+                              <td className='pr-4   py-4  text-left '>
+                                {item?.amount}
+                              </td>
+                              <td className='pr-4   py-4  text-left '>
+                                {moment(item?.date_created).format(
+                                  'MMMM Do YYYY, h:mm:ss a'
+                                )}
+                              </td>
+                            </tr>
+                          )
+                        })}
                     </tbody>
                   </table>
                 </div>
@@ -246,7 +346,10 @@ function Transactionhistory() {
         </section>
         {isWithdrawing && (
           <div className='absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-40  px-6 flex justify-center items-center mx-auto  '>
-            <Paymentcomp />
+            <Paymentcomp
+              amount={availablesum}
+              gettransactions={gettransactions}
+            />
           </div>
         )}
       </main>

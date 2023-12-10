@@ -107,13 +107,7 @@ function Viewcar() {
                 {/* content */}
                 <div className=' space-y-2 lg:space-y-3'>
                   <h1 className='text-sm '>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Cum minus consequatur dicta dignissimos nihil accusantium!
-                    Nam excepturi, libero harum ullam asperiores distinctio
-                    voluptatem cupiditate non explicabo quae laboriosam quisquam
-                    reiciendis aliquid id ab rem facere nemo autem, repellat
-                    voluptate numquam earum quasi? Similique, sequi adipisci
-                    mollitia praesentium laborum pariatur debitis!
+                    {cardata?.car_booked?.car_description}
                   </h1>
                 </div>
               </div>
@@ -208,8 +202,10 @@ function Viewcar() {
                 </div>
                 {/* content */}
                 <div className=' space-y-2 lg:space-y-3'>
-                  <h1 className='text-sm lg:text-base'>Child Seat - $10</h1>
-                  <h1 className='text-sm lg:text-base'>Tank Filling - $40</h1>
+                  {/* <h1 className='text-sm lg:text-base'>Child Seat - $10</h1> */}
+                  <h1 className='text-sm lg:text-base'>
+                    Tank Filling - ${cardata?.car_booked?.tank_filling?.amount}
+                  </h1>
                 </div>
               </div>
               {/* pickup */}
@@ -388,7 +384,7 @@ function Viewcar() {
                   <button
                     onClick={() => {
                       router.push({
-                        pathname: `/renthistory/${carId}/returnvehicle/${carId}`,
+                        pathname: `/renthistory/${carId}/returnvehicle/${cardata?.car_booked?._id}`,
                       })
                     }}
                     className='bg-babypurple px-5 py-3 w-full text-sm md:px-2 text-white rounded-md  hover:shadow-sm'

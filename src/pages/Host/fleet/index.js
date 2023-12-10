@@ -13,9 +13,17 @@ import { BiSolidCarMechanic, BiCurrentLocation } from 'react-icons/bi'
 import { cars } from '../../../utilis/Cardata'
 import { useRouter } from 'next/router'
 import { GiRoad } from 'react-icons/gi'
+import mainAxiosAction from '../../../components/axiosAction/index'
 
 function Fleet() {
   const router = useRouter()
+
+  const profile =
+    localStorage?.getItem('User_Profile') === null ||
+    localStorage?.getItem('User_Profile') === 'undefined' ||
+    localStorage?.getItem('User_Profile') === undefined
+      ? []
+      : JSON?.parse(localStorage?.getItem('User_Profile'))
   return (
     <>
       <Navbar />
@@ -27,7 +35,7 @@ function Fleet() {
             <div className='flex justify-between items-center gap-2'>
               <div className='space-y-2'>
                 <h1 className='text-sm  text-center sm:text-sm md:text-base md:text-left font-bold lg:text-lg'>
-                  Welcome to your Garage Michell!
+                  Welcome to your Garage {profile?.firstname}!
                 </h1>
                 <h1 className='text-xs text-center lg:text-sm md:text-left md:max-w-md lg:max-w-xl xl:max-w-2xl px-3 md:px-0'>
                   Here, you can effortlessly oversee your car fleet, track

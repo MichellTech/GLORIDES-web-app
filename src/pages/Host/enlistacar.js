@@ -1,23 +1,20 @@
 import React, { useState } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
 import Footer from '@/components/Navigation/Footer'
-import { ImSpinner } from 'react-icons/im'
 import Link from 'next/link'
 import { MdKeyboardBackspace } from 'react-icons/md'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { RiDeleteBack2Fill } from 'react-icons/ri'
 import { LuImagePlus } from 'react-icons/lu'
-import Image from 'next/image'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { State, City } from 'country-state-city'
 import mainAxiosAction from '@/components/axiosAction'
-
+import { useRouter } from 'next/router'
 function Enlistacar() {
   const [loading, setLoading] = useState(false)
-  const [cardoors, setCardoors] = useState(['Two', 'Four', 'Six'])
-  const [carfeatures, setCarfeatures] = useState([])
+  const router = useRouter()
   const fueltype = [
     { id: 1, value: 'PMS' },
     { id: 2, value: 'Electric' },
@@ -36,8 +33,7 @@ function Enlistacar() {
     { id: 1, value: 'Automatic' },
     { id: 2, value: 'Manual' },
   ]
-  const [cargear, setCargear] = useState(['Automatic', 'Manual'])
-  const [caroption, setCaroption] = useState(['Yes', 'No'])
+
   const [userimage, setUserimage] = useState([{ id: 1, file: null }])
   const [userimage2, setUserimage2] = useState([{ id: 1, file: null }])
   const initialValues = {
@@ -68,81 +64,78 @@ function Enlistacar() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-
+    console.log(values)
     enlistusercar(values, onSubmitProps.resetForm)
   }
-  // validation
-  // const validationSchema = Yup.object().shape({
-  //   carname: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No car name provided'),
-  //   carmodel: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No car model provided'),
-  //   plateno: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No plate number provided'),
-  //   doors: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No door option  provided'),
-  //   miles: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No miles data provided'),
-  //   fuel: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No Fuel Type Required'),
-  //   gear: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No gear type provided'),
-  //   seats: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('Number of seats not provided'),
-  //   pickup: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No pickup location provided'),
-  //   dropoff: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No drop off location provided'),
-  //   city: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No city provided'),
-  //   state: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No state provided'),
-  //   country: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No country provided'),
-  //   message: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No car description provided'),
-  //   cost: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No car rental cost provided'),
-  //   outside: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No Extra Cost provided'),
-  //   bluetooth: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('Bluetooth availability not specified'),
-  //   gps: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('GPS availability not specified'),
-  //   camera: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('Camera availability not specified'),
-  //   child: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('Child Seat availability not specified'),
-  //   heat: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('Heater availability not specified'),
-  //   tank: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No tank filling cost provided'),
-  // })
+
+  const validationSchema = Yup.object().shape({
+    carname: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No car name provided'),
+    carmodel: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No car model provided'),
+    plateno: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No plate number provided'),
+    doors: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No door option  provided'),
+    miles: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No miles data provided'),
+    fuel: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No Fuel Type Required'),
+    gear: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No gear type provided'),
+    seats: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('Number of seats not provided'),
+    pickup: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No pickup location provided'),
+    dropoff: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No drop off location provided'),
+    city: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No city provided'),
+    state: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No state provided'),
+    message: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No car description provided'),
+    cost: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No car rental cost provided'),
+    outside: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No Extra Cost provided'),
+    bluetooth: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('Bluetooth availability not specified'),
+    gps: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('GPS availability not specified'),
+    camera: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('Camera availability not specified'),
+    child: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('Child Seat availability not specified'),
+    heat: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('Heater availability not specified'),
+    tank: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No tank filling cost provided'),
+  })
 
   const enlistusercar = (values, callback) => {
-    if (userimage.length < 2) {
+    if (userimage?.length < 6) {
       toast.error('Please upload atleast six photos of your vehicle')
       setLoading(false)
     } else if (userimage2.length < 1) {
@@ -152,23 +145,12 @@ function Enlistacar() {
       setLoading(false)
     } else {
       const formData = new FormData()
-      // const imagearray = userimage
-      // console.log(userimage, 'lkjs')
-      // for (let value of userimage) {
-      //   formData.append('images[]', JSON.stringify(value?.file))
-      // }
-
-      // const documentsarray = userimage2
-      // for (var i = 0; i < documentsarray.length; i++) {
-      //   formData.append('documents[]', documentsarray[i])
-      // }
       for (const image of userimage) {
         formData.append('images', image?.file)
       }
       for (const image of userimage2) {
         formData.append('documents', image?.file)
       }
-      // formData?.append('documents', JSON.stringify(values.userimage2))
       formData?.append('car_name', values.carname)
       formData?.append('car_model', values.carmodel)
       formData?.append('plate_number', values.plateno)
@@ -181,7 +163,7 @@ function Enlistacar() {
       formData?.append('car_doors', values.doors)
       formData?.append('seats_number', values.seats)
       formData?.append('miles', values.miles)
-      formData?.append('description', values.message)
+      formData?.append('car_description', values.message)
       formData?.append('fuel_type', values.fuel)
       formData?.append('gear_type', values.gear)
       formData?.append('outside_location_cost', values.outside)
@@ -201,9 +183,9 @@ function Enlistacar() {
           setLoading(false)
           setUserimage(null)
           setUserimage2(null)
-          // router.push({
-          //   pathname: '/Host/fleet',
-          // })
+          router.push({
+            pathname: '/host/fleet',
+          })
           toast.success(response?.data?.message)
           callback()
         })
@@ -231,7 +213,7 @@ function Enlistacar() {
             <Formik
               initialValues={initialValues}
               onSubmit={onSubmit}
-              // validationSchema={validationSchema}
+              validationSchema={validationSchema}
             >
               {(formik) => {
                 return (
@@ -388,11 +370,11 @@ function Enlistacar() {
                             className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           >
                             <option value=''>select State</option>
-                            {State.getStatesOfCountry('US')?.map(
+                            {State?.getStatesOfCountry('US')?.map(
                               (item, index) => {
                                 return (
-                                  <option key={index} value={item.name}>
-                                    {item.name}
+                                  <option key={index} value={item?.name}>
+                                    {item?.name}
                                   </option>
                                 )
                               }
@@ -418,15 +400,15 @@ function Enlistacar() {
                             className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           >
                             <option value=''>select City</option>
-                            {City.getCitiesOfState(
+                            {City?.getCitiesOfState(
                               'US',
-                              State.getStatesOfCountry('US')?.filter(
+                              State?.getStatesOfCountry('US')?.filter(
                                 (i) => i?.name === formik?.values?.state
                               )?.[0]?.isoCode
                             )?.map((item, index) => {
                               return (
-                                <option key={index} value={item.name}>
-                                  {item.name}
+                                <option key={index} value={item?.name}>
+                                  {item?.name}
                                 </option>
                               )
                             })}
@@ -499,7 +481,7 @@ function Enlistacar() {
                           <div className='flex items-center  gap-4 p-4 text-xs lg:text-sm border'>
                             <Field name='fuel' className=' '>
                               {({ field }) => {
-                                return fueltype.map((item) => {
+                                return fueltype?.map((item) => {
                                   return (
                                     <div key={item.id}>
                                       <div className='space-x-4'>
@@ -822,7 +804,7 @@ function Enlistacar() {
                                             // value={item?.file?.name}
                                             onChange={(e) => {
                                               setUserimage((previous) =>
-                                                previous.map((i) => {
+                                                previous?.map((i) => {
                                                   if (i.id === item.id) {
                                                     i.file = e.target.files[0]
                                                     // console.log(i.id, 'olamide')
@@ -847,7 +829,7 @@ function Enlistacar() {
                                       <div
                                         onClick={() =>
                                           setUserimage((previous) =>
-                                            previous.filter((i) => {
+                                            previous?.filter((i) => {
                                               return i.id !== item.id
                                             })
                                           )
@@ -861,7 +843,7 @@ function Enlistacar() {
                                 ) : (
                                   <div className='relative'>
                                     <img
-                                      src={URL.createObjectURL(item?.file)}
+                                      src={URL?.createObjectURL(item?.file)}
                                       className='w-[13rem] h-[12.4rem]  rounded-md object-center object-cover'
                                       alt='photo'
                                     />
@@ -870,7 +852,7 @@ function Enlistacar() {
                                       <div
                                         onClick={() =>
                                           setUserimage((previous) =>
-                                            previous.filter((i) => {
+                                            previous?.filter((i) => {
                                               return i.id !== item.id
                                             })
                                           )
@@ -937,7 +919,7 @@ function Enlistacar() {
                         {/* photos */}
                         <div className='flex justify-between items-start gap-4 '>
                           <div className='flex flex-col gap-2 lg:gap-4 items-center'>
-                            {userimage2.map((item, index) => {
+                            {userimage2?.map((item, index) => {
                               return (
                                 <div
                                   key={index}
@@ -954,7 +936,7 @@ function Enlistacar() {
                                       // value={item?.file?.name}
                                       onChange={(e) => {
                                         setUserimage2((previous) =>
-                                          previous.map((i) => {
+                                          previous?.map((i) => {
                                             if (i.id === item.id) {
                                               i.file = e.target.files[0]
                                               return i

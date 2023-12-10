@@ -49,11 +49,7 @@ function Navbar() {
     localStorage?.getItem('User_Profile') === undefined
       ? []
       : JSON?.parse(localStorage?.getItem('User_Profile'))
-  console.log(
-    localStorage?.getItem('User_Notifications') === 'undefined',
-    'jhsgfdrtgz'
-  )
-  console.log(typeof localStorage?.getItem('User_Notifications'))
+
   const mynotifications =
     localStorage?.getItem('User_Notifications') === null ||
     localStorage?.getItem('User_Notifications') === 'undefined' ||
@@ -115,7 +111,7 @@ function Navbar() {
         >
           <ul
             className={`${
-              router.pathname === '/host/dashboard'
+              router.pathname.includes('/host/dashboard')
                 ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
                 : 'text-xs md:text-sm cursor-pointer xl:text-base '
             }`}
@@ -124,7 +120,7 @@ function Navbar() {
           </ul>
           <ul
             className={`${
-              router.pathname === '/host/transactionhistory'
+              router.pathname.includes('/host/transactionhistory')
                 ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
                 : 'text-xs md:text-sm cursor-pointer xl:text-base '
             }`}
@@ -133,7 +129,7 @@ function Navbar() {
           </ul>
           <ul
             className={`${
-              router.pathname === '/host/leasehistory'
+              router.pathname.includes('/host/leasehistory')
                 ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
                 : 'text-xs md:text-sm cursor-pointer xl:text-base '
             }`}
@@ -142,7 +138,7 @@ function Navbar() {
           </ul>
           <ul
             className={`${
-              router.pathname === '/host/fleet'
+              router.pathname.includes('/host/fleet')
                 ? "text-xs md:text-sm cursor-pointer xl:text-base bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4  "
                 : 'text-xs md:text-sm cursor-pointer xl:text-base '
             }`}
