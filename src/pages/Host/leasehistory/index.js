@@ -223,7 +223,7 @@ function Leasehistory() {
                               {item?.booked_by?.firstname}
                             </td>
                             <td className='pr-4   py-4  text-left '>
-                              {item.amount}
+                              {item?.amount}
                             </td>
                             <td
                               className={`${
@@ -352,7 +352,7 @@ function Leasehistory() {
                               {item?.booked_by?.firstname}
                             </td>
                             <td className='pr-4   py-4  text-left '>
-                              {item.amount}
+                              {item?.amount}
                             </td>
                             <td
                               className={`${

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
 import Footer from '@/components/Navigation/Footer'
 import Link from 'next/link'
@@ -14,8 +14,10 @@ import { cars } from '../../../utilis/Cardata'
 import { useRouter } from 'next/router'
 import { GiRoad } from 'react-icons/gi'
 import mainAxiosAction from '../../../components/axiosAction/index'
-
+import moment from 'moment'
 function Fleet() {
+  const [loading, setLoading] = useState(false)
+  const [fleetdata, setFleetdata] = useState(null)
   const router = useRouter()
 
   const profile =
@@ -24,6 +26,24 @@ function Fleet() {
     localStorage?.getItem('User_Profile') === undefined
       ? []
       : JSON?.parse(localStorage?.getItem('User_Profile'))
+
+  const getfleet = () => {
+    mainAxiosAction
+      .post(`/cars/get-fleet-details`, {})
+      .then(function (response) {
+        console.log(response?.data)
+        setLoading(false)
+        setFleetdata(response?.data?.fleet_details)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    getfleet()
+  }, [])
   return (
     <>
       <Navbar />
@@ -63,7 +83,9 @@ function Fleet() {
                   </div>
                 </div>
                 {/* text */}
-                <h1 className='font-bold text-2xl lg:text-3xl'>24</h1>
+                <h1 className='font-bold text-2xl lg:text-3xl'>
+                  {fleetdata?.all_cars}
+                </h1>
               </div>
               {/* three */}
               <div className='border bg-white  shadow-sm  rounded-md px-4 py-4  space-y-2 lg:space-y-3  w-max grow hover:shadow-md '>
@@ -77,22 +99,11 @@ function Fleet() {
                   </div>
                 </div>
                 {/* text */}
-                <h1 className='font-bold text-2xl lg:text-3xl'>12</h1>
+                <h1 className='font-bold text-2xl lg:text-3xl'>
+                  {fleetdata?.active_cars}
+                </h1>
               </div>
-              {/* one */}
-              <div className='border bg-white shadow-sm  rounded-md px-4 py-4  space-y-2 lg:space-y-3 w-max grow hover:shadow-md '>
-                {/* header */}
-                <div className='flex justify-between items-center gap-2'>
-                  <h1 className='text-xs lg:text-sm xl:text-base'>
-                    Inactive Cars
-                  </h1>
-                  <div className='flex justify-center items-center p-2 bg-babygrey rounded-full '>
-                    <MdOutlineCarRepair className='lg:text-2xl xl:text-3xl' />
-                  </div>
-                </div>
-                {/* text */}
-                <h1 className='font-bold text-2xl lg:text-3xl'>10</h1>
-              </div>
+
               {/* four */}
               <div className='border  bg-white  shadow-sm rounded-md px-4 py-4 space-y-2 lg:space-y-3  w-max  grow hover:shadow-md'>
                 {/* header */}
@@ -105,7 +116,9 @@ function Fleet() {
                   </div>
                 </div>
                 {/* text */}
-                <h1 className='font-bold text-2xl lg:text-3xl'>2</h1>
+                <h1 className='font-bold text-2xl lg:text-3xl'>
+                  {fleetdata?.delisted_cars}
+                </h1>
               </div>
             </div>
 
@@ -120,85 +133,127 @@ function Fleet() {
             </div>
           </div>
           {/* display cars */}
-          <div className='w-full   mx-auto flex flex-col justify-center space-y-3 bg-white border px-4 py-6  lg:px-6 shadow-lg rounded-md  '>
-            <div className='border-b'>
-              <h1 className='font-bold  text-xs xl:text-base md:text-sm text-center md:text-left px-6 pb-6 '>
-                All Vehicles
+          <div className='bg-white min-h-[60vh]  w-full  shadow-lg rounded-md lg:rounded-lg py-6 lg:pb-8'>
+            {/* table */}
+            <div className='w-full overflow-x-auto'>
+              <h1 className='font-bold  text-xs xl:text-base md:text-sm px-6 pb-6 '>
+                All vehicles
               </h1>
-            </div>
-
-            <div className=' pt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 justify-center items-center mx-auto  gap-y-10 lg:gap-y-14 gap-x-3 lg:gap-x-4  '>
-              {cars?.map((item) => {
-                return (
-                  <div key={item.id}>
-                    {/* car 1 */}
-                    <div className='bg-white shadow-xl h-[21rem] rounded-xl  pb-2 space-y-4 max-w-xs  relative w-full border hover:shadow-2xl  '>
-                      {/* image */}
-                      <div className='   relative '>
-                        <Image
-                          src={item.image}
-                          alt='image'
-                          width={1000}
-                          height={1000}
-                          className='object-cover w-full h-40 rounded-tl-lg rounded-tr-lg rounded-br-none  rounded-bl-none '
-                        />
+              <table className='min-w-max w-full divide-y  overflow-x-auto relative divide-gray-1 table-auto '>
+                <thead className='text-xs  overflow-x-scroll text-left text-babyblack  bg-opacity-60   w-max bg-softpurple'>
+                  <tr>
+                    <th
+                      scope='col'
+                      className='pl-6 pr-4 pt-6  text-left font-medium text-babyblack'
+                    >
+                      <div className='flex items-center gap-4 mb-6'>
+                        <h2 className='text-base lg:text-lg xl:text-xl font-semibold  '>
+                          Carname
+                        </h2>
                       </div>
+                    </th>
+                    <th
+                      scope='col'
+                      className=' pr-4 pt-6  text-left text-sm font-medium text-babyblack'
+                    >
+                      <div className='flex items-center justify-start gap-4 mb-6'>
+                        <h2 className='text-base font-semibold lg:text-lg xl:text-xl  '>
+                          Date Enlisted
+                        </h2>
+                      </div>
+                    </th>
+                    <th
+                      scope='col'
+                      className=' pr-4 pt-6  text-left text-sm font-medium text-babyblack'
+                    >
+                      <div className='flex items-center gap-4 mb-6'>
+                        <h2 className='text-base font-semibold lg:text-lg xl:text-xl  '>
+                          Amount ($)
+                        </h2>
+                      </div>
+                    </th>
+                    <th
+                      scope='col'
+                      className='pr-4 pt-6  text-left font-medium text-babyblack'
+                    >
+                      <div className='flex items-center gap-4 mb-6'>
+                        <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
+                          Status
+                        </h2>
+                      </div>
+                    </th>
+                    <th
+                      scope='col'
+                      className='pr-4 pt-6  text-left font-medium text-babyblack'
+                    >
+                      <div className='flex items-center gap-4 mb-6'>
+                        <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
+                          Pickup location
+                        </h2>
+                      </div>
+                    </th>
+                    <th
+                      scope='col'
+                      className='pr-4 pt-6  text-left font-medium text-babyblack'
+                    >
+                      <div className='flex items-center gap-4 mb-6'>
+                        <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
+                          Dropoff location
+                        </h2>
+                      </div>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className=' px-6  py-5 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
+                  {fleetdata?.all_vehicles
+                    ?.sort((a, b) => {
+                      return new Date(b?.createdAt) - new Date(a?.createdAt)
+                    })
+                    ?.map((item, index) => {
+                      return (
+                        <tr
+                          onClick={() => {
+                            router.push({
+                              pathname: `/host/fleet/${item?._id}`,
+                            })
+                          }}
+                          key={index}
+                          className='hover:bg-softpurple text-xs md:text-sm '
+                        >
+                          <td className='pl-6 pr-4  py-4  '>
+                            {item?.car_name}
+                          </td>
 
-                      {/*text */}
-                      <div className='px-4 w-full '>
-                        {/* first part */}
-                        <div className=' border-b-2 pb-2 flex justify-between items-center'>
-                          {/* carname */}
-                          <h1 className='font-bold text-sm line-clamp-1'>
-                            {item.carname}
-                          </h1>
-                          <h1 className='text-xs font-bold text-babypurple'>
-                            ${item.cost} / day
-                          </h1>
-                        </div>
-                        {/* second */}
-                        <div className='pt-4 space-y-3'>
-                          {/* params */}
-                          <div className='flex items-center gap-2'>
-                            <GiRoad className='text-base' />
-                            <h1 className='text-[0.6rem]'>250 trips</h1>
-                          </div>
-                          {/* three */}
-                          <div className='flex items-center gap-2'>
-                            <BiCurrentLocation className='text-base' />
-                            <h1 className='text-[0.6rem]'>
-                              No 2 Omuola Street Awoyaya
-                            </h1>
-                          </div>
-                          {/* button */}
-                          <button
-                            onClick={() => {
-                              router.push({
-                                pathname: `/host/fleet/${item.id}`,
-                              })
-                            }}
-                            className='bg-babypurple px-2 py-2  w-full text-xs text-white rounded-md cursor-pointer hover:shadow-lg'
+                          <td className=' py-4  pr-4 '>
+                            {' '}
+                            {moment(item?.createdAt).format(
+                              'MMMM Do YYYY, h:mm:ss a'
+                            )}{' '}
+                          </td>
+                          <td className='pr-4   py-4  text-left '>
+                            {item?.rent_cost}
+                          </td>
+                          <td
+                            className={`${
+                              item?.status === 'listed'
+                                ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
+                                : 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
+                            }`}
                           >
-                            Manage
-                          </button>
-                        </div>
-                      </div>
-                      {/* buttons top */}
-                      <div className=' absolute -top-2 left-2 right-2 '>
-                        <div className='flex justify-between items-center gap-2 mx-auto w-full'>
-                          {/* ratings */}
-                          <div className='flex justify-center items-center gap-1 rounded-md bg-white px-2 py-1'>
-                            <h1 className='text-xs text-babyblack'>
-                              {' '}
-                              Inservice
-                            </h1>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
+                            {item?.status}
+                          </td>
+
+                          <td className='pr-4   py-4  text-left '>
+                            {item?.pickup_location}
+                          </td>
+                          <td className='pr-4   py-4  text-left '>
+                            {item?.dropoff_location}
+                          </td>
+                        </tr>
+                      )
+                    })}
+                </tbody>
+              </table>
             </div>
           </div>
         </section>
