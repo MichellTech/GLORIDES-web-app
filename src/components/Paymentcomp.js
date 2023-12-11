@@ -14,7 +14,9 @@ function Paymentcomp({ amount, gettransactions }) {
   const [loading, setLoading] = useState(false)
   const [account, setAccount] = useState(null)
   const [bankexists, setBankexists] = useState(false)
-  const [userAccount, setUserAccount] = useState([])
+  const [confirm, setConfirm] = useState(false)
+  const [userpassword, setUserpassword] = useState('')
+  const [transid, setTransid] = useState('')
   const dispatch = useDispatch()
   const initialValues = {
     account: '',
@@ -68,9 +70,8 @@ function Paymentcomp({ amount, gettransactions }) {
       .then(function (response) {
         console.log(response?.data)
         setLoading(false)
-        toast.success(response?.data?.message)
-        gettransactions()
-        dispatch(cancelwithdraw())
+        setConfirm(true)
+        setTransid(response?.data?.details?.payment_transactions?._id)
       })
       .catch(function (error) {
         setLoading(false)
@@ -82,7 +83,34 @@ function Paymentcomp({ amount, gettransactions }) {
     getaccount()
   }, [])
 
-  console.log(amount)
+  console.log(transid)
+  const handleconfirmation = () => {
+    setLoading(true)
+    if (!userpassword) {
+      setLoading(false)
+      return toast.warning('please input password')
+    }
+
+    // mainAxiosAction
+    //   .post(`/account/confirm-withdraw`, {
+    //     transaction_id: transid,
+    //     pin: userpassword,
+    //   })
+    //   .then(function (response) {
+    //     console.log(response?.data)
+    //     setLoading(false)
+    //     setConfirm(false)
+    //     toast.success(response?.data?.message)
+    //     gettransactions()
+    //     dispatch(cancelwithdraw())
+    //     setUserpassword('')
+    //     setTransid('')
+    //   })
+    //   .catch(function (error) {
+    //     setLoading(false)
+    //     console.log(error)
+    //   })
+  }
   return (
     <div className='bg-white py-4 lg:py-8 px-6 lg:px-8 flex justify-center flex-col items-center  rounded-md shadow-md w-full mx-6 sm:max-w-lg md:max-w-lg lg:max-w-xl xl:max-w-2xl overflow-y-auto'>
       {/* title */}
@@ -96,137 +124,175 @@ function Paymentcomp({ amount, gettransactions }) {
         />
       </div>
       {/* form */}
-      <Formik
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        validationSchema={validationSchema}
-        enableReinitialize
-      >
-        {(formik) => {
-          return (
-            <Form className='  text-babyblack space-y-6 font-sans md:space-y-8 xl:space-y-10 w-full pt-4 lg:pt-8  '>
-              {/* user account */}
-              <div className='space-y-2 w-full'>
-                <div className='flex justify-between items-center'>
-                  <label htmlFor='' className='text-xs lg:text-sm'>
-                    Account Payable
-                  </label>
-                  {!bankexists && (
-                    <Link
-                      href='/userprofile/accounts'
-                      className='text-xs lg:text-sm text-babypurple font-bold cursor-pointer'
-                    >
-                      {' '}
-                      + Add Account
-                    </Link>
-                  )}
-                </div>
-
-                <Field
-                  as='select'
-                  type='selectOption'
-                  name='account'
-                  className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
-                >
-                  <option value=''>select account</option>
-                  {account?.map((item, index) => {
-                    return (
-                      <option key={index} value={item?.account_number}>
-                        {item?.account_number}
-                      </option>
-                    )
-                  })}
-                </Field>
-
-                <div className='text-softRed text-xs mt-1 px-4'>
-                  <ErrorMessage name='account' />
-                </div>
-              </div>
-              {/* amount to pay */}
-              <div className='space-y-2 w-full'>
-                <label htmlFor='' className='text-xs lg:text-sm'>
-                  Amoun to Pay ($)
-                </label>
-                <div className='space-y-4'>
-                  <div className='flex flex-wrap gap-3 items-center'>
-                    <div
-                      onClick={() => formik.setFieldValue('amount', 100)}
-                      className={`${
-                        formik.values.amount === 100
-                          ? 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center bg-softpurple border-none'
-                          : 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center'
-                      }`}
-                    >
-                      <h1 className='text-xs md:text-sm lg:text-base '>100</h1>
-                    </div>
-                    <div
-                      onClick={() => formik.setFieldValue('amount', 200)}
-                      className={`${
-                        formik.values.amount === 200
-                          ? 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center bg-softpurple border-none'
-                          : 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center'
-                      }`}
-                    >
-                      <h1 className='text-xs md:text-sm lg:text-base '>200</h1>
-                    </div>
-                    <div
-                      onClick={() => formik.setFieldValue('amount', 500)}
-                      className={`${
-                        formik.values.amount === 500
-                          ? 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center bg-softpurple border-none'
-                          : 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center'
-                      }`}
-                    >
-                      <h1 className='text-xs md:text-sm lg:text-base '>500</h1>
-                    </div>
-                    <div
-                      onClick={() => formik.setFieldValue('amount', 1000)}
-                      className={`${
-                        formik.values.amount === 1000
-                          ? 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center bg-softpurple border-none'
-                          : 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center'
-                      }`}
-                    >
-                      <h1 className='text-xs md:text-sm lg:text-base '>1000</h1>
-                    </div>
+      {!confirm ? (
+        <Formik
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          validationSchema={validationSchema}
+          enableReinitialize
+        >
+          {(formik) => {
+            return (
+              <Form className='  text-babyblack space-y-6 font-sans md:space-y-8 xl:space-y-10 w-full pt-4 lg:pt-8  '>
+                {/* user account */}
+                <div className='space-y-2 w-full'>
+                  <div className='flex justify-between items-center'>
+                    <label htmlFor='' className='text-xs lg:text-sm'>
+                      Account Payable
+                    </label>
+                    {!bankexists && (
+                      <Link
+                        href='/userprofile/accounts'
+                        className='text-xs lg:text-sm text-babypurple font-bold cursor-pointer'
+                      >
+                        {' '}
+                        + Add Account
+                      </Link>
+                    )}
                   </div>
+
                   <Field
-                    type='text'
-                    name='amount'
-                    placeholder='1000'
-                    className=' bg-white  border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
-                  />
-                </div>
-                <div className='flex justify-between items-center gap-4 flex-row-reverse'>
-                  <h1 className='text-xs '>
-                    Amount withdrawable :{' '}
-                    <span className='font-bold'>{amount}</span>
-                  </h1>
+                    as='select'
+                    type='selectOption'
+                    name='account'
+                    className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                  >
+                    <option value=''>select account</option>
+                    {account?.map((item, index) => {
+                      return (
+                        <option key={index} value={item?.account_number}>
+                          {item?.account_number}
+                        </option>
+                      )
+                    })}
+                  </Field>
 
                   <div className='text-softRed text-xs mt-1 px-4'>
-                    <ErrorMessage name='amount' />
+                    <ErrorMessage name='account' />
                   </div>
                 </div>
-              </div>
-
-              {/* button */}
-              <button
-                type='submit'
-                className='bg-babypurple text-white px-2 py-3  w-40 md:w-60 md:max-w-xs mx-auto flex justify-center items-center    rounded-md   text-xs md:text-sm  shadow-md transition ease-in-out delay-150   hover:bg-indigo-500 duration-1000 hover:border-none hover:text-white  '
-              >
-                {loading ? (
-                  <div className='flex justify-center gap-2 items-center'>
-                    <div className='spinner'></div>
-                    <h1>Processing...</h1>
+                {/* amount to pay */}
+                <div className='space-y-2 w-full'>
+                  <label htmlFor='' className='text-xs lg:text-sm'>
+                    Amoun to Pay ($)
+                  </label>
+                  <div className='space-y-4'>
+                    <div className='flex flex-wrap gap-3 items-center'>
+                      <div
+                        onClick={() => formik.setFieldValue('amount', 100)}
+                        className={`${
+                          formik.values.amount === 100
+                            ? 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center bg-softpurple border-none'
+                            : 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center'
+                        }`}
+                      >
+                        <h1 className='text-xs md:text-sm lg:text-base '>
+                          100
+                        </h1>
+                      </div>
+                      <div
+                        onClick={() => formik.setFieldValue('amount', 200)}
+                        className={`${
+                          formik.values.amount === 200
+                            ? 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center bg-softpurple border-none'
+                            : 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center'
+                        }`}
+                      >
+                        <h1 className='text-xs md:text-sm lg:text-base '>
+                          200
+                        </h1>
+                      </div>
+                      <div
+                        onClick={() => formik.setFieldValue('amount', 500)}
+                        className={`${
+                          formik.values.amount === 500
+                            ? 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center bg-softpurple border-none'
+                            : 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center'
+                        }`}
+                      >
+                        <h1 className='text-xs md:text-sm lg:text-base '>
+                          500
+                        </h1>
+                      </div>
+                      <div
+                        onClick={() => formik.setFieldValue('amount', 1000)}
+                        className={`${
+                          formik.values.amount === 1000
+                            ? 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center bg-softpurple border-none'
+                            : 'border rounded-sm px-4 py-3 w-max cursor-pointer hover:bg-softpurple hover:border-none duration-150  flex-grow text-center'
+                        }`}
+                      >
+                        <h1 className='text-xs md:text-sm lg:text-base '>
+                          1000
+                        </h1>
+                      </div>
+                    </div>
+                    <Field
+                      type='text'
+                      name='amount'
+                      placeholder='1000'
+                      className=' bg-white  border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                    />
                   </div>
-                ) : (
-                  'Submit'
-                )}
-              </button>
-            </Form>
-          )
-        }}
-      </Formik>
+                  <div className='flex justify-between items-center gap-4 flex-row-reverse'>
+                    <h1 className='text-xs '>
+                      Amount withdrawable :{' '}
+                      <span className='font-bold'>{amount}</span>
+                    </h1>
+
+                    <div className='text-softRed text-xs mt-1 px-4'>
+                      <ErrorMessage name='amount' />
+                    </div>
+                  </div>
+                </div>
+
+                {/* button */}
+                <button
+                  type='submit'
+                  className='bg-babypurple text-white px-2 py-3  w-40 md:w-60 md:max-w-xs mx-auto flex justify-center items-center    rounded-md   text-xs md:text-sm  shadow-md transition ease-in-out delay-150   hover:bg-indigo-500 duration-1000 hover:border-none hover:text-white  '
+                >
+                  {loading ? (
+                    <div className='flex justify-center gap-2 items-center'>
+                      <div className='spinner'></div>
+                      <h1>Processing...</h1>
+                    </div>
+                  ) : (
+                    'Submit'
+                  )}
+                </button>
+              </Form>
+            )
+          }}
+        </Formik>
+      ) : (
+        <div className='py-6 lg:py-10 space-y-6 lg:space-y-7'>
+          <h1 className='font-mono text-sm lg:text-base text-center'>
+            Please input password
+          </h1>
+
+          <input
+            type='password'
+            placeholder='****'
+            className='border px-4 py-2 lg:py-3 w-full placeholder:text-center'
+            value={userpassword}
+            onChange={(e) => setUserpassword(e.target.value)}
+          />
+          <button
+            type='submit'
+            onClick={() => handleconfirmation()}
+            className='bg-babypurple text-white px-2 py-3  w-40  md:max-w-xs mx-auto flex justify-center items-center    rounded-md   text-xs md:text-sm  shadow-md transition ease-in-out delay-150   hover:bg-indigo-500 duration-1000 hover:border-none hover:text-white  '
+          >
+            {loading ? (
+              <div className='flex justify-center gap-2 items-center'>
+                <div className='spinner'></div>
+                <h1>Processing...</h1>
+              </div>
+            ) : (
+              'Confirm'
+            )}
+          </button>
+        </div>
+      )}
     </div>
   )
 }

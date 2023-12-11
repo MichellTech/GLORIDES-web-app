@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { cars } from '../../../../utilis/Cardata'
 import Navbar from '@/components/Navigation/Navbar/index'
@@ -11,18 +11,86 @@ import Photos from '@/components/Singlecardetails/photos'
 import Documentations from '@/components/Singlecardetails/documentations'
 import Leasehistory from '@/components/Singlecardetails/leasehistory'
 import Footer from '@/components/Navigation/Footer'
+import mainAxiosAction from '../../../../components/axiosAction/index'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 function index() {
   const [display, setDisplay] = useState(1)
   const router = useRouter()
   const [rating, setRating] = useState(3)
+  const [cardata, setCardata] = useState(null)
   const [hover, setHover] = useState(null)
   const [isDelisting, setIsDelisting] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [carhistory, setCarhistory] = useState(null)
+  const [caramount, setCaramount] = useState(0)
   const carId = router.query.id
   const singlecar = useMemo(
     () => cars.filter((item) => item.id === Number(carId))?.[0],
     [carId]
   )
+
+  const getsinglecar = () => {
+    mainAxiosAction
+      .post(`/cars/get-single-fleet-car`, { car_id: carId })
+      .then(function (response) {
+        console.log(response?.data?.car)
+        setCardata(response?.data?.car)
+        setLoading(false)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  const getcarhistory = () => {
+    mainAxiosAction
+      .post(`/cars/getcarbookings`, { car_id: carId })
+      .then(function (response) {
+        console.log(response?.data?.bookings)
+        setCarhistory(response?.data?.bookings)
+        // cal total
+        const totalamount = response?.data?.bookings
+          ?.filter((i) => i?.status === 'completed')
+          ?.map((i) => i?.amount) // sums to 10
+        let sum = 0
+        for (let i = 0; i < totalamount.length; i++) {
+          sum += totalamount[i]
+        }
+        setCaramount(sum)
+        setLoading(false)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  useEffect(() => {
+    if (router.isReady) {
+      getsinglecar()
+      getcarhistory()
+    }
+  }, [router.isReady])
+
+  const handledelist = () => {
+    setLoading(true)
+    mainAxiosAction
+      .post(`/cars/delist-car`, { car_id: carId })
+      .then(function (response) {
+        setLoading(false)
+        router.push({
+          pathname: `/host/fleet`,
+        })
+        toast.success(response?.data?.message)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
   return (
     <>
       <main
@@ -75,7 +143,7 @@ function index() {
                   {/* image */}
                   <div className=''>
                     <Image
-                      src={singlecar?.image}
+                      src={cardata?.car_photos?.[0].url}
                       alt='logo'
                       width={1000}
                       height={1000}
@@ -85,9 +153,11 @@ function index() {
                   {/* text */}
                   <div className=' space-y-1 lg:space-y-2 xl:space-y-3'>
                     <h1 className='text-xs sm:text-sm font-bold lg:text-base  xl:text-xl'>
-                      {singlecar?.carname}
+                      {cardata?.car_name}
                     </h1>
-                    <h1 className='text-xs lg:text-sm'>Xter34epe</h1>
+                    <h1 className='text-xs lg:text-sm'>
+                      {cardata?.plate_number}
+                    </h1>
                   </div>
                 </div>
 
@@ -126,7 +196,7 @@ function index() {
                 {/* money */}
                 <div className='  space-y-1 lg:space-y-2  xl:space-y-3'>
                   <h1 className='text-sm font-bold lg:text-lg xl:text-2xl'>
-                    $200,000
+                    ${caramount}
                   </h1>
                   <h1 className='text-xs lg:text-sm'>Total income generated</h1>
                 </div>
@@ -180,13 +250,13 @@ function index() {
             {/* displayinf */}
             <div className='w-full'>
               {display === 1 ? (
-                <Generaldetails />
+                <Generaldetails cardata={cardata} />
               ) : display === 2 ? (
-                <Photos />
+                <Photos cardata={cardata} />
               ) : display === 3 ? (
-                <Documentations />
+                <Documentations cardata={cardata} />
               ) : (
-                <Leasehistory />
+                <Leasehistory carhistory={carhistory} />
               )}
             </div>
           </div>
@@ -217,6 +287,7 @@ function index() {
                 <div className='flex flex-col justify-center items-center gap-4 w-full sm:flex-row'>
                   <button
                     type='submit'
+                    onClick={() => handledelist()}
                     className='bg-babypurple text-white px-2 py-3  sm:w-40 w-full md:w-60 md:max-w-xs mx-auto flex justify-center items-center    rounded-md   text-xs md:text-sm  hover:shadow-md transition ease-in-out delay-500   hover:bg-indigo-500 duration-1000 hover:border-none hover:text-white  '
                   >
                     {loading ? (

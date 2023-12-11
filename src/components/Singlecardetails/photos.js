@@ -1,7 +1,7 @@
 import React from 'react'
 import { cars } from '../../utilis/Cardata'
 import Image from 'next/image'
-function photos() {
+function photos({ cardata }) {
   // console.log(cars)
   return (
     <div className='bg-white rounded-md px-4 py-6 md:py-8 shadow-md'>
@@ -11,13 +11,13 @@ function photos() {
           Car Photos
         </h1>
         {/* group */}
-        <div className='w-full flex flex-col sm:flex-row sm:flex-wrap  gap-5 sm:justify-center  lg:gap-7'>
-          {cars?.map((item) => {
+        <div className='w-full flex flex-col sm:flex-row sm:flex-wrap  gap-5   lg:gap-7'>
+          {cardata?.car_photos?.map((item, index) => {
             return (
-              <div key={item.id}>
+              <div key={index}>
                 <div className=''>
                   <Image
-                    src={item?.image}
+                    src={item?.url}
                     alt='image'
                     width={1000}
                     height={1000}
