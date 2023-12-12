@@ -1,15 +1,79 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Navbar from '../components/Navigation/Navbar/index'
 import Search from '../components/Rentcomp/Search'
 import Image from 'next/image'
-import { MdLocationOn } from 'react-icons/md'
 import { FaSearchLocation } from 'react-icons/fa'
 import { BsFillCarFrontFill } from 'react-icons/bs'
 import { FiArrowUpRight } from 'react-icons/fi'
 import Footer from '../components/Navigation/Footer'
+import mainAxiosAction from '../components/axiosAction/index'
+import { LuFuel } from 'react-icons/lu'
+import { GiGearStickPattern } from 'react-icons/gi'
+import { AiOutlineHeart, AiFillHeart, AiFillStar } from 'react-icons/ai'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  setAllsearchedcars,
+  getuserfavourites,
+} from '@/features/rental/filterSlice'
+import { useRouter } from 'next/router'
+import { MdLocationOn, MdOutlineAirlineSeatReclineExtra } from 'react-icons/md'
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import axios from 'axios'
 
 function index() {
+  const [loading, setLoading] = useState(false)
+  const { allsearchedcars, bookmarked } = useSelector((store) => store.rental)
+  const router = useRouter()
+  const dispatch = useDispatch()
+  const getallcars = () => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/getAllCars`, {})
+      .then(function (response) {
+        setLoading(false)
+
+        dispatch(setAllsearchedcars(response?.data?.data))
+        console.log(response?.data?.data)
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  // console.log(allcars)
+  useEffect(() => {
+    getallcars()
+    if (localStorage.getItem('User_Token')) {
+      dispatch(getuserfavourites())
+    }
+  }, [])
+
+  // add to fav
+  const addtofav = (id) => {
+    if (bookmarked?.map((i) => i._id)?.includes(id)) {
+      mainAxiosAction
+        .post(`/cars/delete-bookmark`, { car_id: id })
+        .then(function (response) {
+          dispatch(getuserfavourites())
+          toast.success(response?.data?.message)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    } else {
+      mainAxiosAction
+        .post(`/cars/add-bookmark`, { car_id: id })
+        .then(function (response) {
+          dispatch(getuserfavourites())
+          toast.success(response?.data?.message)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    }
+  }
   return (
     <>
       {/* herro */}
@@ -126,7 +190,7 @@ function index() {
           </div>
         </div>
       </section>
-      {/* explore by city */}
+      {/* explore our garage */}
       <section className='section-center space-y-10 md:space-y-16'>
         {/* header */}
         <div className='flex justify-center items-center mx-auto'>
@@ -134,56 +198,116 @@ function index() {
             <h1 className='font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl py-4 text-center  text-babyblack   '>
               Explore{' '}
               <span className="bg-[url('/images/started.png')] bg-no-repeat bg-bottom  py-4   ">
-                by City
+                our Garage
               </span>{' '}
             </h1>
             <p className='text-sm text-center sm:text-base max-w-xs sm:max-w-sm md:text-lg md:max-w-md text-babyblack lg:text-xl lg:max-w-lg xl:text-2xl xl:max-w-xl'>
-              Check out vechiles leasing out in your desired city
+              Check out top vechiles leasing out in your desired city
             </p>
           </div>
         </div>
         {/* content */}
-        <div className='space-y-5 sm:grid sm:grid-cols-2 sm:space-y-0 sm:gap-8 md:grid-cols-3 xl:grid-cols-4 xl:gap-12'>
-          {/* one */}
-          <div className='bg-white px-4 py-3 shadow  flex justify-between items-center rounded max-w-xs md:hover:translate-x-6 hover:shadow-xl duration-1000 hover:font-bold'>
-            <h1 className='md:text-lg xl:text-xl'>Houston, Texas</h1>
-            <FiArrowUpRight className='text-babypurple text-2xl md:text-3xl xl:text-4xl' />
-          </div>
-          {/* two */}
-          <div className='bg-white px-4 py-3 shadow  flex justify-between items-center rounded max-w-xs md:hover:translate-x-6 hover:shadow-xl duration-1000 hover:font-bold'>
-            <h1 className=' md:text-lg xl:text-xl'>New York</h1>
-            <FiArrowUpRight className='text-babypurple text-2xl md:text-3xl xl:text-4xl' />
-          </div>
-          {/* three */}
-          <div className='bg-white px-4 py-3 shadow  flex justify-between items-center rounded max-w-xs md:hover:translate-x-6 hover:shadow-xl duration-1000 hover:font-bold'>
-            <h1 className=' md:text-lg xl:text-xl'>Los Angeles</h1>
-            <FiArrowUpRight className='text-babypurple text-2xl md:text-3xl xl:text-4xl' />
-          </div>
-          {/* four */}
-          <div className='bg-white px-4 py-3 shadow  flex justify-between items-center rounded max-w-xs md:hover:translate-x-6 hover:shadow-xl duration-1000 hover:font-bold'>
-            <h1 className=' md:text-lg xl:text-xl'>Seattle</h1>
-            <FiArrowUpRight className='text-babypurple text-2xl md:text-3xl xl:text-4xl' />
-          </div>
-          {/* five */}
-          <div className='bg-white px-4 py-3 shadow  flex justify-between items-center rounded max-w-xs md:hover:translate-x-6 hover:shadow-xl duration-1000 hover:font-bold'>
-            <h1 className=' md:text-lg xl:text-xl'>Austin, Texas</h1>
-            <FiArrowUpRight className='text-babypurple text-2xl md:text-3xl xl:text-4xl' />
-          </div>
-          {/* six */}
-          <div className='bg-white px-4 py-3 shadow  flex justify-between items-center rounded max-w-xs md:hover:translate-x-6 hover:shadow-xl duration-1000 hover:font-bold'>
-            <h1 className=' md:text-lg xl:text-xl'>San Diego</h1>
-            <FiArrowUpRight className='text-babypurple text-2xl md:text-3xl xl:text-4xl' />
-          </div>
-          {/* seven */}
-          <div className='bg-white px-4 py-3 shadow  flex justify-between items-center rounded max-w-xs md:hover:translate-x-6 hover:shadow-xl duration-1000 hover:font-bold'>
-            <h1 className=' md:text-lg xl:text-xl'>Oklahoma</h1>
-            <FiArrowUpRight className='text-babypurple text-2xl md:text-3xl xl:text-4xl' />
-          </div>
-          {/* eight */}
-          <div className='bg-white px-4 py-3 shadow  flex justify-between items-center rounded max-w-xs md:hover:translate-x-6 hover:shadow-xl duration-1000 hover:font-bold'>
-            <h1 className='md:text-lg xl:text-xl'>Chicago</h1>
-            <FiArrowUpRight className='text-babypurple text-2xl md:text-3xl xl:text-4xl' />
-          </div>
+        {/* display one */}
+        <div className=' space-y-10 sm:space-y-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 justify-between items-center mx-auto sm:gap-y-12 sm:gap-x-4'>
+          {allsearchedcars?.slice(0, 4)?.map((item) => {
+            return (
+              <div key={item._id}>
+                {/* car 1 */}
+                <div className='bg-white hover:shadow-xl shadow h- rounded-xl  pb-4 space-y-4 max-w-xs  relative w-full  '>
+                  {/* image */}
+                  <div className='   relative '>
+                    <Image
+                      src={item?.car_photos?.[0]?.url}
+                      alt={item?.car_photos?.[0]?.name}
+                      width={1000}
+                      height={1000}
+                      className='object-cover w-full h-40 rounded-tl-lg rounded-tr-lg rounded-br-none  rounded-bl-none '
+                    />
+                  </div>
+
+                  {/*text */}
+                  <div className='px-4 w-full '>
+                    {/* first part */}
+                    <div className='space-y-2 border-b-2 pb-3 border-dashed'>
+                      {/* locatio  */}
+                      <h1 className='font-bold text-lg line-clamp-1 font-mono tracking-widest'>
+                        {item?.car_name}
+                      </h1>
+                      {/* name and cost */}
+                      <div className='flex items-center justify-between  gap-1 '>
+                        <div className='flex items-center gap-1   w-max'>
+                          <MdLocationOn className='text-base ' />
+                          <h1 className=' line-clamp-1 text-sm'>
+                            {item?.city}
+                          </h1>
+                        </div>
+
+                        <h1 className='font-bold text-lg text-babypurple font-mono tracking-widest line-clamp-1 '>
+                          ${item?.rent_cost} /
+                          <span className='text-sm  text-babyblack font-normal font-sans'>
+                            day
+                          </span>
+                        </h1>
+                      </div>
+                    </div>
+                    {/* second */}
+                    <div className='pt-6 space-y-4'>
+                      {/* params */}
+                      <div className=' grid grid-cols-3 gap-x-1 gap-y-6 justify-between items-center mx-auto'>
+                        {/* two */}
+                        <div className='flex items-center gap-1'>
+                          <LuFuel className='text-base' />
+                          <h1 className='text-xs text-babyblack'>
+                            {item?.fuel_type}
+                          </h1>
+                        </div>
+                        {/* three */}
+                        <div className='flex justify-center items-center gap-1'>
+                          <GiGearStickPattern className='text-base' />
+                          <h1 className='text-xs text-babyblack'>
+                            {item?.gear_type}
+                          </h1>
+                        </div>
+
+                        {/* six */}
+                        <div className='flex items-center gap-1 justify-end '>
+                          <MdOutlineAirlineSeatReclineExtra className='text-base' />
+                          <h1 className='text-xs text-babyblack'>
+                            {' '}
+                            {item?.seats_number} Seats
+                          </h1>
+                        </div>
+                      </div>
+                      {/* button */}
+                      <button
+                        onClick={() => {
+                          router.push({
+                            pathname: `/rentacar/${item?._id}`,
+                          })
+                        }}
+                        className='bg-babypurple px-2 py-2  w-full text-xs text-white  cursor-pointer hover:shadow-lg font-bold tracking-widest lg:text-sm rounded-md'
+                      >
+                        Explore
+                      </button>
+                    </div>
+                  </div>
+                  {/* buttons top */}
+                  <div className='absolute -top-2 right-2'>
+                    <div
+                      onClick={() => addtofav(item?._id)}
+                      className=' bg-black bg-opacity-50 flex justify-center items-center rounded-md mx-auto cursor-pointer lg:w-8 lg:h-8 w-6 h-6'
+                    >
+                      {bookmarked?.map((i) => i._id)?.includes(item?._id) ? (
+                        <AiFillHeart className='text-sm lg:text-base  text-white' />
+                      ) : (
+                        <AiOutlineHeart className='text-sm lg:text-base   text-white ' />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
         </div>
       </section>
       {/* partner with us */}

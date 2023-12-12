@@ -10,65 +10,69 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { MdLocationPin } from 'react-icons/md'
 import { useRouter } from 'next/router'
-
+import { State, City } from 'country-state-city'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  searchCar,
+  unsearchCar,
+  setAllsearchedcars,
+} from '@/features/rental/filterSlice'
+import axios from 'axios'
 function Search() {
   const [loading, setLoading] = useState(false)
-  const [usebg, setUsebg] = useState(false)
-
+  const { isUsersearching } = useSelector((store) => store.rental)
   const router = useRouter()
-  useEffect(() => {
-    if (router.pathname === '/') {
-      setUsebg(false)
-    } else {
-      setUsebg(true)
-    }
-  }, [router.pathname])
+  const dispatch = useDispatch()
 
   const initialValues = {
-    city: '',
+    state: 'Texas',
     date: new Date(),
   }
 
   const onSubmit = (values, onSubmitProps) => {
-    onSubmitProps.setSubmitting(false)
-
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
-
-    // reset
-    // onSubmitProps.resetForm()
-    // console.log(values)
+    onSubmitProps.setSubmitting(false)
+    getsearchedcar(values, onSubmitProps.resetForm)
   }
   // validation
   const validationSchema = Yup.object().shape({
-    city: Yup.string()
+    state: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No value provided'),
     date: Yup.date().required('Required'),
-    country: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No country value provided'),
   })
+
+  const getsearchedcar = (values, callback) => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/getAllCarsByState`, {
+        state: values.state,
+      })
+      .then(function (response) {
+        dispatch(searchCar())
+        setLoading(false)
+        dispatch(setAllsearchedcars(response?.data?.data))
+        console.log(response?.data?.data)
+        callback()
+        router.push({
+          pathname: `/rentacar`,
+        })
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
   return (
     <>
       <div className=' px-6  '>
         {/* form */}
-        <div
-          className={`${
-            !usebg
-              ? ' px-4 py-4 md:py-5 md:px-6 bg-white max-w-md sm:w-[34rem] sm:max-w-full md:w-[44rem] md:max-w-full  lg:w-[56rem] xl:w-[64rem]    '
-              : ' px-4 py-4 md:py-5 md:px-6 bg-white max-w-md sm:w-[34rem] sm:max-w-full md:w-[44rem] md:max-w-full  lg:w-[56rem] xl:w-[64rem]     '
-          }`}
-        >
+        <div className='px-4 py-4 md:py-5 md:px-6 bg-white max-w-md sm:w-[34rem] sm:max-w-full md:w-[44rem] md:max-w-full  lg:w-[56rem] xl:w-[64rem]'>
           {/* form */}
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={validationSchema}
+            enableReinitialize
           >
             {(formik) => {
               return (
@@ -76,6 +80,25 @@ function Search() {
                   {/* city */}
                   <div className=' relative  w-auto'>
                     <Field
+                      as='select'
+                      type='selectOption'
+                      name='state'
+                      className={`${
+                        formik.errors.state && formik.touched.state
+                          ? 'bg-softpurple border border-softRed px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-ful l '
+                          : 'bg-[#D9D9D9] px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
+                      }`}
+                    >
+                      <option value=''>select State</option>
+                      {State.getStatesOfCountry('US')?.map((item, index) => {
+                        return (
+                          <option key={index} value={item.name}>
+                            {item.name}
+                          </option>
+                        )
+                      })}
+                    </Field>
+                    {/* <Field
                       type='text'
                       name='city'
                       placeholder='Your City'
@@ -86,19 +109,27 @@ function Search() {
                           ? 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full rounded md:rounded-sm xl:rounded-md'
                           : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
                       }`}
-                    />
-                    <MdLocationPin className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl' />
+                    /> */}
+                    <MdLocationPin className='absolute  top-1/2  left-4 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl' />
                   </div>
                   {/* date */}
+
+                  {/* : usebg ? 'relative bg-[#D9D9D9] w-auto rounded
+                  md:rounded-sm xl:rounded-md' */}
                   <div
                     className={`${
                       formik.errors.date && formik.touched.date
                         ? 'relative bg-softpurple border-softRed border  w-auto'
-                        : usebg
-                        ? 'relative bg-[#D9D9D9]  w-auto rounded md:rounded-sm xl:rounded-md'
                         : 'relative bg-[#D9D9D9]  w-auto'
                     }`}
                   >
+                    {/* className={`${
+                              formik.errors.date && formik.touched.date
+                                ? 'bg-softpurple   px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
+                                : usebg
+                                ? 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full rounded-l md:rounded-l-sm xl:rounded-l-md'
+                                : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
+                            }`} */}
                     <Field name='date'>
                       {({ field, form }) => {
                         return (
@@ -106,8 +137,6 @@ function Search() {
                             className={`${
                               formik.errors.date && formik.touched.date
                                 ? 'bg-softpurple   px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
-                                : usebg
-                                ? 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full rounded-l md:rounded-l-sm xl:rounded-l-md'
                                 : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
                             }`}
                             id='date'
@@ -123,12 +152,18 @@ function Search() {
                     </Field>
                     <BiCalendar className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg lg:text-xl xl:text-2xl' />
                   </div>
-
                   <button
                     type='submit'
                     className='bg-babypurple w-full  py-2 shadow-md font-bold sm:h-12 md:h-14  rounded lg:rounded-sm xl:rounded-md h-10 col-span-2 md:col-span-1'
                   >
-                    search
+                    {loading ? (
+                      <div className='flex items-center justify-center gap-2'>
+                        <div className='spinner'></div>
+                        <h1>Searching...</h1>
+                      </div>
+                    ) : (
+                      <h1>Search</h1>
+                    )}
                   </button>
                 </Form>
               )

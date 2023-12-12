@@ -19,6 +19,7 @@ const initialState = {
   bookmarked: [],
   isBooking: false,
   successinfo: {},
+  isUsersearching: false,
 }
 
 const filterSlice = createSlice({
@@ -42,6 +43,12 @@ const filterSlice = createSlice({
     },
     unbookCar: (state) => {
       state.isBooking = false
+    },
+    searchCar: (state) => {
+      state.isUsersearching = true
+    },
+    unsearchCar: (state) => {
+      state.isUsersearching = false
     },
   },
   extraReducers: (builder) => {
@@ -70,5 +77,7 @@ export const {
   bookCar,
   unbookCar,
   setsuccessinfo,
+  searchCar,
+  unsearchCar,
 } = filterSlice.actions
 export default filterSlice.reducer

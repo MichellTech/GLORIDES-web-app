@@ -46,15 +46,18 @@ function Booking({ cardata, uservalues }) {
   }
 
   const bookcar = (payload) => {
+    console.log('booking')
     mainAxiosAction
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/book-car`, payload)
+      .post(`/cars/book-car`, payload)
       .then(function (response) {
         setLoading(false)
-        toast?.success(response?.data?.message)
-        router.push({
-          pathname: `/rentacar/success`,
-        })
-        dispatch(setsuccessinfo(response.data.booking_details))
+        // toast?.success(response?.data?.message)
+        console.log(response?.data)
+        window.location.replace(response?.data?.payment_url)
+        // router.push({
+        //   pathname: `/rentacar/success`,
+        // })
+        // dispatch(setsuccessinfo(response.data.booking_details))
       })
       .catch(function (error) {
         toast?.error(error?.response?.data?.message)

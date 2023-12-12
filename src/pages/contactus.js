@@ -8,7 +8,7 @@ import { useRouter } from 'next/router'
 import Footer from '../components/Navigation/Footer'
 import { phone } from 'phone'
 import { Country } from 'country-state-city'
-import mainAxiosAction from '@/components/axiosAction'
+import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -76,8 +76,8 @@ function contactus() {
   })
 
   const sendinquiry = (payload, callback) => {
-    mainAxiosAction
-      .post(`/general/contact`, payload)
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/general/contact`, payload)
       .then(function (response) {
         setLoading(false)
         toast.success(response?.data?.message)

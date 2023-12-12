@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   setAllsearchedcars,
   getuserfavourites,
+  unsearchCar,
 } from '@/features/rental/filterSlice'
 import { useRouter } from 'next/router'
 import {
@@ -18,20 +19,21 @@ import {
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import mainAxiosAction from '../axiosAction'
-
+import axios from 'axios'
 function Allcars() {
   const [loading, setLoading] = useState(false)
   const [allcars, setAllcars] = useState([])
-  const { allsearchedcars, bookmarked } = useSelector((store) => store.rental)
+  const { allsearchedcars, bookmarked, isUsersearching } = useSelector(
+    (store) => store.rental
+  )
   const router = useRouter()
   const dispatch = useDispatch()
 
   const getallcars = () => {
-    mainAxiosAction
-      .post(`/cars/getAllCars`, {})
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/getAllCars`, {})
       .then(function (response) {
         setLoading(false)
-        toast.success(response?.data?.message)
         dispatch(setAllsearchedcars(response?.data?.data))
         console.log(response?.data?.data)
       })
@@ -43,8 +45,12 @@ function Allcars() {
 
   // console.log(allcars)
   useEffect(() => {
-    getallcars()
-    dispatch(getuserfavourites())
+    if (!isUsersearching) {
+      getallcars()
+    }
+    if (localStorage.getItem('User_Token')) {
+      dispatch(getuserfavourites())
+    }
   }, [])
 
   // add to fav

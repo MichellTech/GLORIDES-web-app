@@ -10,7 +10,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import mainAxiosAction from '../../../components/axiosAction/index'
+import axios from 'axios'
 import {
   MdKeyboardBackspace,
   MdOutlineBluetoothConnected,
@@ -34,7 +34,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { useSelector, useDispatch } from 'react-redux'
 import { bookCar, getuserfavourites } from '@/features/rental/filterSlice'
 import Bookform from '../../../components/Rentcomp/Bookform'
-
+import mainAxiosAction from '@/components/axiosAction'
 function Viewcar() {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -48,7 +48,10 @@ function Viewcar() {
   useEffect(() => {
     if (router.isReady) {
       getcardetails()
-      dispatch(getuserfavourites())
+      if (localStorage.getItem('User_Token')) {
+        dispatch(getuserfavourites())
+      }
+
       getavailabledates()
     }
   }, [router.isReady])
@@ -100,8 +103,10 @@ function Viewcar() {
   })
 
   const getcardetails = () => {
-    mainAxiosAction
-      .post(`/cars/get-single-car`, { car_id: carId })
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/get-single-car`, {
+        car_id: carId,
+      })
       .then(function (response) {
         setLoading(false)
         setCardata(response.data.car)
@@ -113,8 +118,10 @@ function Viewcar() {
   }
 
   const getavailabledates = () => {
-    mainAxiosAction
-      .post(`/cars/get-unavailable-dates`, { car_id: carId })
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/get-unavailable-dates`, {
+        car_id: carId,
+      })
       .then(function (response) {
         setNdates(response.data.unavailable_dates)
         console.log(response.data.unavailable_dates)

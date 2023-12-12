@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
-import mainAxiosAction from '@/components/axiosAction'
+import axios from 'axios'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 function Subscribe() {
@@ -32,18 +32,18 @@ function Subscribe() {
   }
 
   const submitform = (payload, callback) => {
-    mainAxiosAction
-      .post(`/general/newsletter`, payload)
-      .then(function (response) {
-        setLoading(false)
-        toast.success(response?.data?.message)
-        callback()
-      })
-      .catch(function (error) {
-        toast.error(error?.response?.data?.message)
-        setLoading(false)
-        console.log(error)
-      })
+   axios
+     .post(`${process.env.NEXT_PUBLIC_BASE_URL}/general/newsletter`, payload)
+     .then(function (response) {
+       setLoading(false)
+       toast.success(response?.data?.message)
+       callback()
+     })
+     .catch(function (error) {
+       toast.error(error?.response?.data?.message)
+       setLoading(false)
+       console.log(error)
+     })
   }
   return (
     <Formik
