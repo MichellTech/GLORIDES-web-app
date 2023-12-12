@@ -109,7 +109,7 @@ export default function MessagePanel({
           }`}
         >
           {/*header  */}
-          <div className='bg-softpurple   px-6 py-3  flex justify-between items-center gap-2'>
+          <div className='bg-babygrey bg-opacity-30   px-6 py-3  flex justify-between items-center gap-2'>
             <div className='flex items-center gap-3'>
               <MdArrowBackIos
                 onClick={() => {

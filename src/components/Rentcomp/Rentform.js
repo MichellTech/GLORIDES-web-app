@@ -81,12 +81,12 @@ function Search() {
               </div>
               {/* city */}
               <div className=' relative w-auto  border flex-grow '>
-                <div className=' relative h-full '>
+                <div className=' relative h-max '>
                   <Field
                     as='select'
                     type='selectOption'
                     name='state'
-                    className='text-xs  placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-full  text-center  flex justify-center placeholder:text-center items-center mx-auto'
+                    className='text-xs  placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-max  text-center  flex justify-center placeholder:text-center items-center mx-auto py-2 lg:py-3 '
                   >
                     <option value=''>All States</option>
                     {State.getStatesOfCountry('US')?.map((item, index) => {

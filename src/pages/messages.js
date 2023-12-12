@@ -75,8 +75,8 @@ function messages() {
             }`}
           >
             {/* header */}
-            <div className='bg-babypurple w-full px-6 py-4'>
-              <h1 className='text-base  tracking-widest lg:text-lg text-white font-bold'>
+            <div className='bg-babygrey w-full px-6 py-4'>
+              <h1 className='text-base font-mono  tracking-wide lg:text-lg text-babyblack font-bold'>
                 All Chats
               </h1>
             </div>
@@ -93,8 +93,8 @@ function messages() {
                       }}
                       className={`flex ${
                         i?._id === selectedChatId
-                          ? 'bg-softpurple '
-                          : 'hover:bg-softpurple   hover:bg-opacity-50'
+                          ? 'bg-babygrey   bg-opacity-30 '
+                          : 'hover:bg-babygrey   hover:bg-opacity-30'
                       } justify-between items-center gap-1 cursor-pointer px-6 py-3`}
                     >
                       {/* image and name and last message */}

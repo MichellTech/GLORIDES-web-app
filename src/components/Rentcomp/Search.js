@@ -84,11 +84,7 @@ function Search() {
                       as='select'
                       type='selectOption'
                       name='state'
-                      className={`${
-                        formik.errors.state && formik.touched.state
-                          ? 'bg-softpurple border border-softRed px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full appearance-none placeholder:text-center'
-                          : 'bg-[#D9D9D9] px-2 text-center py-2 placeholder:text-center outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs  h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm appearance-none'
-                      }`}
+                      className='bg-[#D9D9D9] px-2 text-center py-2 placeholder:text-center outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs  h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm appearance-none'
                     >
                       <option value=''>select State</option>
                       {State.getStatesOfCountry('US')?.map((item, index) => {
@@ -112,7 +108,7 @@ function Search() {
                           : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
                       }`}
                     /> */}
-                    <MdLocationPin className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+                    {/* <MdLocationPin className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' /> */}
                     <FaAngleDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
                   </div>
                   {/* date */}
