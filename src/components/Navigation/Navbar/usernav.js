@@ -342,7 +342,7 @@ function Navbar() {
                     <div className='flex flex-col justify-between items-center gap-4 px-4  '>
                       {/* image */}
                       <div className='flex flex-col justify-center items-center gap-2 flex-shrink-0 '>
-                        <div className='  relative  '>
+                        <div className='  relative  flex-shrink-0 '>
                           {profile?.profile_picture ? (
                             <Image
                               src={profile?.profile_picture?.url}
@@ -477,7 +477,7 @@ function Navbar() {
                   className='flex justify-center items-center gap-2 lg:gap-4 xl:gap-5 flex-shrink-0 '
                 >
                   {/* image */}
-                  <div className='  relative cursor-pointer '>
+                  <div className='  relative cursor-pointer flex-shrink-0  '>
                     {profile?.profile_picture ? (
                       <Image
                         src={profile?.profile_picture?.url}
@@ -487,8 +487,8 @@ function Navbar() {
                         className={`${
                           router.pathname === '/' ||
                           router.pathname === '/contactus'
-                            ? 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-white'
-                            : 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-babypurple'
+                            ? 'object-cover w-10 lg:w-14  xl:w-16 h-10 lg:h-14  xl:h-16 rounded-full border-2 border-white'
+                            : 'object-cover w-10 lg:w-14  xl:w-16 h-10 lg:h-14  xl:h-16 rounded-full border-2 border-babypurple'
                         }`}
                       />
                     ) : (
