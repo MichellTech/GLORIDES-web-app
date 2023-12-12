@@ -203,7 +203,7 @@ function index() {
               </span>{' '}
             </h1>
             <p className='text-sm text-center sm:text-base max-w-xs sm:max-w-sm md:text-lg md:max-w-md text-babyblack lg:text-xl lg:max-w-lg xl:text-2xl xl:max-w-xl'>
-              Check out top vechiles leasing out in your city
+              Check our top vechiles leasing out in your city
             </p>
           </div>
         </div>

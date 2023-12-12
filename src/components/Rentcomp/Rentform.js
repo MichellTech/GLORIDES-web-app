@@ -86,7 +86,7 @@ function Search() {
                     as='select'
                     type='selectOption'
                     name='state'
-                    className='text-xs  placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-full  text-center  flex justify-center items-center mx-auto'
+                    className='text-xs  placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-full  text-center  flex justify-center placeholder:text-center items-center mx-auto'
                   >
                     <option value=''>All States</option>
                     {State.getStatesOfCountry('US')?.map((item, index) => {

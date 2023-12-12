@@ -86,8 +86,8 @@ function Search() {
                       name='state'
                       className={`${
                         formik.errors.state && formik.touched.state
-                          ? 'bg-softpurple border border-softRed px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full appearance-none'
-                          : 'bg-[#D9D9D9] px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm appearance-none'
+                          ? 'bg-softpurple border border-softRed px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full appearance-none placeholder:text-center'
+                          : 'bg-[#D9D9D9] px-2 text-center py-2 placeholder:text-center outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs  h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm appearance-none'
                       }`}
                     >
                       <option value=''>select State</option>
