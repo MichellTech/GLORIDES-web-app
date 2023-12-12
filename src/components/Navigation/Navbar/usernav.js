@@ -474,7 +474,7 @@ function Navbar() {
               >
                 <div
                   onClick={visiblem ? hidem : showm}
-                  className='flex justify-center items-center gap-2 lg:gap-4 xl:gap-5'
+                  className='flex justify-center items-center gap-2 lg:gap-4 xl:gap-5 flex-shrink-0 '
                 >
                   {/* image */}
                   <div className='  relative cursor-pointer '>
