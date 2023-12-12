@@ -44,13 +44,23 @@ function view() {
             {/* welcom picture */}
             <div className='bg-white w-full flex justify-center items-center flex-col border px-6 py-4 sm:px-8 sm:py-6 rounded-md space-y-4 shadow-md md:flex-row md:space-y-0 md:w-full md:gap-4 lg:gap-6'>
               <div className='  relative max-w-xs '>
-                <Image
-                  src={userData?.profile_picture?.url}
-                  alt={userData?.profile_picture?.name}
-                  width={1000}
-                  height={1000}
-                  className='object-cover w-28 lg:w-32 rounded-full '
-                />
+                {userData?.profile_picture ? (
+                  <Image
+                    src={userData?.profile_picture?.url}
+                    alt={userData?.profile_picture?.name}
+                    width={1000}
+                    height={1000}
+                    className='object-cover w-28 lg:w-32 h-28 lg:h-32 rounded-full '
+                  />
+                ) : (
+                  <Image
+                    src={'/images/avatar.png'}
+                    alt={'avatar'}
+                    width={1000}
+                    height={1000}
+                    className='object-cover w-28 lg:w-32 h-28 lg:h-32 rounded-full '
+                  />
+                )}
               </div>
               <div className='space-y-2 md:space-y-3 lg:space-y-4 md:w-full'>
                 <h1 className='font-bold text-base text-center sm:text-lg md:text-base md:text-left lg:text-lg'>

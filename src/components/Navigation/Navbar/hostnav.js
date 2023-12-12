@@ -287,7 +287,7 @@ function Navbar() {
                               alt={profile?.profile_picture?.name}
                               width={1000}
                               height={1000}
-                              className='object-cover w-10 md:w-12 lg:w-16  xl:w-20 rounded-full border-2 border-babypurple'
+                              className='object-cover w-10 md:w-12 lg:w-16  xl:w-20 h-10 md:h-12 lg:h-16  xl:h-20 rounded-full border-2 border-babypurple'
                             />
                           ) : (
                             <Image
@@ -295,7 +295,7 @@ function Navbar() {
                               alt='logo'
                               width={1000}
                               height={1000}
-                              className='object-cover w-10 md:w-12 lg:w-16  xl:w-20   rounded-full border-2 border-babypurple'
+                              className='object-cover w-10 md:w-12 lg:w-16  xl:w-20 h-10 md:h-12 lg:h-16  xl:h-20   rounded-full border-2 border-babypurple'
                             />
                           )}
                         </div>

@@ -94,6 +94,10 @@ export default function MessagePanel({
     }
     return getTimeString(Math.floor(secondsPast / 31536000), 'year')
   }
+  const secondUser = allChats
+    ?.filter((i) => i?._id === selectedChatID)?.[0]
+    ?.members?.filter((a) => a?._id !== profile?._id)?.[0]
+
   return (
     <>
       {selectedChatID ? (
@@ -113,46 +117,40 @@ export default function MessagePanel({
                 }}
                 className='text-babypurple text-xl cursor-pointer md:hidden'
               />
-              {allChats?.map((i, index) => {
-                const secondUser = i?.members?.filter(
-                  (a) => a?._id !== profile?._id
-                )?.[0]
-                return (
-                  <div key={index}>
-                    <div className=''>
-                      {/* image and name and last message */}
-                      <div className=' flex items-center gap-3'>
-                        {secondUser?.profile_picture?.url ? (
-                          <Image
-                            src={secondUser?.profile_picture?.url}
-                            alt={'user'}
-                            width={1000}
-                            height={1000}
-                            className='object-cover w-9 h-9   rounded-full'
-                          />
-                        ) : (
-                          <Image
-                            src={'/images/avatar.png'}
-                            alt='logo'
-                            width={1000}
-                            height={1000}
-                            className='object-cover w-9 h-9   rounded-full '
-                          />
-                        )}
-                        {/* name and last message */}
-                        <div className='space-y-1'>
-                          <h1 className='text-xsfont-bold'>
-                            {secondUser?.firstname}
-                          </h1>
-                          {/* <h1 className='text-xs'>{i?.location}</h1> */}
-                        </div>
-                      </div>
-                      {/* time stamp */}
-                      {/* <h1 className='text-xs'>{i?.time}</h1> */}
+
+              <div>
+                <div className=''>
+                  {/* image and name and last message */}
+                  <div className=' flex items-center gap-3'>
+                    {secondUser?.profile_picture?.url ? (
+                      <Image
+                        src={secondUser?.profile_picture?.url}
+                        alt={'user'}
+                        width={1000}
+                        height={1000}
+                        className='object-cover w-9 h-9   rounded-full'
+                      />
+                    ) : (
+                      <Image
+                        src={'/images/avatar.png'}
+                        alt='logo'
+                        width={1000}
+                        height={1000}
+                        className='object-cover w-9 h-9   rounded-full '
+                      />
+                    )}
+                    {/* name and last message */}
+                    <div className='space-y-1'>
+                      <h1 className='text-xsfont-bold'>
+                        {secondUser?.firstname}
+                      </h1>
+                      {/* <h1 className='text-xs'>{i?.location}</h1> */}
                     </div>
                   </div>
-                )
-              })}
+                  {/* time stamp */}
+                  {/* <h1 className='text-xs'>{i?.time}</h1> */}
+                </div>
+              </div>
             </div>
             <SlOptionsVertical className='cursor-pointer' />
           </div>

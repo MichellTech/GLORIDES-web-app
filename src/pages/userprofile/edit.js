@@ -150,10 +150,18 @@ function Editprofile() {
                               height={1000}
                               className='object-cover   w-32  lg:w-40  h-32  lg:h-40 rounded-full'
                             />
-                          ) : (
+                          ) : userData?.profile_picture ? (
                             <Image
                               src={userData?.profile_picture?.url}
                               alt={userData?.profile_picture?.name}
+                              width={1000}
+                              height={1000}
+                              className='object-cover  w-32  lg:w-40   h-32  lg:h-40 rounded-full'
+                            />
+                          ) : (
+                            <Image
+                              src={'/images/avatar.png'}
+                              alt={'avatar'}
                               width={1000}
                               height={1000}
                               className='object-cover  w-32  lg:w-40   h-32  lg:h-40 rounded-full'
