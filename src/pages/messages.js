@@ -75,12 +75,12 @@ function messages() {
             }`}
           >
             {/* header */}
-            <div className='bg-babygrey bg-opacity-50 w-full px-6 py-4'>
-              <h1 className='text-base  lg:text-lg font-mono font-bold'>
+            <div className='bg-babypurple w-full px-6 py-4'>
+              <h1 className='text-base  tracking-widest lg:text-lg text-white font-bold'>
                 All Chats
               </h1>
             </div>
-            <div className='space-y-4 divide-y     h-[90vh] overflow-y-auto '>
+            <div className=' divide-y     h-[90vh] overflow-y-auto '>
               {allChats?.map((i, index) => {
                 const secondUser = i?.members?.filter(
                   (a) => a?._id !== profile?._id
@@ -93,8 +93,8 @@ function messages() {
                       }}
                       className={`flex ${
                         i?._id === selectedChatId
-                          ? 'bg-slate-200 bg-opacity-50'
-                          : 'hover:bg-babygrey  bg-opacity-50'
+                          ? 'bg-softpurple '
+                          : 'hover:bg-softpurple   hover:bg-opacity-50'
                       } justify-between items-center gap-1 cursor-pointer px-6 py-3`}
                     >
                       {/* image and name and last message */}

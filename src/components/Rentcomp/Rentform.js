@@ -19,6 +19,7 @@ import {
 } from '@/features/rental/filterSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
+import { FaAngleDown } from 'react-icons/fa'
 function Search() {
   const [loading, setLoading] = useState(false)
   const { bookmarked } = useSelector((store) => store.rental)
@@ -79,13 +80,13 @@ function Search() {
                 <h1>Filter</h1>
               </div>
               {/* city */}
-              <div className=' relative  w-max border flex-grow  px-4 py-2 lg:py-3 lg:px-8'>
-                <div className=' relative  w-auto'>
+              <div className=' relative w-auto  border flex-grow '>
+                <div className=' relative h-full '>
                   <Field
                     as='select'
                     type='selectOption'
                     name='state'
-                    className='text-xs pl-4 placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm bg-white w-full'
+                    className='text-xs  placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-full  text-center  flex justify-center items-center mx-auto'
                   >
                     <option value=''>All States</option>
                     {State.getStatesOfCountry('US')?.map((item, index) => {
@@ -97,16 +98,17 @@ function Search() {
                     })}
                   </Field>
                 </div>
-                <MdLocationPin className='absolute  top-1/2  left-4 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl' />
+                <MdLocationPin className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+                <FaAngleDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
               </div>
               {/* date */}
-              <div className=' w-max relative border flex-grow  px-4 py-2 lg:py-3 lg:px-8'>
+              <div className='  relative border  py-2 lg:py-3 '>
                 <Field name='date'>
                   {({ field, form }) => {
                     return (
                       <DatePicker
                         id='date'
-                        className=' text-xs placeholder:text-xs outline-none rounded-sm bg-white lg:text-sm lg:placeholder:text-sm'
+                        className=' text-xs placeholder:text-xs outline-none rounded-sm  lg:text-sm lg:placeholder:text-sm appearance-none text-center h-full  px-4  lg:px-8 flex justify-center  items-center mx-auto '
                         {...field}
                         selected={field.value}
                         dateFormat={'dd/MM/yyyy'}
@@ -117,7 +119,7 @@ function Search() {
                     )
                   }}
                 </Field>
-                <BiCalendar className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg lg:text-xl xl:text-2xl' />
+                <BiCalendar className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg lg:text-xl xl:text-2xl pointer-events-none ' />
               </div>
 
               <button
@@ -127,7 +129,6 @@ function Search() {
                 {loading ? (
                   <div className='flex items-center justify-center gap-2'>
                     <div className='spinner'></div>
-                    <h1>Searching...</h1>
                   </div>
                 ) : (
                   <h1>Search</h1>

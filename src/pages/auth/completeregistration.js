@@ -19,6 +19,7 @@ import {
 import { phone } from 'phone'
 import Link from 'next/link'
 import mainAxiosAction from '@/components/axiosAction'
+import { FaAngleDown } from 'react-icons/fa'
 
 function Completeregistration() {
   const [loading, setLoading] = useState(false)
@@ -212,21 +213,25 @@ function Completeregistration() {
                           <label htmlFor='' className='text-xs lg:text-sm'>
                             Gender
                           </label>
-                          <Field
-                            as='select'
-                            type='selectOption'
-                            name='gender'
-                            className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm  h-max w-full'
-                          >
-                            <option value=''>select option</option>
-                            {usergender?.map((item, index) => {
-                              return (
-                                <option key={index} value={item}>
-                                  {item}
-                                </option>
-                              )
-                            })}
-                          </Field>
+                          <div className='relative'>
+                            <Field
+                              as='select'
+                              type='selectOption'
+                              name='gender'
+                              className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm  h-max w-full appearance-none'
+                            >
+                              <option value=''>select option</option>
+                              {usergender?.map((item, index) => {
+                                return (
+                                  <option key={index} value={item}>
+                                    {item}
+                                  </option>
+                                )
+                              })}
+                            </Field>
+                            <FaAngleDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+                          </div>
+
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='gender' />
                           </div>
@@ -269,23 +274,27 @@ function Completeregistration() {
                         <label htmlFor='' className='text-xs lg:text-sm'>
                           State
                         </label>
-                        <Field
-                          as='select'
-                          type='selectOption'
-                          name='state'
-                          className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm  h-max w-full'
-                        >
-                          <option value=''>select State</option>
-                          {State.getStatesOfCountry('US')?.map(
-                            (item, index) => {
-                              return (
-                                <option key={index} value={item.name}>
-                                  {item.name}
-                                </option>
-                              )
-                            }
-                          )}
-                        </Field>
+                        <div className='relative'>
+                          <Field
+                            as='select'
+                            type='selectOption'
+                            name='state'
+                            className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm  h-max w-full appearance-none'
+                          >
+                            <option value=''>select State</option>
+                            {State.getStatesOfCountry('US')?.map(
+                              (item, index) => {
+                                return (
+                                  <option key={index} value={item.name}>
+                                    {item.name}
+                                  </option>
+                                )
+                              }
+                            )}
+                          </Field>
+                          <FaAngleDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+                        </div>
+
                         <div className='text-softRed text-xs mt-1 px-4'>
                           <ErrorMessage name='state' />
                         </div>
@@ -297,26 +306,30 @@ function Completeregistration() {
                           <label htmlFor='' className='text-xs lg:text-sm'>
                             City
                           </label>
-                          <Field
-                            as='select'
-                            type='selectOption'
-                            name='city'
-                            className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm  h-max w-full'
-                          >
-                            <option value=''>select City</option>
-                            {City.getCitiesOfState(
-                              'US',
-                              State.getStatesOfCountry('US')?.filter(
-                                (i) => i?.name === formik?.values?.state
-                              )?.[0]?.isoCode
-                            )?.map((item, index) => {
-                              return (
-                                <option key={index} value={item.name}>
-                                  {item.name}
-                                </option>
-                              )
-                            })}
-                          </Field>
+                          <div className='relative'>
+                            <Field
+                              as='select'
+                              type='selectOption'
+                              name='city'
+                              className=' bg-white border-babyblack border  py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm  h-max w-full appearance-none'
+                            >
+                              <option value=''>select City</option>
+                              {City.getCitiesOfState(
+                                'US',
+                                State.getStatesOfCountry('US')?.filter(
+                                  (i) => i?.name === formik?.values?.state
+                                )?.[0]?.isoCode
+                              )?.map((item, index) => {
+                                return (
+                                  <option key={index} value={item.name}>
+                                    {item.name}
+                                  </option>
+                                )
+                              })}
+                            </Field>
+                            <FaAngleDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+                          </div>
+
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='city' />
                           </div>

@@ -18,6 +18,7 @@ import {
   setAllsearchedcars,
 } from '@/features/rental/filterSlice'
 import axios from 'axios'
+import { FaAngleDown } from 'react-icons/fa'
 function Search() {
   const [loading, setLoading] = useState(false)
   const { isUsersearching } = useSelector((store) => store.rental)
@@ -85,8 +86,8 @@ function Search() {
                       name='state'
                       className={`${
                         formik.errors.state && formik.touched.state
-                          ? 'bg-softpurple border border-softRed px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-ful l '
-                          : 'bg-[#D9D9D9] px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
+                          ? 'bg-softpurple border border-softRed px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full appearance-none'
+                          : 'bg-[#D9D9D9] px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm appearance-none'
                       }`}
                     >
                       <option value=''>select State</option>
@@ -98,6 +99,7 @@ function Search() {
                         )
                       })}
                     </Field>
+
                     {/* <Field
                       type='text'
                       name='city'
@@ -110,7 +112,8 @@ function Search() {
                           : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
                       }`}
                     /> */}
-                    <MdLocationPin className='absolute  top-1/2  left-4 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl' />
+                    <MdLocationPin className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+                    <FaAngleDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
                   </div>
                   {/* date */}
 
@@ -119,17 +122,10 @@ function Search() {
                   <div
                     className={`${
                       formik.errors.date && formik.touched.date
-                        ? 'relative bg-softpurple border-softRed border  w-auto'
-                        : 'relative bg-[#D9D9D9]  w-auto'
+                        ? 'relative bg-softpurple border-softRed border flex justify-center items-center mx-auto  w-full'
+                        : 'relative bg-[#D9D9D9]  w-full flex justify-center items-center mx-auto'
                     }`}
                   >
-                    {/* className={`${
-                              formik.errors.date && formik.touched.date
-                                ? 'bg-softpurple   px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
-                                : usebg
-                                ? 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full rounded-l md:rounded-l-sm xl:rounded-l-md'
-                                : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
-                            }`} */}
                     <Field name='date'>
                       {({ field, form }) => {
                         return (
@@ -137,7 +133,7 @@ function Search() {
                             className={`${
                               formik.errors.date && formik.touched.date
                                 ? 'bg-softpurple   px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
-                                : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
+                                : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm '
                             }`}
                             id='date'
                             {...field}
@@ -150,7 +146,7 @@ function Search() {
                         )
                       }}
                     </Field>
-                    <BiCalendar className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg lg:text-xl xl:text-2xl' />
+                    <BiCalendar className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg lg:text-xl xl:text-2xl pointer-events-none ' />
                   </div>
                   <button
                     type='submit'

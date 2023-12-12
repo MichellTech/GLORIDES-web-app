@@ -25,7 +25,7 @@ function allcars() {
         <Navbar />
 
         {/* search */}
-        <div className=' w-full px-6 lg:px-10  py-3 lg:py-5  sticky    top-0 left-0 right-0 bg-white  z-30  '>
+        <div className=' w-full px-6 lg:px-10  py-3 lg:py-5  sticky    top-0 left-0 right-0 bg-white  z-10  '>
           <Rentform />
         </div>
 

@@ -109,7 +109,7 @@ export default function MessagePanel({
           }`}
         >
           {/*header  */}
-          <div className='bg-babygrey bg-opacity-50 px-6 py-3 flex justify-between items-center gap-2'>
+          <div className='bg-softpurple   px-6 py-3  flex justify-between items-center gap-2'>
             <div className='flex items-center gap-3'>
               <MdArrowBackIos
                 onClick={() => {
@@ -164,7 +164,7 @@ export default function MessagePanel({
                     key={index}
                     className='flex flex-col  w-full px-2 py-3 justify-end items-end space-y-1'
                   >
-                    <h1 className='md:text-sm text-xs   max-w-xs lg:max-w-sm bg-softpurple px-2 md:px-4  py-2 md:py-3 rounded-md'>
+                    <h1 className='md:text-sm text-xs   max-w-xs lg:max-w-sm bg-gray-200 px-2 md:px-4  py-2 md:py-3 rounded-md'>
                       {innerMessage?.message}
                     </h1>
                     <h1 className=' text-[0.6rem] md:text-xs'>
@@ -179,7 +179,7 @@ export default function MessagePanel({
                   key={index}
                   className='flex w-full flex-col space-y-1 px-2  py-3 justify-start items-start '
                 >
-                  <h1 className='text-xs md:text-sm max-w-xs lg:max-w-sm bg-babygrey px-2 md:px-4  py-2 md:py-3 rounded-md '>
+                  <h1 className='text-xs md:text-sm max-w-xs lg:max-w-sm bg-indigo-100 px-2 md:px-4  py-2 md:py-3 rounded-md '>
                     {innerMessage?.message}
                   </h1>
                   <h1 className=' text-[0.6rem] md:text-xs'>
