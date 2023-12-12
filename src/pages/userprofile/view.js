@@ -43,7 +43,7 @@ function view() {
           <div className='px-6   space-y-10  md:w-3/4  md:absolute md:top-32 md:right-0 pb-20  '>
             {/* welcom picture */}
             <div className='bg-white w-full flex justify-center items-center flex-col border px-6 py-4 sm:px-8 sm:py-6 rounded-md space-y-4 shadow-md md:flex-row md:space-y-0 md:w-full md:gap-4 lg:gap-6'>
-              <div className='  relative max-w-xs '>
+              <div className='  relative max-w-xs flex-shrink-0 '>
                 {userData?.profile_picture ? (
                   <Image
                     src={userData?.profile_picture?.url}

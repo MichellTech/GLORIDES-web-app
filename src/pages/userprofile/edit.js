@@ -141,7 +141,7 @@ function Editprofile() {
                       {/* dob and gender and image */}
                       <div className=' md:flex md:justify-between  md:items-center  md:gap-4  lg:gap-10 xl:gap-14   md:space-y-0  space-y-4 md:pb-4'>
                         {/* image */}
-                        <div className=' flex flex-col justify-center items-center mx-auto  relative w-32 lg:w-40 w-  '>
+                        <div className=' flex flex-col justify-center items-center mx-auto  relative w-32 lg:w-40 flex-shrink-0  '>
                           {userimage ? (
                             <Image
                               src={userimage}

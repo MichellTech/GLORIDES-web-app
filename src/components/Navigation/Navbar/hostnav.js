@@ -279,7 +279,7 @@ function Navbar() {
                     {/* profil */}
                     <div className='flex flex-col justify-between items-center gap-4 px-4 lg:px-6 '>
                       {/* image */}
-                      <div className='flex flex-col justify-center items-center gap-2 '>
+                      <div className='flex flex-col justify-center items-center gap-2  flex-shrink-0 '>
                         <div className='  relative '>
                           {profile?.profile_picture ? (
                             <Image
