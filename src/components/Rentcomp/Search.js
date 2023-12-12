@@ -79,12 +79,12 @@ function Search() {
               return (
                 <Form className='grid grid-cols-2 gap-4  rounded md:grid-cols-3 lg:gap-8 w-full justify-center items-center mx-auto'>
                   {/* city */}
-                  <div className=' relative  w-auto'>
+                  <div className=' relative px-2 py-2  w-auto'>
                     <Field
                       as='select'
                       type='selectOption'
                       name='state'
-                      className='bg-[#D9D9D9] px-2 text-center py-2 placeholder:text-center outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs  h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm appearance-none'
+                      className='bg-[#D9D9D9]  text-center placeholder:text-center outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs  h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm appearance-none'
                     >
                       <option value=''>select State</option>
                       {State.getStatesOfCountry('US')?.map((item, index) => {

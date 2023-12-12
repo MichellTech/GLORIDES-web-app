@@ -81,12 +81,12 @@ function Search() {
               </div>
               {/* city */}
               <div className=' relative w-auto  border flex-grow '>
-                <div className=' relative h-max '>
+                <div className=' relative h-max px-6 py-2 lg:py-3 '>
                   <Field
                     as='select'
                     type='selectOption'
                     name='state'
-                    className='text-xs  placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-max  text-center  flex justify-center placeholder:text-center items-center mx-auto py-2 lg:py-3 '
+                    className='text-xs  placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-max  text-center  flex justify-center placeholder:text-center items-center mx-auto  bg-white '
                   >
                     <option value=''>All States</option>
                     {State.getStatesOfCountry('US')?.map((item, index) => {
@@ -98,7 +98,7 @@ function Search() {
                     })}
                   </Field>
                 </div>
-                <MdLocationPin className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+                {/* <MdLocationPin className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' /> */}
                 <FaAngleDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
               </div>
               {/* date */}
