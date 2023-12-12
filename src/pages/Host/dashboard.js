@@ -239,9 +239,9 @@ function Dashboard() {
                                   </h1>
                                   <h1
                                     className={
-                                      item?.status === 'Successfull'
+                                      item?.status === 'completed'
                                         ? 'text-[0.5rem] lg:text-xs text-green-500'
-                                        : item.status === 'Canceled'
+                                        : item.status === 'canceled'
                                         ? 'text-[0.5rem] lg:text-xs text-red-600'
                                         : 'text-[0.5rem] lg:text-xs text-orange-500'
                                     }
@@ -333,9 +333,9 @@ function Dashboard() {
                                   </h1>
                                   <h1
                                     className={
-                                      item?.status === 'Successfull'
+                                      item?.status === 'completed'
                                         ? 'text-[0.5rem] lg:text-xs text-green-500'
-                                        : item?.status === 'Failed'
+                                        : item?.status === 'failed'
                                         ? 'text-[0.5rem] lg:text-xs text-red-600'
                                         : 'text-[0.5rem] lg:text-xs text-orange-500'
                                     }

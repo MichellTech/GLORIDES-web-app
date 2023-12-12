@@ -15,9 +15,11 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 function Pin() {
   const [loading, setLoading] = useState(false)
-  const [pinexist, setPinexists] = useState(false)
+  const [pinexist, setPinexist] = useState(false)
+  const [resetpin, setResetpin] = useState(false)
 
   const initialValues = {
+    password: '',
     npin: '',
     cpin: '',
   }
@@ -25,7 +27,13 @@ function Pin() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    addpin(values.npin, onSubmitProps.resetForm())
+
+    if (resetpin) {
+      changepin(values, onSubmitProps.resetForm())
+    }
+    if (!resetpin) {
+      addpin(values.npin, onSubmitProps.resetForm())
+    }
     // const payload = {
     //   email_id: values.email,
     //   password: values.password,
@@ -57,9 +65,9 @@ function Pin() {
       .then(function (response) {
         setLoading(false)
         if (response.data.message === 'No pin available') {
-          return setPinexists(false)
+          return setPinexist(false)
         }
-        setPinexists(true)
+        setPinexist(true)
         console.log(true)
       })
       .catch(function (error) {
@@ -75,8 +83,27 @@ function Pin() {
       })
       .then(function (response) {
         setLoading(false)
-        setPinexists(true)
+        setPinexist(true)
         toast.success(response?.data?.message)
+        callback()
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
+  }
+
+  const changepin = (values, callback) => {
+    mainAxiosAction
+      .post(`/account/reset-pin`, {
+        password: values.password,
+        pin: values.npin,
+      })
+      .then(function (response) {
+        setLoading(false)
+        setPinexist(true)
+        toast.success(response?.data?.message)
+        setResetpin(false)
         callback()
       })
       .catch(function (error) {
@@ -124,7 +151,26 @@ function Pin() {
                           Withdrawal Pin
                         </h1>
                       </div>
+                      {/* password for reset */}
+                      {resetpin && (
+                        <div className='space-y-3  pb-2 lg:pb-3 md:w-full'>
+                          <h1 className='text-xs text-slate-500  lg:text-sm '>
+                            Login Password
+                          </h1>
 
+                          <div>
+                            <Field
+                              type='password'
+                              name='password'
+                              placeholder='Login password'
+                              className=' border w-full py-2  px-4  text-xs placeholder:text-xs bg-opacity-30 md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm bg-white      outline-babypurple'
+                            />
+                            {/* <div className='text-softRed text-xs mt-1 px-4'>
+                            <ErrorMessage name='npin' />
+                          </div> */}
+                          </div>
+                        </div>
+                      )}
                       {/* old pin and new pin */}
                       <div className=' md:flex md:justify-between md:items-start md:gap-4  lg:gap-10 xl:gap-14  md:space-y-0  space-y-4  '>
                         {/* new  pin */}
@@ -195,12 +241,14 @@ function Pin() {
                 rental services. You can now approve all your withdrawals
                 safely. Thank you for choosing GLORIDE car rental company!{' '}
               </h1>
-              {/* <button
-                onClick={() => setCardexists(1)}
+              <button
+                onClick={() => {
+                  setResetpin(true), setPinexist(false)
+                }}
                 className='bg-babypurple px-6 py-2 rounded-md text-xs lg:text-sm text-white transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '
               >
-                Add Payment Card
-              </button> */}
+                Reset pin
+              </button>
             </div>
           )}
         </div>

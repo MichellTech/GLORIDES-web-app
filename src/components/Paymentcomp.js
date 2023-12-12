@@ -35,7 +35,7 @@ function Paymentcomp({ amount, gettransactions }) {
     }
     withdrawmoney(payload)
   }
-  console.log(gettransactions)
+
   const validationSchema = Yup.object().shape({
     account: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
@@ -71,7 +71,7 @@ function Paymentcomp({ amount, gettransactions }) {
         console.log(response?.data)
         setLoading(false)
         setConfirm(true)
-        setTransid(response?.data?.details?.payment_transactions?._id)
+        setTransid(response?.data?.details?._id)
       })
       .catch(function (error) {
         setLoading(false)
@@ -83,33 +83,31 @@ function Paymentcomp({ amount, gettransactions }) {
     getaccount()
   }, [])
 
-  console.log(transid)
   const handleconfirmation = () => {
     setLoading(true)
     if (!userpassword) {
       setLoading(false)
       return toast.warning('please input password')
     }
-
-    // mainAxiosAction
-    //   .post(`/account/confirm-withdraw`, {
-    //     transaction_id: transid,
-    //     pin: userpassword,
-    //   })
-    //   .then(function (response) {
-    //     console.log(response?.data)
-    //     setLoading(false)
-    //     setConfirm(false)
-    //     toast.success(response?.data?.message)
-    //     gettransactions()
-    //     dispatch(cancelwithdraw())
-    //     setUserpassword('')
-    //     setTransid('')
-    //   })
-    //   .catch(function (error) {
-    //     setLoading(false)
-    //     console.log(error)
-    //   })
+    mainAxiosAction
+      .post(`/account/confirm-withdraw`, {
+        transaction_id: transid,
+        pin: userpassword,
+      })
+      .then(function (response) {
+        console.log(response?.data)
+        setLoading(false)
+        setConfirm(false)
+        toast.success(response?.data?.message)
+        gettransactions()
+        dispatch(cancelwithdraw())
+        setUserpassword('')
+        setTransid('')
+      })
+      .catch(function (error) {
+        setLoading(false)
+        console.log(error)
+      })
   }
   return (
     <div className='bg-white py-4 lg:py-8 px-6 lg:px-8 flex justify-center flex-col items-center  rounded-md shadow-md w-full mx-6 sm:max-w-lg md:max-w-lg lg:max-w-xl xl:max-w-2xl overflow-y-auto'>

@@ -409,30 +409,44 @@ function Viewcar() {
                 {/* content */}
                 <div className=' space-y-5 lg:space-y-6'>
                   {/* photo and name */}
-                  <div className='flex items-center gap-2 lg:gap-4'>
-                    {/* photo */}
-                    <div className='relative'>
-                      <Image
-                        src={'/images/avatar.png'}
-                        alt='logo'
-                        width={1000}
-                        height={1000}
-                        className='object-cover w-12 lg:w-16   rounded-full border-2 '
-                      />
-                    </div>
-                    {/* name and date */}
-                    <div className='flex flex-col space-y-1'>
-                      <h1 className='text-sm font-bold text-babyblack'>
-                        {cardata?.car_owner?.firstname}
-                      </h1>
-                      <div className='flex items-center gap-2 text-xs text-yellow-600'>
-                        <AiFillStar />
-                        <AiFillStar />
-                        <AiFillStar />
-                        <AiFillStar />
-                        <AiFillStar />
-                        <h1 className='text-babyblack '>(5.0)</h1>
+                  <div className='flex justify-between items-center gap-3'>
+                    <div className='flex items-center gap-2 lg:gap-4'>
+                      {/* photo */}
+                      <div className='relative'>
+                        <Image
+                          src={'/images/avatar.png'}
+                          alt='logo'
+                          width={1000}
+                          height={1000}
+                          className='object-cover w-12 lg:w-16   rounded-full border-2 '
+                        />
                       </div>
+                      {/* name and date */}
+                      <div className='flex flex-col space-y-1'>
+                        <h1 className='text-sm font-bold text-babyblack'>
+                          {cardata?.car_owner?.firstname}
+                        </h1>
+                        <div className='flex items-center gap-2 text-xs text-yellow-600'>
+                          <AiFillStar />
+                          <AiFillStar />
+                          <AiFillStar />
+                          <AiFillStar />
+                          <AiFillStar />
+                          <h1 className='text-babyblack '>(5.0)</h1>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      onClick={() => {
+                        router.push({
+                          pathname: '/messages',
+                          query: { ownerid: cardata?.car_owner?._id },
+                        })
+                      }}
+                      className='px-4 py-2 cursor-pointer bg-babypurple text-white shadow hover:shadow-lg text-sm md:text-base md:px-6 xl:px-8'
+                    >
+                      {' '}
+                      Message
                     </div>
                   </div>
                   <div className='space-y-3 lg:space-y-4'>

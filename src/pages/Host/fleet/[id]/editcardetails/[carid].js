@@ -1,27 +1,21 @@
-import React, { useMemo, useState } from 'react'
-import { useRouter } from 'next/router'
+import React, { useState } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
 import Footer from '@/components/Navigation/Footer'
-import { ImSpinner } from 'react-icons/im'
 import Link from 'next/link'
 import { MdKeyboardBackspace } from 'react-icons/md'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import { RiDeleteBack2Fill } from 'react-icons/ri'
 import { LuImagePlus } from 'react-icons/lu'
-import Image from 'next/image'
-import { cars } from '../../../../../utilis/Cardata'
-function Editcardetails() {
-  const router = useRouter()
-
-  const carId = router.query.id
-
-  // const singlecar = useMemo(
-  //   () => cars.filter((item) => item.id === Number(carId))?.[0],
-  //   [carId]
-  // )
+import { toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { State, City } from 'country-state-city'
+import mainAxiosAction from '@/components/axiosAction'
+import { useRouter } from 'next/router'
+function Enlistacar() {
   const [loading, setLoading] = useState(false)
-  const [cardoors, setCardoors] = useState(['Two', 'Four', 'Six'])
+  const router = useRouter()
+  const carId = router.query.id
   const fueltype = [
     { id: 1, value: 'PMS' },
     { id: 2, value: 'Electric' },
@@ -33,15 +27,14 @@ function Editcardetails() {
     { id: 2, value: '4' },
   ]
   const optiontype = [
-    { id: 1, value: 'Available' },
-    { id: 2, value: 'Not Available' },
+    { id: 1, value: 'true' },
+    { id: 2, value: 'false' },
   ]
   const geartype = [
     { id: 1, value: 'Automatic' },
     { id: 2, value: 'Manual' },
   ]
-  const [cargear, setCargear] = useState(['Automatic', 'Manual'])
-  const [caroption, setCaroption] = useState(['Yes', 'No'])
+
   const [userimage, setUserimage] = useState([{ id: 1, file: null }])
   const [userimage2, setUserimage2] = useState([{ id: 1, file: null }])
   const initialValues = {
@@ -72,20 +65,10 @@ function Editcardetails() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
-    // const payload = {
-    //   email_id: values.email,
-    //   password: values.password,
-    // }
-    // signinapi(payload)
-
-    // reset
-    // onSubmitProps.resetForm()
-    // router.push({
-    //   pathname: '/Auth/emailverification',
-    //   //  query: response.data.data.user,
-    // })
+    console.log(values)
+    enlistusercar(values, onSubmitProps.resetForm)
   }
-  // validation
+
   const validationSchema = Yup.object().shape({
     carname: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
@@ -123,9 +106,6 @@ function Editcardetails() {
     state: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No state provided'),
-    country: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No country provided'),
     message: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No car description provided'),
@@ -154,28 +134,83 @@ function Editcardetails() {
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No tank filling cost provided'),
   })
-  // console.log(userimage)
+
+  const enlistusercar = (values, callback) => {
+    if (userimage?.length < 6) {
+      toast.error('Please upload atleast six photos of your vehicle')
+      setLoading(false)
+    } else if (userimage2.length < 1) {
+      toast.error(
+        'Please upload atleast one supporting documentation for your vehicle'
+      )
+      setLoading(false)
+    } else {
+      const formData = new FormData()
+      for (const image of userimage) {
+        formData.append('images', image?.file)
+      }
+      for (const image of userimage2) {
+        formData.append('documents', image?.file)
+      }
+      formData?.append('car_name', values.carname)
+      formData?.append('car_model', values.carmodel)
+      formData?.append('plate_number', values.plateno)
+      formData?.append('pickup_location', values.pickup)
+      formData?.append('dropoff_location', values.dropoff)
+      formData?.append('rent_cost', values.cost)
+      formData?.append('tank_filling', values.tank)
+      formData?.append('state', values.state)
+      formData?.append('city', values.city)
+      formData?.append('car_doors', values.doors)
+      formData?.append('seats_number', values.seats)
+      formData?.append('miles', values.miles)
+      formData?.append('car_description', values.message)
+      formData?.append('fuel_type', values.fuel)
+      formData?.append('gear_type', values.gear)
+      formData?.append('outside_location_cost', values.outside)
+      formData?.append(
+        'features',
+        JSON.stringify([
+          { heater: values.heat },
+          { gps: values.gps },
+          { child: values.child },
+          { bluetooth: values.bluetooth },
+          { camera: values.camera },
+        ])
+      )
+      mainAxiosAction
+        .post(`/cars/list`, formData)
+        .then(function (response) {
+          setLoading(false)
+          setUserimage(null)
+          setUserimage2(null)
+          router.push({
+            pathname: '/host/fleet',
+          })
+          toast.success(response?.data?.message)
+          callback()
+        })
+        .catch(function (error) {
+          toast.error(error?.response?.data?.message)
+          setLoading(false)
+          console.log(error)
+        })
+    }
+  }
   return (
     <>
       <Navbar />
-
       <section className='bg-[#F5F5F5] bg-opacity-50   w-full pt-10 xl:pt-16 '>
         <div className='max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-6 lg:space-y-10   pb-10  '>
           {/* back */}
-          <button
-            onClick={() => {
-              router.push({
-                pathname: `/host/fleet/${carId}`,
-              })
-            }}
-          >
+          <Link href='/host/fleet'>
             <div className='flex items-center gap-2 cursor-pointer'>
               <MdKeyboardBackspace className='lg:text-2xl' />
               <h1 className='text-sm  lg:text-base font-bold'>
-                Back to Car Details
+                Back to car details
               </h1>
             </div>
-          </button>
+          </Link>
           {/* form */}
           <div>
             <Formik
@@ -194,7 +229,7 @@ function Editcardetails() {
                       {/* group */}
                       <div className='w-full pt-2 space-y-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-4 sm:px-6 md:px-8  sm:space-y-0  sm:gap-8 md:gap-10'>
                         {/* carname */}
-                        <div className='space-y-2 text-slate-500 w-full'>
+                        <div className='space-y-2 w-full'>
                           <label
                             htmlFor=''
                             className='text-xs lg:text-sm text-slate-500'
@@ -205,7 +240,7 @@ function Editcardetails() {
                             type='text'
                             name='carname'
                             placeholder='e.g Toyota Corolla'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white  border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='carname' />
@@ -223,7 +258,7 @@ function Editcardetails() {
                             type='text'
                             name='carmodel'
                             placeholder='e.g XLE'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='carmodel' />
@@ -241,7 +276,7 @@ function Editcardetails() {
                             type='text'
                             name='plateno'
                             placeholder='P3342TX'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='plateno' />
@@ -260,7 +295,7 @@ function Editcardetails() {
                             type='text'
                             name='miles'
                             placeholder='2400'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='miles' />
@@ -279,7 +314,7 @@ function Editcardetails() {
                             type='number'
                             name='seats'
                             placeholder='6'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='seats' />
@@ -298,7 +333,7 @@ function Editcardetails() {
                             type='text'
                             name='pickup'
                             placeholder=' e.g Airport'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='pickup' />
@@ -316,28 +351,10 @@ function Editcardetails() {
                             type='text'
                             name='dropoff'
                             placeholder='e.g. Airport'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='dropoff' />
-                          </div>
-                        </div>
-                        {/* city */}
-                        <div className='space-y-2 w-full'>
-                          <label
-                            htmlFor=''
-                            className='text-xs lg:text-sm text-slate-500'
-                          >
-                            City
-                          </label>
-                          <Field
-                            type='text'
-                            name='city'
-                            placeholder='Houston'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
-                          />
-                          <div className='text-softRed text-xs mt-1 px-4'>
-                            <ErrorMessage name='city' />
                           </div>
                         </div>
                         {/* state */}
@@ -348,16 +365,62 @@ function Editcardetails() {
                           >
                             State
                           </label>
+
                           <Field
-                            type='text'
+                            as='select'
+                            type='selectOption'
                             name='state'
-                            placeholder='Texas'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
-                          />
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                          >
+                            <option value=''>select State</option>
+                            {State?.getStatesOfCountry('US')?.map(
+                              (item, index) => {
+                                return (
+                                  <option key={index} value={item?.name}>
+                                    {item?.name}
+                                  </option>
+                                )
+                              }
+                            )}
+                          </Field>
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='state' />
                           </div>
                         </div>
+                        {/* city */}
+                        <div className='space-y-2 w-full'>
+                          <label
+                            htmlFor=''
+                            className='text-xs lg:text-sm text-slate-500'
+                          >
+                            City
+                          </label>
+
+                          <Field
+                            as='select'
+                            type='selectOption'
+                            name='city'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                          >
+                            <option value=''>select City</option>
+                            {City?.getCitiesOfState(
+                              'US',
+                              State?.getStatesOfCountry('US')?.filter(
+                                (i) => i?.name === formik?.values?.state
+                              )?.[0]?.isoCode
+                            )?.map((item, index) => {
+                              return (
+                                <option key={index} value={item?.name}>
+                                  {item?.name}
+                                </option>
+                              )
+                            })}
+                          </Field>
+                          <div className='text-softRed text-xs mt-1 px-4'>
+                            <ErrorMessage name='city' />
+                          </div>
+                        </div>
+
                         {/*country */}
                         {/* <div className='space-y-2 w-full '>
                           <label htmlFor='' className='text-xs lg:text-sm'>
@@ -390,7 +453,7 @@ function Editcardetails() {
                               cols={20}
                               rows={10}
                               placeholder='Input a summarized information about this car. This message will aid the client make a good decision about this vehicle'
-                              className=' bg-white border-babyblack border w-full py-3 px-4 outline-babypurple  text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm '
+                              className=' bg-white  border w-full py-3 px-4 outline-babypurple  text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm '
                             />
                           </div>
                           <div className='text-softRed text-xs mt-1 px-4'>
@@ -421,7 +484,7 @@ function Editcardetails() {
                           <div className='flex items-center  gap-4 p-4 text-xs lg:text-sm border'>
                             <Field name='fuel' className=' '>
                               {({ field }) => {
-                                return fueltype.map((item) => {
+                                return fueltype?.map((item) => {
                                   return (
                                     <div key={item.id}>
                                       <div className='space-x-4'>
@@ -451,7 +514,7 @@ function Editcardetails() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='doors'
-                            className='text-sm lg:text-base  text-slate-500'
+                            className='text-sm lg:text-base text-slate-500'
                           >
                             Car Doors{' '}
                           </label>
@@ -488,7 +551,7 @@ function Editcardetails() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='gear'
-                            className='text-sm lg:text-base text-slate-500 '
+                            className='text-sm lg:text-base  text-slate-500'
                           >
                             Gear Type{' '}
                           </label>
@@ -562,7 +625,7 @@ function Editcardetails() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='bluetooth'
-                            className='text-sm lg:text-base text-slate-500 '
+                            className='text-sm lg:text-base text-slate-500'
                           >
                             Bluetooth Availability{' '}
                           </label>
@@ -599,7 +662,7 @@ function Editcardetails() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='gps'
-                            className='text-sm lg:text-base text-slate-500 '
+                            className='text-sm lg:text-base text-slate-500'
                           >
                             GPS Availability{' '}
                           </label>
@@ -673,7 +736,7 @@ function Editcardetails() {
                         <div className='flex flex-col space-y-3  w-max'>
                           <label
                             htmlFor='child'
-                            className='text-sm lg:text-base  text-slate-500'
+                            className='text-sm lg:text-base text-slate-500'
                           >
                             Child Seat Availability{' '}
                           </label>
@@ -722,7 +785,7 @@ function Editcardetails() {
                       {/* photos */}
                       <div className='flex justify-between items-start gap-4 pt-4 px-4 sm:px-6 md:px-8 '>
                         <div className='flex flex-wrap  gap-6  lg:gap-5  items-center'>
-                          {userimage.map((item, index) => {
+                          {userimage?.map((item, index) => {
                             return (
                               <div key={index} className='col-span-full'>
                                 {!item.file ? (
@@ -744,7 +807,7 @@ function Editcardetails() {
                                             // value={item?.file?.name}
                                             onChange={(e) => {
                                               setUserimage((previous) =>
-                                                previous.map((i) => {
+                                                previous?.map((i) => {
                                                   if (i.id === item.id) {
                                                     i.file = e.target.files[0]
                                                     // console.log(i.id, 'olamide')
@@ -769,7 +832,7 @@ function Editcardetails() {
                                       <div
                                         onClick={() =>
                                           setUserimage((previous) =>
-                                            previous.filter((i) => {
+                                            previous?.filter((i) => {
                                               return i.id !== item.id
                                             })
                                           )
@@ -783,7 +846,7 @@ function Editcardetails() {
                                 ) : (
                                   <div className='relative'>
                                     <img
-                                      src={URL.createObjectURL(item?.file)}
+                                      src={URL?.createObjectURL(item?.file)}
                                       className='w-[13rem] h-[12.4rem]  rounded-md object-center object-cover'
                                       alt='photo'
                                     />
@@ -792,7 +855,7 @@ function Editcardetails() {
                                       <div
                                         onClick={() =>
                                           setUserimage((previous) =>
-                                            previous.filter((i) => {
+                                            previous?.filter((i) => {
                                               return i.id !== item.id
                                             })
                                           )
@@ -859,7 +922,7 @@ function Editcardetails() {
                         {/* photos */}
                         <div className='flex justify-between items-start gap-4 '>
                           <div className='flex flex-col gap-2 lg:gap-4 items-center'>
-                            {userimage2.map((item, index) => {
+                            {userimage2?.map((item, index) => {
                               return (
                                 <div
                                   key={index}
@@ -876,7 +939,7 @@ function Editcardetails() {
                                       // value={item?.file?.name}
                                       onChange={(e) => {
                                         setUserimage2((previous) =>
-                                          previous.map((i) => {
+                                          previous?.map((i) => {
                                             if (i.id === item.id) {
                                               i.file = e.target.files[0]
                                               return i
@@ -954,7 +1017,7 @@ function Editcardetails() {
                             type='number'
                             name='cost'
                             placeholder='6'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white    border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='cost' />
@@ -972,7 +1035,7 @@ function Editcardetails() {
                             type='number'
                             name='tank'
                             placeholder='10'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='tank' />
@@ -990,7 +1053,7 @@ function Editcardetails() {
                             type='number'
                             name='outside'
                             placeholder='30'
-                            className=' bg-white  border-babyblack border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
+                            className=' bg-white   border w-full py-3  px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm lg:text-base lg:placeholder:text-base rounded-sm'
                           />
                           <div className='text-softRed text-xs mt-1 px-4'>
                             <ErrorMessage name='outside' />
@@ -1006,23 +1069,19 @@ function Editcardetails() {
                       >
                         {loading ? (
                           <div className='flex justify-center gap-2 items-center'>
-                            <ImSpinner className='animate-spin' />
+                            <div className='spinner'></div>
                             Uploading...
                           </div>
                         ) : (
-                          'Edit'
+                          'Enlist'
                         )}
                       </button>
-                      <div
-                        onClick={() => {
-                          router.push({
-                            pathname: `/host/fleet/${carId}`,
-                          })
-                        }}
-                        className='border  border-babyblack text-babyblack px-4 py-2 sm:py-3   rounded-md w-full  text-sm lg:text-base xl:text-lg text-center transition ease-in-out delay-150  hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white cursor-pointer'
+                      <Link
+                        href='/host/fleet'
+                        className='border  border-babyblack text-babyblack px-4 py-2 sm:py-3   rounded-md w-full  text-sm lg:text-base xl:text-lg text-center transition ease-in-out delay-150  hover:scale-105 hover:bg-indigo-500 duration-500 hover:border-none hover:text-white '
                       >
                         Cancel
-                      </div>
+                      </Link>
                     </div>
                   </Form>
                 )
@@ -1036,4 +1095,4 @@ function Editcardetails() {
   )
 }
 
-export default Editcardetails
+export default Enlistacar

@@ -25,10 +25,6 @@ function index() {
   const [carhistory, setCarhistory] = useState(null)
   const [caramount, setCaramount] = useState(0)
   const carId = router.query.id
-  const singlecar = useMemo(
-    () => cars.filter((item) => item.id === Number(carId))?.[0],
-    [carId]
-  )
 
   const getsinglecar = () => {
     mainAxiosAction
@@ -119,19 +115,28 @@ function index() {
                 <button
                   onClick={() => {
                     router.push({
-                      pathname: `/host/fleet/${singlecar.id}/editcardetails/${singlecar.id}`,
+                      pathname: `/host/fleet/${carId}/editcardetails/${carId}`,
                     })
                   }}
                   className='px-2 sm:px-4 lg:px-6  py-2 lg:py-3  rounded-md border border-indigo-500 text-xs md:text-sm xl:text-base  hover:bg-indigo-500 hover:text-white hover:duration-500  shadow-md hover:shadow-xl'
                 >
                   Edit Car Details
                 </button>
-                <button
-                  onClick={() => setIsDelisting(true)}
-                  className='px-2 sm:px-4 lg:px-6  py-2 lg:py-3 rounded-md border border-babypurple text-xs md:text-sm xl:text-base hover:bg-babypurple hover:text-white hover:duration-500  shadow-md hover:shadow-xl'
-                >
-                  Delist Vehicle
-                </button>
+                {cardata?.status === 'delisted' ? (
+                  <button
+                    onClick={() => setIsDelisting(true)}
+                    className='px-2 sm:px-4 lg:px-6  py-2 lg:py-3 rounded-md border border-green-500 text-xs md:text-sm xl:text-base hover:bg-green-500 hover:text-white hover:duration-500  shadow-md hover:shadow-xl'
+                  >
+                    Renlist Vehicle
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => setIsDelisting(true)}
+                    className='px-2 sm:px-4 lg:px-6  py-2 lg:py-3 rounded-md border border-babypurple text-xs md:text-sm xl:text-base hover:bg-babypurple hover:text-white hover:duration-500  shadow-md hover:shadow-xl'
+                  >
+                    Delist Vehicle
+                  </button>
+                )}
               </div>
             </div>
             {/* stat and control */}

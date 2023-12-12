@@ -34,13 +34,18 @@ function success() {
           <h1 className='text-sm md:text-base '>
             reservation code : <span>{successinfo?.booked_by?._id}</span>
           </h1>
-          <Link
-            href='/messages'
-            className='px-4 py-2 bg-babypurple text-white shadow hover:shadow-lg text-sm md:text-base md:px-6 xl:px-8'
+          <div
+            onClick={() => {
+              router.push({
+                pathname: '/messages',
+                query: { ownerid: successinfo?.car_owner?._id },
+              })
+            }}
+            className='px-4 py-2 cursor-pointer bg-babypurple text-white shadow hover:shadow-lg text-sm md:text-base md:px-6 xl:px-8'
           >
             {' '}
             Message Owner
-          </Link>
+          </div>
         </div>
         {/* booking details */}
         <div className='space-y-6 flex flex-col justify-center items-center w-full'>
@@ -66,18 +71,25 @@ function success() {
                 {/* two */}
                 <div className='flex items-center gap-1'>
                   <LuFuel className='text-base' />
-                  <h1 className='text-xs text-babyblack'>Petrol</h1>
+                  <h1 className='text-xs text-babyblack'>
+                    {successinfo?.car_booked?.fuel_type}
+                  </h1>
                 </div>
                 {/* three */}
                 <div className='flex justify-center items-center gap-1'>
                   <GiGearStickPattern className='text-base' />
-                  <h1 className='text-xs text-babyblack'>Manual</h1>
+                  <h1 className='text-xs text-babyblack'>
+                    {successinfo?.car_booked?.gear_type}
+                  </h1>
                 </div>
 
                 {/* six */}
                 <div className='flex items-center gap-1 justify-end '>
                   <MdOutlineAirlineSeatReclineExtra className='text-base' />
-                  <h1 className='text-xs text-babyblack'> 20 Seats</h1>
+                  <h1 className='text-xs text-babyblack'>
+                    {' '}
+                    {successinfo?.car_booked?.seats_number} Seats
+                  </h1>
                 </div>
               </div>
             </div>
