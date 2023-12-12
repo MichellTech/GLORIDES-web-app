@@ -16,12 +16,9 @@ function messages() {
   const [allChats, setAllChats] = useState([])
   const router = useRouter()
   const { ownerid } = router.query
-  console.log(Userdata)
   const handlechat = (id) => {
     setOpenchat(true)
   }
-  // 65756daa9174543a7435e95b
-  // getallchat
 
   const profile =
     localStorage?.getItem('User_Profile') === null ||
@@ -67,16 +64,23 @@ function messages() {
   return (
     <>
       <Navbar />
-      <section className=''>
+      <section className=' '>
         <div className='md:flex md:items-start relative '>
           {/*chat history display */}
-          <div className='md:max-w-sm w-full md:border-r '>
-            <div className='bg-slate-400 bg-opacity-50 w-full px-6 py-4'>
-              <h1 className='text-base lg:text-lg font-mono font-bold'>
+          <div
+            className={`${
+              openchat
+                ? 'md:max-w-[17rem] lg:max-w-sm hidden md:block w-full md:border-r md:border-babygrey border-t '
+                : 'md:max-w-[17rem] lg:max-w-sm  w-full md:border-r md:border-babygrey border-t '
+            }`}
+          >
+            {/* header */}
+            <div className='bg-babygrey bg-opacity-50 w-full px-6 py-4'>
+              <h1 className='text-base  lg:text-lg font-mono font-bold'>
                 All Chats
               </h1>
             </div>
-            <div className='space-y-4 divide-y   px-6 py-6 h-[90vh] overflow-y-auto '>
+            <div className='space-y-4 divide-y     h-[90vh] overflow-y-auto '>
               {allChats?.map((i, index) => {
                 const secondUser = i?.members?.filter(
                   (a) => a?._id !== profile?._id
@@ -84,12 +88,14 @@ function messages() {
                 return (
                   <div key={index}>
                     <div
-                      onClick={() => setSelectedChatId(i?._id)}
-                      className={`pt-4 flex ${
+                      onClick={() => {
+                        setSelectedChatId(i?._id), setOpenchat(true)
+                      }}
+                      className={`flex ${
                         i?._id === selectedChatId
-                          ? 'bg-gray-200'
-                          : 'hover:bg-blue-100'
-                      } justify-between items-center gap-1 cursor-pointer`}
+                          ? 'bg-slate-200 bg-opacity-50'
+                          : 'hover:bg-babygrey  bg-opacity-50'
+                      } justify-between items-center gap-1 cursor-pointer px-6 py-3`}
                     >
                       {/* image and name and last message */}
                       <div className=' flex items-center gap-3'>
@@ -113,7 +119,7 @@ function messages() {
                         {/* name and last message */}
                         <div className='space-y-1'>
                           <h1 className='text-sm font-bold'>
-                            {secondUser?.firstname} hello
+                            {secondUser?.firstname}
                           </h1>
                           {/* <h1 className='text-xs'>{i?.location}</h1> */}
                         </div>
@@ -130,7 +136,9 @@ function messages() {
           <MessagePanel
             openchat={openchat}
             setOpenchat={setOpenchat}
+            setSelectedChatId={setSelectedChatId}
             selectedChatID={selectedChatId}
+            allChats={allChats}
           />
         </div>
       </section>
