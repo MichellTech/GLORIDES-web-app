@@ -24,6 +24,7 @@ import axios from 'axios'
 
 function index() {
   const [loading, setLoading] = useState(false)
+
   const { allsearchedcars, bookmarked } = useSelector((store) => store.rental)
   const router = useRouter()
   const dispatch = useDispatch()

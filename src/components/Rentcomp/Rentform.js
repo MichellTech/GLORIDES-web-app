@@ -20,7 +20,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { FaAngleDown } from 'react-icons/fa'
-function Search() {
+function Search({ setCarloader }) {
   const [loading, setLoading] = useState(false)
   const { bookmarked } = useSelector((store) => store.rental)
   const dispatch = useDispatch()
@@ -32,7 +32,7 @@ function Search() {
     onSubmitProps.setSubmitting(false)
 
     setLoading(true)
-    getsearchedcar(values, onSubmitProps.resetForm)
+    getsearchedcar(values)
     // console.log(values)
   }
   // validation
@@ -43,7 +43,8 @@ function Search() {
     date: Yup.date().required('Required'),
   })
 
-  const getsearchedcar = (values, callback) => {
+  const getsearchedcar = (values) => {
+    setCarloader(true)
     axios
       .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/getAllCarsByState`, {
         state: values.state,
@@ -51,12 +52,13 @@ function Search() {
       .then(function (response) {
         dispatch(unsearchCar())
         setLoading(false)
+        setCarloader(false)
         dispatch(setAllsearchedcars(response?.data?.data))
         console.log(response?.data?.data)
-        callback()
       })
       .catch(function (error) {
         setLoading(false)
+        setCarloader(true)
         console.log(error)
       })
   }
@@ -111,7 +113,7 @@ function Search() {
                         className=' text-xs placeholder:text-xs outline-none rounded-sm  lg:text-sm lg:placeholder:text-sm appearance-none text-center h-full  px-4  lg:px-8 flex justify-center  items-center mx-auto '
                         {...field}
                         selected={field.value}
-                        dateFormat={'dd/MM/yyyy'}
+                        dateFormat={'MM/dd/yyyy'}
                         onChange={(date) =>
                           form.setFieldValue(field.name, date)
                         }

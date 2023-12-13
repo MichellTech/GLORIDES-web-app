@@ -134,7 +134,7 @@ function Search() {
                             id='date'
                             {...field}
                             selected={field.value}
-                            dateFormat={'dd/MM/yyyy'}
+                            dateFormat={'MM/dd/yyyy'}
                             onChange={(date) =>
                               form.setFieldValue(field.name, date)
                             }

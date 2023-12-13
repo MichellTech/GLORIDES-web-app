@@ -13,6 +13,7 @@ import { BsBookmark } from 'react-icons/bs'
 
 function allcars() {
   const { isFiltering, bookmarked } = useSelector((store) => store.rental)
+  const [carloader, setCarloader] = useState(false)
   const dispatch = useDispatch()
 
   return (
@@ -26,7 +27,7 @@ function allcars() {
 
         {/* search */}
         <div className=' w-full px-6 lg:px-10  py-3 lg:py-5  sticky    top-0 left-0 right-0 bg-white  z-10  '>
-          <Rentform />
+          <Rentform setCarloader={setCarloader} />
         </div>
 
         {/* body */}
@@ -34,7 +35,7 @@ function allcars() {
         <div className='  px-6 md:px-8  lg:px-10  pt-10 pb-28 '>
           {/* all cars */}
           <div className='flex justify-center items-center w-full'>
-            <Allcars />
+            <Allcars carloader={carloader} />
           </div>
         </div>
 
