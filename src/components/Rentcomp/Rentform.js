@@ -27,6 +27,7 @@ function Search({ setCarloader }) {
   const initialValues = {
     state: '',
     date: new Date(),
+    city: '',
   }
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
@@ -72,18 +73,45 @@ function Search({ setCarloader }) {
       >
         {(formik) => {
           return (
-            <Form className='flex flex-wrap gap-4'>
+            <Form className='grid grid-cols-2 gap-4  rounded md:grid-cols-3  w-full justify-center items-center mx-auto lg:grid-cols-4 xl:grid-cols-6  '>
               {/* filter */}
               <div
                 onClick={() => dispatch(openFilter())}
-                className='xl:flex lg:items-center gap-3 border lg:py-3 lg:px-8 hidden  cursor-pointer bg-[#F5F5F5]'
+                className='xl:flex lg:items-center gap-3  md:h-14  border lg:py-3 lg:px-6 hidden  cursor-pointer bg-[#F5F5F5]  '
               >
                 <LuFilter />
                 <h1>Filter</h1>
               </div>
               {/* city */}
-              <div className=' relative w-auto  border flex-grow '>
-                <div className=' relative h-max px-6 py-2 lg:py-3 '>
+              <div className=' relative w-auto  border py-2 flex justify-center items-center    sm:h-12 md:h-14 '>
+                <div className=' relative   '>
+                  <Field
+                    as='select'
+                    type='selectOption'
+                    name='city'
+                    className='text-xs  placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-max  text-center  flex justify-center placeholder:text-center items-center mx-auto  bg-white '
+                  >
+                    <option value=''>select City</option>
+                    {City.getCitiesOfState(
+                      'US',
+                      State.getStatesOfCountry('US')?.filter(
+                        (i) => i?.name === formik?.values?.state
+                      )?.[0]?.isoCode
+                    )?.map((item, index) => {
+                      return (
+                        <option key={index} value={item.name}>
+                          {item.name}
+                        </option>
+                      )
+                    })}
+                  </Field>
+                </div>
+                {/* <MdLocationPin className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' /> */}
+                <FaAngleDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+              </div>
+              {/* state */}
+              <div className=' relative w-auto  border py-2  flex justify-center items-center     sm:h-12 md:h-14'>
+                <div className=' relative '>
                   <Field
                     as='select'
                     type='selectOption'
@@ -104,13 +132,13 @@ function Search({ setCarloader }) {
                 <FaAngleDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
               </div>
               {/* date */}
-              <div className='  relative border  py-2 lg:py-3 '>
+              <div className='  relative border flex justify-center items-center  w-full  py-2 sm:h-12 md:h-14'>
                 <Field name='date'>
                   {({ field, form }) => {
                     return (
                       <DatePicker
                         id='date'
-                        className=' text-xs placeholder:text-xs outline-none rounded-sm  lg:text-sm lg:placeholder:text-sm appearance-none text-center h-full  px-4  lg:px-8 flex justify-center  items-center mx-auto '
+                        className=' text-xs placeholder:text-xs outline-none rounded-sm  lg:text-sm lg:placeholder:text-sm appearance-none text-center h-full  px-4   flex justify-center items-center  mx-auto '
                         {...field}
                         selected={field.value}
                         dateFormat={'MM/dd/yyyy'}
@@ -126,7 +154,7 @@ function Search({ setCarloader }) {
 
               <button
                 type='submit'
-                className='bg-babypurple w-max px-6 py-2 lg:py-3 lg:px-20 flex-grow text-white rounded-sm  shadow-lg'
+                className='bg-babypurple shadow-lg w-full  py-2   sm:h-12 md:h-14  rounded lg:rounded-sm xl:rounded-md h-10 md:col-span-3 lg:col-span-1  xl:col-span-1 text-white'
               >
                 {loading ? (
                   <div className='flex items-center justify-center gap-2'>

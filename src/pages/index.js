@@ -193,7 +193,7 @@ function index() {
         </div>
       </section>
       {/* explore our garage */}
-      <section className='section-center space-y-10 md:space-y-16'>
+      <section className='my-16 xl:my-24 mx-auto font-sans md:max-w-4xl lg:max-w-5xl xl:max-w-7xl  px-6 md:px-6  lg:px-8; space-y-10 md:space-y-16'>
         {/* header */}
         <div className='flex justify-center items-center mx-auto'>
           <div className='  space-y-2 md:space-y-3 xl:space-y-4'>
@@ -315,6 +315,12 @@ function index() {
             })}
           </div>
         )}
+        <Link
+          href='/rentacar'
+          className='mx-auto w-max text-babyblack  flex justify-center items-center px-6 md:px-10 lg:px-12 py-3 lg:py-3 hover:text-white border hover:bg-babypurple hover:border-0   rounded-md shadow-md cursor-pointer text-xs sm:text-sm font-bold md:text-sm lg:text-base tracking-wide hover:scale-110 duration-300 '
+        >
+          View All
+        </Link>
       </section>
       {/* partner with us */}
       <section className='section-center space-y-10 md:space-y-16'>

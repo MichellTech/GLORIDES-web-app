@@ -27,6 +27,7 @@ function Search() {
 
   const initialValues = {
     state: 'Texas',
+    city: '',
     date: new Date(),
   }
 
@@ -38,6 +39,9 @@ function Search() {
   // validation
   const validationSchema = Yup.object().shape({
     state: Yup.string()
+      .trim('The contact name cannot include leading and trailing spaces')
+      .required('No value provided'),
+    city: Yup.string()
       .trim('The contact name cannot include leading and trailing spaces')
       .required('No value provided'),
     date: Yup.date().required('Required'),
@@ -77,8 +81,33 @@ function Search() {
           >
             {(formik) => {
               return (
-                <Form className='grid grid-cols-2 gap-4  rounded md:grid-cols-3 lg:gap-8 w-full justify-center items-center mx-auto'>
+                <Form className='grid grid-cols-2 gap-4  rounded md:grid-cols-3 lg:gap-6 w-full justify-center items-center mx-auto lg:grid-cols-4 '>
                   {/* city */}
+                  <div className=' relative  w-auto'>
+                    <Field
+                      as='select'
+                      type='selectOption'
+                      name='city'
+                      className='bg-[#D9D9D9] px-2 text-center py-2 placeholder:text-center outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs  h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm appearance-none'
+                    >
+                      <option value=''>select City</option>
+                      {City.getCitiesOfState(
+                        'US',
+                        State.getStatesOfCountry('US')?.filter(
+                          (i) => i?.name === formik?.values?.state
+                        )?.[0]?.isoCode
+                      )?.map((item, index) => {
+                        return (
+                          <option key={index} value={item.name}>
+                            {item.name}
+                          </option>
+                        )
+                      })}
+                    </Field>
+
+                    <FaAngleDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+                  </div>
+                  {/* state */}
                   <div className=' relative  w-auto'>
                     <Field
                       as='select'
@@ -96,25 +125,9 @@ function Search() {
                       })}
                     </Field>
 
-                    {/* <Field
-                      type='text'
-                      name='city'
-                      placeholder='Your City'
-                      className={`${
-                        formik.errors.city && formik.touched.city
-                          ? 'bg-softpurple border border-softRed px-2 text-center py-2 outline-none text-xs sm:h-12 md:h-14  h-10 md:text-sm xl:text-base text-babyblack placeholder:text-xs w-full '
-                          : usebg
-                          ? 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full rounded md:rounded-sm xl:rounded-md'
-                          : 'bg-[#D9D9D9] px-2 text-center  py-2 outline-none text-xs sm:h-12 md:h-14  placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm'
-                      }`}
-                    /> */}
-                    {/* <MdLocationPin className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' /> */}
                     <FaAngleDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
                   </div>
                   {/* date */}
-
-                  {/* : usebg ? 'relative bg-[#D9D9D9] w-auto rounded
-                  md:rounded-sm xl:rounded-md' */}
                   <div
                     className={`${
                       formik.errors.date && formik.touched.date
@@ -146,15 +159,15 @@ function Search() {
                   </div>
                   <button
                     type='submit'
-                    className='bg-babypurple w-full  py-2 shadow-md font-bold sm:h-12 md:h-14  rounded lg:rounded-sm xl:rounded-md h-10 col-span-2 md:col-span-1'
+                    className='bg-babypurple shadow-lg w-full  py-2   sm:h-12 md:h-14  rounded lg:rounded-sm xl:rounded-md h-10 md:col-span-3 lg:col-span-1  xl:col-span-1 '
                   >
                     {loading ? (
-                      <div className='flex items-center justify-center gap-2'>
+                      <div className='flex items-center justify-center text-sm lg:text-base gap-2'>
                         <div className='spinner'></div>
-                        <h1>Searching...</h1>
+                        <h1 className='text-sm lg:text-base'>Searching...</h1>
                       </div>
                     ) : (
-                      <h1>Search</h1>
+                      <h1 className='text-sm lg:text-base'>Search</h1>
                     )}
                   </button>
                 </Form>

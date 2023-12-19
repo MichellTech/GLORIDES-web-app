@@ -32,7 +32,7 @@ function allcars() {
 
         {/* body */}
         {/* allcars and filter */}
-        <div className='  px-6 md:px-8  lg:px-10  pt-10 pb-28 '>
+        <div className='  px-6 md:px-8   pt-10 pb-28 '>
           {/* all cars */}
           <div className='flex justify-center items-center w-full'>
             <Allcars carloader={carloader} />
