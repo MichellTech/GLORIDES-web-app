@@ -2,20 +2,36 @@ import React, { useState, useEffect, useRef } from 'react'
 import Navbar from '../../components/Navigation/Navbar/index'
 import Search from '../../components/Rentcomp/Search'
 import Allcars from '../../components/Rentcomp/Allcars'
-import { MdOutlineFilterAlt } from 'react-icons/md'
+import { MdOutlineClearAll, MdOutlineFilterAlt } from 'react-icons/md'
 import Footer from '../../components/Navigation/Footer'
 import Filterparams from '../../components/Rentcomp/Filterparams'
 import { useSelector, useDispatch } from 'react-redux'
-import { openFilter, closeFilter } from '@/features/rental/filterSlice'
+import {
+  openFilter,
+  closeFilter,
+  setAllsearchedcars,
+} from '@/features/rental/filterSlice'
 import Rentform from '../../components/Rentcomp/Rentform'
 import { LuFilter } from 'react-icons/lu'
 import { BsBookmark } from 'react-icons/bs'
 
 function allcars() {
-  const { isFiltering, bookmarked } = useSelector((store) => store.rental)
+  const [viewing, setViewing] = useState(1)
+  const { isFiltering, bookmarked, returnedcars } = useSelector(
+    (store) => store.rental
+  )
   const [carloader, setCarloader] = useState(false)
   const dispatch = useDispatch()
 
+  const handleviewing = () => {
+    if (viewing === 1) {
+      dispatch(setAllsearchedcars(bookmarked))
+      return setViewing(2)
+    }
+
+    setViewing(1)
+    dispatch(setAllsearchedcars(returnedcars))
+  }
   return (
     <>
       <main
@@ -32,7 +48,7 @@ function allcars() {
 
         {/* body */}
         {/* allcars and filter */}
-        <div className='  px-6 md:px-8   pt-10 pb-28 '>
+        <div className='  px-6   pt-10 pb-28  w-full'>
           {/* all cars */}
           <div className='flex justify-center items-center w-full'>
             <Allcars carloader={carloader} />
@@ -58,10 +74,19 @@ function allcars() {
               <h1 className='text-xs md:text-sm'>Filter</h1>
             </div>
             {/* favorites */}
-            <div className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm  cursor-pointer bg-white'>
-              <BsBookmark className='text-sm md:text-base' />
+            <div
+              onClick={handleviewing}
+              className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm  cursor-pointer bg-white'
+            >
+              {viewing === 1 ? (
+                <BsBookmark className='text-sm md:text-base' />
+              ) : (
+                <MdOutlineClearAll className='text-sm md:text-base' />
+              )}
               <h1 className='text-xs md:text-sm'>
-                Favorites ({bookmarked?.length})
+                {viewing === 1
+                  ? `Favorites (${bookmarked?.length})`
+                  : 'View All Cars'}
               </h1>
             </div>
           </div>

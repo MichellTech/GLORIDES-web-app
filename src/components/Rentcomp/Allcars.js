@@ -8,6 +8,7 @@ import {
   setAllsearchedcars,
   getuserfavourites,
   unsearchCar,
+  setReturnedcars,
 } from '@/features/rental/filterSlice'
 import { useRouter } from 'next/router'
 import {
@@ -35,6 +36,7 @@ function Allcars({ carloader }) {
       .then(function (response) {
         setLoading(false)
         dispatch(setAllsearchedcars(response?.data?.data))
+        dispatch(setReturnedcars(response?.data?.data))
         console.log(response?.data?.data)
       })
       .catch(function (error) {

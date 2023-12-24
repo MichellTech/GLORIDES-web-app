@@ -193,7 +193,7 @@ function index() {
         </div>
       </section>
       {/* explore our garage */}
-      <section className='my-16 xl:my-24 mx-auto font-sans md:max-w-4xl lg:max-w-5xl xl:max-w-7xl  px-6 md:px-6  lg:px-8; space-y-10 md:space-y-16'>
+      <section className='my-16 xl:my-24 mx-auto font-sans md:max-w-4xl lg:max-w-5xl xl:max-w-7xl  px-6 md:px-6  lg:px-8; space-y-10 md:space-y-16 w-full flex flex-col justify-center items-center'>
         {/* header */}
         <div className='flex justify-center items-center mx-auto'>
           <div className='  space-y-2 md:space-y-3 xl:space-y-4'>
