@@ -110,7 +110,7 @@ function Search({ setCarloader }) {
                       as='select'
                       type='selectOption'
                       name='city'
-                      className='text-xs  placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-max  text-center  flex justify-center placeholder:text-center items-center mx-auto  bg-white '
+                      className='text-xs  px-2 placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-max  text-center  flex justify-center placeholder:text-center items-center mx-auto  bg-white '
                     >
                       <option value=''>Select City</option>
                       {City.getCitiesOfState(
@@ -146,7 +146,7 @@ function Search({ setCarloader }) {
                       as='select'
                       type='selectOption'
                       name='state'
-                      className='text-xs  placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-max  text-center  flex justify-center placeholder:text-center items-center mx-auto  bg-white '
+                      className='text-xs px-2 placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-max  text-center  flex justify-center placeholder:text-center items-center mx-auto  bg-white '
                     >
                       <option value=''>All States</option>
                       {State.getStatesOfCountry('US')?.map((item, index) => {
