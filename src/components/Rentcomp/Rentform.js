@@ -15,6 +15,9 @@ import {
   unsearchCar,
   setAllsearchedcars,
   setReturnedcars,
+  getsearchedcars,
+  setsearcheddata,
+  searchCar,
 } from '@/features/rental/filterSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
@@ -22,22 +25,21 @@ import { FaAngleDown } from 'react-icons/fa'
 function Search({ setCarloader }) {
   const [loading, setLoading] = useState(false)
   const [viewing, setViewing] = useState(1)
-  const { bookmarked, allsearchedcars, returnedcars } = useSelector(
+  const { bookmarked, allsearchedcars, returnedcars, searchdata } = useSelector(
     (store) => store.rental
   )
 
   const dispatch = useDispatch()
   const initialValues = {
-    state: 'Texas',
-    date: new Date(),
-    city: '',
+    state: searchdata.state || 'Texas',
+    date: searchdata.date ? new Date(searchdata.date) : new Date(),
+    city: searchdata.city || '',
   }
+
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
-
-    setLoading(true)
-    getsearchedcar(values)
-    // console.log(values)
+    dispatch(getsearchedcars(values.state))
+    dispatch(searchCar())
   }
   // validation
   const validationSchema = Yup.object().shape({
@@ -47,37 +49,16 @@ function Search({ setCarloader }) {
     date: Yup.date().required('Required'),
   })
 
-  const getsearchedcar = (values) => {
-    setCarloader(true)
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/getAllCarsByState`, {
-        state: values.state,
-      })
-      .then(function (response) {
-        dispatch(unsearchCar())
-        setLoading(false)
-        setCarloader(false)
-        dispatch(setAllsearchedcars(response?.data?.data))
-        dispatch(setReturnedcars(response?.data?.data))
-      })
-      .catch(function (error) {
-        setLoading(false)
-        setCarloader(true)
-        console.log(error)
-      })
-  }
+  // const handleviewing = () => {
+  //   if (viewing === 1) {
+  //     dispatch(setAllsearchedcars(bookmarked))
+  //     return setViewing(2)
+  //   }
 
-  const handleviewing = () => {
-    if (viewing === 1) {
-      dispatch(setAllsearchedcars(bookmarked))
-      return setViewing(2)
-    }
+  //   setViewing(1)
+  //   dispatch(setAllsearchedcars(returnedcars))
+  // }
 
-    setViewing(1)
-    dispatch(setAllsearchedcars(returnedcars))
-  }
-  // console.log(allsearchedcars)
-  // console.log(returnedcars)
   return (
     <>
       <Formik
@@ -94,7 +75,7 @@ function Search({ setCarloader }) {
                 className='xl:flex lg:items-center gap-3  md:h-14  border lg:py-3 lg:px-6 hidden  cursor-pointer bg-[#F5F5F5]  '
               >
                 <LuFilter />
-                <h1>Filter</h1>
+                <h1>Filter (0)</h1>
               </div>
               {/* city */}
               <div className='space-y-1'>
@@ -196,24 +177,16 @@ function Search({ setCarloader }) {
                 type='submit'
                 className='bg-babypurple shadow-lg w-full  py-2   sm:h-12 md:h-14  h-10 md:col-span-3 lg:col-span-1  xl:col-span-1 text-white'
               >
-                {loading ? (
-                  <div className='flex items-center justify-center gap-2'>
-                    <div className='spinner'></div>
-                  </div>
-                ) : (
-                  <h1>Search</h1>
-                )}
+                Search
               </button>
               {/* saved */}
-              <div
-                onClick={handleviewing}
-                className='xl:flex lg:items-center mx-auto justify-center gap-3 border lg:py-3 lg:px-4 hidden cursor-pointer bg-[#F5F5F5] w-full h-10   sm:h-12 md:h-14 '
-              >
-                {viewing === 1 ? <BsBookmark /> : <MdOutlineClearAll />}
+              <div className='xl:flex lg:items-center mx-auto justify-center gap-3 border lg:py-3 lg:px-4 hidden cursor-pointer bg-[#F5F5F5] w-full h-10   sm:h-12 md:h-14 '>
+                {/* {viewing === 1 ? <BsBookmark /> : <MdOutlineClearAll />} */}
                 <h1>
-                  {viewing === 1
+                  {/* {viewing === 1
                     ? `Favorites (${bookmarked?.length})`
-                    : 'View All Cars'}
+                    : 'View All Cars'} */}
+                  Favorites(0)
                 </h1>
               </div>
             </Form>

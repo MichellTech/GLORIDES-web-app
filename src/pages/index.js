@@ -12,10 +12,7 @@ import { LuFuel } from 'react-icons/lu'
 import { GiGearStickPattern } from 'react-icons/gi'
 import { AiOutlineHeart, AiFillHeart, AiFillStar } from 'react-icons/ai'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  setAllsearchedcars,
-  getuserfavourites,
-} from '@/features/rental/filterSlice'
+import { getuserfavourites, getallcars } from '@/features/rental/filterSlice'
 import { useRouter } from 'next/router'
 import { MdLocationOn, MdOutlineAirlineSeatReclineExtra } from 'react-icons/md'
 import { toast } from 'react-toastify'
@@ -28,25 +25,10 @@ function index() {
   const { allsearchedcars, bookmarked } = useSelector((store) => store.rental)
   const router = useRouter()
   const dispatch = useDispatch()
-  const getallcars = () => {
-    setLoading(true)
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/cars/getAllCars`, {})
-      .then(function (response) {
-        setLoading(false)
-
-        dispatch(setAllsearchedcars(response?.data?.data))
-        console.log(response?.data?.data)
-      })
-      .catch(function (error) {
-        setLoading(true)
-        console.log(error)
-      })
-  }
 
   // console.log(allcars)
   useEffect(() => {
-    getallcars()
+    dispatch(getallcars())
     if (localStorage.getItem('User_Token')) {
       dispatch(getuserfavourites())
     }
