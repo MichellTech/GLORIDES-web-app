@@ -41,13 +41,12 @@ import {
   getuserfavourites,
 } from '@/features/rental/filterSlice'
 
-function Viewcar() {
+function Extendride() {
   const router = useRouter()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [cardata, setCardata] = useState({})
-
-  const carId = router.query.id
+  const { carId } = router.query
 
   useEffect(() => {
     getrentdetails()
@@ -71,6 +70,19 @@ function Viewcar() {
   const date2 = new Date(cardata?.end_date)
   const diffTime = Math.abs(date2 - date1)
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  const OneDayInMilliseconds = 24 * 60 * 60 * 1000
+  const initialValues = {
+    dropoffd: new Date(), // Set default to one day ahead
+  }
+  const validationSchema = Yup.object().shape({
+    dropoffd: Yup.date().required('Dropoff Date Required'),
+  })
+
+  const onSubmit = (values, onSubmitProps) => {
+    onSubmitProps.setSubmitting(false)
+    console.log(values)
+  }
+
   return (
     <>
       <Navbar />
@@ -234,35 +246,7 @@ function Viewcar() {
                   </div>
                 </div>
               </div>
-              {/* drop off */}
 
-              <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
-                {/* header */}
-                <div className='relative'>
-                  <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
-                    {' '}
-                    Dropoff Location and Time
-                  </h1>
-                  <div className='w-10 h-1 bg-babypurple absolute bottom-0 left-0'></div>
-                </div>
-                {/* content */}
-                <div className=' space-y-2 lg:space-y-3'>
-                  <div className='flex items-center gap-2'>
-                    <MdMyLocation />
-                    <h1 className='text-sm lg:text-base '>
-                      {cardata?.car_booked?.dropoff_location}
-                    </h1>
-                  </div>
-                  <div className='flex items-center gap-2'>
-                    <TbClockHour9 />
-                    <h1 className='text-sm lg:text-base '>
-                      {moment(cardata?.car_booked?.end_date).format(
-                        'MMMM Do YYYY, h:mm:ss a'
-                      )}
-                    </h1>
-                  </div>
-                </div>
-              </div>
               {/* review */}
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
                 {/* header */}
@@ -342,8 +326,110 @@ function Viewcar() {
               {/* summary */}
               <div className='bg-white px-4 py-4 rounded-lg space-y-3  md:space-y-4 lg:space-y-5 shadow-md'>
                 <h1 className='font-bold text-sm md:text-base xl:text-lg border-b border-babyblack pb-2'>
-                  Transaction Summary
+                  Complete Extension
                 </h1>
+                {/* drop off */}
+
+                <div className='w-full bg-white border-b pb-4  space-y-4'>
+                  {/* header */}
+                  <div className='relative'>
+                    <h1 className=' text-xs  lg:text-sm  '>
+                      {' '}
+                      Inital Dropoff Location and Time
+                    </h1>
+                  </div>
+                  {/* content */}
+                  <div className='flex items-center gap-2'>
+                    <TbClockHour9 className='text-sm' />
+                    <h1 className='text-xs '>
+                      {moment(cardata?.car_booked?.end_date).format(
+                        'MMMM Do YYYY, h:mm:ss a'
+                      )}
+                    </h1>
+                  </div>
+                </div>
+
+                <Formik
+                  initialValues={initialValues}
+                  onSubmit={onSubmit}
+                  validationSchema={validationSchema}
+                  enableReinitialize
+                >
+                  {(formik) => {
+                    return (
+                      <Form className='space-y-5 w-full   '>
+                        {/* first */}
+                        <div className='space-y-6  lg:space-y-10 pt-4'>
+                          {/* drop off time and date */}
+                          <div className='  space-y-2 lg:space-y-4  '>
+                            <h1 className='font-bold text-sm lg:text-base '>
+                              Dropoff Date and Time
+                            </h1>
+                            {/* date and time */}
+                            <div className='space-y-3'>
+                              {/* date */}
+                              <div>
+                                <div className=''>
+                                  <div className=' relative  p-2 border '>
+                                    <Field name='dropoffd' className=''>
+                                      {({ field, form }) => {
+                                        return (
+                                          <DatePicker
+                                            className='pl-10 outline-none   text-left w-60 text-sm   '
+                                            id='dropoffd'
+                                            {...field}
+                                            selected={field.value}
+                                            showTimeSelect
+                                            timeFormat='HH:mm'
+                                            timeIntervals={15}
+                                            timeCaption='time'
+                                            dateFormat='MM/dd/yyyy  h:mm aa'
+                                            // minDate={
+                                            //   new Date(
+                                            //     cardata?.car_booked?.end_date
+                                            //   )
+                                            // }
+                                            onChange={(date) =>
+                                              form.setFieldValue(
+                                                field.name,
+                                                date
+                                              )
+                                            }
+                                          />
+                                        )
+                                      }}
+                                    </Field>
+                                    <BiCalendar className='absolute  top-1/2  left-8 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold' />
+                                  </div>
+                                </div>
+                                <div className='text-softRed text-xs mt-1 px-4'>
+                                  <ErrorMessage name='dropoffd' />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {/* button*/}
+                        <div className='w-full  space-y-4 py-4'>
+                          <button
+                            type='submit'
+                            disabled={loading}
+                            className='bg-babypurple px-5 py-3 w-full text-sm md:px-2 text-white rounded-md  hover:shadow-sm'
+                          >
+                            {loading ? (
+                              <div className='flex items-center justify-center gap-2'>
+                                <div className='spinner'></div>
+                                <h1>Extending</h1>
+                              </div>
+                            ) : (
+                              <h1>Extend Rent</h1>
+                            )}
+                          </button>
+                        </div>
+                      </Form>
+                    )
+                  }}
+                </Formik>
                 {/* one */}
                 <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
                   <h1 className='text-sm lg:text-base'>Rent Cost</h1>
@@ -373,42 +459,6 @@ function Viewcar() {
                   <h1 className='text-xs  md:text-sm lg:text-base font-bold'>
                     ${cardata?.amount}
                   </h1>
-                </div>
-                {/* button*/}
-
-                <div className='w-full  space-y-4 py-4'>
-                  <button
-                    onClick={() => {
-                      router.push({
-                        pathname: `/renthistory/${carId}/returnvehicle/${cardata?.car_booked?._id}`,
-                      })
-                    }}
-                    className='bg-babypurple px-5 py-3 w-full text-sm md:px-2 text-white rounded-md  hover:shadow-sm'
-                  >
-                    <h1>Return Vehicle</h1>
-                  </button>
-                  <button
-                    onClick={() => {
-                      router.push({
-                        pathname: `/renthistory/${carId}/extendrental`,
-                        query: { carId: `${carId}` },
-                      })
-                    }}
-                    className='border- w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
-                  >
-                    Extend Booking
-                  </button>
-                  <button
-                    onClick={() => {
-                      router.push({
-                        pathname: `/support/raiseaticket`,
-                        query: { transid: cardata?.transaction_id },
-                      })
-                    }}
-                    className=' text-xs text-babyblack text-center flex justify-center items-center mx-auto'
-                  >
-                    Report Issue
-                  </button>
                 </div>
               </div>
               {/* owner Listing*/}
@@ -501,4 +551,4 @@ function Viewcar() {
   )
 }
 
-export default Viewcar
+export default Extendride

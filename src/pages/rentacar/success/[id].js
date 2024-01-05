@@ -89,6 +89,7 @@ function success() {
               width={1000}
               height={1000}
               className='object-cover w-20 md:w-24 lg:w-28  xl:w-32  rounded-md border-2 '
+              priority
             />
             {/* car name */}
             <div className='space-y-6 flex justify-center items-center flex-col md:space-y-2 md:justify-start md:items-start'>

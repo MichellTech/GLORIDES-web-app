@@ -318,3 +318,19 @@
     transform: scale(1);
   }
 }
+
+/* Add these styles in your CSS or stylesheet */
+.pagination {
+  display: flex;
+  gap: 4px;
+}
+
+.pagination-link,
+.pagination-previous,
+.pagination-next,
+.pagination-break,
+.pagination-break-link {
+  border: 1px solid #ccc; /* Set your desired border color and style */
+  padding: 4px 8px; /* Adjust padding as needed */
+  cursor: pointer;
+}

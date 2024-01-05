@@ -15,8 +15,10 @@ function Raiseaticket() {
   const [userpriority, setUserpriority] = useState(['High', 'Medium', 'Low'])
   const [userimage, setUserimage] = useState([{ id: 1, file: null }])
   const router = useRouter()
+  const { transid } = router.query
+
   const initialValues = {
-    subject: '',
+    subject: transid ? `Rental issue wiith transcation Id ${transid}` : '',
     message: '',
     service: '',
     priority: '',
@@ -80,6 +82,7 @@ function Raiseaticket() {
             initialValues={initialValues}
             onSubmit={onSubmit}
             validationSchema={validationSchema}
+            enableReinitialize
           >
             {(formik) => {
               return (

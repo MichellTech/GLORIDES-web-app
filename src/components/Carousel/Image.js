@@ -118,7 +118,7 @@ export default function SimpleSlider(props) {
   return (
     <div className='w-full customslick  pb-6 lg:pb-10 md:pb-8 p-2 lg:p-4 rounded-lg '>
       <Slider {...settings}>
-        {props?.photos?.map((item) => {
+        {props?.photos?.map((item, index) => {
           return (
             <div
               key={item._id}

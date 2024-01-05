@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from '@/components/Navigation/Navbar/index'
-import Link from 'next/link'
 import Footer from '@/components/Navigation/Footer'
-
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-
 import { MdOutlineWorkHistory } from 'react-icons/md'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import mainAxiosAction from '../../components/axiosAction/index'
 import moment from 'moment'
+import ReactPaginate from 'react-paginate'
+
 function Index() {
   const [loading, setLoading] = useState(false)
   const [history, setHistory] = useState([])
+  const [currentPage, setCurrentPage] = useState(0)
+  const itemsPerPage = 10 // Set the number of items per page
 
   const router = useRouter()
 
@@ -35,6 +34,62 @@ function Index() {
   useEffect(() => {
     getrenthistory()
   }, [])
+
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected)
+  }
+
+  const indexOfLastItem = (currentPage + 1) * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = history
+    ?.slice(indexOfFirstItem, indexOfLastItem)
+    .map((item, index) => {
+      return (
+        <tr
+          key={index}
+          onClick={() => {
+            item?.status === 'booked'
+              ? router.push({
+                  pathname: `/renthistory/${item?._id}`,
+                })
+              : ''
+          }}
+          className='hover:bg-softpurple text-xs md:text-sm '
+        >
+          <td className='pl-6 pr-4  py-4  '>
+            <Image
+              src={item?.car_booked?.car_photos?.[0]?.url}
+              alt={item?.car_booked?.car_photos?.[0]?.name}
+              width={1000}
+              height={1000}
+              className='object-cover w-14 md:w-16 lg:w-20  rounded-md border-2 '
+            />
+          </td>
+          <td className=' py-4 pr-4 '>{item?.car_booked?.car_name}</td>
+          <td className=' py-4  pr-4 '>
+            {moment(item?.start_date).format('MMMM Do YYYY')}
+          </td>
+          <td className='pr-4   py-4  text-left '>
+            {moment(item?.end_date).format('MMMM Do YYYY')}
+          </td>
+          <td
+            className={`${
+              item.status === 'booked'
+                ? 'pr-4 py-4    text-left text-white bg-indigo-500 px-2 '
+                : item.status === 'returned'
+                ? 'pr-4 py-4     text-left text-orange-800 bg-orange-300 px-2 '
+                : 'pr-4   py-4  text-left text-green-800 bg-green-300 font-normal'
+            }`}
+          >
+            {item?.status}
+          </td>
+          <td className='pr-4   py-4  text-center '>
+            {item?.car_booked?.rent_cost}
+          </td>
+          <td className='pr-4   py-4  text-left '>{item?.pickup_address}</td>
+        </tr>
+      )
+    })
 
   return (
     <>
@@ -58,7 +113,7 @@ function Index() {
                     No Rental History Found
                   </h1>
                   <p className='text-xs max-w-xs md:text-sm md:max-w-md xl:text-base xl:max-w-xl'>
-                    We couldn't find your rentalrecords. This is because you
+                    We couldn't find your rental records. This is because you
                     haven't rented any car in the past year
                   </p>
                 </div>
@@ -129,7 +184,7 @@ function Index() {
                         >
                           <div className='flex items-center gap-4 mb-6'>
                             <h2 className='text-sm font-semibold  md:text-base xl:text-lg  '>
-                              Amount
+                              Amount ($)
                             </h2>
                           </div>
                         </th>
@@ -147,75 +202,31 @@ function Index() {
                       </tr>
                     </thead>
                     <tbody className=' px-6  py-5 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
-                      {history
-                        ?.sort((a, b) => {
-                          return new Date(b.start_date) - new Date(a.start_date)
-                        })
-                        ?.map((item, index) => {
-                          return (
-                            <tr
-                              key={index}
-                              onClick={() => {
-                                item?.status === 'booked'
-                                  ? router.push({
-                                      pathname: `/renthistory/${item?._id}`,
-                                    })
-                                  : ''
-                              }}
-                              className='hover:bg-softpurple text-xs md:text-sm '
-                            >
-                              <td className='pl-6 pr-4  py-4  '>
-                                <Image
-                                  src={item?.car_booked?.car_photos?.[0]?.url}
-                                  alt={item?.car_booked?.car_photos?.[0]?.name}
-                                  width={1000}
-                                  height={1000}
-                                  className='object-cover h-6 w-6 lg:w-8 lg:h-8 rounded-full '
-                                />
-                              </td>
-                              <td className=' py-4 pr-4 '>
-                                {' '}
-                                {item?.car_booked?.car_name}
-                              </td>
-                              <td className=' py-4  pr-4 '>
-                                {' '}
-                                {moment(item?.start_date).format(
-                                  'MMMM Do YYYY'
-                                )}
-                              </td>
-                              <td className='pr-4   py-4  text-left '>
-                                {moment(item?.end_date).format('MMMM Do YYYY')}
-                              </td>
-                              <td
-                                className={`${
-                                  item.status === 'booked'
-                                    ? 'pr-4 py-4    text-left text-white bg-indigo-500 px-2 '
-                                    : item.status === 'returned'
-                                    ? 'pr-4 py-4     text-left text-orange-800 bg-orange-300 px-2 '
-                                    : 'pr-4   py-4  text-left text-green-800 bg-green-300 font-normal'
-                                }`}
-                              >
-                                {item?.status}
-                              </td>
-
-                              <td className='pr-4   py-4  text-center '>
-                                {item?.car_booked?.rent_cost}
-                              </td>
-                              <td className='pr-4   py-4  text-left '>
-                                {item?.pickup_address}
-                              </td>
-                            </tr>
-                          )
-                        })}
+                      {currentItems}
                     </tbody>
                   </table>
+                </div>
+                <div className='w-full mt-10 flex justify-end px-4 md:px-6'>
+                  <ReactPaginate
+                    pageCount={Math.ceil(history.length / itemsPerPage)}
+                    pageRangeDisplayed={5}
+                    marginPagesDisplayed={2}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                    pageLinkClassName={'pagination-link'}
+                    previousLinkClassName={'pagination-previous'}
+                    nextLinkClassName={'pagination-next'}
+                    breakClassName={'pagination-break'}
+                    breakLinkClassName={'pagination-break-link'}
+                  />
                 </div>
               </div>
             )}
           </section>
         )}
-        <Footer />
       </main>
+      <Footer />
     </>
   )
 }
