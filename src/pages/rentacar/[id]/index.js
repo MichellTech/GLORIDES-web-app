@@ -16,6 +16,7 @@ import {
   MdOutlineBluetoothConnected,
   MdLocalFireDepartment,
   MdGpsFixed,
+  MdAttachEmail,
 } from 'react-icons/md'
 import Link from 'next/link'
 import { BiSolidCarGarage, BiCalendar } from 'react-icons/bi'
@@ -35,6 +36,13 @@ import { useSelector, useDispatch } from 'react-redux'
 import { bookCar, getuserfavourites } from '@/features/rental/filterSlice'
 import Bookform from '../../../components/Rentcomp/Bookform'
 import mainAxiosAction from '@/components/axiosAction'
+import {
+  FacebookShareButton,
+  TwitterShareButton,
+  WhatsappShareButton,
+  EmailShareButton,
+} from 'react-share'
+
 function Viewcar() {
   const router = useRouter()
   const dispatch = useDispatch()
@@ -44,17 +52,16 @@ function Viewcar() {
   const [uservalues, setUservalues] = useState({})
   const { bookmarked, isBooking } = useSelector((store) => store.rental)
   const carId = router.query.id
-
+  const shareUrl = `https://gloride-web-app.netlify.app/rentacar/${carId}`
+  const title = 'Check out this awesome car for rental on gloride car rentals!'
   useEffect(() => {
-    if (router.isReady) {
-      getcardetails()
-      if (localStorage.getItem('User_Token')) {
-        dispatch(getuserfavourites())
-      }
-
-      getavailabledates()
+    getcardetails()
+    if (localStorage.getItem('User_Token')) {
+      dispatch(getuserfavourites())
     }
-  }, [router.isReady])
+
+    getavailabledates()
+  }, [carId])
 
   const addtofav = (id) => {
     if (bookmarked?.map((i) => i._id)?.includes(id)) {
@@ -79,16 +86,22 @@ function Viewcar() {
         })
     }
   }
+
+  const OneDayInMilliseconds = 24 * 60 * 60 * 1000
   const initialValues = {
     address: 'hostaddress',
     myaddress: '',
-    pickupd: '',
-    dropoffd: '',
+    pickupd: new Date(),
+    dropoffd: new Date(new Date().getTime() + OneDayInMilliseconds), // Set default to one day ahead
   }
 
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
+    if (!localStorage.getItem('User_Token')) {
+      return router.push('/auth/login')
+    }
     setUservalues(values)
+
     dispatch(bookCar())
   }
 
@@ -175,7 +188,7 @@ function Viewcar() {
                 </div>
               </Link>
               {/* body */}
-              <div className='lg:flex lg:items-start lg:gap-4 w-full xl:gap-6'>
+              <div className='lg:flex  space-y-6 lg:space-y-0 lg:items-start lg:gap-4 w-full xl:gap-6'>
                 {/* car details */}
                 <div className='space-y-6 lg:w-2/3 xl:w-4/6'>
                   {/* car photo */}
@@ -291,6 +304,10 @@ function Viewcar() {
                           Tank Filling - ${cardata?.tank_filling?.amount}
                         </h1>
                       )}
+                      <h1 className='text-sm lg:text-base'>
+                        Pickup Outside Location - $
+                        {cardata?.outside_location_cost}
+                      </h1>
                     </div>
                   </div>
                   {/* review */}
@@ -308,11 +325,8 @@ function Viewcar() {
                       {Feedback?.map((item, index) => {
                         return (
                           <div key={index} className='pt-5 pb-4 '>
-                            <div
-                              key={index}
-                              className='w-full mx-auto  flex  items-center  '
-                            >
-                              <div className='relative  rounded-md border  w-full px-4 py-4  flex flex-col justify-center items-center  mx-2  '>
+                            <div className='w-full mx-auto  flex  items-center  '>
+                              <div className='relative  rounded-md border  w-full px-4 py-4  flex flex-col    mx-2  '>
                                 {/* text */}
                                 <div className=' space-y-3 '>
                                   {/* header */}
@@ -335,6 +349,7 @@ function Viewcar() {
                                           alt='logo'
                                           width={1000}
                                           height={1000}
+                                          priority
                                           className='object-cover w-12 lg:w-16   rounded-full border-2 '
                                         />
                                       </div>
@@ -493,7 +508,6 @@ function Viewcar() {
                                               timeCaption='time'
                                               dateFormat='MM/dd/yyyy  h:mm aa'
                                               minDate={new Date()}
-                                              placeholderText='Select date'
                                               excludeDateIntervals={mockDates?.map(
                                                 (i) => ({
                                                   start: new Date(
@@ -545,8 +559,12 @@ function Viewcar() {
                                                 timeIntervals={15}
                                                 timeCaption='time'
                                                 dateFormat='MM/dd/yyyy  h:mm aa'
-                                                minDate={new Date()}
-                                                placeholderText='Select date'
+                                                minDate={
+                                                  new Date(
+                                                    new Date().getTime() +
+                                                      24 * 60 * 60 * 1000
+                                                  )
+                                                }
                                                 excludeDateIntervals={mockDates?.map(
                                                   (i) => ({
                                                     start: new Date(
@@ -698,10 +716,18 @@ function Viewcar() {
                     </div>
                     {/* content */}
                     <div className='flex items-center gap-6 lg:gap-8 xl:gap-10'>
-                      <FaFacebook className='text-babyblack text-lg sm:text-xl lg:text-2xl ' />
-                      <TbBrandTwitterFilled className='text-babyblack text-lg sm:text-xl lg:text-2xl ' />
-                      <FaInstagramSquare className='text-babyblack text-lg sm:text-xl lg:text-2xl ' />
-                      <RiWhatsappFill className='text-babyblack sm:text-xl text-lg lg:text-2xl ' />
+                      <FacebookShareButton url={shareUrl} quote={title}>
+                        <FaFacebook className='text-babyblack text-lg sm:text-xl lg:text-2xl ' />
+                      </FacebookShareButton>
+                      <TwitterShareButton url={shareUrl} title={title}>
+                        <TbBrandTwitterFilled className='text-babyblack text-lg sm:text-xl lg:text-2xl ' />
+                      </TwitterShareButton>
+                      <WhatsappShareButton url={shareUrl} title={title}>
+                        <RiWhatsappFill className='text-babyblack sm:text-xl text-lg lg:text-2xl ' />
+                      </WhatsappShareButton>
+                      <EmailShareButton url={shareUrl} title={title}>
+                        <MdAttachEmail className='text-babyblack text-lg sm:text-xl lg:text-2xl ' />
+                      </EmailShareButton>
                     </div>
                   </div>
                 </div>

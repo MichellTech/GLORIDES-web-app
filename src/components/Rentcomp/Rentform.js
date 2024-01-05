@@ -77,12 +77,6 @@ function Search({ setCarloader }) {
       ? []
       : JSON?.parse(localStorage?.getItem('User_Profile'))
 
-  const mynotifications =
-    localStorage?.getItem('User_Notifications') === null ||
-    localStorage?.getItem('User_Notifications') === 'undefined' ||
-    localStorage?.getItem('User_Notifications') === undefined
-      ? []
-      : JSON?.parse(localStorage?.getItem('User_Notifications'))
   return (
     <>
       <Formik
@@ -117,7 +111,7 @@ function Search({ setCarloader }) {
                       name='city'
                       className='text-xs  px-2 placeholder:text-xs  lg:text-sm lg:placeholder:text-sm outline-none rounded-sm  w-full appearance-none h-max  text-center  flex justify-center placeholder:text-center items-center mx-auto  bg-white '
                     >
-                      <option value=''>Select City</option>
+                      <option value=''>All Cities</option>
                       {City.getCitiesOfState(
                         'US',
                         State.getStatesOfCountry('US')?.filter(

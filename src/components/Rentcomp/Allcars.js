@@ -94,6 +94,7 @@ function Allcars({ carloader }) {
                           alt={item?.car_photos?.[0]?.name}
                           width={1000}
                           height={1000}
+                          priority
                           className='object-cover w-full h-40 rounded-tl-lg rounded-tr-lg rounded-br-none  rounded-bl-none '
                         />
                       </div>

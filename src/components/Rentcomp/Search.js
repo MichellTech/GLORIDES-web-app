@@ -99,7 +99,7 @@ function Search() {
                         name='city'
                         className='bg-[#D9D9D9] px-2 text-center py-2 placeholder:text-center outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm appearance-none'
                       >
-                        <option value=''>Select City</option>
+                        <option value=''>All Cities</option>
                         {citiesOfSelectedState?.map((item, index) => (
                           <option key={index} value={item.name}>
                             {item.name}

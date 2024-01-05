@@ -168,6 +168,13 @@ function Booking({ cardata, uservalues }) {
                           possession of this vehicle
                         </h1>
                       ) : null}
+                      {!formik.values.extraservices.includes('tank') ? (
+                        <h1 className='text-[0.6rem] text-red text-red-500  lg:text-xs'>
+                          Be advised that not checking the tank filling box
+                          means you will return the car with the same amount of
+                          fuel as it was delivered
+                        </h1>
+                      ) : null}
                     </div>
 
                     {/* pickup */}
@@ -309,9 +316,7 @@ function Booking({ cardata, uservalues }) {
                         <button
                           type='reset'
                           onClick={() => {
-                            router.push({
-                              pathname: `/rentacar/${carId}`,
-                            })
+                            dispatch(unbookCar())
                           }}
                           className='border- w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
                         >

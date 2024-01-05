@@ -40,6 +40,15 @@ function allcars() {
       )
     )
   }, [allsearchedcars, bookmarked])
+
+  const profile =
+    localStorage?.getItem('User_Profile') === null ||
+    localStorage?.getItem('User_Profile') === 'undefined' ||
+    localStorage?.getItem('User_Profile') === undefined
+      ? []
+      : JSON?.parse(localStorage?.getItem('User_Profile'))
+
+  console.log(allsearchedcars)
   return (
     <>
       <main
@@ -82,7 +91,7 @@ function allcars() {
               <h1 className='text-xs md:text-sm'>Filter</h1>
             </div> */}
             {/* favorites */}
-            {allsearchedcars.length > 1 && (
+            {allsearchedcars.length < 1 || profile ? (
               <div
                 onClick={handleviewing}
                 className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm  cursor-pointer bg-white'
@@ -97,6 +106,12 @@ function allcars() {
                     ? `Favorites (${commoncars?.length})`
                     : 'View All Cars'}
                 </h1>
+              </div>
+            ) : (
+              <div className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm  cursor-pointer bg-white'>
+                <MdOutlineClearAll className='text-sm md:text-base' />
+
+                <h1 className='text-xs md:text-sm'>No Dataa </h1>
               </div>
             )}
           </div>
