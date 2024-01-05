@@ -75,9 +75,7 @@ function Extendride() {
   const end_date = cardata?.end_date || '' // Default to an empty string if cardataEndDate is null or undefined
 
   const initialValues = {
-    dropoffd: end_date
-      ? new Date(new Date(end_date).getTime() + OneDayInMilliseconds)
-      : new Date(),
+    dropoffd: null,
   }
 
   const validationSchema = Yup.object().shape({

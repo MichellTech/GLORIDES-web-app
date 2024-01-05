@@ -44,56 +44,6 @@ function SamplePrevArrow(props) {
 }
 
 export default function SimpleSlider(props) {
-  // console.log(props.photos)
-  // const settings = {
-  //   dots: false,
-  //   infinite: true,
-  //   autoplay: false,
-  //   speed: 2000,
-  //   autoplaySpeed: 5000,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  //   nextArrow: <SampleNextArrow />,
-  //   prevArrow: <SamplePrevArrow />,
-  //   responsive: [
-  //     // {
-  //     //   breakpoint: 1700,
-  //     //   settings: {
-  //     //     slidesToShow: 5,
-  //     //     slidesToScroll: 3,
-  //     //     infinite: true,
-  //     //     dots: true,
-  //     //   },
-  //     // },
-  //     {
-  //       breakpoint: 1500,
-  //       settings: {
-  //         slidesToShow: 3,
-  //         slidesToScroll: 1,
-  //         infinite: true,
-  //         dots: false,
-  //       },
-  //     },
-  //     {
-  //       breakpoint: 1300,
-  //       settings: {
-  //         slidesToShow: 2,
-  //         slidesToScroll: 2,
-  //         initialSlide: 2,
-  //       },
-  //     },
-
-  //     {
-  //       breakpoint: 890,
-  //       settings: {
-  //         slidesToShow: 1,
-  //         slidesToScroll: 1,
-  //         dots: false,
-  //       },
-  //     },
-  //   ],
-  // }
-
   const settings = {
     customPaging: function (i) {
       return (
@@ -119,21 +69,26 @@ export default function SimpleSlider(props) {
     <div className='w-full customslick  pb-6 lg:pb-10 md:pb-8 p-2 lg:p-4 rounded-lg '>
       <Slider {...settings}>
         {props?.photos?.map((item, index) => {
+          const imageUrl = props?.photos?.filter((_, i) => index === i)?.[0]
+            ?.url
+
           return (
             <div
-              key={item._id}
-              className='py-4 lg:py-6 pb-14  md:pb-20 lg:pb-24'
+              key={`slider-item-${index}`}
+              className='py-4 lg:py-6 pb-14 md:pb-20 lg:pb-24'
             >
-              <div className='  relative rounded-md  mx-2     '>
-                <Image
-                  src={item.url}
-                  alt={item.name}
-                  width={1000}
-                  height={1000}
-                  priority
-                  className='object-cover object-center rounded-md  w-full h-52 md:h-80 '
-                />
-              </div>
+              {imageUrl && (
+                <div className='relative rounded-md mx-2'>
+                  <Image
+                    src={imageUrl}
+                    alt={item.name}
+                    width={1000}
+                    height={1000}
+                    priority
+                    className='object-cover object-center rounded-md w-full h-52 md:h-80'
+                  />
+                </div>
+              )}
             </div>
           )
         })}

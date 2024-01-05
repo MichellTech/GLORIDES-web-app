@@ -48,11 +48,9 @@ function Index() {
         <tr
           key={index}
           onClick={() => {
-            item?.status === 'booked'
-              ? router.push({
-                  pathname: `/renthistory/${item?._id}`,
-                })
-              : ''
+            router.push({
+              pathname: `/renthistory/${item?._id}`,
+            })
           }}
           className='hover:bg-softpurple text-xs md:text-sm '
         >
@@ -77,8 +75,8 @@ function Index() {
               item.status === 'booked'
                 ? 'pr-4 py-4    text-left text-white bg-indigo-500 px-2 '
                 : item.status === 'returned'
-                ? 'pr-4 py-4     text-left text-orange-800 bg-orange-300 px-2 '
-                : 'pr-4   py-4  text-left text-green-800 bg-green-300 font-normal'
+                ? 'pr-4 py-4 text-left text-orange-800 bg-orange-300 px-2 '
+                : 'pr-4   py-4  text-left text-green-800 bg-green-300 px-2  font-normal'
             }`}
           >
             {item?.status}
@@ -225,8 +223,8 @@ function Index() {
             )}
           </section>
         )}
+        <Footer />
       </main>
-      <Footer />
     </>
   )
 }

@@ -78,14 +78,16 @@ function Viewcar() {
         {/* body */}
         <div className=' px-6 md:px-7  lg:px-8 xl:px-12 space-y-6 lg:space-y-10   pb-10  '>
           {/* back */}
-          <Link href='/rentacar'>
+          <Link href='/renthistory'>
             <div className='flex items-center gap-2 cursor-pointer'>
               <MdKeyboardBackspace className='lg:text-2xl' />
-              <h1 className='text-sm  lg:text-base font-bold'>All Cars</h1>
+              <h1 className='text-sm  lg:text-base font-bold'>
+                Rental History
+              </h1>
             </div>
           </Link>
           {/* body */}
-          <div className='lg:flex lg:items-start lg:gap-4 w-full xl:gap-6'>
+          <div className='lg:flex lg:items-start space-y-6 lg:space-y-0 lg:gap-4 w-full xl:gap-6'>
             {/* car details */}
             <div className='space-y-6 lg:w-2/3 xl:w-4/6'>
               {/* car photo */}
@@ -377,27 +379,32 @@ function Viewcar() {
                 {/* button*/}
 
                 <div className='w-full  space-y-4 py-4'>
-                  <button
-                    onClick={() => {
-                      router.push({
-                        pathname: `/renthistory/${carId}/returnvehicle/${cardata?.car_booked?._id}`,
-                      })
-                    }}
-                    className='bg-babypurple px-5 py-3 w-full text-sm md:px-2 text-white rounded-md  hover:shadow-sm'
-                  >
-                    <h1>Return Vehicle</h1>
-                  </button>
-                  <button
-                    onClick={() => {
-                      router.push({
-                        pathname: `/renthistory/${carId}/extendrental`,
-                        query: { carId: `${carId}` },
-                      })
-                    }}
-                    className='border- w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
-                  >
-                    Extend Booking
-                  </button>
+                  {cardata?.status === 'booked' && (
+                    <button
+                      onClick={() => {
+                        router.push({
+                          pathname: `/renthistory/${carId}/returnvehicle/${cardata?.car_booked?._id}`,
+                          query: { carId: cardata?._id },
+                        })
+                      }}
+                      className='bg-babypurple px-5 py-3 w-full text-sm md:px-2 text-white rounded-md  hover:shadow-sm'
+                    >
+                      <h1>Return Vehicle</h1>
+                    </button>
+                  )}
+                  {cardata?.status === 'booked' && (
+                    <button
+                      onClick={() => {
+                        router.push({
+                          pathname: `/renthistory/${carId}/extendrental`,
+                          query: { carId: `${carId}` },
+                        })
+                      }}
+                      className='w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
+                    >
+                      Extend Booking
+                    </button>
+                  )}
                   <button
                     onClick={() => {
                       router.push({
@@ -405,14 +412,18 @@ function Viewcar() {
                         query: { transid: cardata?.transaction_id },
                       })
                     }}
-                    className=' text-xs text-babyblack text-center flex justify-center items-center mx-auto'
+                    className={`${
+                      cardata?.status !== 'booked'
+                        ? ' w-full bg-babypurple px-5 py-3 md:px-2 text-sm text-white rounded-md  hover:shadow-sm'
+                        : ' text-xs text-babyblack text-center flex justify-center items-center mx-auto'
+                    }`}
                   >
                     Report Issue
                   </button>
                 </div>
               </div>
               {/* owner Listing*/}
-              <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
+              <div className='w-full bg-white rounded-md lg:rounded-lg px-3 shadow-md py-4 lg:px-5 lg:py-6 space-y-4'>
                 {/* header */}
                 <div className='relative'>
                   <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>

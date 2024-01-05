@@ -4,23 +4,23 @@ import Navbar from '@/components/Navigation/Navbar/index'
 import Footer from '@/components/Navigation/Footer'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-
+import { FileUploader } from 'react-drag-drop-files'
 import { RiDeleteBack2Fill } from 'react-icons/ri'
 import { FaStar } from 'react-icons/fa'
 import { LuImagePlus } from 'react-icons/lu'
-import { MdKeyboardBackspace } from 'react-icons/md'
+import { MdDelete, MdKeyboardBackspace } from 'react-icons/md'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
 import mainAxiosAction from '../../../../components/axiosAction/index'
 
 function Returnvehicle() {
   const router = useRouter()
-
+  const fileTypes = ['JPG', 'JPEG', 'PNG']
   const bookingId = router.query.id
-
+  const { carId } = router.query
   const [loading, setLoading] = useState(false)
-  const [userimage, setUserimage] = useState([{ id: 1, file: null }])
-
+  const [userimage, setUserimage] = useState([])
+  const [isuploading, setIsuploading] = useState(true)
   const [rating, setRating] = useState(null)
   const [hover, setHover] = useState(null)
 
@@ -35,21 +35,17 @@ function Returnvehicle() {
     returnusercar(values, onSubmitProps.resetForm())
   }
 
-  // const validationSchema = Yup.object().shape({
-  //   comment: Yup.string()
-  //     .trim('The contact name cannot include leading and trailing spaces')
-  //     .required('No Comment Provided'),
-  // })
-
   const returnusercar = (values, callback) => {
     if (userimage?.length < 6) {
       toast.error('Please upload atleast six photos of your vehicle')
       setLoading(false)
     } else {
       const formData = new FormData()
-      for (const image of userimage) {
-        formData.append('car_images', image?.file)
-      }
+      userimage.forEach((file, index) => {
+        // Append each file with a unique name (e.g., fileName_0, fileName_1, etc.)
+        formData.append('car_images', file)
+      })
+
       formData?.append('comment', values.comment)
       formData?.append('rating_value', rating)
       formData?.append('booking_id', bookingId)
@@ -57,7 +53,7 @@ function Returnvehicle() {
         .post(`/cars/return-car`, formData)
         .then(function (response) {
           setLoading(false)
-          setUserimage(null)
+          setUserimage([])
           router.push({
             pathname: '/renthistory',
           })
@@ -70,6 +66,23 @@ function Returnvehicle() {
           console.log(error)
         })
     }
+  }
+
+  const handleDelete = (index) => {
+    // Create a copy of the current uploadedcontent array
+    if (userimage.length < 2) {
+      setIsuploading(true)
+      setUserimage([])
+      return
+    }
+
+    const updatedContent = [...userimage]
+
+    // Remove the file at the specified index
+    updatedContent.splice(index, 1)
+
+    // Update the state with the modified array
+    setUserimage(updatedContent)
   }
   return (
     <>
@@ -120,131 +133,90 @@ function Returnvehicle() {
                           help owner access the state of the vehicle on return{' '}
                         </h1>
                         {/* upload images */}
+                        {/* old */}
 
-                        <div className='flex justify-between items-start gap-4  '>
-                          <div className='flex flex-wrap  gap-6  lg:gap-5  items-center'>
-                            {userimage?.map((item, index) => {
-                              return (
-                                <div key={index} className='col-span-full'>
-                                  {!item.file ? (
-                                    <div className='mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10 relative'>
-                                      <div className='text-center'>
-                                        <LuImagePlus className='text-center text-5xl mx-auto text-slate-400' />
-                                        <div className='mt-4 flex text-sm leading-6 text-gray-600'>
-                                          <label
-                                            htmlFor='file-upload'
-                                            className='relative cursor-pointer rounded-md bg-white font-semibold mx-auto text-indigo-500 focus-within:outline-none  text-center  hover:text-indigo-500'
-                                          >
-                                            Click here to upload a file
-                                            <input
-                                              id='file-upload'
-                                              name='file-upload'
-                                              type='file'
-                                              className='sr-only'
-                                              accept='image/png, image/jpg, image/gif, image/jpeg'
-                                              // value={item?.file?.name}
-                                              onChange={(e) => {
-                                                setUserimage((previous) =>
-                                                  previous.map((i) => {
-                                                    if (i.id === item.id) {
-                                                      i.file = e.target.files[0]
-                                                      // console.log(i.id, 'olamide')
-                                                      // console.log(item)
-                                                      // console.log(index)
-                                                      return i
-                                                    }
-                                                    return i
-                                                  })
-                                                )
-                                              }}
-                                            />
-                                          </label>
-                                          {/* <p className='pl-1'>or drag and drop</p> */}
-                                        </div>
-                                        <p className='text-xs leading-5 mt-1 text-gray-600'>
-                                          PNG, JPG, GIF up to 10MB
-                                        </p>
-                                      </div>
-                                      {/* delete */}
-                                      {index !== 0 && (
-                                        <div
-                                          onClick={() =>
-                                            setUserimage((previous) =>
-                                              previous.filter((i) => {
-                                                return i.id !== item.id
-                                              })
-                                            )
-                                          }
-                                          className='absolute  -top-3 -right-3 p-2 rounded-full text-babyblack  cursor-pointer font-bold md:text-lg bg-softpurple  '
-                                        >
-                                          <RiDeleteBack2Fill />
-                                        </div>
-                                      )}
-                                    </div>
-                                  ) : (
-                                    <div className='relative'>
-                                      <img
-                                        src={URL.createObjectURL(item?.file)}
-                                        className='w-[13rem] h-[12.4rem]  rounded-md object-center object-cover'
-                                        alt='photo'
-                                      />
-                                      {/* delete */}
-                                      {index !== 0 && (
-                                        <div
-                                          onClick={() =>
-                                            setUserimage((previous) =>
-                                              previous.filter((i) => {
-                                                return i.id !== item.id
-                                              })
-                                            )
-                                          }
-                                          className='absolute  -top-3 -right-3 p-2 rounded-full text-babyblack  cursor-pointer font-bold md:text-lg bg-softpurple '
-                                        >
-                                          <RiDeleteBack2Fill />
-                                        </div>
-                                      )}
-                                      {index === 0 && item.file && (
-                                        <div
-                                          onClick={() =>
-                                            setUserimage([
-                                              {
-                                                id: 1,
-                                                file: null,
-                                              },
-                                            ])
-                                          }
-                                          className='absolute  -top-3 -right-3 p-2 rounded-full text-babyblack  cursor-pointer font-bold md:text-lg bg-softpurple '
-                                        >
-                                          <RiDeleteBack2Fill />
-                                        </div>
-                                      )}
-                                    </div>
-                                  )}
-                                </div>
-                              )
-                            })}
-                          </div>
-                          {/*add  */}
-                          <div>
-                            <div
-                              onClick={() =>
-                                setUserimage((previous, index) => [
-                                  ...previous,
-                                  { id: previous.length + 1, file: null },
-                                ])
+                        {/* new */}
+                        {isuploading ? (
+                          <div className='px-4 py-4 space-y-10'>
+                            <FileUploader
+                              classes='border border-babypurple lg:border-2  border-dashed rounded-md flex flex-col  w-full max-w-xs lg:max-w-sm justify-center items-center mx-auto px-6 py-6 h-40'
+                              handleChange={async (files) => {
+                                // Convert FileList to an array using Array.from
+                                const filesArray = Array.from(files)
+
+                                // Check for invalid files based on size
+                                const invalidFiles = filesArray.filter(
+                                  (file) => file.size > 20000000
+                                )
+
+                                if (invalidFiles.length > 0) {
+                                  toast.error(
+                                    'One or more files have size exceeding 20MB'
+                                  )
+                                  return
+                                }
+                                if (filesArray.length < 6) {
+                                  toast.error(
+                                    'You must upload at least 6 photos '
+                                  )
+                                  return
+                                }
+
+                                // Set the files array in the state
+                                setUserimage(filesArray)
+                                setIsuploading(false)
+                              }}
+                              name='file'
+                              types={fileTypes}
+                              label='Choose a file or Drag it here'
+                              hoverTitle='Drop here'
+                              multiple={true}
+                              // fileOrFiles={fileAdded} // Include fileAdded if needed
+                              children={
+                                <label className='custom-file-upload space-y-4 md:space-y-6 flex flex-col justify-center items-center  text-center  max-w-lg  '>
+                                  <LuImagePlus className='text-center text-5xl lg:text-7xl text-babypurple mx-auto text-slate-400' />
+                                  <h1
+                                    htmlFor=''
+                                    className='text-center text-xs md:text-sm xl:text-base'
+                                  >
+                                    {' '}
+                                    <span className='font-bold text-xs md:text-sm xl:text-base cursor-pointer'>
+                                      Choose a file
+                                    </span>{' '}
+                                    or Drag it here
+                                  </h1>
+                                </label>
                               }
-                              className='px-4 py-2 md:py-3 bg-softpurple  shadow-md text-xs sm:px-6 font-bold lg:text-sm lg:px-8 cursor-pointer w-max '
-                            >
-                              Add{' '}
-                              <span className='hidden lg:inline-block '>
-                                More Photos
+                            />
+
+                            <h1 className='text-xs md:text-base text-center'>
+                              * supported files are JPG, JPEG, PNG <br />
+                              <span className='text-softRed font-bold'>
+                                File size must not be more than 20MB
                               </span>
+                            </h1>
+                          </div>
+                        ) : (
+                          <div className=' flex flex-col  gap-4 w-full'>
+                            <div className='bg-inherit  text-xs lg:text-sm max-w-md  outline-none w-full space-y-3 lg:space-y-4'>
+                              {userimage?.map((file, index) => (
+                                <div
+                                  key={index}
+                                  className='border-babygreen border rounded-md px-2 py-1 lg:py-2 lg:px-3 flex items-center justify-between gap-2 '
+                                >
+                                  <h1 className='text-xs lg:text-sm'>
+                                    {file?.name}
+                                  </h1>
+
+                                  <MdDelete
+                                    onClick={() => handleDelete(index)}
+                                    className=' cursor-pointer flex-shrink-0 text-red-500 text-sm lg:text-base'
+                                  />
+                                </div>
+                              ))}
                             </div>
                           </div>
-                        </div>
-                        <h1 className='px-4 pt-4 sm:px-6 md:px-8 text-xs text-babypurple'>
-                          Only Images are allowed
-                        </h1>
+                        )}
                       </div>
                     </div>
                     {/* rate car */}
@@ -357,16 +329,6 @@ function Returnvehicle() {
                     ) : (
                       'Return vehicle'
                     )}
-                  </button>
-                  <button
-                    onClick={() => {
-                      router.push({
-                        pathname: `/support`,
-                      })
-                    }}
-                    className=' text-babyblack border border-babyblack px-4 py-3 md:py-4   rounded-md w-full  text-sm lg:text-base transition ease-in-out delay-150  hover:-translate-y-1   hover:bg-indigo-500 duration-300 hover:border-none hover:text-white '
-                  >
-                    Report Issue
                   </button>
                 </div>
               </div>
