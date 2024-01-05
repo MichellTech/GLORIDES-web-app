@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { State, City } from 'country-state-city'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import * as Yup from 'yup'
@@ -12,18 +12,16 @@ import 'react-toastify/dist/ReactToastify.css'
 import { MdLocationPin, MdOutlineClearAll } from 'react-icons/md'
 import {
   openFilter,
-  unsearchCar,
   setAllsearchedcars,
-  setReturnedcars,
   getsearchedcars,
-  setsearcheddata,
+  setfiltercount,
   searchCar,
 } from '@/features/rental/filterSlice'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { FaAngleDown } from 'react-icons/fa'
 function Search({ setCarloader }) {
-  const [loading, setLoading] = useState(false)
+  const [commoncars, setCommoncars] = useState([])
   const [viewing, setViewing] = useState(1)
   const { bookmarked, allsearchedcars, returnedcars, searchdata } = useSelector(
     (store) => store.rental
@@ -31,7 +29,7 @@ function Search({ setCarloader }) {
 
   const dispatch = useDispatch()
   const initialValues = {
-    state: searchdata.state || 'Texas',
+    state: searchdata.state || '',
     date: searchdata.date ? new Date(searchdata.date) : new Date(),
     city: searchdata.city || '',
   }
@@ -40,6 +38,11 @@ function Search({ setCarloader }) {
     onSubmitProps.setSubmitting(false)
     dispatch(getsearchedcars(values.state))
     dispatch(searchCar())
+    localStorage.removeItem('selectedCarDoors')
+    localStorage.removeItem('selectedFuelType')
+    localStorage.removeItem('selectedGearType')
+    localStorage.removeItem('selectedPricing')
+    dispatch(setfiltercount(0))
   }
   // validation
   const validationSchema = Yup.object().shape({
@@ -49,16 +52,37 @@ function Search({ setCarloader }) {
     date: Yup.date().required('Required'),
   })
 
-  // const handleviewing = () => {
-  //   if (viewing === 1) {
-  //     dispatch(setAllsearchedcars(bookmarked))
-  //     return setViewing(2)
-  //   }
+  const handleviewing = () => {
+    if (viewing === 1) {
+      dispatch(setAllsearchedcars(commoncars))
+      return setViewing(2)
+    }
 
-  //   setViewing(1)
-  //   dispatch(setAllsearchedcars(returnedcars))
-  // }
+    setViewing(1)
+    dispatch(setAllsearchedcars(returnedcars))
+  }
 
+  useEffect(() => {
+    setCommoncars(
+      allsearchedcars?.filter((value) =>
+        bookmarked?.some((item) => item._id === value._id)
+      )
+    )
+  }, [allsearchedcars, bookmarked])
+
+  const profile =
+    localStorage?.getItem('User_Profile') === null ||
+    localStorage?.getItem('User_Profile') === 'undefined' ||
+    localStorage?.getItem('User_Profile') === undefined
+      ? []
+      : JSON?.parse(localStorage?.getItem('User_Profile'))
+
+  const mynotifications =
+    localStorage?.getItem('User_Notifications') === null ||
+    localStorage?.getItem('User_Notifications') === 'undefined' ||
+    localStorage?.getItem('User_Notifications') === undefined
+      ? []
+      : JSON?.parse(localStorage?.getItem('User_Notifications'))
   return (
     <>
       <Formik
@@ -68,15 +92,15 @@ function Search({ setCarloader }) {
       >
         {(formik) => {
           return (
-            <Form className='grid grid-cols-2 gap-4  rounded md:grid-cols-3  w-full justify-center items-end mx-auto lg:grid-cols-4 xl:grid-cols-6  '>
+            <Form className='grid grid-cols-2 gap-4  rounded md:grid-cols-3  w-full justify-center items-end mx-auto lg:grid-cols-4 xl:grid-cols-5  '>
               {/* filter */}
-              <div
+              {/* <div
                 onClick={() => dispatch(openFilter())}
-                className='xl:flex lg:items-center gap-3  md:h-14  border lg:py-3 lg:px-6 hidden  cursor-pointer bg-[#F5F5F5]  '
+                className='xl:flex lg:items-center  justify-center gap-3  md:h-14  border lg:py-3 lg:px-6 hidden  cursor-pointer bg-[#F5F5F5]  '
               >
                 <LuFilter />
-                <h1>Filter (0)</h1>
-              </div>
+                <h1>Filter</h1>
+              </div> */}
               {/* city */}
               <div className='space-y-1'>
                 <label
@@ -180,15 +204,25 @@ function Search({ setCarloader }) {
                 Search
               </button>
               {/* saved */}
-              <div className='xl:flex lg:items-center mx-auto justify-center gap-3 border lg:py-3 lg:px-4 hidden cursor-pointer bg-[#F5F5F5] w-full h-10   sm:h-12 md:h-14 '>
-                {/* {viewing === 1 ? <BsBookmark /> : <MdOutlineClearAll />} */}
-                <h1>
-                  {/* {viewing === 1
-                    ? `Favorites (${bookmarked?.length})`
-                    : 'View All Cars'} */}
-                  Favorites(0)
-                </h1>
-              </div>
+
+              {allsearchedcars.length < 1 || profile ? (
+                <div
+                  onClick={() => handleviewing()}
+                  className='xl:flex lg:items-center mx-auto justify-center gap-3 border lg:py-3 lg:px-4 hidden cursor-pointer bg-[#F5F5F5] w-full h-10   sm:h-12 md:h-14 '
+                >
+                  {viewing === 1 ? <BsBookmark /> : <MdOutlineClearAll />}
+                  <h1>
+                    {viewing === 1
+                      ? `Favorites (${commoncars?.length})`
+                      : 'View All Cars'}
+                  </h1>
+                </div>
+              ) : (
+                <div className='xl:flex lg:items-center mx-auto justify-center gap-3 border lg:py-3 lg:px-4 hidden cursor-pointer bg-[#F5F5F5] w-full h-10   sm:h-12 md:h-14 '>
+                  <MdOutlineClearAll />
+                  <h1>No data</h1>
+                </div>
+              )}
             </Form>
           )
         }}

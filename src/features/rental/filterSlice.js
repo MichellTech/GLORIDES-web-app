@@ -26,7 +26,7 @@ export const getsearchedcars = createAsyncThunk(
           state: values,
         }
       )
-      console.log(values)
+
       return response?.data?.data
     } catch (error) {
       console.error(error)
@@ -51,6 +51,7 @@ export const getallcars = createAsyncThunk('user/getallcars', async () => {
 
 const initialState = {
   isFiltering: false,
+  filtercount: 0,
   allsearchedcars: [],
   bookmarked: [],
   isBooking: false,
@@ -82,6 +83,9 @@ const filterSlice = createSlice({
     },
     setAllsearchedcars: (state, action) => {
       state.allsearchedcars = action.payload
+    },
+    setfiltercount: (state, action) => {
+      state.filtercount = action.payload
     },
     setReturnedcars: (state, action) => {
       state.returnedcars = action.payload
@@ -128,6 +132,7 @@ const filterSlice = createSlice({
       })
       .addCase(getsearchedcars.fulfilled, (state, action) => {
         state.allsearchedcars = action.payload
+        state.returnedcars = action.payload
         state.isLoading = false
         state.hasError = false
       })
@@ -143,6 +148,7 @@ const filterSlice = createSlice({
       })
       .addCase(getallcars.fulfilled, (state, action) => {
         state.allsearchedcars = action.payload
+        state.returnedcars = action.payload
         state.isLoading = false
         state.hasError = false
       })

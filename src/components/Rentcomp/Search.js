@@ -27,7 +27,7 @@ function Search() {
   const dispatch = useDispatch()
 
   const initialValues = {
-    state: 'Texas',
+    state: '',
     city: '',
     date: new Date(),
   }
@@ -50,15 +50,15 @@ function Search() {
   }
 
   // validation
-  const validationSchema = Yup.object().shape({
-    state: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No value provided'),
-    city: Yup.string()
-      .trim('The contact name cannot include leading and trailing spaces')
-      .required('No value provided'),
-    date: Yup.date().required('Required'),
-  })
+  // const validationSchema = Yup.object().shape({
+  //   state: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No value provided'),
+  //   city: Yup.string()
+  //     .trim('The contact name cannot include leading and trailing spaces')
+  //     .required('No value provided'),
+  //   date: Yup.date().required('Required'),
+  // })
 
   return (
     <>
@@ -69,7 +69,7 @@ function Search() {
           <Formik
             initialValues={initialValues}
             onSubmit={onSubmit}
-            validationSchema={validationSchema}
+            // validationSchema={validationSchema}
             enableReinitialize
           >
             {(formik) => {
@@ -125,7 +125,7 @@ function Search() {
                         name='state'
                         className='bg-[#D9D9D9] px-2 text-center py-2 placeholder:text-center outline-none text-xs sm:h-12 md:h-14 placeholder:text-xs h-10 md:text-sm xl:text-base text-babyblack w-full xl:rounded-sm appearance-none'
                       >
-                        <option value=''>Select State</option>
+                        <option value=''>All States</option>
                         {State.getStatesOfCountry('US')?.map((item, index) => (
                           <option key={index} value={item.name}>
                             {item.name}

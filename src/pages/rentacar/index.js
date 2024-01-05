@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../../components/Navigation/Navbar/index'
 import Search from '../../components/Rentcomp/Search'
 import Allcars from '../../components/Rentcomp/Allcars'
@@ -17,21 +17,29 @@ import { BsBookmark } from 'react-icons/bs'
 
 function allcars() {
   const [viewing, setViewing] = useState(1)
-  const { isFiltering, bookmarked, returnedcars } = useSelector(
-    (store) => store.rental
-  )
+  const [commoncars, setCommoncars] = useState([])
+  const { isFiltering, bookmarked, returnedcars, allsearchedcars } =
+    useSelector((store) => store.rental)
   const [carloader, setCarloader] = useState(false)
   const dispatch = useDispatch()
 
   const handleviewing = () => {
     if (viewing === 1) {
-      dispatch(setAllsearchedcars(bookmarked))
+      dispatch(setAllsearchedcars(commoncars))
       return setViewing(2)
     }
 
     setViewing(1)
     dispatch(setAllsearchedcars(returnedcars))
   }
+
+  useEffect(() => {
+    setCommoncars(
+      allsearchedcars?.filter((value) =>
+        bookmarked?.some((item) => item._id === value._id)
+      )
+    )
+  }, [allsearchedcars, bookmarked])
   return (
     <>
       <main
@@ -66,29 +74,31 @@ function allcars() {
         <div className='fixed bottom-8 left-0 right-0'>
           <div className='flex justify-center flex-wrap gap-4 z-30'>
             {/* fiter */}
-            <div
+            {/* <div
               onClick={() => dispatch(openFilter())}
               className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm   cursor-pointer bg-white'
             >
               <LuFilter className='text-sm md:text-base' />
               <h1 className='text-xs md:text-sm'>Filter</h1>
-            </div>
+            </div> */}
             {/* favorites */}
-            <div
-              onClick={handleviewing}
-              className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm  cursor-pointer bg-white'
-            >
-              {viewing === 1 ? (
-                <BsBookmark className='text-sm md:text-base' />
-              ) : (
-                <MdOutlineClearAll className='text-sm md:text-base' />
-              )}
-              <h1 className='text-xs md:text-sm'>
-                {viewing === 1
-                  ? `Favorites (${bookmarked?.length})`
-                  : 'View All Cars'}
-              </h1>
-            </div>
+            {allsearchedcars.length > 1 && (
+              <div
+                onClick={handleviewing}
+                className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm  cursor-pointer bg-white'
+              >
+                {viewing === 1 ? (
+                  <BsBookmark className='text-sm md:text-base' />
+                ) : (
+                  <MdOutlineClearAll className='text-sm md:text-base' />
+                )}
+                <h1 className='text-xs md:text-sm'>
+                  {viewing === 1
+                    ? `Favorites (${commoncars?.length})`
+                    : 'View All Cars'}
+                </h1>
+              </div>
+            )}
           </div>
         </div>
       </main>
