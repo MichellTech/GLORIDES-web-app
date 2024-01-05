@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { cars } from '../../../utilis/Cardata'
 import Navbar from '@/components/Navigation/Navbar/index'
@@ -46,8 +46,10 @@ function Extendride() {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [cardata, setCardata] = useState({})
+  const [extendby, setExtendby] = useState(null)
+  const [dropoffd, setDropoffd] = useState(null) // Step 1
   const { carId } = router.query
-
+  const initialDropoffDateRef = useRef(null)
   useEffect(() => {
     getrentdetails()
   }, [carId])
@@ -58,7 +60,10 @@ function Extendride() {
       .then(function (response) {
         setLoading(false)
         setCardata(response?.data?.booking)
-        console.log(response?.data?.booking)
+        setDropoffd(new Date(response?.data?.booking?.end_date))
+        initialDropoffDateRef.current = new Date(
+          response?.data?.booking?.end_date
+        )
       })
       .catch(function (error) {
         setLoading(false)
@@ -66,14 +71,15 @@ function Extendride() {
       })
   }
 
-  const date1 = new Date(cardata?.start_date)
-  const date2 = new Date(cardata?.end_date)
-  const diffTime = Math.abs(date2 - date1)
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-  const OneDayInMilliseconds = 24 * 60 * 60 * 1000
+  const OneDayInMilliseconds = 24 * 60 * 60 * 1000 // 24 hours * 60 minutes * 60 seconds * 1000 milliseconds
+  const end_date = cardata?.end_date || '' // Default to an empty string if cardataEndDate is null or undefined
+
   const initialValues = {
-    dropoffd: new Date(), // Set default to one day ahead
+    dropoffd: end_date
+      ? new Date(new Date(end_date).getTime() + OneDayInMilliseconds)
+      : new Date(),
   }
+
   const validationSchema = Yup.object().shape({
     dropoffd: Yup.date().required('Dropoff Date Required'),
   })
@@ -83,6 +89,16 @@ function Extendride() {
     console.log(values)
   }
 
+  const handleDropoffDateChange = (date, form) => {
+    form.setFieldValue('dropoffd', date)
+
+    // Step 2: Calculate the difference as the user changes the date
+    const diffTime = Math.abs(date - initialDropoffDateRef.current)
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    setExtendby(diffDays)
+    // console.log('Difference in days:', diffDays)
+  }
+
   return (
     <>
       <Navbar />
@@ -90,14 +106,23 @@ function Extendride() {
         {/* body */}
         <div className=' px-6 md:px-7  lg:px-8 xl:px-12 space-y-6 lg:space-y-10   pb-10  '>
           {/* back */}
-          <Link href='/rentacar'>
-            <div className='flex items-center gap-2 cursor-pointer'>
-              <MdKeyboardBackspace className='lg:text-2xl' />
-              <h1 className='text-sm  lg:text-base font-bold'>All Cars</h1>
-            </div>
-          </Link>
+
+          <div
+            onClick={() => {
+              router.push({
+                pathname: `/renthistory/${cardata?._id}`,
+              })
+            }}
+            className='flex items-center gap-2 cursor-pointer'
+          >
+            <MdKeyboardBackspace className='lg:text-2xl' />
+            <h1 className='text-sm  lg:text-base font-bold'>
+              Car Rent history
+            </h1>
+          </div>
+
           {/* body */}
-          <div className='lg:flex lg:items-start lg:gap-4 w-full xl:gap-6'>
+          <div className='lg:flex lg:items-start space-y-6 lg:space-y-0 lg:gap-4 w-full xl:gap-6'>
             {/* car details */}
             <div className='space-y-6 lg:w-2/3 xl:w-4/6'>
               {/* car photo */}
@@ -326,23 +351,23 @@ function Extendride() {
               {/* summary */}
               <div className='bg-white px-4 py-4 rounded-lg space-y-3  md:space-y-4 lg:space-y-5 shadow-md'>
                 <h1 className='font-bold text-sm md:text-base xl:text-lg border-b border-babyblack pb-2'>
-                  Complete Extension
+                  Rent Extension Summary
                 </h1>
                 {/* drop off */}
 
                 <div className='w-full bg-white border-b pb-4  space-y-4'>
                   {/* header */}
                   <div className='relative'>
-                    <h1 className=' text-xs  lg:text-sm  '>
+                    <h1 className=' text-xs  lg:text-sm xl:text-base  '>
                       {' '}
-                      Inital Dropoff Location and Time
+                      Inital Dropoff Date and Time
                     </h1>
                   </div>
                   {/* content */}
                   <div className='flex items-center gap-2'>
                     <TbClockHour9 className='text-sm' />
-                    <h1 className='text-xs '>
-                      {moment(cardata?.car_booked?.end_date).format(
+                    <h1 className='text-xs  lg:text-sm'>
+                      {moment(cardata?.end_date).format(
                         'MMMM Do YYYY, h:mm:ss a'
                       )}
                     </h1>
@@ -359,11 +384,11 @@ function Extendride() {
                     return (
                       <Form className='space-y-5 w-full   '>
                         {/* first */}
-                        <div className='space-y-6  lg:space-y-10 pt-4'>
+                        <div className='space-y-6  lg:space-y-10 py-4'>
                           {/* drop off time and date */}
                           <div className='  space-y-2 lg:space-y-4  '>
-                            <h1 className='font-bold text-sm lg:text-base '>
-                              Dropoff Date and Time
+                            <h1 className='text-xs  lg:text-sm xl:text-base '>
+                              New dropoff date and time
                             </h1>
                             {/* date and time */}
                             <div className='space-y-3'>
@@ -375,24 +400,28 @@ function Extendride() {
                                       {({ field, form }) => {
                                         return (
                                           <DatePicker
-                                            className='pl-10 outline-none   text-left w-60 text-sm   '
+                                            className='pl-10 outline-none   text-left w-60 text-xs   lg:text-sm '
                                             id='dropoffd'
                                             {...field}
                                             selected={field.value}
+                                            placeholderText='Select Date'
                                             showTimeSelect
                                             timeFormat='HH:mm'
                                             timeIntervals={15}
                                             timeCaption='time'
                                             dateFormat='MM/dd/yyyy  h:mm aa'
-                                            // minDate={
-                                            //   new Date(
-                                            //     cardata?.car_booked?.end_date
-                                            //   )
-                                            // }
+                                            minDate={
+                                              new Date(
+                                                new Date(
+                                                  cardata?.end_date
+                                                ).getTime() +
+                                                  24 * 60 * 60 * 1000
+                                              )
+                                            }
                                             onChange={(date) =>
-                                              form.setFieldValue(
-                                                field.name,
-                                                date
+                                              handleDropoffDateChange(
+                                                date,
+                                                form
                                               )
                                             }
                                           />
@@ -408,6 +437,64 @@ function Extendride() {
                               </div>
                             </div>
                           </div>
+                        </div>
+                        {/* one */}
+                        <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
+                          <h1 className='text-sm lg:text-base'>
+                            Car Rent Cost
+                          </h1>
+                          <h1 className='text-sm lg:text-base font-bold'>
+                            $ {cardata?.car_booked?.rent_cost}
+                          </h1>
+                        </div>
+                        {/* two */}
+                        <div className='w-full  flex justify-between items-center gap-2   border-b pb-4'>
+                          <h1 className='text-sm lg:text-base '>
+                            Insurance Cost
+                          </h1>
+                          <h1 className='text-xs  xl:text-sm font-bold'>
+                            $ 50{' '}
+                          </h1>
+                        </div>
+                        <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
+                          <h1 className='text-sm lg:text-base'>
+                            Number of Additional day(s)
+                          </h1>
+                          <h1 className='text-sm lg:text-base font-bold'>
+                            {extendby ? extendby : '0'}
+                          </h1>
+                        </div>
+                        {/* one */}
+                        <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
+                          <h1 className='text-sm lg:text-base'>
+                            Total Rent Cost
+                          </h1>
+                          <h1 className='text-sm lg:text-base font-bold'>
+                            $ ({cardata?.car_booked?.rent_cost * extendby})/
+                            {extendby} days{' '}
+                          </h1>
+                        </div>
+
+                        <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
+                          <h1 className='text-sm lg:text-base'>
+                            Total Insurance Cost
+                          </h1>
+                          <h1 className='text-sm lg:text-base font-bold'>
+                            $ ({50 * extendby})/
+                            {extendby} days{' '}
+                          </h1>
+                        </div>
+
+                        {/* one */}
+                        <div className='w-full  flex justify-between items-center gap-2 border-b  border-babyblack pb-4 '>
+                          <h1 className='text-sm lg:text-base font-bold'>
+                            Total Cost
+                          </h1>
+                          <h1 className='text-xs  md:text-sm lg:text-base font-bold'>
+                            $
+                            {cardata?.car_booked?.rent_cost * extendby +
+                              50 * extendby}
+                          </h1>
                         </div>
                         {/* button*/}
                         <div className='w-full  space-y-4 py-4'>
@@ -430,36 +517,6 @@ function Extendride() {
                     )
                   }}
                 </Formik>
-                {/* one */}
-                <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
-                  <h1 className='text-sm lg:text-base'>Rent Cost</h1>
-                  <h1 className='text-sm lg:text-base font-bold'>
-                    $ {cardata?.car_booked?.rent_cost}{' '}
-                  </h1>
-                </div>
-                <div className='w-full  flex justify-between items-center gap-2 border-b pb-4 '>
-                  <h1 className='text-sm lg:text-base'>Number of day(s)</h1>
-                  <h1 className='text-sm lg:text-base font-bold'>{diffDays}</h1>
-                </div>
-                {/* two */}
-                <div className='w-full  flex justify-between items-center gap-2   border-b pb-4'>
-                  <h1 className='text-sm lg:text-base '>Insurance Cost</h1>
-                  <h1 className='text-xs  xl:text-sm font-bold'>$ 0</h1>
-                </div>
-                {/* one */}
-                <div className='w-full  flex justify-between items-center gap-2  border-b pb-4 border-babyblack '>
-                  <h1 className='text-sm lg:text-base'>Tank Filling</h1>
-                  <h1 className='text-xs xl:text-sm  font-bold'>
-                    $ {cardata?.car_booked?.tank_filling?.amount}
-                  </h1>
-                </div>
-                {/* one */}
-                <div className='w-full  flex justify-between items-center gap-2 border-b  border-babyblack pb-4 '>
-                  <h1 className='text-sm lg:text-base font-bold'>Total Cost</h1>
-                  <h1 className='text-xs  md:text-sm lg:text-base font-bold'>
-                    ${cardata?.amount}
-                  </h1>
-                </div>
               </div>
               {/* owner Listing*/}
               <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
