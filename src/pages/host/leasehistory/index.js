@@ -10,12 +10,14 @@ import { LuCalendarClock } from 'react-icons/lu'
 import { MdOutlineCarRental } from 'react-icons/md'
 import mainAxiosAction from '../../../components/axiosAction/index'
 import moment from 'moment'
-
+import ReactPaginate from 'react-paginate'
 function Leasehistory() {
   const [loading, setLoading] = useState(false)
   const [leasedata, setLeasedata] = useState(null)
   const [returneddata, setReturneddata] = useState(null)
   const [isClosing, setIsClosing] = useState(false)
+  const [currentPage, setCurrentPage] = useState(0)
+  const itemsPerPage = 10 // Set the number of items per page
   const router = useRouter()
 
   const gethistory = () => {
@@ -47,7 +49,54 @@ function Leasehistory() {
     localStorage?.getItem('User_Profile') === undefined
       ? []
       : JSON?.parse(localStorage?.getItem('User_Profile'))
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected)
+  }
+  const indexOfLastItem = (currentPage + 1) * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = leasedata
+    ?.slice(indexOfFirstItem, indexOfLastItem)
+    ?.sort((a, b) => {
+      return new Date(b?.start_date) - new Date(a?.start_date)
+    })
+    ?.map((item, index) => {
+      return (
+        <tr
+          onClick={() => {
+            item?.status === 'returned'
+              ? router.push({
+                  pathname: `/host/leasehistory/${item?._id}`,
+                })
+              : ''
+          }}
+          key={index}
+          className='hover:bg-softpurple text-xs md:text-sm '
+        >
+          <td className='pl-6 pr-4  py-4  '>{item?.car_booked?.car_name}</td>
 
+          <td className=' py-4  pr-4 '> {item?.booked_by?.firstname}</td>
+          <td className='pr-4   py-4  text-left '>{item?.amount}</td>
+          <td
+            className={`${
+              item?.status === 'completed'
+                ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
+                : item?.status === 'returned'
+                ? 'pr-4    text-left text-orange-800 bg-orange-300 px-2 py-1'
+                : 'pr-4     text-left text-indigo-800 bg-indigo-300 font-normal px-2 py-1'
+            }`}
+          >
+            {item?.status}
+          </td>
+
+          <td className='pr-4   py-4  text-left '>
+            {moment(item?.start_date).format('MMMM Do YYYY, h:mm:ss a')}
+          </td>
+          <td className='pr-4   py-4  text-left '>
+            {moment(item?.start_date).format('MMMM Do YYYY, h:mm:ss a')}
+          </td>
+        </tr>
+      )
+    })
   return (
     <>
       <Navbar />
@@ -203,63 +252,24 @@ function Leasehistory() {
                       </tr>
                     </thead>
                     <tbody className=' px-6  py-5 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
-                      {leasedata
-                        ?.sort((a, b) => {
-                          return (
-                            new Date(b?.start_date) - new Date(a?.start_date)
-                          )
-                        })
-                        ?.map((item, index) => {
-                          return (
-                            <tr
-                              onClick={() => {
-                                item?.status === 'returned'
-                                  ? router.push({
-                                      pathname: `/host/leasehistory/${item?._id}`,
-                                    })
-                                  : ''
-                              }}
-                              key={index}
-                              className='hover:bg-softpurple text-xs md:text-sm '
-                            >
-                              <td className='pl-6 pr-4  py-4  '>
-                                {item?.car_booked?.car_name}
-                              </td>
-
-                              <td className=' py-4  pr-4 '>
-                                {' '}
-                                {item?.booked_by?.firstname}
-                              </td>
-                              <td className='pr-4   py-4  text-left '>
-                                {item?.amount}
-                              </td>
-                              <td
-                                className={`${
-                                  item?.status === 'completed'
-                                    ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
-                                    : item?.status === 'returned'
-                                    ? 'pr-4    text-left text-orange-800 bg-orange-300 px-2 py-1'
-                                    : 'pr-4     text-left text-indigo-800 bg-indigo-300 font-normal px-2 py-1'
-                                }`}
-                              >
-                                {item?.status}
-                              </td>
-
-                              <td className='pr-4   py-4  text-left '>
-                                {moment(item?.start_date).format(
-                                  'MMMM Do YYYY, h:mm:ss a'
-                                )}
-                              </td>
-                              <td className='pr-4   py-4  text-left '>
-                                {moment(item?.start_date).format(
-                                  'MMMM Do YYYY, h:mm:ss a'
-                                )}
-                              </td>
-                            </tr>
-                          )
-                        })}
+                      {currentItems}
                     </tbody>
                   </table>
+                </div>
+                <div className='w-full mt-10 flex justify-end px-4 md:px-6'>
+                  <ReactPaginate
+                    pageCount={Math.ceil(leasedata?.length / itemsPerPage)}
+                    pageRangeDisplayed={5}
+                    marginPagesDisplayed={2}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                    pageLinkClassName={'pagination-link'}
+                    previousLinkClassName={'pagination-previous'}
+                    nextLinkClassName={'pagination-next'}
+                    breakClassName={'pagination-break'}
+                    breakLinkClassName={'pagination-break-link'}
+                  />
                 </div>
               </div>
             ) : (

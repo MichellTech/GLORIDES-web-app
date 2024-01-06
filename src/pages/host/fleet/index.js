@@ -15,9 +15,12 @@ import { useRouter } from 'next/router'
 import { GiRoad } from 'react-icons/gi'
 import mainAxiosAction from '../../../components/axiosAction/index'
 import moment from 'moment'
+import ReactPaginate from 'react-paginate'
 function Fleet() {
   const [loading, setLoading] = useState(false)
   const [fleetdata, setFleetdata] = useState(null)
+  const [currentPage, setCurrentPage] = useState(0)
+  const itemsPerPage = 10 // Set the number of items per page
   const router = useRouter()
 
   const profile =
@@ -45,6 +48,49 @@ function Fleet() {
   useEffect(() => {
     getfleet()
   }, [])
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected)
+  }
+  const indexOfLastItem = (currentPage + 1) * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = fleetdata?.all_vehicles
+    ?.slice(indexOfFirstItem, indexOfLastItem)
+    ?.sort((a, b) => {
+      return new Date(b?.createdAt) - new Date(a?.createdAt)
+    })
+    ?.map((item, index) => {
+      return (
+        <tr
+          onClick={() => {
+            router.push({
+              pathname: `/host/fleet/${item?._id}`,
+            })
+          }}
+          key={index}
+          className='hover:bg-softpurple text-xs md:text-sm '
+        >
+          <td className='pl-6 pr-4  py-4  '>{item?.car_name}</td>
+
+          <td className=' py-4  pr-4 '>
+            {' '}
+            {moment(item?.createdAt).format('MMMM Do YYYY, h:mm:ss a')}{' '}
+          </td>
+          <td className='pr-4   py-4  text-left '>{item?.rent_cost}</td>
+          <td
+            className={`${
+              item?.status === 'listed'
+                ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
+                : 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
+            }`}
+          >
+            {item?.status}
+          </td>
+
+          <td className='pr-4   py-4  text-left '>{item?.pickup_location}</td>
+          <td className='pr-4   py-4  text-left '>{item?.dropoff_location}</td>
+        </tr>
+      )
+    })
   return (
     <>
       <Navbar />
@@ -213,55 +259,26 @@ function Fleet() {
                     </tr>
                   </thead>
                   <tbody className=' px-6  py-5 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
-                    {fleetdata?.all_vehicles
-                      ?.sort((a, b) => {
-                        return new Date(b?.createdAt) - new Date(a?.createdAt)
-                      })
-                      ?.map((item, index) => {
-                        return (
-                          <tr
-                            onClick={() => {
-                              router.push({
-                                pathname: `/host/fleet/${item?._id}`,
-                              })
-                            }}
-                            key={index}
-                            className='hover:bg-softpurple text-xs md:text-sm '
-                          >
-                            <td className='pl-6 pr-4  py-4  '>
-                              {item?.car_name}
-                            </td>
-
-                            <td className=' py-4  pr-4 '>
-                              {' '}
-                              {moment(item?.createdAt).format(
-                                'MMMM Do YYYY, h:mm:ss a'
-                              )}{' '}
-                            </td>
-                            <td className='pr-4   py-4  text-left '>
-                              {item?.rent_cost}
-                            </td>
-                            <td
-                              className={`${
-                                item?.status === 'listed'
-                                  ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
-                                  : 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
-                              }`}
-                            >
-                              {item?.status}
-                            </td>
-
-                            <td className='pr-4   py-4  text-left '>
-                              {item?.pickup_location}
-                            </td>
-                            <td className='pr-4   py-4  text-left '>
-                              {item?.dropoff_location}
-                            </td>
-                          </tr>
-                        )
-                      })}
+                    {currentItems}
                   </tbody>
                 </table>
+              </div>
+              <div className='w-full mt-10 flex justify-end px-4 md:px-6'>
+                <ReactPaginate
+                  pageCount={Math.ceil(
+                    fleetdata?.all_vehicles?.length / itemsPerPage
+                  )}
+                  pageRangeDisplayed={5}
+                  marginPagesDisplayed={2}
+                  onPageChange={handlePageClick}
+                  containerClassName={'pagination'}
+                  activeClassName={'active'}
+                  pageLinkClassName={'pagination-link'}
+                  previousLinkClassName={'pagination-previous'}
+                  nextLinkClassName={'pagination-next'}
+                  breakClassName={'pagination-break'}
+                  breakLinkClassName={'pagination-break-link'}
+                />
               </div>
             </div>
           </section>

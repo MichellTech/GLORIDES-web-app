@@ -55,7 +55,7 @@ function Rentedcar() {
   }
   useEffect(() => {
     getreturnedcardata()
-  }, [])
+  }, [carId])
   return (
     <>
       <Navbar />

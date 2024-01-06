@@ -9,9 +9,10 @@ import 'react-toastify/dist/ReactToastify.css'
 import Link from 'next/link'
 import mainAxiosAction from '@/components/axiosAction'
 import { useRouter } from 'next/router'
+import { FaAngleDown } from 'react-icons/fa'
 function Raiseaticket() {
   const [loading, setLoading] = useState(false)
-  const [userservice, setUserservice] = useState(['User', 'Host'])
+  const [userservice, setUserservice] = useState(['Renting', 'Hosting'])
   const [userpriority, setUserpriority] = useState(['High', 'Medium', 'Low'])
   const [userimage, setUserimage] = useState([{ id: 1, file: null }])
   const router = useRouter()
@@ -115,16 +116,16 @@ function Raiseaticket() {
                           {/* service */}
                           <div className=' space-y-3 w-full'>
                             <h1 className='text-xs md:text-sm xl:text-base '>
-                              Service Type
+                              User Type
                             </h1>
                             <div className='relative'>
                               <Field
                                 as='select'
                                 type='selectOption'
                                 name='service'
-                                className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm rounded-sm cursor-pointer xl:text-base xl:placeholder:text-base  '
+                                className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm rounded-sm cursor-pointer xl:text-base xl:placeholder:text-base  appearance-none '
                               >
-                                <option value=''>Select Service Type</option>
+                                <option value=''>User Type</option>
                                 {userservice?.map((item, index) => {
                                   return (
                                     <option key={index} value={item}>
@@ -133,9 +134,7 @@ function Raiseaticket() {
                                   )
                                 })}
                               </Field>
-                              {/* <div className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg lg:text-xl xl:text-2xl'>
-                                <AiFillCaretDown />
-                              </div> */}
+                              <FaAngleDown className='absolute top-1/2 right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack cursor-pointer font-bold sm:text-lg lg:text-xl xl:text-2xl pointer-events-none' />
                             </div>
 
                             <div className='text-softRed text-xs mt-1 px-4'>
@@ -152,7 +151,7 @@ function Raiseaticket() {
                                 as='select'
                                 type='selectOption'
                                 name='priority'
-                                className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm  rounded-sm cursor-pointer xl:text-base xl:placeholder:text-base    '
+                                className=' bg-white border-babyblack border w-full py-2 lg:py-3 px-4 outline-babypurple text-xs placeholder:text-xs md:text-sm md:placeholder:text-sm  rounded-sm cursor-pointer xl:text-base xl:placeholder:text-base  appearance-none    '
                               >
                                 <option className=' ' value=''>
                                   select Priority
@@ -169,9 +168,7 @@ function Raiseaticket() {
                                   )
                                 })}
                               </Field>
-                              {/* <div className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg lg:text-xl xl:text-2xl'>
-                                <AiFillCaretDown />
-                              </div> */}
+                              <FaAngleDown className='absolute top-1/2 right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack cursor-pointer font-bold sm:text-lg lg:text-xl xl:text-2xl pointer-events-none' />
                             </div>
 
                             <div className='text-softRed text-xs mt-1 px-4'>

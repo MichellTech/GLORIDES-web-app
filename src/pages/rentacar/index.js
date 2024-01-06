@@ -91,7 +91,7 @@ function allcars() {
               <h1 className='text-xs md:text-sm'>Filter</h1>
             </div> */}
             {/* favorites */}
-            {allsearchedcars.length < 1 || profile ? (
+            {allsearchedcars?.length < 1 || profile ? (
               <div
                 onClick={handleviewing}
                 className='flex items-center gap-3 border py-3 px-8 xl:hidden shadow-2xl rounded-sm  cursor-pointer bg-white'

@@ -16,6 +16,7 @@ import Paymentcomp from '@/components/Paymentcomp'
 import { withdrawmoney } from '@/features/userpersona/userSlice'
 import mainAxiosAction from '../../components/axiosAction/index'
 import moment from 'moment'
+import ReactPaginate from 'react-paginate'
 function Transactionhistory() {
   const [loading, setLoading] = useState(false)
   const [transdata, setTransdata] = useState(null)
@@ -23,6 +24,8 @@ function Transactionhistory() {
   const [withdrawnsum, setWithdrawnsum] = useState(0)
   const [pendingsum, setPendingsum] = useState(0)
   const [availablesum, setAvailablesum] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0)
+  const itemsPerPage = 10 // Set the number of items per page
   const router = useRouter()
   const { isWithdrawing } = useSelector((store) => store.userpersona)
   const dispatch = useDispatch()
@@ -99,6 +102,41 @@ function Transactionhistory() {
   useEffect(() => {
     gettransactions()
   }, [])
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected)
+  }
+  const indexOfLastItem = (currentPage + 1) * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = transdata
+    ?.slice(indexOfFirstItem, indexOfLastItem)
+    .sort((a, b) => {
+      return new Date(b?.date_created) - new Date(a?.date_created)
+    })
+    ?.map((item, index) => {
+      return (
+        <tr key={index} className='hover:bg-softpurple text-xs md:text-sm '>
+          <td className='pl-6 pr-4  py-4  '>{item?.description}</td>
+          <td className=' py-4 pr-4 '>Michell Okwu</td>
+          <td className=' py-4  pr-4 '>{item?.payment_type}</td>
+
+          <td
+            className={`${
+              item?.status === 'completed'
+                ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
+                : item.status === 'failed'
+                ? 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
+                : 'pr-4   py-4  text-left text-orange-800 bg-orange-300 font-normal'
+            }`}
+          >
+            {item?.status}
+          </td>
+          <td className='pr-4   py-4  text-left '>{item?.amount}</td>
+          <td className='pr-4   py-4  text-left '>
+            {moment(item?.date_created).format('MMMM Do YYYY, h:mm:ss a')}
+          </td>
+        </tr>
+      )
+    })
 
   return (
     <>
@@ -299,51 +337,24 @@ function Transactionhistory() {
                         </tr>
                       </thead>
                       <tbody className=' px-6  py-5 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
-                        {transdata
-                          ?.sort((a, b) => {
-                            return (
-                              new Date(b?.date_created) -
-                              new Date(a?.date_created)
-                            )
-                          })
-                          ?.map((item, index) => {
-                            return (
-                              <tr
-                                key={index}
-                                className='hover:bg-softpurple text-xs md:text-sm '
-                              >
-                                <td className='pl-6 pr-4  py-4  '>
-                                  {item?.description}
-                                </td>
-                                <td className=' py-4 pr-4 '>Michell Okwu</td>
-                                <td className=' py-4  pr-4 '>
-                                  {item?.payment_type}
-                                </td>
-
-                                <td
-                                  className={`${
-                                    item?.status === 'completed'
-                                      ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
-                                      : item.status === 'failed'
-                                      ? 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
-                                      : 'pr-4   py-4  text-left text-orange-800 bg-orange-300 font-normal'
-                                  }`}
-                                >
-                                  {item?.status}
-                                </td>
-                                <td className='pr-4   py-4  text-left '>
-                                  {item?.amount}
-                                </td>
-                                <td className='pr-4   py-4  text-left '>
-                                  {moment(item?.date_created).format(
-                                    'MMMM Do YYYY, h:mm:ss a'
-                                  )}
-                                </td>
-                              </tr>
-                            )
-                          })}
+                        {currentItems}
                       </tbody>
                     </table>
+                  </div>
+                  <div className='w-full mt-10 flex justify-end px-4 md:px-6'>
+                    <ReactPaginate
+                      pageCount={Math.ceil(transdata?.length / itemsPerPage)}
+                      pageRangeDisplayed={5}
+                      marginPagesDisplayed={2}
+                      onPageChange={handlePageClick}
+                      containerClassName={'pagination'}
+                      activeClassName={'active'}
+                      pageLinkClassName={'pagination-link'}
+                      previousLinkClassName={'pagination-previous'}
+                      nextLinkClassName={'pagination-next'}
+                      breakClassName={'pagination-break'}
+                      breakLinkClassName={'pagination-break-link'}
+                    />
                   </div>
                 </div>
               )}

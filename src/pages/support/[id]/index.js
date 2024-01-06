@@ -12,9 +12,13 @@ import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import moment from 'moment'
 import Supportform from '../../../components/Supportform'
+import { MdCancel } from 'react-icons/md'
+import Iframe from 'react-iframe'
 function Viewticket() {
   const [isReplying, setIsReplying] = useState(false)
   const [ticketdata, setTicketdata] = useState(null)
+  const [viewing, setViewing] = useState(false)
+  const [fileurl, setFileurl] = useState(null)
   const router = useRouter()
   const ticketId = router.query.id
   const { status, priority, lastupdated, reference_code, subject } =
@@ -33,14 +37,16 @@ function Viewticket() {
   }, [ticketId])
 
   console.log(ticketdata)
-
+  const handleview = (url) => {
+    setViewing(true)
+    setFileurl(url)
+  }
   return (
     <>
       <Navbar />
       {/* bodey */}
-      <section className='bg-[#F5F5F5]'>
-        {/* file */}
-        <div className='pt-10 lg:pt-14 xl:pt-16 max-w-lg mx-auto font-sans sm:max-w-xl md:max-w-4xl  lg:max-w-5xl xl:max-w-7xl  px-6 md:px-6  lg:px-8 s '>
+      <section className='bg-[#F5F5F5] w-full h-full'>
+        <div className='pt-10 lg:pt-14 xl:pt-16 mx-auto font-sans   px-6 md:px-6  lg:px-8 relative '>
           <div
             onClick={() => {
               router.push({
@@ -137,6 +143,20 @@ function Viewticket() {
                               </h1>
                             </div>
                           </div>
+                          {/* FILES */}
+                          <div className=''>
+                            <div className='px-6 py-4 space-y-3 lg:space-y-4'>
+                              {i?.files?.map((f, index) => (
+                                <h1
+                                  key={index}
+                                  onClick={() => handleview(f?.url)}
+                                  className='text-xs lg:text-sm max-w-xs  md:max-w-lg xl:max-w-3xl px-4 bg-softpurple text-babyblack py-2 w-max  shadow-md cursor-pointer '
+                                >
+                                  {f?.name}
+                                </h1>
+                              ))}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     )
@@ -215,34 +235,41 @@ function Viewticket() {
               </div>
             </div>
           </div>
+          {viewing && (
+            <div className='absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50'>
+              <div className='flex justify-center items-center mx-auto h-full '>
+                <div className='bg-white rounded-md px-6 py-2 md:py-2 shadow-md min-h-[100vh] space-y-4  '>
+                  <div className='flex justify-end '>
+                    <MdCancel
+                      onClick={() => {
+                        setViewing(false)
+                        setFileurl(null)
+                      }}
+                      className='text-xl lg:text-4xl cursor-pointer'
+                    />
+                  </div>
+
+                  <div>
+                    <Iframe
+                      url={fileurl}
+                      width='100%'
+                      height='100%'
+                      id=''
+                      className='h-[100vh] w-[70vw] '
+                      display='block'
+                      position='relative'
+                      allowFullScreen={true}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
-        <Footer />
+        {!viewing && <Footer />}
       </section>
     </>
   )
 }
 
 export default Viewticket
-
-{
-  /* reply from operator */
-}
-//  ;<div className='bg-white shadow-lg py-3 rounded-md space-y-4 md:py-4 border-l-4  lg:border-l-[6px] border-babypurple w-full'>
-//    {/* title */}
-//    <div className='flex justify-between items-center gap-2 px-6'>
-//      <div className='flex items-center gap-2 sm:gap-3 justify-center '>
-//        <FiUser className=' lg:text-xl' />
-//        <h1 className='text-sm lg:text-base'>Miriam</h1>
-//        <h1 className='px-4 py-2 text-xs rounded-md border-babygrey bg-softpurple lg:text-sm lg:px-6'>
-//          Operator
-//        </h1>
-//      </div>
-//      <h1 className='text-xs lg:text-sm'>{ticketdata?.lastupdated}</h1>
-//    </div>
-//    {/* text */}
-//    <div className='border-t'>
-//      <div className='px-6 py-4'>
-//        <h1 className='text-xs lg:text-sm'>{ticketdata?.response}</h1>
-//      </div>
-//    </div>
-//  </div>

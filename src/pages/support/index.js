@@ -3,16 +3,19 @@ import Navbar from '@/components/Navigation/Navbar/index'
 import Link from 'next/link'
 import Footer from '@/components/Navigation/Footer'
 import { TbMessagesOff } from 'react-icons/tb'
-import Ticketdata from '../../utilis/tickets'
-import { useRouter } from 'next/router'
 import mainAxiosAction from '@/components/axiosAction'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import moment from 'moment'
 import Loader from '../../components/Loaders/tableloaders'
-function index() {
+import ReactPaginate from 'react-paginate'
+import { useRouter } from 'next/router'
+
+function Index() {
   const [tickets, setTickets] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(0)
+  const itemsPerPage = 10 // Set the number of items per page
   const router = useRouter()
 
   const getalltickets = () => {
@@ -34,13 +37,56 @@ function index() {
     getalltickets()
   }, [])
 
+  const handlePageClick = ({ selected }) => {
+    setCurrentPage(selected)
+  }
+
+  const indexOfLastItem = (currentPage + 1) * itemsPerPage
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage
+  const currentItems = tickets
+    ?.slice(indexOfFirstItem, indexOfLastItem)
+    .map((item, index) => (
+      <tr
+        onClick={() => {
+          router.push({
+            pathname: `/support/${item?._id}`,
+            query: {
+              status: item?.status,
+              priority: item?.priority,
+              reference_code: item?.reference_code,
+              lastupdated: item?.last_updated,
+              subject: item?.subject,
+            },
+          })
+        }}
+        key={index}
+        className='hover:bg-softpurple text-xs md:text-sm  xl:text-base'
+      >
+        {/* Your table data rendering here */}
+        <td className='pr-4  py-4   '>{item?.subject}</td>
+        <td className='py-4  pr-4'>{item?.reference_code}</td>
+        <td
+          className={`${
+            item.status === 'open'
+              ? 'pr-4   py-4  text-left text-babypurple font-normal'
+              : 'pr-4   py-4  text-left text-green-500 font-normal'
+          }`}
+        >
+          {item?.status}
+        </td>
+        <td className='pr-4   py-4  text-left '>
+          {moment(item?.last_updated).format('MMMM Do YYYY')}
+        </td>
+        <td className='pr-4   py-4  text-left '>{item?.priority}</td>
+      </tr>
+    ))
+
   return (
     <>
       <Navbar />
-
       <section className='bg-[#F5F5F5] bg-opacity-50 '>
         <div className='pt-10 lg:pt-14 xl:pt-16 mx-auto font-sans  w-full  px-6 md:px-8  lg:px-10 xl:px-14 space-y-10'>
-          {/* title */}
+          {/* Title */}
           <div className='flex justify-between items-center gap-2'>
             <h1 className='text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl'>
               My Support Tickets
@@ -52,10 +98,10 @@ function index() {
               Raise A Ticket
             </Link>
           </div>
-          {/* content */}
+          {/* Content */}
           {tickets?.length < 1 ? (
             <div className='bg-white  w-full min-h-[60vh] lg:min-h-[70vh] shadow-lg flex flex-col justify-center items-center rounded-md lg:rounded-lg px-6 space-y-5'>
-              {/* icon */}
+              {/* Icon */}
               <div className='flex justify-center items-center p-4 rounded-full bg-babygrey'>
                 <TbMessagesOff className='text-2xl md:text-3xl xl:text-4xl text-babyblack' />
               </div>
@@ -66,14 +112,14 @@ function index() {
                 <p className='text-xs max-w-xs md:text-sm md:max-w-md xl:text-base xl:max-w-xl'>
                   You haven't raised any issues lately, please click the button
                   above to raise an issue if you have noticed or encountered any
-                  abuse, mistreatement or need to speak to our customer servive
+                  abuse, mistreatment, or need to speak to our customer service
                   urgently
                 </p>
               </div>
             </div>
           ) : (
             <div className='bg-white  w-full  shadow-lg rounded-md lg:rounded-lg px-6 py-8'>
-              {/* table */}
+              {/* Table */}
               <div className='w-full overflow-x-auto'>
                 {loading ? (
                   <div className='w-full'>
@@ -137,52 +183,25 @@ function index() {
                     </thead>
 
                     <tbody className=' py-5 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
-                      {tickets?.map((item, index) => {
-                        return (
-                          <tr
-                            onClick={() => {
-                              router.push({
-                                pathname: `/support/${item?._id}`,
-                                query: {
-                                  status: item?.status,
-                                  priority: item?.priority,
-                                  reference_code: item?.reference_code,
-                                  lastupdated: item?.last_updated,
-                                  subject: item?.subject,
-                                },
-                              })
-                            }}
-                            key={index}
-                            className='hover:bg-softpurple text-xs md:text-sm  xl:text-base'
-                          >
-                            <td className=' pr-4  py-4   '>{item?.subject}</td>
-                            <td className=' py-4  pr-4'>
-                              {item?.reference_code}
-                            </td>
-
-                            <td
-                              className={`${
-                                item.status === 'open'
-                                  ? 'pr-4   py-4  text-left text-babypurple font-normal'
-                                  : 'pr-4   py-4  text-left text-green-500 font-normal'
-                              }`}
-                            >
-                              {item?.status}
-                            </td>
-                            <td className='pr-4   py-4  text-left '>
-                              {moment(item?.last_updated).format(
-                                'MMMM Do YYYY'
-                              )}
-                            </td>
-                            <td className='pr-4   py-4  text-left '>
-                              {item?.priority}
-                            </td>
-                          </tr>
-                        )
-                      })}
+                      {currentItems}
                     </tbody>
                   </table>
                 )}
+              </div>
+              <div className='w-full mt-10 flex justify-end px-4 md:px-6'>
+                <ReactPaginate
+                  pageCount={Math.ceil(tickets?.length / itemsPerPage)}
+                  pageRangeDisplayed={5}
+                  marginPagesDisplayed={2}
+                  onPageChange={handlePageClick}
+                  containerClassName={'pagination'}
+                  activeClassName={'active'}
+                  pageLinkClassName={'pagination-link'}
+                  previousLinkClassName={'pagination-previous'}
+                  nextLinkClassName={'pagination-next'}
+                  breakClassName={'pagination-break'}
+                  breakLinkClassName={'pagination-break-link'}
+                />
               </div>
             </div>
           )}
@@ -193,4 +212,4 @@ function index() {
   )
 }
 
-export default index
+export default Index
