@@ -59,7 +59,6 @@ function Viewcar() {
       .then(function (response) {
         setLoading(false)
         setCardata(response?.data?.booking)
-        console.log(response?.data?.booking)
       })
       .catch(function (error) {
         setLoading(false)
@@ -71,6 +70,7 @@ function Viewcar() {
   const date2 = new Date(cardata?.end_date)
   const diffTime = Math.abs(date2 - date1)
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+  console.log(cardata)
   return (
     <>
       <Navbar />
@@ -263,78 +263,6 @@ function Viewcar() {
                       )}
                     </h1>
                   </div>
-                </div>
-              </div>
-              {/* review */}
-              <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
-                {/* header */}
-                <div className='relative'>
-                  <h1 className='font-bold text-sm md:text-base xl:text-lg border-b pb-2 lg:pb-4'>
-                    {' '}
-                    Reviews and ratings
-                  </h1>
-                  <div className='w-10 h-1 bg-babypurple absolute bottom-0 left-0'></div>
-                </div>
-                {/* content */}
-                <div className='w-full relative   '>
-                  {Feedback?.map((item, index) => {
-                    return (
-                      <div key={index} className='pt-5 pb-4 '>
-                        <div className='w-full mx-auto  flex  items-center  '>
-                          <div className='relative  rounded-md border  w-full px-4 py-4  flex flex-col    mx-2  '>
-                            {/* text */}
-                            <div className=' space-y-3 '>
-                              {/* header */}
-                              <div className='space-y-2'>
-                                {/* rating */}
-                                <div className='flex items-center  text-xs lg:text-sm text-yellow-600'>
-                                  <AiFillStar />
-                                  <AiFillStar />
-                                  <AiFillStar />
-                                  <AiOutlineStar />
-                                  <AiOutlineStar />
-                                  <h1 className='text-babyblack '>(3.0)</h1>
-                                </div>
-                                {/* photo and name */}
-                                <div className='flex items-center gap-2 lg:gap-4'>
-                                  {/* photo */}
-                                  <div className='relative'>
-                                    <Image
-                                      src={'/images/avatar.png'}
-                                      alt='logo'
-                                      width={1000}
-                                      height={1000}
-                                      priority
-                                      className='object-cover w-12 lg:w-16   rounded-full border-2 '
-                                    />
-                                  </div>
-                                  {/* name and date */}
-
-                                  <div className='flex flex-col space-y-1'>
-                                    <h1 className='text-sm font-bold lg:text-base text-babyblack'>
-                                      {item.name}
-                                    </h1>
-                                    <h1 className='text-xs lg:text-sm  text-babyblack'>
-                                      Sept 26,2023
-                                    </h1>
-                                  </div>
-                                </div>
-
-                                {/* <h2 className='text-xs font-medium text-babyblack'>
-                                  {' '}
-                                  {item.location}
-                                </h2> */}
-                              </div>
-                              {/* boddy */}
-                              <p className='text-xs lg:text-sm text-left'>
-                                {item.description}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )
-                  })}
                 </div>
               </div>
             </div>

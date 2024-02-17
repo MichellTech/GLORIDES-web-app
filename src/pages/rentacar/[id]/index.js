@@ -17,6 +17,8 @@ import {
   MdLocalFireDepartment,
   MdGpsFixed,
   MdAttachEmail,
+  MdOutlineCarRental,
+  MdRateReview,
 } from 'react-icons/md'
 import Link from 'next/link'
 import { BiSolidCarGarage, BiCalendar } from 'react-icons/bi'
@@ -28,7 +30,7 @@ import {
   TbBrandTwitterFilled,
 } from 'react-icons/tb'
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
-import { FaFacebook, FaInstagramSquare } from 'react-icons/fa'
+import { FaFacebook, FaInstagramSquare, FaStar } from 'react-icons/fa'
 import { RiWhatsappFill } from 'react-icons/ri'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -51,6 +53,8 @@ function Viewcar() {
   const [cardata, setCardata] = useState({})
   const [ndates, setNdates] = useState([])
   const [uservalues, setUservalues] = useState({})
+  const [rating, setRating] = useState(3)
+  const [hover, setHover] = useState(null)
   const { bookmarked, isBooking } = useSelector((store) => store.rental)
   const carId = router.query.id
   const shareUrl = `https://gloride-web-app.netlify.app/rentacar/${carId}`
@@ -323,77 +327,120 @@ function Viewcar() {
                       <div className='w-10 h-1 bg-babypurple absolute bottom-0 left-0'></div>
                     </div>
                     {/* content */}
-                    <div className='w-full relative   '>
-                      {cardata?.reviews?.slice(0, 5)?.map((item, index) => {
-                        return (
-                          <div key={index} className='pt-5 pb-4 '>
-                            <div className='w-full mx-auto  flex  items-center  '>
-                              <div className='relative  rounded-md border  w-full px-4 py-4  flex flex-col    mx-2  '>
-                                {/* text */}
-                                <div className=' space-y-3 '>
-                                  {/* header */}
-                                  <div className='space-y-2'>
-                                    {/* rating */}
-                                    <div className='flex items-center  text-xs lg:text-sm text-yellow-600'>
-                                      <AiFillStar />
-                                      <AiFillStar />
-                                      <AiFillStar />
-                                      <AiOutlineStar />
-                                      <AiOutlineStar />
-                                      <h1 className='text-babyblack '>(3.0)</h1>
-                                    </div>
-                                    {/* photo and name */}
-                                    <div className='flex items-center gap-2 lg:gap-4'>
-                                      {/* photo */}
-                                      <div className='relative'>
-                                        <Image
-                                          src={
-                                            item?.booking_id?.booked_by
-                                              ?.profile_picture?.url
-                                          }
-                                          alt={
-                                            item?.booking_id?.booked_by
-                                              ?.profile_picture?.name
-                                          }
-                                          width={1000}
-                                          height={1000}
-                                          priority
-                                          className='object-cover w-12 lg:w-16   rounded-full border-2 '
-                                        />
-                                      </div>
-                                      {/* name and date */}
+                    {cardata?.reviews?.length < 1 ? (
+                      <div className='flex   justify-center items-center flex-col space-y-2 xl:space-y-3 py-4 '>
+                        {/* icon */}
+                        <div className='flex justify-center items-center p-3 bg-opacity-50 bg-babygrey rounded-full'>
+                          <MdRateReview className='text-2xl xl:text-3xl' />
+                        </div>
+                        <h1 className='text-sm xl:text-base font-bold'>
+                          {' '}
+                          No Review Record Found
+                        </h1>
+                        <p className='text-xs xl:text-sm xl:max-w-sm max-w-xs text-center'>
+                          We couldn't find any verified review records. This
+                          could be because no user has dropepd a review about
+                          this vehicle
+                        </p>
+                      </div>
+                    ) : (
+                      <div className='w-full relative   '>
+                        {cardata?.reviews?.slice(0, 5)?.map((item, index) => {
+                          return (
+                            <div key={index} className='pt-5 pb-4 '>
+                              <div className='w-full mx-auto  flex  items-center  '>
+                                <div className='relative  rounded-md border  w-full px-4 py-4  flex flex-col    mx-2  '>
+                                  {/* text */}
+                                  <div className=' space-y-3 '>
+                                    {/* header */}
+                                    <div className='space-y-2'>
+                                      {/* rating */}
+                                      <div className='  flex items-center gap-2 text-left '>
+                                        <div className='flex items-center gap-2 '>
+                                          {[...Array(5)].map((star, index) => {
+                                            const currentRating = index + 1
+                                            return (
+                                              <label key={index} className=''>
+                                                <input
+                                                  type='radio'
+                                                  name='rating'
+                                                  value={currentRating}
+                                                  className='hidden'
+                                                  // onClick={() => setRating(currentRating)}
+                                                />
 
-                                      <div className='flex flex-col space-y-1'>
-                                        <h1 className='text-sm font-bold lg:text-base text-babyblack'>
-                                          {
-                                            item?.booking_id?.booked_by
-                                              ?.firstname
-                                          }
-                                        </h1>
-                                        <h1 className='text-xs lg:text-sm  text-babyblack'>
-                                          {moment(item?.createdAt).format(
-                                            'Do MMMM YYYY'
-                                          )}
+                                                <FaStar
+                                                  className='flex items-center  text-xs md:text-sm  lg:text-lg xl:text-2xl'
+                                                  color={
+                                                    currentRating <=
+                                                    item?.rating
+                                                      ? '#A303A0'
+                                                      : '#e4e5e9'
+                                                  }
+                                                  // onMouseEnter={() => setHover(currentRating)}
+                                                  // onMouseLeave={() => setHover(null)}
+                                                />
+                                              </label>
+                                            )
+                                          })}
+                                        </div>
+                                        <h1 className='text-xs lg:text-sm  font-bold'>
+                                          ({item?.rating}.0 / 5.0)
                                         </h1>
                                       </div>
-                                    </div>
+                                      {/* photo and name */}
+                                      <div className='flex items-center gap-2 lg:gap-4'>
+                                        {/* photo */}
+                                        <div className='relative'>
+                                          <Image
+                                            src={
+                                              item?.booking_id?.booked_by
+                                                ?.profile_picture?.url
+                                            }
+                                            alt={
+                                              item?.booking_id?.booked_by
+                                                ?.profile_picture?.name
+                                            }
+                                            width={1000}
+                                            height={1000}
+                                            priority
+                                            className='object-cover w-12 lg:w-16   rounded-full border-2 '
+                                          />
+                                        </div>
+                                        {/* name and date */}
 
-                                    {/* <h2 className='text-xs font-medium text-babyblack'>
+                                        <div className='flex flex-col space-y-1'>
+                                          <h1 className='text-sm font-bold lg:text-base text-babyblack'>
+                                            {
+                                              item?.booking_id?.booked_by
+                                                ?.firstname
+                                            }
+                                          </h1>
+                                          <h1 className='text-xs lg:text-sm  text-babyblack'>
+                                            {moment(item?.createdAt).format(
+                                              'Do MMMM YYYY'
+                                            )}
+                                          </h1>
+                                        </div>
+                                      </div>
+
+                                      {/* <h2 className='text-xs font-medium text-babyblack'>
                                   {' '}
                                   {item.location}
                                 </h2> */}
+                                    </div>
+                                    {/* boddy */}
+                                    <p className='text-xs lg:text-sm text-left'>
+                                      {item?.comment}
+                                    </p>
                                   </div>
-                                  {/* boddy */}
-                                  <p className='text-xs lg:text-sm text-left'>
-                                    {item?.comment}
-                                  </p>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        )
-                      })}
-                    </div>
+                          )
+                        })}
+                      </div>
+                    )}
                   </div>
                 </div>
                 {/* booking and user Info */}
@@ -664,8 +711,8 @@ function Viewcar() {
                         {/* photo */}
                         <div className='relative'>
                           <Image
-                            src={'/images/avatar.png'}
-                            alt='logo'
+                            src={cardata?.owner?.profile_picture?.url}
+                            alt={cardata?.owner?.profile_picture?.name}
                             width={1000}
                             height={1000}
                             className='object-cover w-12 lg:w-16   rounded-full border-2 '
@@ -676,13 +723,38 @@ function Viewcar() {
                           <h1 className='text-sm font-bold text-babyblack'>
                             {cardata?.owner?.firstname}
                           </h1>
-                          <div className='flex items-center gap-2 text-xs text-yellow-600'>
-                            <AiFillStar />
-                            <AiFillStar />
-                            <AiFillStar />
-                            <AiFillStar />
-                            <AiFillStar />
-                            <h1 className='text-babyblack '>(5.0)</h1>
+                          <div className='  flex items-center gap-2 text-left '>
+                            <div className='flex items-center gap-2 '>
+                              {[...Array(5)].map((star, index) => {
+                                const currentRating = index + 1
+                                return (
+                                  <label key={index} className=''>
+                                    <input
+                                      type='radio'
+                                      name='rating'
+                                      value={currentRating}
+                                      className='hidden'
+                                      // onClick={() => setRating(currentRating)}
+                                    />
+
+                                    <FaStar
+                                      className='flex items-center  text-xs md:text-sm  lg:text-lg xl:text-2xl'
+                                      color={
+                                        currentRating <=
+                                        cardata?.owner?.average_rating
+                                          ? '#A303A0'
+                                          : '#e4e5e9'
+                                      }
+                                      // onMouseEnter={() => setHover(currentRating)}
+                                      // onMouseLeave={() => setHover(null)}
+                                    />
+                                  </label>
+                                )
+                              })}
+                            </div>
+                            <h1 className='text-xs lg:text-sm  font-bold'>
+                              ({cardata?.owner?.average_rating}.0 / 5.0)
+                            </h1>
                           </div>
                         </div>
                       </div>
@@ -693,7 +765,10 @@ function Viewcar() {
                             {' '}
                             Number of Lisitings
                           </h1>
-                          <h1 className=' text-sm   text-babyblack'> 10</h1>
+                          <h1 className=' text-sm   text-babyblack'>
+                            {' '}
+                            {cardata?.owner?.total_cars}
+                          </h1>
                         </div>
                         {/* no of bookings */}
                         <div className='border-b pb-2 lg:pb-4 flex justify-between items-center'>
@@ -701,7 +776,10 @@ function Viewcar() {
                             {' '}
                             Number of Bookings
                           </h1>
-                          <h1 className=' text-sm   text-babyblack'> 100</h1>
+                          <h1 className=' text-sm   text-babyblack'>
+                            {' '}
+                            {cardata?.owner?.total_listing}
+                          </h1>
                         </div>
                         {/* Verification*/}
                         <div className='border-b pb-2 lg:pb-4 flex justify-between items-center'>
