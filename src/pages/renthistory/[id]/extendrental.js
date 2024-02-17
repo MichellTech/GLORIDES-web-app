@@ -64,6 +64,7 @@ function Extendride() {
         initialDropoffDateRef.current = new Date(
           response?.data?.booking?.end_date
         )
+        console.log(response?.data?.booking)
       })
       .catch(function (error) {
         setLoading(false)
@@ -84,7 +85,28 @@ function Extendride() {
 
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
-    console.log(values)
+    const payload = {
+      transaction_id: cardata?.transaction_id,
+      end_date: values.dropoffd.toISOString(),
+    }
+    console.log(payload)
+    extendcar(payload)
+  }
+
+  const extendcar = (payload) => {
+    mainAxiosAction
+      .post(`/cars/extend`, payload)
+      .then(function (response) {
+        setLoading(false)
+        // toast?.success(response?.data?.message)
+        console.log(response?.data)
+        window.location.replace(response?.data?.payment_url)
+      })
+      .catch(function (error) {
+        toast?.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
   }
 
   const handleDropoffDateChange = (date, form) => {

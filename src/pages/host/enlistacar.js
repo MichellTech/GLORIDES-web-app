@@ -860,6 +860,7 @@ function Enlistacar() {
                         </div>
                       ) : (
                         <div className=' flex flex-col  gap-4 w-full px-4 sm:px-6'>
+                          {/* view */}
                           <div className='bg-inherit  text-xs lg:text-sm max-w-md  outline-none w-full space-y-3 lg:space-y-4'>
                             {userimage?.map((file, index) => (
                               <div
@@ -877,6 +878,29 @@ function Enlistacar() {
                               </div>
                             ))}
                           </div>
+                          {/* add more  */}
+                          {/* <div className='border border-babyblack   w-52 md:w-80 xl:w-96  relative'>
+                            <label>
+                              <span className='sr-only text-xs '>Add more</span>
+                              <input
+                                name=''
+                                type='file'
+                                accept='image/png, image/jpg, image/gif, image/jpeg,application/pdf'
+                                // value={item?.file?.name}
+                                onChange={(e) => {
+                              
+                                  setUserimage((previous) => [
+                                    ...previous,
+                                    ...e.target.files,
+                                  ])
+                                  // console.log(userimage)
+                                  // console.log(e.target.files?.[0])
+                                }}
+                                className='block   w-40 md:w-64 xl:w-80 text-xs text-babyblack file:mr-4 file:py-2 file:px-4 file:border-l-0 file:border-t-0 file:border-b-0 file:border-babygrey file:border-r file:border file:text-xs file:font-semibold file:text-babyblack cursor-pointer file:cursor-pointer file:bg-white md:file:text-sm md:file:py-3 xl:file:text-base lg:text-sm xl:text-base truncate 
+      '
+                              />
+                            </label>
+                          </div> */}
                         </div>
                       )}
                     </div>
