@@ -20,13 +20,14 @@ function Signup() {
     email: '',
     password: '',
     cpassword: '',
+    doc: '',
   }
 
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
-    setLoading(true)
-    signupapi(values)
-
+    // setLoading(true)
+    // signupapi(values)
+    console.log(values)
     // reset
     // onSubmitProps.resetForm()
   }
@@ -70,6 +71,9 @@ function Signup() {
     cpassword: Yup.string()
       .oneOf([Yup.ref('password'), ''], 'Passwords must match')
       .required('Required'),
+    doc: Yup.boolean()
+      .oneOf([true], 'Please accept the terms and conditions')
+      .required('Please accept the terms and conditions'),
   })
 
   const signupapi = (values) => {
@@ -234,6 +238,61 @@ function Signup() {
                           <ErrorMessage name='cpassword' />
                         </div>
                         {/* remember me and forgot password */}
+                      </div>
+                      {/* checkbox Button */}
+                      <div className='space-y-1 lg:space-y-2'>
+                        <Field
+                          name='doc'
+                          type='checkbox'
+                          className=' px-6 py-1'
+                        >
+                          {({ field }) => {
+                            return (
+                              <div>
+                                {/* one */}
+                                <div className='space-x-2 '>
+                                  <input
+                                    {...field}
+                                    id='doc'
+                                    checked={field.value} // Bind the checkbox value to the Formik state
+                                    type='checkbox'
+                                  />
+                                  <label
+                                    htmlFor='doc'
+                                    className='text-xs lg:text-sm'
+                                  >
+                                    {' '}
+                                    I have read and accepted the{' '}
+                                    <span
+                                      onClick={() =>
+                                        router.push({
+                                          pathname: '/documentations',
+                                        })
+                                      }
+                                      className='underline font-bold cursor-pointer'
+                                    >
+                                      T&C
+                                    </span>{' '}
+                                    and{' '}
+                                    <span
+                                      onClick={() =>
+                                        router.push({
+                                          pathname: '/documentations',
+                                        })
+                                      }
+                                      className='underline font-bold cursor-pointer'
+                                    >
+                                      Privacy Policy
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+                            )
+                          }}
+                        </Field>
+                        <div className='text-softRed text-xs mt-1 px-4'>
+                          <ErrorMessage name='doc' />
+                        </div>
                       </div>
                     </div>
 
