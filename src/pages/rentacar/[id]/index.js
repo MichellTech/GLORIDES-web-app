@@ -42,6 +42,7 @@ import {
   WhatsappShareButton,
   EmailShareButton,
 } from 'react-share'
+import moment from 'moment'
 
 function Viewcar() {
   const router = useRouter()
@@ -122,8 +123,9 @@ function Viewcar() {
         car_id: carId,
       })
       .then(function (response) {
+        console.log(response?.data?.car)
         setLoading(false)
-        setCardata(response.data.car)
+        setCardata(response?.data?.car)
       })
       .catch(function (error) {
         setLoading(true)
@@ -322,7 +324,7 @@ function Viewcar() {
                     </div>
                     {/* content */}
                     <div className='w-full relative   '>
-                      {Feedback?.map((item, index) => {
+                      {cardata?.reviews?.slice(0, 5)?.map((item, index) => {
                         return (
                           <div key={index} className='pt-5 pb-4 '>
                             <div className='w-full mx-auto  flex  items-center  '>
@@ -345,8 +347,14 @@ function Viewcar() {
                                       {/* photo */}
                                       <div className='relative'>
                                         <Image
-                                          src={'/images/avatar.png'}
-                                          alt='logo'
+                                          src={
+                                            item?.booking_id?.booked_by
+                                              ?.profile_picture?.url
+                                          }
+                                          alt={
+                                            item?.booking_id?.booked_by
+                                              ?.profile_picture?.name
+                                          }
                                           width={1000}
                                           height={1000}
                                           priority
@@ -357,10 +365,15 @@ function Viewcar() {
 
                                       <div className='flex flex-col space-y-1'>
                                         <h1 className='text-sm font-bold lg:text-base text-babyblack'>
-                                          {item.name}
+                                          {
+                                            item?.booking_id?.booked_by
+                                              ?.firstname
+                                          }
                                         </h1>
                                         <h1 className='text-xs lg:text-sm  text-babyblack'>
-                                          Sept 26,2023
+                                          {moment(item?.createdAt).format(
+                                            'Do MMMM YYYY'
+                                          )}
                                         </h1>
                                       </div>
                                     </div>
@@ -372,7 +385,7 @@ function Viewcar() {
                                   </div>
                                   {/* boddy */}
                                   <p className='text-xs lg:text-sm text-left'>
-                                    {item.description}
+                                    {item?.comment}
                                   </p>
                                 </div>
                               </div>

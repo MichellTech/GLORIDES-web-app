@@ -836,7 +836,7 @@ function Enlistacar() {
                             // fileOrFiles={fileAdded} // Include fileAdded if needed
                             children={
                               <label className='custom-file-upload space-y-4 md:space-y-6 flex flex-col justify-center items-center  text-center  max-w-lg  '>
-                                <LuImagePlus className='text-center text-5xl lg:text-7xl text-babypurple mx-auto text-slate-400' />
+                                <LuImagePlus className='text-center text-5xl lg:text-7xl text-babypurple mx-auto ' />
                                 <h1
                                   htmlFor=''
                                   className='text-center text-xs md:text-sm xl:text-base'

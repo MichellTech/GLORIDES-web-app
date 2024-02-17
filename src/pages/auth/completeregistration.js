@@ -127,10 +127,6 @@ function Completeregistration() {
           setLoading(false)
           setImageerror('')
           setImageerrortwo('')
-          localStorage.setItem(
-            'User_Token',
-            JSON.stringify(response?.data?.user?.token)
-          )
           router.push({
             pathname: '/',
           })

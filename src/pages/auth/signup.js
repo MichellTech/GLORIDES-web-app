@@ -82,8 +82,12 @@ function Signup() {
         localStorage.setItem('User_Exist', JSON.stringify(true))
         router.push({
           pathname: '/auth/emailverification',
-          query: { userEmail: response.data.user.email },
+          query: { userEmail: response?.data?.user?.email },
         })
+        localStorage.setItem(
+          'User_Token',
+          JSON.stringify(response?.data?.user?.token)
+        )
         callback()
       })
       .catch(function (error) {
