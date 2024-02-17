@@ -127,16 +127,20 @@ function Completeregistration() {
           setLoading(false)
           setImageerror('')
           setImageerrortwo('')
+          localStorage.setItem(
+            'User_Token',
+            JSON.stringify(response?.data?.user?.token)
+          )
           router.push({
             pathname: '/',
           })
-          toast.success(response.data.message)
+          toast.success(response?.data?.message)
           dispatch(logIN())
           dispatch(getuserprofile())
           dispatch(getusernotifications())
         })
         .catch(function (error) {
-          toast.error(error.response.data.message)
+          toast.error(error?.response?.data?.message)
           setLoading(false)
           console.log(error)
         })

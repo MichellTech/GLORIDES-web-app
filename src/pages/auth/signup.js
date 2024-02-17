@@ -25,11 +25,8 @@ function Signup() {
 
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
-    // setLoading(true)
-    // signupapi(values)
-    console.log(values)
-    // reset
-    // onSubmitProps.resetForm()
+    setLoading(true)
+    signupapi(values, onSubmitProps.resetForm)
   }
   // validation
   const validationSchema = Yup.object().shape({
@@ -76,20 +73,18 @@ function Signup() {
       .required('Please accept the terms and conditions'),
   })
 
-  const signupapi = (values) => {
+  const signupapi = (values, callback) => {
     mainAxiosAction
       .post(`/user/signup`, values)
       .then(function (response) {
         setLoading(false)
-        localStorage.setItem(
-          'User_Token',
-          JSON.stringify(response.data.user.token)
-        )
+
         localStorage.setItem('User_Exist', JSON.stringify(true))
         router.push({
           pathname: '/auth/emailverification',
           query: { userEmail: response.data.user.email },
         })
+        callback()
       })
       .catch(function (error) {
         toast.error(error?.response?.data?.message)
