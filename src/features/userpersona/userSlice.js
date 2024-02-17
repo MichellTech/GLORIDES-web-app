@@ -7,7 +7,12 @@ export const getuserprofile = createAsyncThunk(
   async () => {
     try {
       const response = await mainAxiosAction.post(`/user/get-user`, {})
-      localStorage.setItem('User_Profile', JSON.stringify(response?.data?.user))
+      const userDataToSave = {
+        profile_picture: response?.data?.user?.profile_picture?.url,
+        firstname: response?.data?.user?.firstname,
+        lastname: response?.data?.user?.lastname,
+      }
+      localStorage.setItem('User_Profile', JSON.stringify(userDataToSave))
       return response?.data?.user
     } catch (error) {
       console.error(error)

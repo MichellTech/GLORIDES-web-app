@@ -6,12 +6,34 @@ import { ToastContainer } from 'react-toastify'
 import { store } from '../redux/store'
 import { Provider } from 'react-redux'
 import react, { useEffect, useState } from 'react'
+import mainAxiosAction from '@/components/axiosAction'
 
 export default function App({ Component, pageProps }) {
   const [isClient, setIsClient] = useState(false)
-
+  const getuser = () => {
+    mainAxiosAction
+      .post(`/user/get-user`, {})
+      .then(function (response) {
+        if (response?.data?.user?.isVerified === false) {
+          router.push({
+            pathname: '/auth/emailverification',
+            query: { userEmail: response?.data?.user?.email },
+          })
+        } else if (response?.data?.user?.isCompleted === false) {
+          router.push({
+            pathname: '/auth/completeregistration',
+          })
+        } else {
+          return
+        }
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
+  }
   useEffect(() => {
     setIsClient(true)
+    getuser()
   }, [])
   return (
     <>
