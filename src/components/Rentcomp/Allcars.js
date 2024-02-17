@@ -65,7 +65,7 @@ function Allcars({ carloader }) {
         </div>
       ) : (
         <div className=' '>
-          {allsearchedcars.length < 1 ? (
+          {allsearchedcars?.length < 1 ? (
             <div className='flex justify-center items-center flex-col space-y-2 md:space-y-3  lg:space-y-6 pt-10 min-h-[40vh]'>
               {/* icon */}
               <div className='flex justify-center items-center p-3 lg:p-6 bg-opacity-50 bg-babygrey rounded-full'>

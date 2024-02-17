@@ -199,7 +199,7 @@ function Search({ setCarloader }) {
               </button>
               {/* saved */}
 
-              {allsearchedcars.length < 1 || profile ? (
+              {allsearchedcars?.length < 1 || profile ? (
                 <div
                   onClick={() => handleviewing()}
                   className='xl:flex lg:items-center mx-auto justify-center gap-3 border lg:py-3 lg:px-4 hidden cursor-pointer bg-[#F5F5F5] w-full h-10   sm:h-12 md:h-14 '
