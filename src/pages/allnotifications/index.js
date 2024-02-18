@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import moment from 'moment'
 import mainAxiosAction from '@/components/axiosAction'
 import { toast } from 'react-toastify'
+import { Player, Controls } from '@lottiefiles/react-lottie-player'
 function Index() {
   const [messageid, setMessageid] = useState(null)
   const { notificationsData } = useSelector((store) => store.userpersona)
@@ -63,15 +64,24 @@ function Index() {
           </div>
           {/* body */}
           {notificationsData?.length < 1 ? (
-            <div className='flex flex-col justify-center items-center bg-white shadow-lg h-[40vh] w-full mx-auto space-y-5 lg:space-y-7 py-6 px-2'>
-              <div className='bg-babygrey px-2 py-2 rounded-full cursor-pointer animate-pulse duration-1000 '>
-                <IoIosNotificationsOutline className='text-3xl  ' />
-              </div>
+            <div className='flex flex-col justify-center items-center   h-full w-full mx-auto  pb-12 lg:pb-20  px-2'>
+              <Player
+                autoplay
+                loop
+                src={'/images/empty.json'}
+                className='w-40 h-40 md:w-60 md:h-60 '
+                speed={1}
+              >
+                <Controls
+                  visible={false}
+                  buttons={['play', 'repeat', 'frame', 'debug']}
+                />
+              </Player>
               <div className='space-y-1 lg:space-y-2'>
-                <h1 className='font-bold  text-center text-lg lg:text-xl px-4 md:px-8  lg:px-10'>
+                <h1 className='font-bold  text-center text-xl md:text-2xl xl:text-3xl px-4 md:px-8  lg:px-10'>
                   No Notifications to show yet
                 </h1>
-                <p className='text-xs lg:text-sm text-center px-6 md:px-8  lg:px-10 '>
+                <p className='text-sm md:text-base xl:text-lg text-center px-6 md:px-8  lg:px-10 '>
                   Your list of notifications will appear hear when you have any
                 </p>
               </div>

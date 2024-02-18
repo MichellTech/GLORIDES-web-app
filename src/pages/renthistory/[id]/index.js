@@ -387,16 +387,8 @@ function Viewcar() {
                 autoplay
                 loop
                 src={'/images/cancel.json'}
-                style={{
-                  height: '300px',
-                  width: '300px',
-                  '@media (max-width: 768px)': {
-                    height: '100px',
-                    width: '100px',
-                  },
-                  // Add more responsive styles as needed
-                }}
-                speed={0.5}
+                className='w-40 h-40 md:w-60 md:h-60 '
+                speed={1}
               >
                 <Controls
                   visible={false}

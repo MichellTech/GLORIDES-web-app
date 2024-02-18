@@ -283,8 +283,8 @@ function Navbar() {
                         <div className='  relative  flex-shrink-0 '>
                           {profile?.profile_picture ? (
                             <Image
-                              src={profile?.profile_picture?.url}
-                              alt={profile?.profile_picture?.name}
+                              src={profile?.profile_picture}
+                              alt='photo'
                               width={1000}
                               height={1000}
                               className='object-cover w-10 md:w-12 lg:w-16  xl:w-20 h-10 md:h-12 lg:h-16  xl:h-20 rounded-full border-2 border-babypurple'
@@ -403,8 +403,8 @@ function Navbar() {
                   <div className='  relative cursor-pointer flex-shrink-0 '>
                     {profile?.profile_picture ? (
                       <Image
-                        src={profile?.profile_picture?.url}
-                        alt={profile?.profile_picture?.name}
+                        src={profile?.profile_picture}
+                        alt='photo'
                         width={1000}
                         height={1000}
                         className={`${

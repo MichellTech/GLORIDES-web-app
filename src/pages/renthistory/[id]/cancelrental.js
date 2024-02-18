@@ -81,7 +81,7 @@ function Cancelrental() {
   return (
     <>
       <Navbar />
-      <main className='w-full py-10 lg:py-16 xl:py-20 min-h-screen bg-[#F5F5F5] bg-opacity-50 flex justify-center items-center mx-auto  px-4 md:px-6  lg:px-8'>
+      <main className='w-full py-10 lg:py-16 xl:py-20  bg-[#F5F5F5] bg-opacity-50 flex justify-center items-center mx-auto  px-4 md:px-6  lg:px-8'>
         {/* content */}
         <section className='bg-white px-6 lg:px-10 py-6 lg:py-10 shadow-lg rounded-md w-full  max-w-sm md:max-w-lg lg:max-w-xl xl:max-w-2xl'>
           {/* pickup */}
@@ -206,12 +206,22 @@ function Cancelrental() {
               </div>
             </div>
           )}
-          <div className='py-10'>
+          <div className='py-10 space-y-2 sm:flex sm:space-y-0 sm:items-center w-full sm:gap-2 lg:gap-4'>
             <button
               onClick={() => cancelbook()}
-              className=' px-4 py-2 lg:py-3 hover:shadow-lg w-full bg-babypurple text-white text-sm lg:text-base rounded-md'
+              className=' px-4 py-2 lg:py-3 hover:shadow-lg w-full bg-babypurple text-white text-sm lg:text-base rounded-md '
             >
               Cancel Booking
+            </button>
+            <button
+              onClick={() =>
+                router.push({
+                  pathname: `/renthistory/${carId}`,
+                })
+              }
+              className=' px-4 py-2 lg:py-3 hover:shadow-lg w-full bg-indigo-500 text-white text-sm lg:text-base rounded-md'
+            >
+              Return
             </button>
           </div>
         </section>
