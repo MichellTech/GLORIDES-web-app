@@ -260,9 +260,7 @@ function Index() {
           >
             {item?.payment_status}
           </td>
-          <td className='pr-4   py-4  text-center '>
-            {item?.car_booked?.rent_cost}
-          </td>
+          <td className='pr-4   py-4  text-center '>{item?.amount}</td>
           <td className='pr-4   py-4  text-left '>{item?.pickup_address}</td>
         </tr>
       )
