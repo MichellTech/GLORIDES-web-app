@@ -240,7 +240,7 @@ function Viewcar() {
                     <div className='flex items-center gap-2'>
                       <TbClockHour9 />
                       <h1 className='text-sm lg:text-base '>
-                        {moment(cardata?.car_booked?.start_date).format(
+                        {moment(cardata?.start_date).format(
                           'MMMM Do YYYY, h:mm:ss a'
                         )}
                       </h1>
@@ -263,7 +263,7 @@ function Viewcar() {
                     <div className='flex items-center gap-2'>
                       <MdMyLocation />
                       <h1 className='text-sm lg:text-base '>
-                        {cardata?.car_booked?.dropoff_location}
+                        {cardata?.dropoff_location}
                       </h1>
                     </div>
                     <div className='flex items-center gap-2'>
