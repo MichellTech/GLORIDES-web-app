@@ -62,6 +62,9 @@ function Index() {
   const indexOfLastItem = (currentPage + 1) * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentItems = history
+    ?.sort((a, b) => {
+      return new Date(b?.start_date) - new Date(a?.start_date)
+    })
     ?.slice(indexOfFirstItem, indexOfLastItem)
     .map((item, index) => {
       if (item?.extensions?.length > 0) {

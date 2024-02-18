@@ -65,7 +65,7 @@ function Booking({ cardata, uservalues }) {
         console.log(error)
       })
   }
-
+  console.log(cardata)
   return (
     <>
       <section className='bg-[#F5F5F5]  w-full pt-10 xl:pt-16 '>
@@ -126,35 +126,39 @@ function Booking({ cardata, uservalues }) {
                                     <MdOutlineSecurity className='text-3xl' />
                                     <div className='space-y-1'>
                                       <h1 className=' text-sm'> Insurance</h1>
-                                      <p className='text-xs'>$24/day</p>
-                                    </div>
-                                  </label>
-                                </div>
-                                {/* two*/}
-                                <div className='flex  items-center gap-4'>
-                                  <input
-                                    type='checkbox'
-                                    id='tank'
-                                    {...field}
-                                    value='tank'
-                                    checked={field.value.includes('tank')}
-                                  />
-                                  <label
-                                    htmlFor='tank'
-                                    className='flex items-center gap-2 border rounded-md px-4 py-2'
-                                  >
-                                    <LuFuel className='text-3xl' />
-                                    <div className='space-y-1'>
-                                      <h1 className=' text-sm'>
-                                        {' '}
-                                        Tank Filling
-                                      </h1>
                                       <p className='text-xs'>
-                                        ${cardata?.tank_filling?.amount}
+                                        $ {cardata?.insurance_amount} /day
                                       </p>
                                     </div>
                                   </label>
                                 </div>
+                                {/* two*/}
+                                {cardata?.tank_filling?.status && (
+                                  <div className='flex  items-center gap-4'>
+                                    <input
+                                      type='checkbox'
+                                      id='tank'
+                                      {...field}
+                                      value='tank'
+                                      checked={field.value.includes('tank')}
+                                    />
+                                    <label
+                                      htmlFor='tank'
+                                      className='flex items-center gap-2 border rounded-md px-4 py-2'
+                                    >
+                                      <LuFuel className='text-3xl' />
+                                      <div className='space-y-1'>
+                                        <h1 className=' text-sm'>
+                                          {' '}
+                                          Tank Filling
+                                        </h1>
+                                        <p className='text-xs'>
+                                          ${cardata?.tank_filling?.amount}
+                                        </p>
+                                      </div>
+                                    </label>
+                                  </div>
+                                )}
                               </div>
                             )
                           }}
@@ -168,7 +172,8 @@ function Booking({ cardata, uservalues }) {
                           possession of this vehicle
                         </h1>
                       ) : null}
-                      {!formik.values.extraservices.includes('tank') ? (
+                      {!formik.values.extraservices.includes('tank') &&
+                      cardata?.tank_filling?.status ? (
                         <h1 className='text-[0.6rem] text-red text-red-500  lg:text-xs'>
                           Be advised that not checking the tank filling box
                           means you will return the car with the same amount of
@@ -267,7 +272,7 @@ function Booking({ cardata, uservalues }) {
                         <h1 className='text-xs  xl:text-sm font-bold'>
                           ${' '}
                           {formik.values.extraservices.includes('insurance')
-                            ? 24
+                            ? cardata?.insurance_amount * diffDays
                             : 0}
                         </h1>
                       </div>
@@ -293,7 +298,7 @@ function Booking({ cardata, uservalues }) {
                               ? cardata?.tank_filling.amount
                               : 0) +
                             (formik.values.extraservices.includes('insurance')
-                              ? 24
+                              ? cardata?.insurance_amount * diffDays
                               : 0)}
                         </h1>
                       </div>

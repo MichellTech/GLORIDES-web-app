@@ -57,7 +57,7 @@ function Viewcar() {
   const [hover, setHover] = useState(null)
   const { bookmarked, isBooking } = useSelector((store) => store.rental)
   const carId = router.query.id
-  const shareUrl = `https://gloride-web-app.netlify.app/rentacar/${carId}`
+  const shareUrl = `https://gloridesus.com/rentacar/${carId}`
   const title = 'Check out this awesome car for rental on gloride car rentals!'
   useEffect(() => {
     getcardetails()
