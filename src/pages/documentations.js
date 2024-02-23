@@ -4,9 +4,16 @@ import Image from 'next/image'
 import Footer from '../components/Navigation/Footer'
 import { Link } from 'react-scroll'
 import { useRouter } from 'next/router'
+import { toast } from 'react-toastify'
 function Documentation() {
   const [pannel, setPannel] = useState('1')
   const router = useRouter()
+  const profile =
+    localStorage?.getItem('User_Profile') === null ||
+    localStorage?.getItem('User_Profile') === 'undefined' ||
+    localStorage?.getItem('User_Profile') === undefined
+      ? []
+      : JSON?.parse(localStorage?.getItem('User_Profile'))
   return (
     <>
       {/* hero */}
@@ -135,21 +142,20 @@ function Documentation() {
                     Introduction
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    Gloride car rental (“Upperlink”, the “Company”, or “we” or
-                    “us”) values your Personal Data and we are committed to
-                    protecting your privacy whenever you interact with us
-                    through Gloride services which include all pages within the
-                    Gloride website, mobile applications and other products and
-                    services (collectively referred to as the “Gloride Service
-                    Channels”, Gloride Services” or “Services”). Please read
-                    this Privacy Policy (the “Policy”) to understand our
-                    policies, processes, and procedures regarding the processing
-                    of your personal data. By this Policy, we explain to you how
-                    your Personal Data is collected, used, managed, transferred
-                    and or deleted on the Gloride Service Channels and also
-                    explain how you can update your Personal Data with us and
-                    exercise your rights in respect of your Personal Data
-                    provided to us.{' '}
+                    Gloride car rental values your Personal Data and we are
+                    committed to protecting your privacy whenever you interact
+                    with us through Gloride services which include all pages
+                    within the Gloride website, mobile applications and other
+                    products and services (collectively referred to as the
+                    “Gloride Service Channels”, Gloride Services” or
+                    “Services”). Please read this Privacy Policy (the “Policy”)
+                    to understand our policies, processes, and procedures
+                    regarding the processing of your personal data. By this
+                    Policy, we explain to you how your Personal Data is
+                    collected, used, managed, transferred and or deleted on the
+                    Gloride Service Channels and also explain how you can update
+                    your Personal Data with us and exercise your rights in
+                    respect of your Personal Data provided to us.{' '}
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -334,7 +340,7 @@ function Documentation() {
                     have any questions about this Privacy Policy, you can reach
                     out to us via{' '}
                     <span className='font-bold text-babypurple'>
-                      support@glorideus.cpm
+                      support@gloridesus.com
                     </span>
                   </p>
                 </div>
@@ -346,14 +352,14 @@ function Documentation() {
                     Introduction
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    Gloride car rental (Upperlink, “we”, “our” or “us”) may use
-                    cookies, web beacons, tracking pixels, and other tracking
-                    technologies when you use Gloride services which include all
-                    pages within the Gloride web services, mobile applications
-                    and other products and services (collectively referred to as
-                    “Gloride Service Channels”, “Gloride Services” or
-                    “Services") to help customize the Gloride Services and
-                    improve your experience. <br /> <br />
+                    Gloride car rental may use cookies, web beacons, tracking
+                    pixels, and other tracking technologies when you use Gloride
+                    services which include all pages within the Gloride web
+                    services, mobile applications and other products and
+                    services (collectively referred to as “Gloride Service
+                    Channels”, “Gloride Services” or “Services") to help
+                    customize the Gloride Services and improve your experience.{' '}
+                    <br /> <br />
                     We reserve the right to make changes to this Cookies Policy
                     at any time and for any reason. We will alert you about any
                     changes by updating the “Last Updated” date of this Cookies
@@ -520,7 +526,7 @@ function Documentation() {
                     other requests regarding the cookies policy should be sent
                     to{' '}
                     <span className='text-babypurple text-decoration-line: underline'>
-                      support@Gloride.ng
+                      support@gloridesus.com
                     </span>
                   </p>
                 </div>
@@ -532,22 +538,18 @@ function Documentation() {
                     Introduction
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base '>
-                    These Terms and Conditions (“Terms”) contained herein is a
-                    legal agreement between you, as a prospective customer of
-                    Gloride car rental including its agents, assigns and
-                    successors in title (Upperlink, “we”, “our” or “us”) with
-                    respect to its Gloride services and shall govern your access
-                    to and use of all pages within the Gloride website, mobile
-                    applications and other products and services (collectively
-                    referred to as the “Gloride Services Channels”, “Gloride
-                    Services” or “Services”).
-                    <br /> These Terms apply in full force and effect to your
-                    use of the Services and by using any of the Services, you
-                    expressly accept and agree to be bound by all terms and
-                    conditions contained herein in full and without limitation
-                    or qualification, including our Privacy and Cookies Policy.
-                    You must not use any of the Services, if you have any
-                    objection to any of these Terms.
+                    These Terms and Conditions ("Terms") constitute a legal
+                    agreement between you, as a prospective customer of Gloride
+                    car rental, including its agents, assigns, and successors in
+                    title, regarding the Gloride services. These Terms govern
+                    your access to and use of all pages within the Gloride
+                    website, mobile applications, and other products and
+                    services (collectively referred to as the "Gloride Services
+                    Channels", "Gloride Services" or "Services"). By accessing
+                    or using any of the Services, you agree to be bound by these
+                    Terms in full and without limitation or qualification,
+                    including our Privacy and Cookies Policy. If you do not
+                    agree to these Terms, you must not use any of the Services.
                     <br />
                     <br />
                     <span className=' font-bold'>
@@ -574,10 +576,10 @@ function Documentation() {
                     Age Restriction
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    The services are directed to people from the ages of 18 and
-                    above. You are only permitted to use the Services if you are
-                    aged 18 or older. We do not knowingly engage people younger
-                    than the age of 18.
+                    The services are directed to individuals aged 18 and above.
+                    You are only permitted to use the Services if you are aged
+                    18 or older. We do not knowingly engage with individuals
+                    younger than the age of 18.
                   </p>
                 </div>
 
@@ -588,27 +590,19 @@ function Documentation() {
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
                     Unless otherwise stated, Gloride and/or its licensors own
-                    the intellectual property rights and materials with respect
-                    to the Gloride Service Channels subject to the license
-                    below. All text, formatting (including without limitation
-                    the arrangement of materials on the Gloride Service Channels
-                    and the graphics, animation, tools, commercials, music,
+                    the intellectual property rights and materials within the
+                    Gloride Service Channels. All content, including text,
+                    formatting, graphics, animation, tools, commercials, music,
                     video, articles, sound, copy, trade names, logos, and other
-                    materials and information on the Gloride Service Channels
-                    are subject to the intellectual property rights of Gloride
-                    and its affiliates and their licensors and licensees
-                    (collectively the “Content”). We do not grant you any right,
-                    license, title, or interest to any of our intellectual
-                    Property rights which you may or may not have access to.
-                    This Content may not be copied, reverse-engineered,
-                    decompiled, disassembles, modified, or reposted to other
-                    websites. Nothing on the Gloride Service Channels should be
-                    construed as granting by implication or otherwise, any
-                    license or right to use any Trademark displayed on the
-                    Gloride Service Channels without the written permission of
-                    Gloride or such third party that may own the Trademark. You
-                    agree to take such actions that may be needed to further
-                    affirm our intellectual property rights.
+                    materials, are subject to the intellectual property rights
+                    of Gloride and its affiliates and their licensors and
+                    licensees (collectively the "Content"). You are not granted
+                    any right, license, title, or interest to any of our
+                    intellectual property rights. You agree not to copy,
+                    reverse-engineer, decompile, disassemble, modify, or repost
+                    any Content without prior written permission. You also agree
+                    not to use any Trademark displayed on the Gloride Service
+                    Channels without written permission.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -617,28 +611,14 @@ function Documentation() {
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
                     We grant you a non-assignable, non-exclusive, and revocable
-                    license to use the software provided as part of our services
-                    in the manner permitted by these Terms. This license grant
-                    includes all updates, upgrades, new versions, and
-                    replacement software for you to use in connection with our
-                    services. The services are protected by copyright,
-                    trademark, and other laws of both Nigeria and foreign
-                    countries. Nothing in this Term gives you a right to use the
-                    Gloride name or any of Gloride trademarks, logos, domain
-                    names, and other distinctive brand features. All right,
-                    titles, and interests in and to the services are and will
-                    remain the exclusive property of Gloride and its licensors.
-                    If you do not comply with all the provisions, then you will
-                    be liable for all resulting damages suffered by you,
-                    Upperlink, and all third parties. Unless otherwise provided
-                    by applicable law, you agree not to alter, re-design,
+                    license to use the software provided as part of our
+                    services. This license includes all updates, upgrades, new
+                    versions, and replacement software for use in connection
+                    with our services. The services are protected by copyright,
+                    trademark, and other laws. You agree not to alter,
                     reproduce, adapt, display, distribute, translate,
-                    disassemble, reverse engineer, or otherwise attempt to
-                    create any source code that is derived from the Gloride
-                    software. Any feedback, comments, or suggestions you may
-                    provide to us and our services is entirely voluntary and we
-                    will be free to use such feedback, comments, or suggestion
-                    as we see fit without any obligation to you.
+                    disassemble, reverse engineer, or attempt to create any
+                    source code derived from the Gloride software.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -647,29 +627,19 @@ function Documentation() {
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base text-transform: lowercase first-letter:uppercase'>
                     {' '}
-                    Gloride WILL ALWAYS ENSURE THAT THE Gloride SERVICE CHANNELS
-                    ARE AVAILABLE AT ALL TIMES AND BUG-FREE. HOWEVER, THEY ARE
-                    USED AT YOUR OWN RISK. WE PROVIDE ALL MATERIALS “AS IS” WITH
-                    NO WARRANTY, EXPRESS OR IMPLIED, OF ANY KIND. WE EXPRESSLY
-                    DISCLAIM ANY AND ALL WARRANTIES AND CONDITIONS, INCLUDING
-                    ANY IMPLIED WARRANTY OR CONDITION OF MERCHANTABILITY,
-                    FITNESS FOR A PARTICULAR PURPOSE, AVAILABILITY, SECURITY,
-                    TITLE, AND NON-INFRINGEMENT OF INTELLECTUAL PROPERTY RIGHTS,
-                    WITHOUT LIMITING THE GENERALITY OF THE FOREGOING. WE MAKE NO
-                    WARRANTY THAT OUR SERVICES WILL MEET YOUR REQUIREMENTS OR
-                    THAT THE Gloride SERVICE CHANNELS WILL REMAIN FREE FROM ANY
-                    INTERRUPTION, BUGS, INACCURACIES, AND ERROR-FREE. YOUR USE
-                    OF OUR SERVICES IS AT YOUR OWN RISK AND YOU ALONE WILL BE
-                    RESPONSIBLE FOR ANY DAMAGE THAT RESULTS IN LOSS OF DATA OR
-                    DAMAGE TO YOUR COMPUTER SYSTEM. NO ADVICE OR INFORMATION,
-                    WHETHER ORAL OR WRITTEN OBTAINED BY YOU FROM Gloride SERVICE
-                    CHANNELS WILL CREATE ANY WARRANTY OR CONDITION NOT EXPRESSLY
-                    STATED.
-                    <br />
-                    You must not attempt to gain unauthorized access to our
-                    Services, computers or databases. You must not misuse our
-                    Services by introducing trojans, viruses or other materials
-                    which are malicious or technologically harmful.
+                    Gloride endeavors to ensure that the Gloride Service
+                    Channels are available and bug-free, however, they are used
+                    at your own risk. We provide all materials "as is" with no
+                    warranty, express or implied, of any kind. We expressly
+                    disclaim any and all warranties and conditions, including
+                    any implied warranty or condition of merchantability,
+                    fitness for a particular purpose, availability, security,
+                    title, and non-infringement of intellectual property rights.
+                    We make no warranty that our services will meet your
+                    requirements or remain free from interruption, bugs,
+                    inaccuracies, or errors. Your use of our services is at your
+                    own risk, and you alone will be responsible for any
+                    resulting damage.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -679,40 +649,16 @@ function Documentation() {
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
                     When you initiate and confirm a transaction on Gloride
                     Service Channels, you agree to be bound by and pay for that
-                    transaction. Do not commit to a transaction unless you are
-                    ready to pay and have checked that all provided information
-                    is accurate as all completed transactions are final.
-                    <br />
-                    Our Gloride service is designed to make payments convenient,
-                    so we allow you to make payments using a number of different
-                    funding sources like your linked bank accounts and/or bank
-                    cards. When you provide us with a funding source, you also
-                    authorize:
-                    <br />
-                    <br />
-                    <li>
-                      The collection and storing of source information along
-                      with other related transaction information;
-                    </li>
-                    <li>
-                      The crediting and debiting of your chosen source when you
-                      perform transactions on Gloride;
-                    </li>
-                    <br />
-                    When you make a payment, you authorize us (and our
-                    designated payment processor) to charge the full amount and
-                    any charges related to that transaction to the funding
-                    source you designate for the transaction. If your payment
-                    results in an overdraft or other fee from a related party,
-                    liability for such fees or penalties will rest solely with
-                    you.
-                    <br />
-                    <br />
-                    To prevent financial loss or possible violations of the law,
-                    we reserve the right to use our discretion in disclosing
-                    details of any payments associated with you with funding
-                    source issuers, law enforcement agencies, or impacted third
-                    parties (including other users).
+                    transaction. All completed transactions are final, so do not
+                    commit to a transaction unless you are ready to pay and have
+                    ensured the accuracy of all provided information. You may
+                    make payments using various funding sources like linked bank
+                    accounts and/or bank cards. By providing a funding source,
+                    you authorize the collection, storage, crediting, and
+                    debiting of your chosen source for transactions on Gloride.
+                    We reserve the right to disclose payment details to
+                    designated parties for the prevention of financial loss or
+                    law enforcement purposes.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -721,23 +667,11 @@ function Documentation() {
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
                     When making a payment to a Biller on Gloride Service
-                    Channels, you will be required to confirm the transaction.
-                    At this time, you may also be requested to enter your
-                    Personal Identification Number (PIN) being the secret code
-                    you choose to secure your use of (and access to) Gloride
-                    services.
-                    <br />
-                    <br />
-                    By entering your PIN to confirm the transaction you agree
-                    and confirm that you authorized the transaction. You cannot
-                    directly reverse or cancel any payment once it has been
-                    approved by you. <br />
-                    <br />
-                    As we are unable to reverse or charge back any payments
-                    made, should you have a dispute with any Biller, you agree
-                    to resolve such disputes with the Biller directly. Disputes
-                    between you and a Biller will not affect our right to
-                    recover payments from you.
+                    Channels, you will confirm the transaction and may be
+                    required to enter your Personal Identification Number (PIN).
+                    By entering your PIN, you confirm that you authorized the
+                    transaction, which cannot be directly reversed or canceled
+                    once approved.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -745,41 +679,15 @@ function Documentation() {
                     Security and Unauthorized Use
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    When signing up for a Gloride account, you will be prompted
-                    to create a unique PIN, username, and password and provide
-                    answers to one or more security questions of your choosing.
-                    <br />
-                    <br />
                     You are responsible for the safekeeping and proper use of
-                    these security data. You are responsible for all
-                    transactions that take place on your account with your PIN
-                    and you indemnify us against any claims made in respect of
-                    such transactions.
-                    <br />
-                    <br />
-                    If at any time you believe or discover that your PIN has
-                    been stolen or compromised, you should contact our Customer
-                    Services at{' '}
-                    <span className='text-babypurple'>
-                      support@glorideus.com{' '}
-                    </span>{' '}
-                    immediately. We will place your account on hold to prevent
-                    any transactions from being carried out as soon as we
-                    reasonably can. You will remain responsible for all
-                    transactions that occur until your account is put on hold.
-                    <br />
-                    <br />
-                    Should you dispute any purchase or withdrawal debited to
-                    your account, you will be required to prove that it lacked
-                    your authorization. Such transactions will be investigated
-                    once we receive an affidavit clearly stating that you had
-                    not authorized the transaction, supported by proof of this.
-                    <br />
-                    <br />
-                    We use a PIN and a selection of questions to confirm your
-                    identity when you call Customer Services. This method gives
-                    us your authorization to service your account and execute
-                    your instructions.
+                    your security data, including PIN, username, and password.
+                    You are liable for all transactions on your account with
+                    your PIN and indemnify us against any claims arising from
+                    such transactions. If you suspect your security data has
+                    been compromised, you must contact Customer Services
+                    immediately @ support@gloridesus.com. We reserve the right
+                    to suspend your account in case of suspected fraudulent,
+                    negligent, or illegal activities.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -787,50 +695,13 @@ function Documentation() {
                     Disputes and Refunds
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    If you believe that an unauthorized or otherwise problematic
-                    transaction has taken place under your account, you agree to
-                    notify us immediately, to enable us to take action to help
-                    prevent financial loss.
-                    <br />
-                    <br />
-                    All claims against us related to payments should be made
-                    within thirty (30) days after the date of such payment. It
-                    will be taken that you waive all claims against us, to the
-                    fullest extent of the law after the said period of time
-                    <br />
-                    <br />
-                    You are responsible for and agree to indemnify us for all
-                    Refunds, charge-backs, claims, fees, fines, penalties, and
-                    other liability incurred by us (including costs and related
-                    expenses) caused by or arising from payments that you
-                    authorized or accepted.
-                    <br />
-                    <br />
-                    If you enter into a transaction with a third party and have
-                    a dispute over the goods or services you purchased, we have
-                    no liability for such goods or services. Our only
-                    involvement with regard to such transactions is as a payment
-                    agent.
-                    <br />
-                    <br />
-                    We may intervene in disputes between users concerning
-                    payments but have no obligation to do so.
-                    <br />
-                    <br />
-                    Your only remedy for a technical failure or interruption of
-                    service is to request that your transaction be completed at
-                    a later time.
-                    <br />
-                    <br />
-                    It is your responsibility to remit any taxes that apply to
-                    your transactions and are not normally included in the cost
-                    of the Gloride transaction. You agree to indemnify and hold
-                    us harmless from and against any claim arising out of your
-                    failure to do so.
-                    <br />
-                    <br />
-                    The transaction ID and transaction details will be required
-                    to resolve all disputes.
+                    Notify us immediately of any unauthorized or problematic
+                    transaction to prevent financial loss. Claims related to
+                    payments must be made within thirty (30) days, after which
+                    you waive all claims against us. You are responsible for
+                    indemnifying us for any liability arising from authorized
+                    payments. Disputes over goods or services purchased from
+                    third parties are not our liability.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -838,40 +709,11 @@ function Documentation() {
                     Suspension and Closure of Accounts
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    We may suspend, restrict, or terminate the provision of our
-                    services (in whole or in part) and or close your account
-                    without any liability whatsoever under the following
-                    circumstances:
-                    <br />
-                    <br />
-                    <li>
-                      Upon receiving a request from you at any time, we will
-                      close your account;
-                    </li>
-                    <li>
-                      If you notify us that your phone has been lost or stolen
-                      or your PIN has been compromised, we will suspend or close
-                      your account;
-                    </li>
-                    <li>
-                      If in any way we know or suspect your account is being
-                      used fraudulently, negligently, or for illegal activities,
-                      or if we must do so to comply with the law, we may close
-                      your account, restrict activity on your account or suspend
-                      access to your account;
-                    </li>
-                    <li>
-                      If we believe that you are in breach of these terms and
-                      conditions, are trying to compromise our systems, are
-                      unreasonably interfering with any services provided by us,
-                      or for any other purpose in protection of our interests,
-                      we may close your account;
-                    </li>
-                    <li>
-                      Should you enter the incorrect PIN on three (3)
-                      consecutive occasions, we will lock your access to Gloride
-                      Services for (24 hours).
-                    </li>
+                    We may suspend, restrict, or terminate our services or close
+                    your account under certain circumstances, including at your
+                    request, loss or theft of your phone or compromised PIN,
+                    suspicion of fraudulent or illegal activities, or breach of
+                    these Terms.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -879,21 +721,27 @@ function Documentation() {
                     Account Deletion
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    You can delete your Account at any time by using the
-                    following link{' '}
+                    You may delete your Account at any time, upon which your
+                    records and personal data will be deleted, except as
+                    required by applicable laws on data retention.click {''}
                     <span
-                      // onClick={() =>
-                      //   router.push({
-                      //     pathname: '/Deleteaccount',
-                      //   })
-                      // }
+                      onClick={() => {
+                        if (profile?.firstname) {
+                          router.push({
+                            pathname: '/userprofile/delete',
+                          })
+                        } else {
+                          toast.error('please login to get started')
+                          router.push({
+                            pathname: '/auth/login',
+                          })
+                        }
+                      }}
                       className='text-babypurple font-bold cursor-pointer'
                     >
-                      link
-                    </span>
-                    . Upon deleting your Account, your records and personal data
-                    will be deleted. We will only keep such records and data as
-                    may be required by applicable laws on data retention.
+                      here
+                    </span>{' '}
+                    to delete your account
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -901,19 +749,10 @@ function Documentation() {
                     Limitation of Liability
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base text-transform: lowercase first-letter:uppercase'>
-                    YOUR USE OF THE Gloride SERVICE CHANNELS IS AT YOUR OWN
-                    RISK. Gloride WILL IN NO WAY BE LIABLE FOR ANY DIRECT,
-                    INDIRECT, INCIDENTAL PUNITIVE, CONSEQUENTIAL, SPECIAL, OR
-                    EXEMPLARY DAMAGES OR ANY DAMAGES INCLUDING DAMAGES RESULTING
-                    FROM REVENUE LOSS, PROFIT LOSS, USE, DATA, GOODWILL,
-                    BUSINESS INTERRUPTION, OR ANY OTHER INTANGIBLE LOSSES
-                    (WHETHER Gloride HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
-                    DAMAGES OR NOT) ARISING OUT OF YOUR USE OF THE Gloride
-                    SERVICE CHANNELS OR SERVICES (INCLUDING, WITHOUT LIMITATION
-                    TO YOUR INABILITY TO USE, OR ARISING FROM THE RESULT OF USE
-                    OF Gloride SERVICE CHANNELS OR SERVICES) WHETHER SUCH
-                    DAMAGES ARE BASED ON WARRANTY, TORT, CONTRACT, STATUTE OR
-                    ANY OTHER LEGAL THEORY.
+                    Gloride will not be liable for any direct, indirect,
+                    incidental, punitive, consequential, special, or exemplary
+                    damages arising from your use of the Gloride Service
+                    Channels or Services.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -921,18 +760,9 @@ function Documentation() {
                     Indemnification
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    You hereby indemnify Gloride and undertake to keep
-                    Upperlink, its staff, and affiliates indemnified against any
-                    losses, damages, costs, liabilities, and expenses (including
-                    without limitation reasonable legal fees and expenses)
-                    arising out of any breach by you of any provision of these
-                    Terms, or arising out of any claim that you have breached
-                    any provision of these Terms. You will indemnify and hold
-                    Gloride harmless from and against any claim, suit, or
-                    proceedings brought against Gloride arising from or in
-                    connection with violations of Intellectual Property or other
-                    rights of third parties in relation to your use of the
-                    Services.
+                    You indemnify Gloride against any losses, damages, costs,
+                    liabilities, and expenses arising from your breach of these
+                    Terms or any claim alleging such breach.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -940,14 +770,9 @@ function Documentation() {
                     Breaches of these Terms
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    Without prejudice to Upperlink’s other rights under these
-                    Terms, if you breach these Terms in any way, Gloride may
-                    take such action as Gloride deems appropriate to deal with
-                    the breach, including suspending your access to the Gloride
-                    service Channels, prohibiting you from accessing Gloride
-                    service Channels, contacting your internet service provider
-                    to request that they block your access to the services
-                    and/or bringing court proceedings against you.
+                    Gloride may take appropriate action, including suspending
+                    your access to the Gloride Service Channels, in response to
+                    any breach of these Terms.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -955,41 +780,22 @@ function Documentation() {
                     Data Protection
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    Gloride recognizes the importance of protecting the privacy
-                    of those who visit the Gloride Service Channels and choose
-                    to use the Gloride Services. With respect to all the
-                    Personal Information belonging to, and/or processed in
-                    connection with Gloride Services, such Personal Information
-                    at all times are in compliance with all Data Protection Laws
-                    in the territory, in all respect and in particular the
-                    Nigeria Data Protection Regulation 2019 and all applicable
-                    data protection regulation in force. Gloride maintains a
-                    Privacy Policy which provides an overview of the Personal
-                    Information we collect about you or that you provide to us
-                    and how we store and use the information provided by you in
-                    line with applicable Data protection legislation. By using
-                    the Gloride Services you consent to such processing and you
-                    commit to provide accurate information.
+                    Gloride processes Personal Information in compliance with
+                    all applicable Data Protection Laws, including the Nigeria
+                    Data Protection Regulation 2019. By using the Gloride
+                    Services, you consent to such processing and agree to
+                    provide accurate information.
                   </p>
                 </div>
+
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
                   <h1 className='font-bold text-xl md:text-2xl xl:text-3xl'>
-                    Governing Language
+                    Governing Law and Language
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    The governing language of these terms and all communication
-                    between Gloride and you will be the English language.
-                  </p>
-                </div>
-                <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
-                  <h1 className='font-bold text-xl md:text-2xl xl:text-3xl'>
-                    Governing Law
-                  </h1>
-                  <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    These Terms shall be interpreted and governed in accordance
-                    with the Laws of the Federal Republic of Nigeria and you
-                    submit to the jurisdiction of the Courts located in Nigeria
-                    for the resolution of any dispute.
+                    These Terms are governed by the laws of the Federal Republic
+                    of Nigeria. Any disputes shall be resolved by the Courts
+                    located in Nigeria.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -1013,15 +819,11 @@ function Documentation() {
                     General
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    These Terms supersede and extinguishes all previous
-                    agreements between you and Gloride whether written or oral,
-                    relating to its subject matter. In the event that any of
-                    these Terms is held to be invalid or unenforceable, then
-                    that provision will be limited or eliminated to the minimum
-                    extent necessary, and the remaining provisions of these
-                    Terms will remain in full effect. Gloride ’s failure to
-                    enforce any right or provision of these Terms will not be
-                    deemed a waiver of such right or provision.
+                    Gloride reserves the right to change, revise, or modify
+                    these Terms. The most current version of the Terms will
+                    govern our relationship with you. By continuing to use our
+                    services after the changes become effective, you agree to be
+                    bound by the revised Terms.
                   </p>
                 </div>
                 <div className=' space-y-3  md:space-y-4 xl:space-y-5'>
@@ -1053,14 +855,13 @@ function Documentation() {
                     <br />
                     <br />
                     You should send any legal notice to us by post to our
-                    address being: 354, Borno Way, Alagomeji, Yaba, Lagos,
-                    Nigeria.
+                    address being: 10205 N Lamar Blvd Austin TX 78753, ste 113.
                     <br />
                     <br />
                     If you have any complaints about us and our Services, you
                     may reach out to us via{' '}
                     <span className='text-babyblue  text-decoration-line: underline'>
-                      support@glorideus.com
+                      support@gloridesus.com
                     </span>
                   </p>
                 </div>

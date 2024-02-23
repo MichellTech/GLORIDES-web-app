@@ -68,6 +68,17 @@ function Profilecomp() {
               Accounts
             </Link>
           )}
+
+          <Link
+            href='/userprofile/delete'
+            className={`${
+              router.pathname?.toLowerCase() === '/userprofile/delete'
+                ? 'border-b-4 font-bold   rounded-sm border-babypurple pb-3 text-babypurple '
+                : '  rounded-sm  pb-3 '
+            }`}
+          >
+            Delete Account
+          </Link>
         </div>
         <div className='absolute left-0 w-full right-0 bottom-0 border-b  '></div>
       </div>

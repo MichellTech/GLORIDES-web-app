@@ -261,7 +261,7 @@ function contactus() {
                 <div className='flex flex-col text-left text-babyblack '>
                   <h1 className='font-bold md:text-lg xl:text-xl'> Email Us</h1>
                   <p className='text-sm md:text-base xl:text-lg'>
-                    hello@gloride.com
+                    support@gloridesus.com
                   </p>
                 </div>
               </div>
@@ -278,7 +278,7 @@ function contactus() {
                     Our Location
                   </h1>
                   <p className='text-sm md:text-base xl:text-lg w-full sm:w-36 md:w-40  lg:w-52 xl:w-60'>
-                    No 2 omuruyi street awoyaya, Lagos. Nigeria
+                    10205 N Lamar Blvd Austin TX 78753, ste 113
                   </p>
                 </div>
               </div>
@@ -291,7 +291,9 @@ function contactus() {
                 {/* text */}
                 <div className='flex flex-col text-left text-babyblack '>
                   <h1 className='font-bold md:text-lg xl:text-xl'> Call Us</h1>
-                  <p className='text-sm md:text-base xl:text-lg'>+2348121986</p>
+                  <p className='text-sm md:text-base xl:text-lg'>
+                    512 640 9088
+                  </p>
                 </div>
               </div>
             </div>
