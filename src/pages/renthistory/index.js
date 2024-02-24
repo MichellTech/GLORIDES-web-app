@@ -240,25 +240,29 @@ function Index() {
           <td className='pr-4   py-4  text-left '>
             {moment(item?.end_date).format('MMMM Do YYYY')}
           </td>
-          <td
-            className={`${
-              item?.status === 'booked'
-                ? 'pr-4 py-4    text-left text-white bg-indigo-500 px-2 '
-                : item?.status === 'returned'
-                ? 'pr-4 py-4 text-left text-orange-800 bg-orange-300 px-2 '
-                : 'pr-4   py-4  text-left text-green-800 bg-green-300 px-2  font-normal'
-            }`}
-          >
-            {item?.status}
+          <td className='pr-4    font-normal'>
+            <span
+              className={`${
+                item?.status === 'returned'
+                  ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
+                  : item?.status === 'booked'
+                  ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
+                  : 'px-2 py-1 text-green-800 bg-green-300  flex justify-center items-center mx-auto rounded-full'
+              }`}
+            >
+              {item?.status}
+            </span>
           </td>
-          <td
-            className={`${
-              item?.payment_status === 'pending'
-                ? 'pr-4 py-4 text-left text-orange-800 bg-orange-300 px-2 '
-                : 'pr-4   py-4  text-left text-green-800 bg-green-300 px-2  font-normal'
-            }`}
-          >
-            {item?.payment_status}
+          <td className='pr-4    font-normal'>
+            <span
+              className={`${
+                item?.payment_status === 'pending'
+                  ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
+                  : 'px-2 py-1 text-green-800 bg-green-300  flex justify-center items-center mx-auto rounded-full'
+              }`}
+            >
+              {item?.payment_status}
+            </span>
           </td>
           <td className='pr-4   py-4  text-center '>{item?.amount}</td>
           <td className='pr-4   py-4  text-left '>{item?.pickup_address}</td>

@@ -37,7 +37,7 @@ function Completeregistration() {
   const dispatch = useDispatch()
   // drivers
   const handleupload = (uploadedcontent) => {
-    if (uploadedcontent.size > 2000000) {
+    if (uploadedcontent.size > 10000000) {
       toast.error('file size is too large')
     } else {
       setUserimage(URL.createObjectURL(uploadedcontent))
@@ -47,7 +47,7 @@ function Completeregistration() {
 
   // insurance
   const handleuploadtwo = (uploadedcontent) => {
-    if (uploadedcontent.size > 2000000) {
+    if (uploadedcontent.size > 10000000) {
       toast.error('file size is too large')
     } else {
       setUserimagetwo(URL.createObjectURL(uploadedcontent))
@@ -142,9 +142,7 @@ function Completeregistration() {
         })
     }
   }
-  const today = new Date()
-  const minDate = new Date(today)
-  minDate.setFullYear(minDate.getFullYear() - 18)
+
   return (
     <>
       <section className='min-h-screen flex-col flex justify-center items-center backedground py-10 lg:py-14 overflow-x-hidden'>
@@ -199,7 +197,6 @@ function Completeregistration() {
                                   {...field}
                                   selected={field.value}
                                   dateFormat={'dd/MM/yyyy'}
-                                  minDate={minDate}
                                   onChange={(date) =>
                                     form.setFieldValue(field.name, date)
                                   }

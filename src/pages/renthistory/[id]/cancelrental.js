@@ -19,6 +19,8 @@ function Cancelrental() {
   const [cardata, setCardata] = useState({})
   const [eligibile, setEligibile] = useState(false)
   const [bank, setBank] = useState('')
+  const [account, setAccount] = useState('')
+  const [sort, setSort] = useState('')
   const router = useRouter()
   const carId = router.query.id
 
@@ -69,13 +71,30 @@ function Cancelrental() {
       : JSON?.parse(localStorage?.getItem('User_Profile'))
 
   const cancelbook = () => {
-    if (eligibile && bank === '') {
+    if (eligibile && (bank === '' || account === '' || sort === '')) {
       return toast.error('Please provide payment details')
     } else {
-      toast.success('booking cancelled successfully')
-      router.push({
-        pathname: `/renthistory/${carId}`,
-      })
+      setLoading(true)
+      const payload = {
+        transaction_id: cardata?._id,
+        account_number: account,
+        bank: bank,
+        sortcode: sort,
+      }
+      mainAxiosAction
+        .post(`/cars/cancel-booking`, payload)
+        .then(function (response) {
+          setLoading(false)
+          toast.success(response?.data?.message)
+          router.push({
+            pathname: `/renthistory/${carId}`,
+          })
+        })
+        .catch(function (error) {
+          toast.error(error?.response?.data?.message)
+          setLoading(false)
+          console.log(error)
+        })
     }
   }
   return (
@@ -197,9 +216,33 @@ function Cancelrental() {
                   </label>
                   <input
                     type='number'
+                    value={account}
+                    onChange={(e) => setAccount(e.target.value)}
+                    placeholder='input your account number here'
+                    className='px-4 py-3 lg:py-4 rounded-md  bg-white border  w-full text-sm lg:text-base border-babyblack'
+                  />
+                </div>
+                <div className='w-full space-y-1 lg:space-y-2 '>
+                  <label htmlFor='fullname' className='text-xs lg:text-sm  '>
+                    Bank
+                  </label>
+                  <input
+                    type='text'
                     value={bank}
                     onChange={(e) => setBank(e.target.value)}
-                    placeholder='input your account numbere here'
+                    placeholder='input your bank here'
+                    className='px-4 py-3 lg:py-4 rounded-md  bg-white border  w-full text-sm lg:text-base border-babyblack'
+                  />
+                </div>
+                <div className='w-full space-y-1 lg:space-y-2 '>
+                  <label htmlFor='fullname' className='text-xs lg:text-sm  '>
+                    Sort Code
+                  </label>
+                  <input
+                    type='number'
+                    value={sort}
+                    onChange={(e) => setSort(e.target.value)}
+                    placeholder='input your sort code here'
                     className='px-4 py-3 lg:py-4 rounded-md  bg-white border  w-full text-sm lg:text-base border-babyblack'
                   />
                 </div>
@@ -211,6 +254,7 @@ function Cancelrental() {
               onClick={() => cancelbook()}
               className=' px-4 py-2 lg:py-3 hover:shadow-lg w-full bg-babypurple text-white text-sm lg:text-base rounded-md '
             >
+              {loading && <h1 className='spinner mr-2'></h1>}
               Cancel Booking
             </button>
             <button

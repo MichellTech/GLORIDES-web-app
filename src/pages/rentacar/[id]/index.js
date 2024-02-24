@@ -116,7 +116,12 @@ function Viewcar() {
       is: 'useraddress',
       then: () => Yup.string().required('Required'),
     }),
-    dropoffd: Yup.date().required('Dropoff Date Required'),
+    dropoffd: Yup.date()
+      .required('Dropoff date is required')
+      .min(
+        Yup.ref('pickupd'),
+        'Dropoff date must be atleast 1 day greater than pickup date'
+      ),
     pickupd: Yup.date().required('Pickup Date Required'),
   })
 
@@ -715,7 +720,7 @@ function Viewcar() {
                             alt={cardata?.owner?.profile_picture?.name}
                             width={1000}
                             height={1000}
-                            className='object-cover w-12 lg:w-16   rounded-full border-2 '
+                            className='object-cover w-12  h-12 lg:w-16 lg:h-16   rounded-full border-2 '
                           />
                         </div>
                         {/* name and date */}

@@ -8,11 +8,38 @@ import Loader from '../../components/Loaders/profileloader'
 import { getuserprofile } from '@/features/userpersona/userSlice'
 import { Player, Controls } from '@lottiefiles/react-lottie-player'
 import { useRouter } from 'next/router'
+import mainAxiosAction from '@/components/axiosAction'
+import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { logOut } from '@/features/userpersona/userSlice'
 
 function Delete() {
   const [page, setPage] = useState(1)
   const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const dispatch = useDispatch()
+  const deleteapi = () => {
+    setLoading(true)
+    mainAxiosAction
+      .post(`/user/deleteuseraccount`, {
+        password: password,
+      })
+      .then(function (response) {
+        setLoading(false)
+        dispatch(logOut())
+        router.push({
+          pathname: '/auth/login',
+        })
+        toast.success(response.data.message)
+        setPassword('')
+      })
+      .catch(function (error) {
+        toast.error(error.response.data.message)
+        setLoading(false)
+        console.log(error)
+      })
+  }
 
   return (
     <>
@@ -107,7 +134,13 @@ function Delete() {
                 </div>
                 <div className='py-10 space-y-2 sm:flex sm:space-y-0 sm:items-center w-full sm:gap-2 lg:gap-4 '>
                   <button
-                    onClick={() => console.log(password)}
+                    onClick={() => {
+                      if (password === '') {
+                        return toast.warning('please provide your oassword')
+                      } else {
+                        deleteapi()
+                      }
+                    }}
                     className=' px-4 py-2 lg:py-3 hover:shadow-lg w-full bg-babypurple text-white text-sm lg:text-base rounded-md '
                   >
                     Delete

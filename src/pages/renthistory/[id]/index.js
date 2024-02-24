@@ -301,7 +301,9 @@ function Viewcar() {
                   {/* two */}
                   <div className='w-full  flex justify-between items-center gap-2   border-b pb-4'>
                     <h1 className='text-sm lg:text-base '>Insurance Cost</h1>
-                    <h1 className='text-xs  xl:text-sm font-bold'>$ 0</h1>
+                    <h1 className='text-xs  xl:text-sm font-bold'>
+                      $ {cardata?.additional_fees?.[0]?.amount}
+                    </h1>
                   </div>
                   {/* one */}
                   <div className='w-full  flex justify-between items-center gap-2  border-b pb-4 border-babyblack '>
@@ -349,7 +351,7 @@ function Viewcar() {
                       </button>
                     )}
 
-                    {cardata?.status === 'booked' && (
+                    {cardata?.status !== 'cancelled' && (
                       <button
                         onClick={() => setIsCancel(true)}
                         className='w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'

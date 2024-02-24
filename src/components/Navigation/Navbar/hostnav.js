@@ -410,8 +410,8 @@ function Navbar() {
                         className={`${
                           router.pathname === '/' ||
                           router.pathname === '/contactus'
-                            ? 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-white'
-                            : 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-babypurple'
+                            ? 'object-cover w-10  h-10   lg:w-14 lg:h-14  xl:w-16 xl:h-16 rounded-full border-2 border-white'
+                            : 'object-cover w-10 h-10 lg:w-14 lg:h-14  xl:w-16 xl:h-16 rounded-full border-2 border-babypurple'
                         }`}
                       />
                     ) : (
@@ -423,8 +423,8 @@ function Navbar() {
                         className={`${
                           router.pathname === '/' ||
                           router.pathname === '/contactus'
-                            ? 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-white'
-                            : 'object-cover w-10 lg:w-14  xl:w-16 rounded-full border-2 border-babypurple'
+                            ? 'object-cover w-10  h-10   lg:w-14 lg:h-14  xl:w-16 xl:h-16 rounded-full border-2 border-white'
+                            : 'object-cover w-10  h-10   lg:w-14 lg:h-14  xl:w-16 xl:h-16 rounded-full border-2 border-babypurple'
                         }`}
                       />
                     )}

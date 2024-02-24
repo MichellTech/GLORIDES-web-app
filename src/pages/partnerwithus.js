@@ -7,8 +7,34 @@ import Footer from '../components/Navigation/Footer'
 import { RiEditFill } from 'react-icons/ri'
 import { BsFillBriefcaseFill } from 'react-icons/bs'
 import { BiUserPlus } from 'react-icons/bi'
+import mainAxiosAction from '@/components/axiosAction'
+import { toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { switchToHost } from '@/features/userpersona/userSlice'
+import { useRouter } from 'next/router'
 function partnerwithus() {
   const [info, setInfo] = useState(Businessdata)
+  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()
+  const router = useRouter()
+  const handleswitch = () => {
+    setLoading(true)
+    mainAxiosAction
+      .post(`/user/switchtobusiness`, {})
+      .then(function (response) {
+        dispatch(switchToHost()),
+          router.push({
+            pathname: '/host/dashboard',
+          })
+        toast.success(response?.data?.message)
+        setLoading(false)
+      })
+      .catch(function (error) {
+        toast.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
+  }
   return (
     <>
       <Navbar />
@@ -29,8 +55,12 @@ function partnerwithus() {
               new heights.
             </p>
             <div className='flex gap-4 justify-center md:justify-start items-center'>
-              <button className=' tracking-wide transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-1000 mx-auto md:mx-0 flex px-4 md:px-5 lg:px-6 py-3 lg:py-3 text-white bg-babypurple   rounded-md shadow-md cursor-pointer text-xs sm:text-sm font-bold md:text-sm lg:text-base  md-w1/3'>
-                <Link href='/host/dashboard'>Get Started</Link>
+              <button
+                onClick={() => handleswitch()}
+                className=' tracking-wide transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-1000 mx-auto md:mx-0 flex px-4 md:px-5 lg:px-6 py-3 lg:py-3 text-white bg-babypurple   rounded-md shadow-md cursor-pointer text-xs sm:text-sm font-bold md:text-sm lg:text-base  md-w1/3'
+              >
+                {loading && <h1 className='spinner mr-2 my-2'></h1>}
+                Get Started
               </button>
             </div>
           </div>
@@ -275,12 +305,13 @@ function partnerwithus() {
               touch with us now
             </p>
 
-            <Link
-              href='/host/dashboard'
+            <button
+              onClick={() => handleswitch()}
               className='mx-auto md:mx-0 flex px-6 md:px-5 lg:px-6 py-3 lg:py-3 text-white bg-babypurple   rounded-md shadow-md cursor-pointer text-xs sm:text-sm font-bold md:text-sm lg:text-base tracking-wide transition ease-in-out delay-150  hover:-translate-y-1 hover:scale-110 hover:bg-indigo-500 duration-300 '
             >
+              {loading && <h1 className='spinner mr-2 my-2'></h1>}
               Get Started
-            </Link>
+            </button>
           </div>
         </div>
       </section>

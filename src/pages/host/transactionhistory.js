@@ -102,6 +102,7 @@ function Transactionhistory() {
   useEffect(() => {
     gettransactions()
   }, [])
+  console.log(transdata)
   const handlePageClick = ({ selected }) => {
     setCurrentPage(selected)
   }
@@ -119,16 +120,18 @@ function Transactionhistory() {
           <td className=' py-4 pr-4 '>Michell Okwu</td>
           <td className=' py-4  pr-4 '>{item?.payment_type}</td>
 
-          <td
-            className={`${
-              item?.status === 'completed'
-                ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
-                : item.status === 'failed'
-                ? 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
-                : 'pr-4   py-4  text-left text-orange-800 bg-orange-300 font-normal'
-            }`}
-          >
-            {item?.status}
+          <td className='pr-4  font-normal'>
+            <span
+              className={`${
+                item?.status === 'failed'
+                  ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
+                  : item?.status === 'completed'
+                  ? 'px-2 py-1 text-green-800 bg-green-300  flex justify-center items-center mx-auto rounded-full '
+                  : 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
+              }`}
+            >
+              {item?.status}
+            </span>
           </td>
           <td className='pr-4   py-4  text-left '>{item?.amount}</td>
           <td className='pr-4   py-4  text-left '>

@@ -74,23 +74,6 @@ function Navbar() {
 
   console.log(profile)
 
-  const handleswitch = () => {
-    mainAxiosAction
-      .post(`/user/switchtobusiness`, {})
-      .then(function (response) {
-        dispatch(switchToHost()),
-          router.push({
-            pathname: '/host/dashboard',
-          })
-        toast.success(response?.data?.message)
-      })
-      .catch(function (error) {
-        toast.error(error?.response?.data?.message)
-
-        console.log(error)
-      })
-  }
-
   return (
     <nav
       className={`${
@@ -399,7 +382,9 @@ function Navbar() {
                         <button
                           onClick={() => {
                             if (profile?.type === 'user') {
-                              return handleswitch()
+                              return router.push({
+                                pathname: '/partnerwithus',
+                              })
                             } else {
                               dispatch(switchToHost()),
                                 router.push({

@@ -793,8 +793,8 @@ function Documentation() {
                     Governing Law and Language
                   </h1>
                   <p className='text-xs text-justify leading-5 md:leading-6 xl:leading-7 md:text-sm xl:text-base'>
-                    These Terms are governed by the laws of the Federal Republic
-                    of Nigeria. Any disputes shall be resolved by the Courts
+                    These Terms are governed by the laws of the United States of
+                    America. Any disputes shall be resolved by the Courts
                     located in Nigeria.
                   </p>
                 </div>

@@ -7,6 +7,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { useDispatch } from 'react-redux'
+import { logOut } from '@/features/userpersona/userSlice'
 
 function Emailverification() {
   const [loading, setLoading] = useState(false)
@@ -18,6 +20,7 @@ function Emailverification() {
     verificationcode: '',
   }
   const router = useRouter()
+  const dispatch = useDispatch()
   const { userEmail } = router.query
 
   const onSubmit = (values, onSubmitProps) => {
@@ -213,7 +216,23 @@ function Emailverification() {
               </div>
             )}
           </div>
-          <div></div>
+          <div className='text-center  text-xs sm:text-sm lg:text-base  text-white'>
+            <h1>
+              Not you ?{' '}
+              <button
+                onClick={() => {
+                  dispatch(logOut()),
+                    router.push({
+                      pathname: '/auth/login',
+                    })
+                }}
+                className='underline'
+              >
+                {' '}
+                logout
+              </button>
+            </h1>
+          </div>
           {/* link to signup */}
           <div className='text-center  text-xs sm:text-sm lg:text-base  text-white font-sans  mx-auto'>
             <p>

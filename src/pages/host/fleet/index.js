@@ -35,7 +35,6 @@ function Fleet() {
     mainAxiosAction
       .post(`/cars/get-fleet-details`, {})
       .then(function (response) {
-        console.log(response?.data)
         setLoading(false)
         setFleetdata(response?.data?.fleet_details)
       })
@@ -91,6 +90,8 @@ function Fleet() {
         </tr>
       )
     })
+
+  console.log(fleetdata)
   return (
     <>
       <Navbar />
@@ -187,101 +188,121 @@ function Fleet() {
               </div>
             </div>
             {/* display cars */}
-            <div className='bg-white min-h-[60vh]  w-full  shadow-lg rounded-md lg:rounded-lg py-6 lg:pb-8'>
-              {/* table */}
-              <div className='w-full overflow-x-auto'>
-                <h1 className='font-bold  text-xs xl:text-base md:text-sm px-6 pb-6 '>
-                  All vehicles
-                </h1>
-                <table className='min-w-max w-full divide-y  overflow-x-auto relative divide-gray-1 table-auto '>
-                  <thead className='text-xs  overflow-x-scroll text-left text-babyblack  bg-opacity-60   w-max bg-softpurple'>
-                    <tr>
-                      <th
-                        scope='col'
-                        className='pl-6 pr-4 pt-6  text-left font-medium text-babyblack'
-                      >
-                        <div className='flex items-center gap-4 mb-6'>
-                          <h2 className='text-base lg:text-lg xl:text-xl font-semibold  '>
-                            Carname
-                          </h2>
-                        </div>
-                      </th>
-                      <th
-                        scope='col'
-                        className=' pr-4 pt-6  text-left text-sm font-medium text-babyblack'
-                      >
-                        <div className='flex items-center justify-start gap-4 mb-6'>
-                          <h2 className='text-base font-semibold lg:text-lg xl:text-xl  '>
-                            Date Enlisted
-                          </h2>
-                        </div>
-                      </th>
-                      <th
-                        scope='col'
-                        className=' pr-4 pt-6  text-left text-sm font-medium text-babyblack'
-                      >
-                        <div className='flex items-center gap-4 mb-6'>
-                          <h2 className='text-base font-semibold lg:text-lg xl:text-xl  '>
-                            Amount ($)
-                          </h2>
-                        </div>
-                      </th>
-                      <th
-                        scope='col'
-                        className='pr-4 pt-6  text-left font-medium text-babyblack'
-                      >
-                        <div className='flex items-center gap-4 mb-6'>
-                          <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
-                            Status
-                          </h2>
-                        </div>
-                      </th>
-                      <th
-                        scope='col'
-                        className='pr-4 pt-6  text-left font-medium text-babyblack'
-                      >
-                        <div className='flex items-center gap-4 mb-6'>
-                          <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
-                            Pickup location
-                          </h2>
-                        </div>
-                      </th>
-                      <th
-                        scope='col'
-                        className='pr-4 pt-6  text-left font-medium text-babyblack'
-                      >
-                        <div className='flex items-center gap-4 mb-6'>
-                          <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
-                            Dropoff location
-                          </h2>
-                        </div>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className=' px-6  py-5 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
-                    {currentItems}
-                  </tbody>
-                </table>
+            {fleetdata?.all_vehicles?.length < 1 ? (
+              <div className='bg-white  w-full min-h-[60vh] lg:min-h-[50vh] shadow-lg flex flex-col justify-center items-center rounded-md lg:rounded-lg px-6 space-y-5'>
+                {/* icon */}
+                <div className='flex justify-center items-center p-4 rounded-full bg-babygrey'>
+                  <MdOutlineCarRental className='text-2xl md:text-3xl xl:text-4xl text-babyblack' />
+                </div>
+                <div className='text-center mx-auto space-y-2 md:space-y-4'>
+                  <h1 className='font-bold text-lg md:text-2xl xl:text-3xl'>
+                    No Fleet Records Found
+                  </h1>
+                  <p className='text-xs max-w-xs md:text-sm md:max-w-md xl:text-base xl:max-w-xl'>
+                    We couldn't find your fleet records. This could be because
+                    you haven't enlisted any vehicle. enlist a vehicle today so
+                    you can start earning on the gloride platform{' '}
+                  </p>
+                </div>
               </div>
-              <div className='w-full mt-10 flex justify-end px-4 md:px-6'>
-                <ReactPaginate
-                  pageCount={Math.ceil(
-                    fleetdata?.all_vehicles?.length / itemsPerPage
-                  )}
-                  pageRangeDisplayed={5}
-                  marginPagesDisplayed={2}
-                  onPageChange={handlePageClick}
-                  containerClassName={'pagination'}
-                  activeClassName={'active'}
-                  pageLinkClassName={'pagination-link'}
-                  previousLinkClassName={'pagination-previous'}
-                  nextLinkClassName={'pagination-next'}
-                  breakClassName={'pagination-break'}
-                  breakLinkClassName={'pagination-break-link'}
-                />
+            ) : (
+              <div className='bg-white min-h-[60vh]  w-full  shadow-lg rounded-md lg:rounded-lg py-6 lg:pb-8'>
+                {/* table */}
+                <div className='w-full overflow-x-auto'>
+                  <h1 className='font-bold  text-xs xl:text-base md:text-sm px-6 pb-6 '>
+                    All vehicles
+                  </h1>
+                  <table className='min-w-max w-full divide-y  overflow-x-auto relative divide-gray-1 table-auto '>
+                    <thead className='text-xs  overflow-x-scroll text-left text-babyblack  bg-opacity-60   w-max bg-softpurple'>
+                      <tr>
+                        <th
+                          scope='col'
+                          className='pl-6 pr-4 pt-6  text-left font-medium text-babyblack'
+                        >
+                          <div className='flex items-center gap-4 mb-6'>
+                            <h2 className='text-base lg:text-lg xl:text-xl font-semibold  '>
+                              Carname
+                            </h2>
+                          </div>
+                        </th>
+                        <th
+                          scope='col'
+                          className=' pr-4 pt-6  text-left text-sm font-medium text-babyblack'
+                        >
+                          <div className='flex items-center justify-start gap-4 mb-6'>
+                            <h2 className='text-base font-semibold lg:text-lg xl:text-xl  '>
+                              Date Enlisted
+                            </h2>
+                          </div>
+                        </th>
+                        <th
+                          scope='col'
+                          className=' pr-4 pt-6  text-left text-sm font-medium text-babyblack'
+                        >
+                          <div className='flex items-center gap-4 mb-6'>
+                            <h2 className='text-base font-semibold lg:text-lg xl:text-xl  '>
+                              Amount ($)
+                            </h2>
+                          </div>
+                        </th>
+                        <th
+                          scope='col'
+                          className='pr-4 pt-6  text-left font-medium text-babyblack'
+                        >
+                          <div className='flex items-center gap-4 mb-6'>
+                            <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
+                              Status
+                            </h2>
+                          </div>
+                        </th>
+                        <th
+                          scope='col'
+                          className='pr-4 pt-6  text-left font-medium text-babyblack'
+                        >
+                          <div className='flex items-center gap-4 mb-6'>
+                            <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
+                              Pickup location
+                            </h2>
+                          </div>
+                        </th>
+                        <th
+                          scope='col'
+                          className='pr-4 pt-6  text-left font-medium text-babyblack'
+                        >
+                          <div className='flex items-center gap-4 mb-6'>
+                            <h2 className='text-base font-semibold  lg:text-lg xl:text-xl '>
+                              Dropoff location
+                            </h2>
+                          </div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className=' px-6  py-5 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
+                      {currentItems}
+                    </tbody>
+                  </table>
+                </div>
+                <div className='w-full mt-10 flex justify-end px-4 md:px-6'>
+                  <ReactPaginate
+                    pageCount={Math.ceil(
+                      fleetdata?.all_vehicles?.length / itemsPerPage
+                    )}
+                    pageRangeDisplayed={5}
+                    marginPagesDisplayed={2}
+                    onPageChange={handlePageClick}
+                    containerClassName={'pagination'}
+                    activeClassName={'active'}
+                    pageLinkClassName={'pagination-link'}
+                    previousLinkClassName={'pagination-previous'}
+                    nextLinkClassName={'pagination-next'}
+                    breakClassName={'pagination-break'}
+                    breakLinkClassName={'pagination-break-link'}
+                  />
+                </div>
               </div>
-            </div>
+            )}
           </section>
+
           <Footer />
         </div>
       )}
