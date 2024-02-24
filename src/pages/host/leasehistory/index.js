@@ -124,6 +124,8 @@ function Leasehistory() {
           pathname: `/host/leasehistory`,
         })
         setBookingid('')
+        setModal(false)
+        gethistory()
       })
       .catch(function (error) {
         toast.error(error?.response?.data?.message)

@@ -10,7 +10,12 @@ import {
 } from '@/features/userpersona/userSlice'
 import { IoIosNotificationsOutline } from 'react-icons/io'
 import { FiUser } from 'react-icons/fi'
-import { BsBookmark, BsBriefcase, BsChatSquareDots } from 'react-icons/bs'
+import {
+  BsBookmark,
+  BsBookmarkHeart,
+  BsBriefcase,
+  BsChatSquareDots,
+} from 'react-icons/bs'
 import { HiOutlineDocumentText } from 'react-icons/hi'
 import { BiSupport } from 'react-icons/bi'
 import { RiHome3Line, RiInformationLine } from 'react-icons/ri'
@@ -429,13 +434,17 @@ function Navbar() {
                         <h1 className='text-xs lg:text-sm '>Rent a Car</h1>
                       </Link>
                       {/* saved vehicles */}
-                      <Link
-                        href='/partnerwithus'
-                        className='flex   items-center gap-4 '
-                      >
-                        <BsBriefcase className='lg:text-2xl ' />
-                        <h1 className='text-xs lg:text-sm '>Partner with Us</h1>
-                      </Link>
+                      {profile?.type !== 'business' && (
+                        <Link
+                          href='/partnerwithus'
+                          className='flex   items-center gap-4 '
+                        >
+                          <BsBriefcase className='lg:text-2xl ' />
+                          <h1 className='text-xs lg:text-sm '>
+                            Partner with Us
+                          </h1>
+                        </Link>
+                      )}
                       {/* saved vehicles */}
                       <Link
                         href='/support'
@@ -449,7 +458,7 @@ function Navbar() {
                         href='/savedvehicles'
                         className='flex  items-center gap-4 '
                       >
-                        <MdOutlineDataSaverOn className='lg:text-2xl ' />
+                        <BsBookmarkHeart className='lg:text-2xl ' />
                         <h1 className='text-xs lg:text-sm '>Saved Vehicles</h1>
                       </Link>
                       {/* rent history */}

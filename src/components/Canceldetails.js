@@ -177,7 +177,7 @@ function Cancelrental({ carId, ownerid, setIsDetails }) {
         </div>
       </div>
       {/* payment details*/}
-      {cardata?.is_eligible && (
+      {cardata?.account_details && (
         <div className='w-full bg-white rounded-md lg:rounded-lg px-3 py-4 lg:px-5 lg:py-6 space-y-4'>
           {/* header */}
           <div className='relative'>
@@ -254,7 +254,7 @@ function Cancelrental({ carId, ownerid, setIsDetails }) {
         <div className='py-10 space-y-2 sm:flex sm:space-y-0 sm:items-center w-full sm:gap-2 lg:gap-4'>
           {cardata?.is_eligible &&
           cardata?.status === 'pending' &&
-          cardata?.account_details?.account_number !== '' ? (
+          cardata?.account_details ? (
             <button
               onClick={() => setIsEditing(true)}
               className=' px-4 py-2 lg:py-3 hover:shadow-lg w-full bg-babypurple text-white text-sm lg:text-base rounded-md '
@@ -264,7 +264,7 @@ function Cancelrental({ carId, ownerid, setIsDetails }) {
             </button>
           ) : cardata?.is_eligible &&
             cardata?.status === 'pending' &&
-            cardata?.account_details?.account_number === '' ? (
+            !cardata?.account_details ? (
             <button
               onClick={() => setIsEditing(true)}
               className=' px-4 py-2 lg:py-3 hover:shadow-lg w-full bg-babypurple text-white text-sm lg:text-base rounded-md '

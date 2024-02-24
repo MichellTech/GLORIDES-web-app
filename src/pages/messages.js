@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Userdata from '../utilis/Carfeedback'
 import Image from 'next/image'
 import { SlOptionsVertical } from 'react-icons/sl'
-import { RiSendPlaneFill } from 'react-icons/ri'
+import { RiChatDeleteFill, RiSendPlaneFill } from 'react-icons/ri'
 import { MdArrowBackIos } from 'react-icons/md'
 import Navbar from '@/components/Navigation/Navbar/usernav'
 import mainAxiosAction from '../components/axiosAction/index'
@@ -61,6 +61,7 @@ function messages() {
       createchat(ownerid)
     }
   }, [ownerid])
+  console.log(allChats)
   return (
     <>
       <Navbar />
@@ -80,57 +81,77 @@ function messages() {
                 All Chats
               </h1>
             </div>
-            <div className=' divide-y     h-[90vh] overflow-y-auto '>
-              {allChats?.map((i, index) => {
-                const secondUser = i?.members?.filter(
-                  (a) => a?._id !== profile?._id
-                )?.[0]
-                return (
-                  <div key={index}>
-                    <div
-                      onClick={() => {
-                        setSelectedChatId(i?._id), setOpenchat(true)
-                      }}
-                      className={`flex ${
-                        i?._id === selectedChatId
-                          ? 'bg-babygrey   bg-opacity-30 '
-                          : 'hover:bg-babygrey   hover:bg-opacity-30'
-                      } justify-between items-center gap-1 cursor-pointer px-6 py-3`}
-                    >
-                      {/* image and name and last message */}
-                      <div className=' flex items-center gap-3'>
-                        {secondUser?.profile_picture?.url ? (
-                          <Image
-                            src={secondUser?.profile_picture?.url}
-                            alt={'user'}
-                            width={1000}
-                            height={1000}
-                            className='object-cover w-12 h-12 lg:w-14  lg:h-14 rounded-full '
-                          />
-                        ) : (
-                          <Image
-                            src={'/images/avatar.png'}
-                            alt='logo'
-                            width={1000}
-                            height={1000}
-                            className='object-cover w-12 h-12 lg:w-14  lg:h-14 rounded-full '
-                          />
-                        )}
-                        {/* name and last message */}
-                        <div className='space-y-1'>
-                          <h1 className='text-sm font-bold'>
-                            {secondUser?.firstname}
-                          </h1>
-                          {/* <h1 className='text-xs'>{i?.location}</h1> */}
+            {allChats?.length > 1 ? (
+              <div className=' divide-y     h-[90vh] overflow-y-auto '>
+                {allChats?.map((i, index) => {
+                  const secondUser = i?.members?.filter(
+                    (a) => a?._id !== profile?._id
+                  )?.[0]
+                  return (
+                    <div key={index}>
+                      <div
+                        onClick={() => {
+                          setSelectedChatId(i?._id), setOpenchat(true)
+                        }}
+                        className={`flex ${
+                          i?._id === selectedChatId
+                            ? 'bg-babygrey   bg-opacity-30 '
+                            : 'hover:bg-babygrey   hover:bg-opacity-30'
+                        } justify-between items-center gap-1 cursor-pointer px-6 py-3`}
+                      >
+                        {/* image and name and last message */}
+                        <div className=' flex items-center gap-3'>
+                          {secondUser?.profile_picture?.url ? (
+                            <Image
+                              src={secondUser?.profile_picture?.url}
+                              alt={'user'}
+                              width={1000}
+                              height={1000}
+                              className='object-cover w-12 h-12 lg:w-14  lg:h-14 rounded-full '
+                            />
+                          ) : (
+                            <Image
+                              src={'/images/avatar.png'}
+                              alt='logo'
+                              width={1000}
+                              height={1000}
+                              className='object-cover w-12 h-12 lg:w-14  lg:h-14 rounded-full '
+                            />
+                          )}
+                          {/* name and last message */}
+                          <div className='space-y-1'>
+                            <h1 className='text-sm font-bold'>
+                              {secondUser?.firstname}
+                            </h1>
+                            {/* <h1 className='text-xs'>{i?.location}</h1> */}
+                          </div>
                         </div>
+                        {/* time stamp */}
+                        {/* <h1 className='text-xs'>{i?.time}</h1> */}
                       </div>
-                      {/* time stamp */}
-                      {/* <h1 className='text-xs'>{i?.time}</h1> */}
                     </div>
-                  </div>
-                )
-              })}
-            </div>
+                  )
+                })}
+              </div>
+            ) : (
+              <div className='md:hidden flex justify-center min-h-[60vh] w-full border-t items-center flex-col space-y-4 xl:space-y-5 '>
+                {/* icon */}
+                <div className='flex justify-center items-center p-3 lg:p-5 bg-opacity-50 bg-babygrey rounded-full'>
+                  <RiChatDeleteFill className='text-2xl md:text-3xl xl:text-5xl text-babyblack' />
+                </div>
+                <h1 className='text-sm md:text-base xl:text-2xl font-bold font-mono'>
+                  {' '}
+                  No Chat Selected
+                </h1>
+                <p className='text-xs md:text-sm xl:text-base xl:max-w-xl max-w-xs md:max-w-sm lg:max-w-md text-center'>
+                  Welcome to our car rental platform! It looks like you haven't
+                  selected a chat. Please select a chat to begin a conversation
+                  with another user. Please remeber to keep all conversations
+                  professional and maintain upmost respect for the other party.
+                  Let's get you on the road to a smooth car rental experience!
+                </p>
+              </div>
+            )}
           </div>
           {/* chats */}
           <MessagePanel
