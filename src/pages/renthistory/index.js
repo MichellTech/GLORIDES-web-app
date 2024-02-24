@@ -247,6 +247,8 @@ function Index() {
                   ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
                   : item?.status === 'booked'
                   ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
+                  : item?.status === 'cancelled'
+                  ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
                   : 'px-2 py-1 text-green-800 bg-green-300  flex justify-center items-center mx-auto rounded-full'
               }`}
             >

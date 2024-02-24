@@ -41,13 +41,14 @@ import {
   getuserfavourites,
 } from '@/features/rental/filterSlice'
 import { Player, Controls } from '@lottiefiles/react-lottie-player'
+import Canceldetails from '../../../components/Canceldetails'
 function Viewcar() {
   const router = useRouter()
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [cardata, setCardata] = useState({})
   const [isCancel, setIsCancel] = useState(false)
-
+  const [isDetails, setIsDetails] = useState(false)
   const carId = router.query.id
 
   useEffect(() => {
@@ -76,7 +77,7 @@ function Viewcar() {
     <>
       <main
         className={`${
-          isCancel
+          isCancel || isDetails
             ? 'relative h-screen overflow-y-hidden w-full'
             : 'relative w-full'
         }`}
@@ -359,6 +360,7 @@ function Viewcar() {
                         Cancel Booking
                       </button>
                     )}
+
                     <button
                       onClick={() => {
                         router.push({
@@ -374,6 +376,14 @@ function Viewcar() {
                     >
                       Report Issue
                     </button>
+                    {cardata?.status === 'cancelled' && (
+                      <button
+                        onClick={() => setIsDetails(true)}
+                        className='w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
+                      >
+                        View Details
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -429,6 +439,15 @@ function Viewcar() {
                 </button>
               </div>
             </section>
+          </div>
+        )}
+        {isDetails && (
+          <div className='absolute top-0 left-0 right-0 bottom-0  bg-babyblack py-10 h-screen overflow-y-scroll  bg-opacity-90 z-50 '>
+            <Canceldetails
+              carId={carId}
+              ownerid={cardata?.car_owner?._id}
+              setIsDetails={setIsDetails}
+            />
           </div>
         )}
       </main>
