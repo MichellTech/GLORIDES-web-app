@@ -142,6 +142,9 @@ function Completeregistration() {
         })
     }
   }
+  const today = new Date()
+  const minDate = new Date(today)
+  minDate.setFullYear(minDate.getFullYear() - 18)
   return (
     <>
       <section className='min-h-screen flex-col flex justify-center items-center backedground py-10 lg:py-14 overflow-x-hidden'>
@@ -196,6 +199,7 @@ function Completeregistration() {
                                   {...field}
                                   selected={field.value}
                                   dateFormat={'dd/MM/yyyy'}
+                                  minDate={minDate}
                                   onChange={(date) =>
                                     form.setFieldValue(field.name, date)
                                   }

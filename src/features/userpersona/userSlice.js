@@ -11,6 +11,7 @@ export const getuserprofile = createAsyncThunk(
         profile_picture: response?.data?.user?.profile_picture?.url,
         firstname: response?.data?.user?.firstname,
         lastname: response?.data?.user?.lastname,
+        type: response?.data?.user?.type,
       }
       localStorage.setItem('User_Profile', JSON.stringify(userDataToSave))
       return response?.data?.user

@@ -13,14 +13,22 @@ import {
   IoMdInformationCircleOutline,
 } from 'react-icons/io'
 import { MdClose } from 'react-icons/md'
+import { useRouter } from 'next/router'
+import { returnToUser, switchToHost } from '@/features/userpersona/userSlice'
 
 export default function App({ Component, pageProps }) {
   const [isClient, setIsClient] = useState(false)
   const [verified, setVerified] = useState(false)
+  const [message, setMessage] = useState('')
+  const [update, setUpdate] = useState(false)
+  const router = useRouter()
+
   const getuser = () => {
     mainAxiosAction
       .post(`/user/get-user`, {})
       .then(function (response) {
+        console.log(response)
+
         if (response?.data?.user?.isVerified === false) {
           router.push({
             pathname: '/auth/emailverification',
@@ -30,8 +38,27 @@ export default function App({ Component, pageProps }) {
           router.push({
             pathname: '/auth/completeregistration',
           })
+        } else if (
+          response?.data?.user?.isAdminVerified?.value === 'unverified'
+        ) {
+          setVerified(true)
+          setMessage('Your registration is awaiting approval')
+        } else if (
+          response?.data?.user?.isAdminVerified?.value === 'rejected'
+        ) {
+          setVerified(true)
+          setMessage(response?.data?.user?.isAdminVerified?.message)
+          setUpdate(true)
         } else {
-          return
+          if (response?.data?.user?.type === 'user') {
+            store.dispatch(returnToUser())
+          } else {
+            store.dispatch(switchToHost())
+            if (router?.pathname?.split?.('/')?.length > 1) return
+            return router.push({
+              pathname: '/host/dashboard',
+            })
+          }
         }
       })
       .catch(function (error) {
@@ -53,7 +80,21 @@ export default function App({ Component, pageProps }) {
               <div className='flex items-center gap-2 lg:gap-3 w-full'>
                 <IoMdInformationCircle className='text-xl lg:text-2xl' />
                 <h1 className='text-xs lg:text-sm font-sans w-full'>
-                  Your registration hasn't been approved
+                  {message}{' '}
+                  {update && (
+                    <span
+                      onClick={() => {
+                        setUpdate(false),
+                          router.push({
+                            pathname: '/userprofile/documents',
+                          })
+                      }}
+                      className='w-full font-bold cursor-pointer'
+                    >
+                      {' '}
+                      Click here to update
+                    </span>
+                  )}
                 </h1>
               </div>
               <div

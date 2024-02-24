@@ -17,6 +17,7 @@ function view() {
     dispatch(getuserprofile())
   }, [])
 
+  console.log(userData)
   return (
     <>
       {/* small nav */}
@@ -82,13 +83,15 @@ function view() {
                       {' '}
                       Edit Profile
                     </Link>
-                    <Link
-                      href='/userprofile/documents'
-                      className='px-6  py-2 border  rounded-md text-xs lg:text-sm tracking-wide transition ease-in-out delay-150   hover:scale-110 border-babyblack hover:bg-indigo-500 duration-300 hover:text-white hover:border-none'
-                    >
-                      {' '}
-                      Edit Documents
-                    </Link>
+                    {userData?.isAdminVerified?.value !== 'verified' && (
+                      <Link
+                        href='/userprofile/documents'
+                        className='px-6  py-2 border  rounded-md text-xs lg:text-sm tracking-wide transition ease-in-out delay-150   hover:scale-110 border-babyblack hover:bg-indigo-500 duration-300 hover:text-white hover:border-none'
+                      >
+                        {' '}
+                        Edit Documents
+                      </Link>
+                    )}
                   </div>
                 )}
               </div>

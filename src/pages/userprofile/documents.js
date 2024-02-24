@@ -15,7 +15,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getuserprofile } from '@/features/userpersona/userSlice'
 import Link from 'next/link'
 import Loader from '../../components/Loaders/profileloader'
-
+import mainAxiosAction from '@/components/axiosAction'
+import { useRouter } from 'next/router'
 function EditDocs() {
   const [loading, setLoading] = useState(false)
   const [userimagetwo, setUserimagetwo] = useState(null)
@@ -24,7 +25,7 @@ function EditDocs() {
   const [imagetouploadthree, setImagetouploadthree] = useState(null)
   const { isLoading, userData } = useSelector((store) => store.userpersona)
   const dispatch = useDispatch()
-
+  const router = useRouter()
   useEffect(() => {
     if (userData === null) {
       dispatch(getuserprofile())
@@ -40,6 +41,8 @@ function EditDocs() {
   const onSubmit = (values, onSubmitProps) => {
     onSubmitProps.setSubmitting(false)
     setLoading(true)
+
+    completereg(values)
   }
   // validation
   const validationSchema = Yup.object().shape({
@@ -49,7 +52,7 @@ function EditDocs() {
 
   // drivers
   const handleuploadtwo = (uploadedcontent) => {
-    if (uploadedcontent.size > 1000000) {
+    if (uploadedcontent.size > 2000000) {
       toast.error('file size is too large')
     } else {
       setUserimagetwo(URL.createObjectURL(uploadedcontent))
@@ -58,12 +61,35 @@ function EditDocs() {
   }
   // insurance
   const handleuploadthree = (uploadedcontent) => {
-    if (uploadedcontent.size > 1000000) {
+    if (uploadedcontent.size > 2000000) {
       toast.error('file size is too large')
     } else {
       setUserimagethree(URL.createObjectURL(uploadedcontent))
       setImagetouploadthree(uploadedcontent)
     }
+  }
+
+  const completereg = (values) => {
+    const formData = new FormData()
+    formData?.append('license', imagetouploadtwo)
+    formData?.append('insurance', imagetouploadthree)
+    formData?.append('license_number', values.dln)
+    formData?.append('insurance_number', values.iln)
+
+    mainAxiosAction
+      .post(`/user/updateuserdocuments`, formData)
+      .then(function (response) {
+        setLoading(false)
+        router.push({
+          pathname: '/',
+        })
+        toast.success(response?.data?.message)
+      })
+      .catch(function (error) {
+        toast.error(error?.response?.data?.message)
+        setLoading(false)
+        console.log(error)
+      })
   }
   return (
     <>
@@ -138,6 +164,7 @@ function EditDocs() {
                                 alt='logo'
                                 width={1000}
                                 height={1000}
+                                priority
                                 className='object-cover  w-48 lg:w-60 xl:w-72'
                               />
                             ) : (
@@ -146,6 +173,7 @@ function EditDocs() {
                                 alt={userData?.license?.name}
                                 width={1000}
                                 height={1000}
+                                priority
                                 className='object-cover  w-48 lg:w-60 xl:w-72'
                               />
                             )}
@@ -204,6 +232,7 @@ function EditDocs() {
                                 alt='logo'
                                 width={1000}
                                 height={1000}
+                                priority
                                 className='object-cover  w-48  lg:w-60 xl:w-72'
                               />
                             ) : (
@@ -212,6 +241,7 @@ function EditDocs() {
                                 alt={userData?.insurance.name}
                                 width={1000}
                                 height={1000}
+                                priority
                                 className='object-cover  w-48  lg:w-60 xl:w-72'
                               />
                             )}

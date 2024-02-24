@@ -20,6 +20,8 @@ import Link from 'next/link'
 import moment from 'moment'
 import Tippy from '@tippyjs/react'
 import 'tippy.js/themes/light.css'
+import mainAxiosAction from '@/components/axiosAction'
+import { toast } from 'react-toastify'
 
 function Navbar() {
   const {
@@ -71,6 +73,23 @@ function Navbar() {
       : JSON?.parse(localStorage?.getItem('User_Notifications'))
 
   console.log(profile)
+
+  const handleswitch = () => {
+    mainAxiosAction
+      .post(`/user/switchtobusiness`, {})
+      .then(function (response) {
+        dispatch(switchToHost()),
+          router.push({
+            pathname: '/host/dashboard',
+          })
+        toast.success(response?.data?.message)
+      })
+      .catch(function (error) {
+        toast.error(error?.response?.data?.message)
+
+        console.log(error)
+      })
+  }
 
   return (
     <nav
@@ -379,10 +398,14 @@ function Navbar() {
                         </Link>
                         <button
                           onClick={() => {
-                            dispatch(switchToHost()),
-                              router.push({
-                                pathname: '/host/dashboard',
-                              })
+                            if (profile?.type === 'user') {
+                              return handleswitch()
+                            } else {
+                              dispatch(switchToHost()),
+                                router.push({
+                                  pathname: '/host/dashboard',
+                                })
+                            }
                           }}
                           className='border px-3 md:px-4  py-1  rounded-full w-max  hover:bg-babypurple hover:border-none hover:text-white hover:duration-500 hover:shadow-md'
                         >
