@@ -47,7 +47,9 @@ function Transactionhistory() {
         setTransdata(response?.data?.transactions_records)
         // cal total
         const totalamount = response?.data?.transactions_records
-          ?.filter((i) => i?.payment_type === 'incoming')
+          ?.filter(
+            (i) => i?.payment_type === 'incoming' && i.status !== 'cancelled'
+          )
           ?.map((i) => i?.amount) // sums to 10
         let sum = 0
         for (let i = 0; i < totalamount.length; i++) {
