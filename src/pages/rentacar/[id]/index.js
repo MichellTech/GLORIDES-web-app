@@ -397,20 +397,32 @@ function Viewcar() {
                                       <div className='flex items-center gap-2 lg:gap-4'>
                                         {/* photo */}
                                         <div className='relative'>
-                                          <Image
-                                            src={
-                                              item?.booking_id?.booked_by
-                                                ?.profile_picture?.url
-                                            }
-                                            alt={
-                                              item?.booking_id?.booked_by
-                                                ?.profile_picture?.name
-                                            }
-                                            width={1000}
-                                            height={1000}
-                                            priority
-                                            className='object-cover w-12 lg:w-16   rounded-full border-2 '
-                                          />
+                                          {item?.booking_id?.booked_by
+                                            ?.profile_picture ? (
+                                            <Image
+                                              src={
+                                                item?.booking_id?.booked_by
+                                                  ?.profile_picture?.url
+                                              }
+                                              alt={
+                                                item?.booking_id?.booked_by
+                                                  ?.profile_picture?.name
+                                              }
+                                              width={1000}
+                                              height={1000}
+                                              priority
+                                              className='object-cover w-12 h-12 lg:w-16  lg:h-16   rounded-full border-2 '
+                                            />
+                                          ) : (
+                                            <Image
+                                              src={'/images/avatar.png'}
+                                              alt='image'
+                                              width={1000}
+                                              height={1000}
+                                              priority
+                                              className='object-cover w-12 h-12 lg:w-16  lg:h-16  rounded-full border-2 '
+                                            />
+                                          )}
                                         </div>
                                         {/* name and date */}
 

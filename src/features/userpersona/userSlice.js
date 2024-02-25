@@ -5,7 +5,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 export const getuserprofile = createAsyncThunk(
   'profile/getprofile',
   async () => {
-    console.log('a')
     try {
       const response = await mainAxiosAction.post(`/user/get-user`, {})
       const userDataToSave = {
@@ -15,7 +14,7 @@ export const getuserprofile = createAsyncThunk(
         type: response?.data?.user?.type,
       }
       localStorage.setItem('User_Profile', JSON.stringify(userDataToSave))
-      console.log('b')
+
       return response?.data?.user
     } catch (error) {
       console.error(error)
@@ -130,23 +129,6 @@ const userSlice = createSlice({
         state.userData = action.payload
         state.isLoading = false
         state.hasError = false
-        console.log('available')
-
-        if (action?.payload?.type === 'user') {
-          console.log('user here')
-          state.hosting = false
-          localStorage.setItem('User_State', JSON.stringify(false))
-        } else {
-          state.hosting = true
-          localStorage.setItem('User_State', JSON.stringify(true))
-          console.log('herevbg')
-          if (window.location?.pathname?.split?.('/')?.length > 1) return
-          return window.location.replace('/host/dashboard')
-          //  if (router?.pathname?.split?.('/')?.length > 1) return
-          //  return router.push({
-          //    pathname: '/host/dashboard',
-          //  })
-        }
       })
       .addCase(getuserprofile.rejected, (state, action) => {
         state.hasError = true

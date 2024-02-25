@@ -50,15 +50,16 @@ export default function App({ Component, pageProps }) {
           setMessage(response?.data?.user?.isAdminVerified?.message)
           setUpdate(true)
         } else {
-          if (response?.data?.user?.type === 'user') {
-            store.dispatch(returnToUser())
-          } else {
-            store.dispatch(switchToHost())
-            if (router?.pathname?.split?.('/')?.length > 1) return
-            return router.push({
-              pathname: '/host/dashboard',
-            })
-          }
+          // if (response?.data?.user?.type === 'user') {
+          //   store.dispatch(returnToUser())
+          // } else {
+          //   store.dispatch(switchToHost())
+          //   if (router?.pathname?.split?.('/')?.length > 1) return
+          //   return router.push({
+          //     pathname: '/host/dashboard',
+          //   })
+          // }
+          return
         }
       })
       .catch(function (error) {

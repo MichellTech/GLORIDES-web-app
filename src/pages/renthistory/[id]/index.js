@@ -72,7 +72,7 @@ function Viewcar() {
   const date2 = new Date(cardata?.end_date)
   const diffTime = Math.abs(date2 - date1)
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-  console.log(cardata)
+  console.log()
   return (
     <>
       <main
@@ -338,28 +338,30 @@ function Viewcar() {
                         <h1>Return Vehicle</h1>
                       </button>
                     )}
-                    {cardata?.status === 'booked' && (
-                      <button
-                        onClick={() => {
-                          router.push({
-                            pathname: `/renthistory/${carId}/extendrental`,
-                            query: { carId: `${carId}` },
-                          })
-                        }}
-                        className='w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
-                      >
-                        Extend Booking
-                      </button>
-                    )}
+                    {cardata?.status === 'booked' &&
+                      cardata?.extensions?.length < 0 && (
+                        <button
+                          onClick={() => {
+                            router.push({
+                              pathname: `/renthistory/${carId}/extendrental`,
+                              query: { carId: `${carId}` },
+                            })
+                          }}
+                          className='w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
+                        >
+                          Extend Booking
+                        </button>
+                      )}
 
-                    {cardata?.status !== 'cancelled' && (
-                      <button
-                        onClick={() => setIsCancel(true)}
-                        className='w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
-                      >
-                        Cancel Booking
-                      </button>
-                    )}
+                    {cardata?.status !== 'cancelled' &&
+                      cardata?.extensions?.length < 0 && (
+                        <button
+                          onClick={() => setIsCancel(true)}
+                          className='w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'
+                        >
+                          Cancel Booking
+                        </button>
+                      )}
 
                     <button
                       onClick={() => {

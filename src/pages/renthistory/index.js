@@ -55,9 +55,7 @@ function Index() {
     }
   }
 
-  // const rows = history?.map((item, index) => (
-
-  // ))
+  console.log(history)
 
   const indexOfLastItem = (currentPage + 1) * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
@@ -70,14 +68,7 @@ function Index() {
       if (item?.extensions?.length > 0) {
         return (
           <React.Fragment key={index}>
-            <tr
-              onClick={() => handleRowClick(index)}
-              key={index}
-              // onClick={() => {
-              //   handleopen(item)
-              // }}
-              className='hover:bg-softpurple text-xs md:text-sm '
-            >
+            <tr key={index} className='hover:bg-softpurple text-xs md:text-sm '>
               <td className='pl-6 pr-4  py-4  '>
                 <div className='flex items-center gap-2 '>
                   <Image
@@ -88,36 +79,50 @@ function Index() {
                     className='object-cover w-14 md:w-16 lg:w-20  rounded-md border-2 '
                   />
                 </div>
-                <p className='text-xs flex gap-2 items-center font-medium'>
-                  Extensions available <IoMdArrowDropdown />
-                </p>
               </td>
-              <td className=' py-4 pr-4 '>{item?.car_booked?.car_name}</td>
+              <td
+                onClick={() => {
+                  handleopen(item)
+                }}
+                className=' py-4 pr-4  underline'
+              >
+                {item?.car_booked?.car_name}
+              </td>
               <td className=' py-4  pr-4 '>
                 {moment(item?.start_date).format('MMMM Do YYYY')}
               </td>
               <td className='pr-4   py-4  text-left '>
                 {moment(item?.end_date).format('MMMM Do YYYY')}
               </td>
-              <td
-                className={`${
-                  item?.status === 'booked'
-                    ? 'pr-4 py-4    text-left text-white bg-indigo-500 px-2 '
-                    : item?.status === 'returned'
-                    ? 'pr-4 py-4 text-left text-orange-800 bg-orange-300 px-2 '
-                    : 'pr-4   py-4  text-left text-green-800 bg-green-300 px-2  font-normal'
-                }`}
-              >
-                {item?.status}
+              <td className='pr-4  font-normal'>
+                <span
+                  className={`${
+                    item?.status === 'cancelled'
+                      ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
+                      : item?.status === 'returnded'
+                      ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
+                      : item?.status === 'booked'
+                      ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
+                      : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
+                  }`}
+                >
+                  {item?.status}
+                </span>
               </td>
-              <td
-                className={`${
-                  item?.payment_status === 'pending'
-                    ? 'pr-4 py-4 text-left text-orange-800 bg-orange-300 px-2 '
-                    : 'pr-4   py-4  text-left text-green-800 bg-green-300 px-2  font-normal'
-                }`}
-              >
-                {item?.payment_status}
+              <td className='pr-4  font-normal'>
+                <span
+                  className={`${
+                    item?.payment_status === 'pending'
+                      ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
+                      : item?.payment_status === 'failed'
+                      ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
+                      : item?.payment_status === 'refund'
+                      ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
+                      : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
+                  }`}
+                >
+                  {item?.payment_status}
+                </span>
               </td>
               <td className='pr-4   py-4  text-center '>
                 {item?.car_booked?.rent_cost}
@@ -125,14 +130,20 @@ function Index() {
               <td className='pr-4   py-4  text-left '>
                 {item?.pickup_address}
               </td>
+              <td
+                onClick={() => handleRowClick(index)}
+                className='pr-4   py-4  text-left '
+              >
+                <IoMdArrowDropdown />
+              </td>
             </tr>
             {openRowIndex === index && (
               <tr>
                 <td colSpan='8'>
                   {/* Additional disclosure content goes here */}
-                  <div className='px-2 lg:px-4 py-2 lg:py-3 border'>
+                  <div className='px-2 lg:px-4 py-2 lg:py-3 border w-full'>
                     <table className='min-w-max w-full divide-y  overflow-x-auto relative divide-gray-1 table-auto '>
-                      <thead className='text-xs  overflow-x-scroll text-left text-babyblack  bg-opacity-60   w-max bg-indigo-400 '>
+                      <thead className='text-xs  overflow-x-scroll text-left text-babyblack  bg-opacity-60   w-max bg-softpurple '>
                         <tr>
                           <th
                             scope='col'
@@ -195,14 +206,20 @@ function Index() {
                                 {item?.amount}
                               </td>
 
-                              <td
-                                className={`${
-                                  item?.payment_status === 'pending'
-                                    ? 'pr-4 py-4 text-left text-orange-800 bg-orange-300 px-2 text-xs'
-                                    : 'pr-4   py-4  text-left text-green-800 bg-green-300 px-2  font-normal text-xs'
-                                }`}
-                              >
-                                {item?.payment_status}
+                              <td className='pr-4  font-normal'>
+                                <span
+                                  className={`${
+                                    item?.payment_status === 'pending'
+                                      ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
+                                      : item?.payment_status === 'failed'
+                                      ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
+                                      : item?.payment_status === 'refund'
+                                      ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
+                                      : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
+                                  }`}
+                                >
+                                  {item?.payment_status}
+                                </span>
                               </td>
                             </tr>
                           )
@@ -217,13 +234,7 @@ function Index() {
         )
       }
       return (
-        <tr
-          key={index}
-          onClick={() => {
-            handleopen(item)
-          }}
-          className='hover:bg-softpurple text-xs md:text-sm '
-        >
+        <tr key={index} className='hover:bg-softpurple text-xs md:text-sm '>
           <td className='pl-6 pr-4  py-4  '>
             <Image
               src={item?.car_booked?.car_photos?.[0]?.url}
@@ -233,35 +244,54 @@ function Index() {
               className='object-cover w-14 md:w-16 lg:w-20  rounded-md border-2 '
             />
           </td>
-          <td className=' py-4 pr-4 '>{item?.car_booked?.car_name}</td>
+          <td
+            onClick={() => {
+              handleopen(item)
+            }}
+            className=' py-4 pr-4 underline'
+          >
+            {item?.car_booked?.car_name}
+          </td>
           <td className=' py-4  pr-4 '>
             {moment(item?.start_date).format('MMMM Do YYYY')}
           </td>
           <td className='pr-4   py-4  text-left '>
             {moment(item?.end_date).format('MMMM Do YYYY')}
           </td>
-          <td
-            className={`${
-              item?.status === 'booked'
-                ? 'pr-4 py-4    text-left text-white bg-indigo-500 px-2 '
-                : item?.status === 'returned'
-                ? 'pr-4 py-4 text-left text-orange-800 bg-orange-300 px-2 '
-                : 'pr-4   py-4  text-left text-green-800 bg-green-300 px-2  font-normal'
-            }`}
-          >
-            {item?.status}
+          <td className='pr-4  font-normal'>
+            <span
+              className={`${
+                item?.status === 'cancelled'
+                  ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
+                  : item?.status === 'returnded'
+                  ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
+                  : item?.status === 'booked'
+                  ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
+                  : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
+              }`}
+            >
+              {item?.status}
+            </span>
           </td>
-          <td
-            className={`${
-              item?.payment_status === 'pending'
-                ? 'pr-4 py-4 text-left text-orange-800 bg-orange-300 px-2 '
-                : 'pr-4   py-4  text-left text-green-800 bg-green-300 px-2  font-normal'
-            }`}
-          >
-            {item?.payment_status}
+          <td className='pr-4  font-normal'>
+            <span
+              className={`${
+                item?.payment_status === 'pending'
+                  ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
+                  : item?.payment_status === 'failed'
+                  ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
+                  : item?.payment_status === 'refund'
+                  ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
+                  : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
+              }`}
+            >
+              {item?.payment_status}
+            </span>
           </td>
+
           <td className='pr-4   py-4  text-center '>{item?.amount}</td>
           <td className='pr-4   py-4  text-left '>{item?.pickup_address}</td>
+          <td className='pr-4   py-4  text-left '>None</td>
         </tr>
       )
     })
@@ -381,6 +411,16 @@ function Index() {
                           <div className='flex items-center gap-4 mb-6'>
                             <h2 className='text-sm font-semibold  md:text-base xl:text-lg '>
                               Pickup Address
+                            </h2>
+                          </div>
+                        </th>
+                        <th
+                          scope='col'
+                          className='pr-4  pt-6 text-left font-medium text-babyblack'
+                        >
+                          <div className='flex items-center gap-4 mb-6'>
+                            <h2 className='text-sm font-semibold  md:text-base xl:text-lg '>
+                              Extensions
                             </h2>
                           </div>
                         </th>

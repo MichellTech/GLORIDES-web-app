@@ -123,7 +123,7 @@ function Transactionhistory() {
           <td className='pr-4  font-normal'>
             <span
               className={`${
-                item?.status === 'failed'
+                item?.status === 'cancelled'
                   ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
                   : item?.status === 'completed'
                   ? 'px-2 py-1 text-green-800 bg-green-300  flex justify-center items-center mx-auto rounded-full '

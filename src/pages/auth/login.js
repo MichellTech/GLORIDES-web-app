@@ -70,17 +70,23 @@ function Login() {
         } else {
           setLoading(false)
           toast.success(response?.data?.message)
+          dispatch(logIN())
+          dispatch(getuserprofile())
+          dispatch(getusernotifications())
           localStorage.setItem(
             'User_Token',
             JSON.stringify(response?.data?.user?.token)
           )
           // localStorage.setItem('User_Exist', JSON.stringify(true))
-          router.push({
-            pathname: '/',
-          })
-          dispatch(logIN())
-          dispatch(getuserprofile())
-          dispatch(getusernotifications())
+          if (response?.data?.user?.type === 'business') {
+            router.push({
+              pathname: '/host/dashboard',
+            })
+          } else {
+            router.push({
+              pathname: '/',
+            })
+          }
         }
       })
       .catch(function (error) {

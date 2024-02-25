@@ -47,6 +47,7 @@ function Booking({ cardata, uservalues }) {
 
   const bookcar = (payload) => {
     console.log('booking')
+    console.log(payload)
     mainAxiosAction
       .post(`/cars/book-car`, payload)
       .then(function (response) {
@@ -65,6 +66,7 @@ function Booking({ cardata, uservalues }) {
         console.log(error)
       })
   }
+  console.log(uservalues)
   console.log(cardata)
   return (
     <>
@@ -276,6 +278,16 @@ function Booking({ cardata, uservalues }) {
                             : 0}
                         </h1>
                       </div>
+                      {uservalues?.myaddress !== '' && (
+                        <div className='w-full  flex justify-between items-center gap-2   border-b pb-4'>
+                          <h1 className='text-sm lg:text-base '>
+                            Outside location Cost
+                          </h1>
+                          <h1 className='text-xs  xl:text-sm font-bold'>
+                            $ {cardata?.outside_location_cost}
+                          </h1>
+                        </div>
+                      )}
                       {/* one */}
                       <div className='w-full  flex justify-between items-center gap-2  border-b pb-4 border-babyblack '>
                         <h1 className='text-sm lg:text-base'>Tank Filling</h1>
@@ -299,6 +311,9 @@ function Booking({ cardata, uservalues }) {
                               : 0) +
                             (formik.values.extraservices.includes('insurance')
                               ? cardata?.insurance_amount * diffDays
+                              : 0) +
+                            (uservalues?.myaddress !== ''
+                              ? cardata?.outside_location_cost
                               : 0)}
                         </h1>
                       </div>

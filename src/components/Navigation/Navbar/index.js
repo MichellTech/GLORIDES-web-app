@@ -1,13 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import User from './usernav'
 import Host from './hostnav'
 import { useSelector, useDispatch } from 'react-redux'
+import { useRouter } from 'next/router'
 
 function index() {
-  const dispatch = useDispatch()
+  const [display, setDisplay] = useState('user')
+  const router = useRouter()
+  useEffect(() => {
+    if (router.pathname.includes('host')) {
+      setDisplay('host')
+    } else {
+      setDisplay('user')
+    }
+  }, [router.pathname])
 
-  const { hosting } = useSelector((store) => store.userpersona)
-  return <>{hosting ? <Host /> : <User />}</>
+  return <>{display === 'host' ? <Host /> : <User />}</>
 }
 
 export default index
