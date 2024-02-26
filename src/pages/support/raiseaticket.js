@@ -13,7 +13,7 @@ import { FaAngleDown } from 'react-icons/fa'
 function Raiseaticket() {
   const [loading, setLoading] = useState(false)
   const [userservice, setUserservice] = useState(['Renting', 'Hosting'])
-  const [userpriority, setUserpriority] = useState(['High', 'Medium', 'Low'])
+  const [userpriority, setUserpriority] = useState(['high', 'normal', 'low'])
   const [userimage, setUserimage] = useState([{ id: 1, file: null }])
   const router = useRouter()
   const { transid } = router.query
