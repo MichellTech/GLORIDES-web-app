@@ -119,7 +119,9 @@ function Transactionhistory() {
       return (
         <tr key={index} className='hover:bg-softpurple text-xs md:text-sm '>
           <td className='pl-6 pr-4  py-4  '>{item?.description}</td>
-          <td className=' py-4 pr-4 '>Michell Okwu</td>
+          <td className=' py-4 pr-4 '>
+            {profile?.firstname} {profile?.lastname}
+          </td>
           <td className=' py-4  pr-4 '>{item?.payment_type}</td>
 
           <td className='pr-4  font-normal'>
