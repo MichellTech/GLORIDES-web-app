@@ -7,21 +7,44 @@ import { MdOutlineWorkHistory } from 'react-icons/md'
 import mainAxiosAction from '../../components/axiosAction/index'
 import moment from 'moment'
 import ReactPaginate from 'react-paginate'
-import { IoMdArrowDropdown, IoMdArrowDropright } from 'react-icons/io'
+import { IoIosArrowDown, IoMdArrowDropdown, IoMdArrowDropright } from 'react-icons/io'
+import { TbStatusChange } from 'react-icons/tb'
 
 function Index() {
   const [loading, setLoading] = useState(false)
   const [history, setHistory] = useState([])
   const [currentPage, setCurrentPage] = useState(0)
   const itemsPerPage = 10 // Set the number of items per page
-
+  const [sortdata,setSortdata] = useState("")
+  const [searchedparams,setSearchedparams] = useState([])
   const router = useRouter()
   const [openRowIndex, setOpenRowIndex] = useState(null)
 
   const handleRowClick = (index) => {
     setOpenRowIndex((prevIndex) => (prevIndex === index ? null : index))
   }
-
+  const sortby = [
+    {
+      id: 1,
+      value:'booked',
+      name: 'booked',
+    },
+    {
+      id: 2,
+      value: 'completed',
+      name: 'completed',
+    },
+    {
+      id: 3,
+      value: 'cancelled',
+      name: 'cancelled',
+    },
+    {
+      id: 4,
+      value: 'returned',
+      name: 'returned',
+    }
+  ]
   const getrenthistory = () => {
     setLoading(true)
     mainAxiosAction
@@ -30,6 +53,7 @@ function Index() {
         console.log(response?.data?.bookings)
         setLoading(false)
         setHistory(response?.data?.bookings)
+        setSearchedparams(response?.data?.bookings)
       })
       .catch(function (error) {
         setLoading(true)
@@ -46,6 +70,7 @@ function Index() {
   }
 
   const handleopen = (i) => {
+    console.log(i)
     if (i?.payment_status === 'pending') {
       return
     } else {
@@ -56,12 +81,24 @@ function Index() {
   }
 
   console.log(history)
-
+      // filter
+      useEffect(() => {
+        if(sortdata !== ""){
+         let searchedData = history?.filter(
+           (item) =>
+           item?.status?.toLowerCase()?.includes(sortdata.toLowerCase())
+         )
+         setSearchedparams(searchedData)
+        }
+        else{
+         setSearchedparams(history)
+        }
+       }, [sortdata])
   const indexOfLastItem = (currentPage + 1) * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = history
+  const currentItems = searchedparams
     ?.sort((a, b) => {
-      return new Date(b?.start_date) - new Date(a?.start_date)
+      return new Date(b?.updatedAt) - new Date(a?.updatedAt)
     })
     ?.slice(indexOfFirstItem, indexOfLastItem)
     .map((item, index) => {
@@ -327,9 +364,31 @@ function Index() {
               <div className='bg-white md:min-h-[60vh]  w-full   rounded-md lg:rounded-lg py-6 lg:pb-8'>
                 {/* table */}
                 <div className='w-full overflow-x-auto'>
-                  <h1 className='font-bold  text-xs xl:text-base md:text-sm px-6 pb-6 '>
-                    All Rent History
-                  </h1>
+                <div className='flex items-center gap-2 justify-between py-2 lg:py-3 lg:pb-6 px-6 '>
+                    <h1 className='font-bold  text-xs xl:text-base md:text-sm flex-shrink-0  '>
+                      All Rent History
+                    </h1>
+                    <div className='relative w-full  md:max-w-xs '>
+              <select
+                id='dropdown'
+                value={sortdata}
+                onChange={(e) => setSortdata(e.target.value)}
+                className='border border-babyblack pl-12 py-2 w-full text-sm outline-none appearance-none lg:text-base '
+              >
+                {/* Options */}
+                <option value=''>all rentals</option>
+                {sortby.map((item, index) => {
+                  return (
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
+                  )
+                })}
+              </select>
+              <IoIosArrowDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+              <TbStatusChange className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+            </div>
+                    </div>
                   <table className='min-w-max w-full divide-y  overflow-x-auto relative divide-gray-1 table-auto '>
                     <thead className='text-xs  overflow-x-scroll text-left text-babyblack  bg-opacity-60   w-max bg-softpurple '>
                       <tr>
@@ -433,7 +492,7 @@ function Index() {
                 </div>
                 <div className='w-full mt-10 flex justify-end px-4 md:px-6'>
                   <ReactPaginate
-                    pageCount={Math.ceil(history.length / itemsPerPage)}
+                    pageCount={Math.ceil(searchedparams?.length / itemsPerPage)}
                     pageRangeDisplayed={5}
                     marginPagesDisplayed={2}
                     onPageChange={handlePageClick}

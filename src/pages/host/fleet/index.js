@@ -78,7 +78,8 @@ function Fleet() {
           <td
             className={`${
               item?.status === 'listed'
-                ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1'
+                ? 'pr-4    text-left text-green-800 bg-green-300 px-2 py-1':  item?.status === 'booked'
+                ? 'pr-4    text-left text-blue-800 bg-blue-300 px-2 py-1'
                 : 'pr-4    text-left text-red-800 bg-red-300 px-2 py-1'
             }`}
           >
@@ -101,7 +102,7 @@ function Fleet() {
         </div>
       ) : (
         <div className='bg-[#F5F5F5] bg-opacity-50  w-full pt-10 xl:pt-16'>
-          <section className='my-6 sm:my-10 md:pb-6 max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-7xl  px-4 md:px-6  lg:px-8 space-y-10 md:space-y-14 xl:space-y-20'>
+          <section className='my-6 sm:my-10 md:pb-6 max-w-md sm:max-w-2xl mx-auto font-sans md:max-w-4xl lg:max-w-6xl xl:max-w-full  px-4 md:px-6  lg:px-8 space-y-10 md:space-y-14 xl:space-y-20'>
             {/* title and stat */}
             <div className='space-y-6 lg:space-y-8 rounded-md border px-4 md:px-6 lg:px-8 lg:py-7 py-6 bg-white  shadow-lg'>
               {/* title */}

@@ -5,7 +5,7 @@ import Footer from '@/components/Navigation/Footer'
 import { transactionhistory } from '../../utilis/Cardata'
 import { useRouter } from 'next/router'
 import { VscPieChart } from 'react-icons/vsc'
-import { TbCashBanknoteOff } from 'react-icons/tb'
+import { TbCashBanknoteOff, TbStatusChange } from 'react-icons/tb'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   PiChartLineUpLight,
@@ -17,6 +17,7 @@ import { withdrawmoney } from '@/features/userpersona/userSlice'
 import mainAxiosAction from '../../components/axiosAction/index'
 import moment from 'moment'
 import ReactPaginate from 'react-paginate'
+import { IoIosArrowDown } from 'react-icons/io'
 function Transactionhistory() {
   const [loading, setLoading] = useState(false)
   const [transdata, setTransdata] = useState(null)
@@ -25,6 +26,8 @@ function Transactionhistory() {
   const [pendingsum, setPendingsum] = useState(0)
   const [availablesum, setAvailablesum] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
+  const [sortdata,setSortdata] = useState("")
+  const [searchedparams,setSearchedparams] = useState([])
   const itemsPerPage = 10 // Set the number of items per page
   const router = useRouter()
   const { isWithdrawing } = useSelector((store) => store.userpersona)
@@ -36,7 +39,23 @@ function Transactionhistory() {
     localStorage?.getItem('User_Profile') === undefined
       ? []
       : JSON?.parse(localStorage?.getItem('User_Profile'))
-
+      const sortby = [
+        {
+          id: 1,
+          value:'in-service',
+          name: 'in-service',
+        },
+        {
+          id: 2,
+          value: 'completed',
+          name: 'completed',
+        },
+        {
+          id: 3,
+          value: 'cancelled',
+          name: 'cancelled',
+        }
+      ]
   const gettransactions = () => {
     setLoading(true)
     mainAxiosAction
@@ -45,6 +64,7 @@ function Transactionhistory() {
         setLoading(false)
         console.log(response?.data)
         setTransdata(response?.data?.transactions_records)
+        setSearchedparams(response?.data?.transactions_records)
         // cal total
         const totalamount = response?.data?.transactions_records
           ?.filter(
@@ -110,11 +130,9 @@ function Transactionhistory() {
   }
   const indexOfLastItem = (currentPage + 1) * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = transdata
-    ?.slice(indexOfFirstItem, indexOfLastItem)
-    .sort((a, b) => {
-      return new Date(b?.date_created) - new Date(a?.date_created)
-    })
+  const currentItems = searchedparams?.sort((a, b) => {
+    return new Date(b?.date_created) - new Date(a?.date_created)
+  })?.slice(indexOfFirstItem, indexOfLastItem)
     ?.map((item, index) => {
       return (
         <tr key={index} className='hover:bg-softpurple text-xs md:text-sm '>
@@ -145,6 +163,20 @@ function Transactionhistory() {
       )
     })
 
+      // filter
+  useEffect(() => {
+    if(sortdata !== ""){
+     let searchedData = transdata?.filter(
+       (item) =>
+       item?.status?.toLowerCase()?.includes(sortdata.toLowerCase())
+     )
+     setSearchedparams(searchedData)
+    }
+    else{
+     setSearchedparams(transdata)
+    }
+   }, [sortdata])
+
   return (
     <>
       <main
@@ -160,7 +192,7 @@ function Transactionhistory() {
           </div>
         ) : (
           <section className='bg-[#F5F5F5] bg-opacity-50 '>
-            <div className='pt-10 lg:pt-14 xl:pt-16 max-w-lg mx-auto font-sans sm:max-w-2xl md:max-w-4xl  lg:max-w-6xl xl:max-w-7xl  px-6 md:px-6  lg:px-8 space-y-16'>
+            <div className='pt-10 lg:pt-14 xl:pt-16 max-w-lg mx-auto font-sans sm:max-w-2xl md:max-w-4xl  lg:max-w-6xl xl:max-w-full  px-6 md:px-6  lg:px-8 space-y-16'>
               {/* title and stat */}
               <div className='space-y-6 lg:space-y-8 rounded-md border px-4 md:px-6 lg:px-8 lg:py-8 py-6 bg-white'>
                 {/* title */}
@@ -275,9 +307,31 @@ function Transactionhistory() {
                 <div className='bg-white md:min-h-[60vh]  w-full  shadow-lg rounded-md lg:rounded-lg py-6 lg:pb-8'>
                   {/* table */}
                   <div className='w-full overflow-x-auto'>
-                    <h1 className='font-bold  text-xs xl:text-base md:text-sm px-6 pb-6 '>
+                  <div className='flex items-center gap-2 justify-between py-2 lg:py-3 lg:pb-6 px-6 '>
+                    <h1 className='font-bold  text-xs xl:text-base md:text-sm flex-shrink-0  '>
                       All Transactions
                     </h1>
+                    <div className='relative w-full  md:max-w-xs '>
+              <select
+                id='dropdown'
+                value={sortdata}
+                onChange={(e) => setSortdata(e.target.value)}
+                className='border border-babyblack pl-12 py-2 w-full text-sm outline-none appearance-none lg:text-base '
+              >
+                {/* Options */}
+                <option value=''>All transactions</option>
+                {sortby.map((item, index) => {
+                  return (
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
+                  )
+                })}
+              </select>
+              <IoIosArrowDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+              <TbStatusChange className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+            </div>
+                    </div>
                     <table className='min-w-max w-full divide-y  overflow-x-auto relative divide-gray-1 table-auto '>
                       <thead className='text-xs  overflow-x-scroll text-left text-babyblack  bg-opacity-60   w-max bg-softpurple'>
                         <tr>
@@ -350,7 +404,7 @@ function Transactionhistory() {
                   </div>
                   <div className='w-full mt-10 flex justify-end px-4 md:px-6'>
                     <ReactPaginate
-                      pageCount={Math.ceil(transdata?.length / itemsPerPage)}
+                      pageCount={Math.ceil(searchedparams?.length / itemsPerPage)}
                       pageRangeDisplayed={5}
                       marginPagesDisplayed={2}
                       onPageChange={handlePageClick}

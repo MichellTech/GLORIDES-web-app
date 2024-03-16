@@ -13,6 +13,8 @@ import moment from 'moment'
 import ReactPaginate from 'react-paginate'
 import { Player, Controls } from '@lottiefiles/react-lottie-player'
 import { toast } from 'react-toastify'
+import { IoIosArrowDown } from 'react-icons/io'
+import { TbStatusChange } from 'react-icons/tb'
 function Leasehistory() {
   const [loading, setLoading] = useState(false)
   const [loadingp, setLoadingp] = useState(false)
@@ -22,9 +24,33 @@ function Leasehistory() {
   const [currentPage, setCurrentPage] = useState(0)
   const [bookingid, setBookingid] = useState('')
   const [modal, setModal] = useState(false)
+  const [sortdata,setSortdata] = useState("")
+  const [searchedparams,setSearchedparams] = useState([])
   const itemsPerPage = 10 // Set the number of items per page
   const router = useRouter()
-
+  const sortby = [
+    {
+      id: 1,
+      value: 'booked',
+      name: 'booked',
+    },
+    {
+      id: 2,
+      value: 'completed',
+      name: 'completed',
+    },
+    {
+      id: 3,
+      value: 'cancelled',
+      name: 'cancelled',
+    },
+    {
+      id: 4,
+      value: 'returned',
+      name: 'returned',
+    },
+  ]
+  
   const gethistory = () => {
     setLoading(true)
     mainAxiosAction
@@ -32,6 +58,7 @@ function Leasehistory() {
       .then(function (response) {
         console.log(response?.data?.bookings)
         setLeasedata(response?.data?.bookings)
+        setSearchedparams(response?.data?.bookings)
         setLoading(false)
         setReturneddata(
           response?.data?.bookings?.filter((i) => i.status === 'returned')
@@ -60,13 +87,12 @@ function Leasehistory() {
 
   const indexOfLastItem = (currentPage + 1) * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
-  const currentItems = leasedata
+  const currentItems = searchedparams?.sort((a, b) => {
+    return new Date(b?.updatedAt) - new Date(a?.updatedAt)
+  })
     ?.slice(indexOfFirstItem, indexOfLastItem)
-    ?.sort((a, b) => {
-      return new Date(b?.start_date) - new Date(a?.start_date)
-    })
-    ?.map((item, index) => {
-      console.log('see', item)
+    ?.map((item, index) => { 
+      console.log(item?.updatedAt, index )
       return (
         <tr
           onClick={() => {
@@ -93,7 +119,8 @@ function Leasehistory() {
                 item?.status === 'cancelled'
                   ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
                   : item?.status === 'completed'
-                  ? 'px-2 py-1 text-green-800 bg-green-300  flex justify-center items-center mx-auto rounded-full '
+                  ? 'px-2 py-1 text-green-800 bg-green-300  flex justify-center items-center mx-auto rounded-full ' : item?.status === 'returned'
+                  ? 'px-2 py-1 text-gray-800 bg-gray-300  flex justify-center items-center mx-auto rounded-full '
                   : 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
               }`}
             >
@@ -105,7 +132,7 @@ function Leasehistory() {
             {moment(item?.start_date).format('MMMM Do YYYY, h:mm:ss a')}
           </td>
           <td className='pr-4   py-4  text-left '>
-            {moment(item?.start_date).format('MMMM Do YYYY, h:mm:ss a')}
+            {moment(item?.end_date).format('MMMM Do YYYY, h:mm:ss a')}
           </td>
         </tr>
       )
@@ -134,6 +161,20 @@ function Leasehistory() {
       })
   }
 
+  // filter
+  useEffect(() => {
+   if(sortdata !== ""){
+    let searchedData = leasedata?.filter(
+      (item) =>
+      item?.status?.toLowerCase()?.includes(sortdata.toLowerCase())
+    )
+    setSearchedparams(searchedData)
+   }
+   else{
+    setSearchedparams(leasedata)
+   }
+  }, [sortdata])
+
   return (
     <>
       <main
@@ -151,7 +192,7 @@ function Leasehistory() {
           </div>
         ) : (
           <section className='bg-[#F5F5F5] bg-opacity-50 '>
-            <div className='pt-10 lg:pt-14 xl:pt-16 max-w-lg mx-auto font-sans sm:max-w-2xl md:max-w-4xl  lg:max-w-6xl xl:max-w-7xl  px-6 md:px-6  lg:px-8 space-y-16'>
+            <div className='pt-10 lg:pt-14 xl:pt-16 max-w-lg mx-auto font-sans sm:max-w-2xl md:max-w-4xl  lg:max-w-6xl xl:max-w-full  px-6 md:px-6  lg:px-8 space-y-16'>
               <div className='space-y-6 lg:space-y-8'>
                 {/* notifications */}
                 {returneddata?.length > 0 && (
@@ -179,7 +220,7 @@ function Leasehistory() {
                     <div className='flex items-center gap-4 lg:gap-6  pb-4 xl:pb-6'>
                       {returneddata?.length > 0 && (
                         <button
-                          onClick={() => setIsClosing(!isClosing)}
+                          onClick={() => setSortdata("returned")}
                           className='px-6 py-2  bg-babypurple rounded-md text-xs lg:text-sm text-white tracking-wide transition ease-in-out delay-150  hover:scale-110 hover:bg-indigo-500 duration-300 '
                         >
                           {' '}
@@ -227,9 +268,32 @@ function Leasehistory() {
                 <div className='bg-white md:min-h-[60vh]  w-full  shadow-lg rounded-md lg:rounded-lg py-6 lg:pb-8'>
                   {/* table */}
                   <div className='w-full overflow-x-auto'>
-                    <h1 className='font-bold  text-xs xl:text-base md:text-sm px-6 pb-6 '>
+                    <div className='flex items-center gap-2 justify-between py-2 lg:py-3 lg:pb-6 px-6 '>
+                    <h1 className='font-bold  text-xs xl:text-base md:text-sm flex-shrink-0  '>
                       All Leased vehicles
                     </h1>
+                    <div className='relative w-full  md:max-w-xs '>
+              <select
+                id='dropdown'
+                value={sortdata}
+                onChange={(e) => setSortdata(e.target.value)}
+                className='border border-babyblack pl-12 py-2 w-full text-sm outline-none appearance-none lg:text-base '
+              >
+                {/* Options */}
+                <option value=''>All bookings</option>
+                {sortby.map((item, index) => {
+                  return (
+                    <option key={index} value={item.name}>
+                      {item.name}
+                    </option>
+                  )
+                })}
+              </select>
+              <IoIosArrowDown className='absolute  top-1/2  right-1 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+              <TbStatusChange className='absolute  top-1/2  left-6 -translate-x-1/2 -translate-y-1/2 text-babyblack  cursor-pointer font-bold sm:text-lg  lg:text-xl xl:text-2xl pointer-events-none' />
+            </div>
+                    </div>
+                   
                     <table className='min-w-max w-full divide-y  overflow-x-auto relative divide-gray-1 table-auto '>
                       <thead className='text-xs  overflow-x-scroll text-left text-babyblack  bg-opacity-60   w-full bg-softpurple'>
                         <tr>
@@ -302,7 +366,7 @@ function Leasehistory() {
                   </div>
                   <div className='w-full mt-10 flex justify-end px-4 md:px-6'>
                     <ReactPaginate
-                      pageCount={Math.ceil(leasedata?.length / itemsPerPage)}
+                      pageCount={Math.ceil(searchedparams?.length / itemsPerPage)}
                       pageRangeDisplayed={5}
                       marginPagesDisplayed={2}
                       onPageChange={handlePageClick}
