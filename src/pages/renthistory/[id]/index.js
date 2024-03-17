@@ -339,7 +339,7 @@ function Viewcar() {
                       </button>
                     )}
                     {cardata?.status === 'booked' &&
-                      cardata?.extensions?.length < 0 && (
+                      cardata?.extensions?.length < 1 && (
                         <button
                           onClick={() => {
                             router.push({
