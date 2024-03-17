@@ -338,7 +338,7 @@ function Viewcar() {
                         <h1>Return Vehicle</h1>
                       </button>
                     )}
-                    {cardata?.status === 'booked' &&
+                    {/* {cardata?.status === 'booked' &&
                       cardata?.extensions?.length < 1 && (
                         <button
                           onClick={() => {
@@ -351,7 +351,7 @@ function Viewcar() {
                         >
                           Extend Booking
                         </button>
-                      )}
+                      )} */}
 
                     {cardata?.status !== 'cancelled' &&
                       cardata?.extensions?.length < 1 && (

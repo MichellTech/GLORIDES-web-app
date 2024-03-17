@@ -102,176 +102,178 @@ function Index() {
     })
     ?.slice(indexOfFirstItem, indexOfLastItem)
     .map((item, index) => {
-      if (item?.extensions?.length > 0) {
-        return (
-          <React.Fragment key={index}>
-            <tr key={index} className='hover:bg-softpurple text-xs md:text-sm '>
-              <td className='pl-6 pr-4  py-4  '>
-                <div className='flex items-center gap-2 '>
-                  <Image
-                    src={item?.car_booked?.car_photos?.[0]?.url}
-                    alt={item?.car_booked?.car_photos?.[0]?.name}
-                    width={1000}
-                    height={1000}
-                    className='object-cover w-14 md:w-16 lg:w-20  rounded-md border-2 '
-                  />
-                </div>
-              </td>
-              <td
-                onClick={() => {
-                  handleopen(item)
-                }}
-                className=' py-4 pr-4  underline'
-              >
-                {item?.car_booked?.car_name}
-              </td>
-              <td className=' py-4  pr-4 '>
-                {moment(item?.start_date).format('MMMM Do YYYY')}
-              </td>
-              <td className='pr-4   py-4  text-left '>
-                {moment(item?.end_date).format('MMMM Do YYYY')}
-              </td>
-              <td className='pr-4  font-normal'>
-                <span
-                  className={`${
-                    item?.status === 'cancelled'
-                      ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
-                      : item?.status === 'returnded'
-                      ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
-                      : item?.status === 'booked'
-                      ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
-                      : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
-                  }`}
-                >
-                  {item?.status}
-                </span>
-              </td>
-              <td className='pr-4  font-normal'>
-                <span
-                  className={`${
-                    item?.payment_status === 'pending'
-                      ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
-                      : item?.payment_status === 'failed'
-                      ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
-                      : item?.payment_status === 'refund'
-                      ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
-                      : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
-                  }`}
-                >
-                  {item?.payment_status}
-                </span>
-              </td>
-              <td className='pr-4   py-4  text-center '>
-                {item?.car_booked?.rent_cost}
-              </td>
-              <td className='pr-4   py-4  text-left '>
-                {item?.pickup_address}
-              </td>
-              <td
-                onClick={() => handleRowClick(index)}
-                className='pr-4   py-4  text-left '
-              >
-                <IoMdArrowDropdown />
-              </td>
-            </tr>
-            {openRowIndex === index && (
-              <tr>
-                <td colSpan='8'>
-                  {/* Additional disclosure content goes here */}
-                  <div className='px-2 lg:px-4 py-2 lg:py-3 border w-full'>
-                    <table className='min-w-max w-full divide-y  overflow-x-auto relative divide-gray-1 table-auto '>
-                      <thead className='text-xs  overflow-x-scroll text-left text-babyblack  bg-opacity-60   w-max bg-softpurple '>
-                        <tr>
-                          <th
-                            scope='col'
-                            className='pr-4  pl-4 pt-2 text-left font-medium text-babyblack'
-                          >
-                            <div className='flex items-center gap-4 mb-2'>
-                              <h2 className='text-xs font-semibold  lg:text-sm '>
-                                Service
-                              </h2>
-                            </div>
-                          </th>
-                          <th
-                            scope='col'
-                            className='pr-4 pt-2  text-left font-medium text-babyblack'
-                          >
-                            <div className='flex items-center gap-4 mb-2'>
-                              <h2 className='text-xs font-semibold  lg:text-sm  '>
-                                New End Date
-                              </h2>
-                            </div>
-                          </th>
-                          <th
-                            scope='col'
-                            className=' pr-4 pt-2  text-left text-sm font-medium text-babyblack'
-                          >
-                            <div className='flex items-center justify-start gap-4 mb-2'>
-                              <h2 className='text-xs font-semibold  lg:text-sm   '>
-                                Amount
-                              </h2>
-                            </div>
-                          </th>
-                          <th
-                            scope='col'
-                            className=' pr-4 pt-2  text-left text-sm font-medium text-babyblack'
-                          >
-                            <div className='flex items-center gap-4 mb-2'>
-                              <h2 className='text-xs font-semibold  lg:text-sm  '>
-                                Payment status
-                              </h2>
-                            </div>
-                          </th>
-                        </tr>
-                      </thead>
+      // if (item?.extensions?.length > 0) {
+      //   return (
+      //     <React.Fragment key={index}>
+      //       <tr key={index} className='hover:bg-softpurple text-xs md:text-sm '>
+      //         <td className='pl-6 pr-4  py-4  '>
+      //           <div className='flex items-center gap-2 '>
+      //             <Image
+      //               src={item?.car_booked?.car_photos?.[0]?.url}
+      //               alt={item?.car_booked?.car_photos?.[0]?.name}
+      //               width={1000}
+      //               height={1000}
+      //               className='object-cover w-14 md:w-16 lg:w-20  rounded-md border-2 '
+      //             />
+      //           </div>
+      //         </td>
+      //         <td
+      //           onClick={() => {
+      //             handleopen(item)
+      //           }}
+      //           className=' py-4 pr-4  underline'
+      //         >
+      //           {item?.car_booked?.car_name}
+      //         </td>
+      //         <td className=' py-4  pr-4 '>
+      //           {moment(item?.start_date).format('MMMM Do YYYY')}
+      //         </td>
+      //         <td className='pr-4   py-4  text-left '>
+      //           {moment(item?.end_date).format('MMMM Do YYYY')}
+      //         </td>
+      //         <td className='pr-4  font-normal'>
+      //           <span
+      //             className={`${
+      //               item?.status === 'cancelled'
+      //                 ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
+      //                 : item?.status === 'returnded'
+      //                 ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
+      //                 : item?.status === 'booked'
+      //                 ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
+      //                 : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
+      //             }`}
+      //           >
+      //             {item?.status}
+      //           </span>
+      //         </td>
+      //         <td className='pr-4  font-normal'>
+      //           <span
+      //             className={`${
+      //               item?.payment_status === 'pending'
+      //                 ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
+      //                 : item?.payment_status === 'failed'
+      //                 ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
+      //                 : item?.payment_status === 'refund'
+      //                 ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
+      //                 : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
+      //             }`}
+      //           >
+      //             {item?.payment_status}
+      //           </span>
+      //         </td>
+      //         <td className='pr-4   py-4  text-center '>
+      //           {item?.car_booked?.rent_cost}
+      //         </td>
+      //         <td className='pr-4   py-4  text-left '>
+      //           {item?.pickup_address}
+      //         </td>
+      //         <td
+      //           onClick={() => handleRowClick(index)}
+      //           className='pr-4   py-4  text-left '
+      //         >
+      //           <IoMdArrowDropdown />
+      //         </td>
+      //       </tr>
+      //       {openRowIndex === index && (
+      //         <tr>
+      //           <td colSpan='8'>
+      //             {/* Additional disclosure content goes here */}
+      //             <div className='px-2 lg:px-4 py-2 lg:py-3 border w-full'>
+      //               <table className='min-w-max w-full divide-y  overflow-x-auto relative divide-gray-1 table-auto '>
+      //                 <thead className='text-xs  overflow-x-scroll text-left text-babyblack  bg-opacity-60   w-max bg-softpurple '>
+      //                   <tr>
+      //                     <th
+      //                       scope='col'
+      //                       className='pr-4  pl-4 pt-2 text-left font-medium text-babyblack'
+      //                     >
+      //                       <div className='flex items-center gap-4 mb-2'>
+      //                         <h2 className='text-xs font-semibold  lg:text-sm '>
+      //                           Service
+      //                         </h2>
+      //                       </div>
+      //                     </th>
+      //                     <th
+      //                       scope='col'
+      //                       className='pr-4 pt-2  text-left font-medium text-babyblack'
+      //                     >
+      //                       <div className='flex items-center gap-4 mb-2'>
+      //                         <h2 className='text-xs font-semibold  lg:text-sm  '>
+      //                           New End Date
+      //                         </h2>
+      //                       </div>
+      //                     </th>
+      //                     <th
+      //                       scope='col'
+      //                       className=' pr-4 pt-2  text-left text-sm font-medium text-babyblack'
+      //                     >
+      //                       <div className='flex items-center justify-start gap-4 mb-2'>
+      //                         <h2 className='text-xs font-semibold  lg:text-sm   '>
+      //                           Amount
+      //                         </h2>
+      //                       </div>
+      //                     </th>
+      //                     <th
+      //                       scope='col'
+      //                       className=' pr-4 pt-2  text-left text-sm font-medium text-babyblack'
+      //                     >
+      //                       <div className='flex items-center gap-4 mb-2'>
+      //                         <h2 className='text-xs font-semibold  lg:text-sm  '>
+      //                           Payment status
+      //                         </h2>
+      //                       </div>
+      //                     </th>
+      //                   </tr>
+      //                 </thead>
 
-                      <tbody className=' px-6  py-2 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
-                        {item?.extensions?.map((i, index) => {
-                          return (
-                            <tr
-                              key={index}
-                              className='hover:bg-softpurple text-xs md:text-sm '
-                            >
-                              <td className='pl-6 pr-4  py-4  text-xs '>
-                                Rent Extension
-                              </td>
-                              <td className=' py-4 pr-4 text-xs '>
-                                {moment(i?.end_date).format('MMMM Do YYYY')}
-                              </td>
-                              <td className=' py-4  pr-4  text-xs'>
-                                {' '}
-                                {i?.amount}
-                              </td>
+      //                 <tbody className=' px-6  py-2 overflow-x-scroll  divide-y divide-gray-1 cursor-pointer'>
+      //                   {item?.extensions?.map((i, index) => {
+      //                     return (
+      //                       <tr
+      //                         key={index}
+      //                         className='hover:bg-softpurple text-xs md:text-sm '
+      //                       >
+      //                         <td className='pl-6 pr-4  py-4  text-xs '>
+      //                           Rent Extension
+      //                         </td>
+      //                         <td className=' py-4 pr-4 text-xs '>
+      //                           {moment(i?.end_date).format('MMMM Do YYYY')}
+      //                         </td>
+      //                         <td className=' py-4  pr-4  text-xs'>
+      //                           {' '}
+      //                           {i?.amount}
+      //                         </td>
 
-                              <td className='pr-4  font-normal'>
-                                <span
-                                  className={`${
-                                    i?.payment_status === 'pending'
-                                      ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
-                                      : i?.payment_status === 'failed'
-                                      ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
-                                      : i?.payment_status === 'refund'
-                                      ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
-                                      : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
-                                  }`}
-                                >
-                                  {i?.payment_status}
-                                </span>
-                              </td>
-                            </tr>
-                          )
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </td>
-              </tr>
-            )}
-          </React.Fragment>
-        )
-      }
+      //                         <td className='pr-4  font-normal'>
+      //                           <span
+      //                             className={`${
+      //                               i?.payment_status === 'pending'
+      //                                 ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
+      //                                 : i?.payment_status === 'failed'
+      //                                 ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
+      //                                 : i?.payment_status === 'refund'
+      //                                 ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
+      //                                 : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
+      //                             }`}
+      //                           >
+      //                             {i?.payment_status}
+      //                           </span>
+      //                         </td>
+      //                       </tr>
+      //                     )
+      //                   })}
+      //                 </tbody>
+      //               </table>
+      //             </div>
+      //           </td>
+      //         </tr>
+      //       )}
+      //     </React.Fragment>
+      //   )
+      // }
       return (
-        <tr key={index} className='hover:bg-softpurple text-xs md:text-sm '>
+        <tr key={index}   onClick={() => {
+          handleopen(item)
+        }} className='hover:bg-softpurple text-xs md:text-sm '>
           <td className='pl-6 pr-4  py-4  '>
             <Image
               src={item?.car_booked?.car_photos?.[0]?.url}
@@ -282,10 +284,8 @@ function Index() {
             />
           </td>
           <td
-            onClick={() => {
-              handleopen(item)
-            }}
-            className=' py-4 pr-4 underline'
+           
+            className=' py-4 pr-4 '
           >
             {item?.car_booked?.car_name}
           </td>
