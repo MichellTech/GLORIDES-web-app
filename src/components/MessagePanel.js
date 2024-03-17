@@ -22,7 +22,7 @@ export default function MessagePanel({
     localStorage?.getItem('User_Profile') === undefined
       ? []
       : JSON?.parse(localStorage?.getItem('User_Profile'))
-
+console.log(profile)
   const getallMessages = (values) => {
     mainAxiosAction
       .post(`/chat/getAllMessages`, values)
@@ -98,6 +98,7 @@ export default function MessagePanel({
     ?.filter((i) => i?._id === selectedChatID)?.[0]
     ?.members?.filter((a) => a?._id !== profile?._id)?.[0]
 
+    
   return (
     <>
       {selectedChatID ? (
@@ -144,6 +145,7 @@ export default function MessagePanel({
                       <h1 className='text-xsfont-bold'>
                         {secondUser?.firstname}
                       </h1>
+                      
                       {/* <h1 className='text-xs'>{i?.location}</h1> */}
                     </div>
                   </div>
@@ -157,7 +159,8 @@ export default function MessagePanel({
           {/* displaychat */}
           <ScrollToBottom className='space-y-6 h-[75vh] overflow-y-auto bg-white  py-4'>
             {allMessages?.map((innerMessage, index) => {
-              console.log(innerMessage, 'text')
+              console.log(innerMessage?.sender?._id, 'text')
+              console.log("first", profile?._id)
               if (innerMessage?.sender?._id === profile?._id) {
                 return (
                   <div

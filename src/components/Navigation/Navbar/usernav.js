@@ -77,7 +77,7 @@ function Navbar() {
       ? []
       : JSON?.parse(localStorage?.getItem('User_Notifications'))
 
-  console.log(profile)
+ 
 
   return (
     <nav

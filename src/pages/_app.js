@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }) {
     mainAxiosAction
       .post(`/user/get-user`, {})
       .then(function (response) {
-        console.log(response)
+     
 
         if (response?.data?.user?.isVerified === false) {
           router.push({

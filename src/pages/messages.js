@@ -32,6 +32,7 @@ function messages() {
       .post(`/chat/getAllChats`, {})
       .then(function (response) {
         setAllChats(response?.data?.chats)
+        console.log(response?.data?.chats)
       })
       .catch(function (error) {
         console.log(error)
@@ -81,12 +82,13 @@ function messages() {
                 All Chats
               </h1>
             </div>
-            {allChats?.length > 1 ? (
+            {allChats?.length > 0 ? (
               <div className=' divide-y     h-[90vh] overflow-y-auto '>
                 {allChats?.map((i, index) => {
                   const secondUser = i?.members?.filter(
                     (a) => a?._id !== profile?._id
                   )?.[0]
+                 
                   return (
                     <div key={index}>
                       <div
@@ -123,8 +125,11 @@ function messages() {
                             <h1 className='text-sm font-bold'>
                               {secondUser?.firstname}
                             </h1>
+                           <p className='text-xs italic'>click to open messages</p>
                             {/* <h1 className='text-xs'>{i?.location}</h1> */}
                           </div>
+                         
+
                         </div>
                         {/* time stamp */}
                         {/* <h1 className='text-xs'>{i?.time}</h1> */}
