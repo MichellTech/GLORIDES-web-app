@@ -354,7 +354,7 @@ function Viewcar() {
                       )}
 
                     {cardata?.status !== 'cancelled' &&
-                      cardata?.extensions?.length < 0 && (
+                      cardata?.extensions?.length < 1 && (
                         <button
                           onClick={() => setIsCancel(true)}
                           className='w-full border px-5 py-3 md:px-2 text-sm text-babyblack rounded-md  hover:shadow-sm'

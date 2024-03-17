@@ -236,26 +236,26 @@ function Index() {
                                 Rent Extension
                               </td>
                               <td className=' py-4 pr-4 text-xs '>
-                                {moment(item?.end_date).format('MMMM Do YYYY')}
+                                {moment(i?.end_date).format('MMMM Do YYYY')}
                               </td>
                               <td className=' py-4  pr-4  text-xs'>
                                 {' '}
-                                {item?.amount}
+                                {i?.amount}
                               </td>
 
                               <td className='pr-4  font-normal'>
                                 <span
                                   className={`${
-                                    item?.payment_status === 'pending'
+                                    i?.payment_status === 'pending'
                                       ? 'px-2 py-1 text-orange-800 bg-orange-300  flex justify-center items-center mx-auto rounded-full'
-                                      : item?.payment_status === 'failed'
+                                      : i?.payment_status === 'failed'
                                       ? 'px-2 py-1 text-white bg-black  flex justify-center items-center mx-auto rounded-full '
-                                      : item?.payment_status === 'refund'
+                                      : i?.payment_status === 'refund'
                                       ? 'px-2 py-1 text-white bg-indigo-500 flex justify-center items-center mx-auto rounded-full'
                                       : 'px-2 py-1  text-green-800 bg-green-300 flex justify-center items-center mx-auto rounded-full'
                                   }`}
                                 >
-                                  {item?.payment_status}
+                                  {i?.payment_status}
                                 </span>
                               </td>
                             </tr>
